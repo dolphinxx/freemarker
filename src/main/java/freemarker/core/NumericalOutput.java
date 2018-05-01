@@ -31,7 +31,7 @@ import java.util.Locale;
  * An interpolation like <code>#{numericalExp; format}</code>; it's deprecated, but still supported. The class name is
  * the remnant of old times, but as some users are using the package-visible AST API, it wasn't renamed.
  * 
- * @see DollarVariable
+ * see DollarVariable
  */
 final class NumericalOutput extends Interpolation {
 
@@ -153,8 +153,8 @@ final class NumericalOutput extends Interpolation {
     Object getParameterValue(int idx) {
         switch (idx) {
         case 0: return expression;
-        case 1: return hasFormat ? Integer.valueOf(minFracDigits) : null;
-        case 2: return hasFormat ? Integer.valueOf(maxFracDigits) : null;
+        case 1: return hasFormat ? minFracDigits : null;
+        case 2: return hasFormat ? maxFracDigits : null;
         default: throw new IndexOutOfBoundsException();
         }
     }

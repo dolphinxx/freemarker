@@ -30,7 +30,7 @@ import java.io.Writer;
  * An interpolation like <code>${exp}</code> or {@code [=exp]}. The class name is the remnant of old times, but as
  * some users are using the package-visible AST API, it wasn't renamed.
  * 
- * @see NumericalOutput
+ * see NumericalOutput
  */
 final class DollarVariable extends Interpolation {
 

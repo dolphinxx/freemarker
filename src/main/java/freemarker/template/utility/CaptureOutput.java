@@ -66,7 +66,8 @@ public class CaptureOutput implements TemplateTransformModel {
                 + "which to capture the output with the 'var' or 'local' or 'global' parameter.";
         if (args == null) throw new TemplateModelException(errmsg);
 
-        boolean local = false, global = false;
+        boolean local = false;
+        boolean global = false;
         final TemplateModel nsModel = (TemplateModel) args.get("namespace");
         Object varNameModel = args.get("var");
         if (varNameModel == null) {

@@ -19,10 +19,7 @@
 
 package freemarker.cache;
 
-import freemarker.template.Configuration;
 import freemarker.template.MalformedTemplateNameException;
-import freemarker.template.TemplateNotFoundException;
-import freemarker.template.Version;
 import freemarker.template.utility.StringUtil;
 
 /**
@@ -38,20 +35,20 @@ public abstract class TemplateNameFormat {
     }
     
     /**
-     * The default template name format when {@link Configuration#Configuration(Version) incompatible_improvements} is
+     * The default template name format when {link Configuration#Configuration(Version) incompatible_improvements} is
      * below 2.4.0. As of FreeMarker 2.4.0, the default {@code incompatible_improvements} is still {@code 2.3.0}, and it
      * will certainly remain so for a very long time. In new projects it's highly recommended to use
-     * {@link #DEFAULT_2_4_0} instead.
+     * {link #DEFAULT_2_4_0} instead.
      */
     public static final TemplateNameFormat DEFAULT_2_3_0 = new Default020300();
     
     /**
-     * The default template name format only when {@link Configuration#Configuration(Version) incompatible_improvements}
+     * The default template name format only when {link Configuration#Configuration(Version) incompatible_improvements}
      * is set to 2.4.0 (or higher). This is not the out-of-the-box default format of FreeMarker 2.4.x, because the
      * default {@code incompatible_improvements} is still 2.3.0 there.
      * 
      * <p>
-     * Differences to the {@link #DEFAULT_2_3_0} format:
+     * Differences to the {link #DEFAULT_2_3_0} format:
      * 
      * <ul>
      * 
@@ -61,20 +58,20 @@ public abstract class TemplateNameFormat {
      * treated as a malformed name. The scheme part can be separated either with {@code "://"} or just {@code ":"} from
      * the path. Hence, {@code myscheme:/x} is normalized to {@code myscheme:x}, while {@code myscheme:///x} is
      * normalized to {@code myscheme://x}, but {@code myscehme://x} or {@code myscheme:/x} aren't changed by
-     * normalization. It's up the {@link TemplateLoader} to which the normalized names are passed to decide which of
+     * normalization. It's up the {link TemplateLoader} to which the normalized names are passed to decide which of
      * these scheme separation conventions are valid (maybe both).</li>
      * 
      * <li>{@code ":"} is not allowed in template names, except as the scheme separator (see previous point).
      * 
-     * <li>Malformed paths throw {@link MalformedTemplateNameException} instead of acting like if the template wasn't
+     * <li>Malformed paths throw {link MalformedTemplateNameException} instead of acting like if the template wasn't
      * found.
      * 
-     * <li>{@code "\"} (backslash) is not allowed in template names, and causes {@link MalformedTemplateNameException}.
-     * With {@link #DEFAULT_2_3_0} you would certainly end up with a {@link TemplateNotFoundException} (or worse,
+     * <li>{@code "\"} (backslash) is not allowed in template names, and causes {link MalformedTemplateNameException}.
+     * With {link #DEFAULT_2_3_0} you would certainly end up with a {link TemplateNotFoundException} (or worse,
      * it would work, but steps like {@code ".."} wouldn't be normalized by FreeMarker).
      * 
      * <li>Template names might end with {@code /}, like {@code "foo/"}, and the presence or lack of the terminating
-     * {@code /} is seen as significant. While their actual interpretation is up to the {@link TemplateLoader},
+     * {@code /} is seen as significant. While their actual interpretation is up to the {link TemplateLoader},
      * operations that manipulate template names assume that the last step refers to a "directory" as opposed to a
      * "file" exactly if the terminating {@code /} is present. Except, the empty name is assumed to refer to the root
      * "directory" (despite that it doesn't end with {@code /}).
@@ -87,7 +84,7 @@ public abstract class TemplateNameFormat {
      * {@code "."} or {@code "*"} or scheme steps, not treating them specially as they should be. Now these work as
      * expected. Examples: {@code "a/./../c"} has become to {@code "a/c"}, now it will be {@code "c"}; {@code "a/b/*}
      * {@code /../c"} has become to {@code "a/b/c"}, now it will be {@code "a/*}{@code /c"}; {@code "scheme://.."} has
-     * become to {@code "scheme:/"}, now it will be {@code null} ({@link TemplateNotFoundException}) for backing out of
+     * become to {@code "scheme:/"}, now it will be {@code null} ({link TemplateNotFoundException}) for backing out of
      * the root directory.</li>
      * 
      * <li>As now directory paths has to be handled as well, it recognizes terminating, leading, and lonely {@code ".."}
@@ -123,7 +120,7 @@ public abstract class TemplateNameFormat {
     
     /**
      * Normalizes a template root directory based name (relative to the root or absolute), so that equivalent names
-     * become equivalent according {@link String#equals(Object)} too. The rules depend on the name format, but typical
+     * become equivalent according {link String#equals(Object)} too. The rules depend on the name format, but typical
      * examples are "sub/../t.ftl" to "t.ftl", "sub/./t.ftl" to "sub/t.ftl" and "/t.ftl" to "t.ftl".
      * 
      * <p>The standard implementations shipped with FreeMarker always returns a root relative path
@@ -212,7 +209,7 @@ public abstract class TemplateNameFormat {
         }
 
         @Override
-        String rootBasedNameToAbsoluteName(String name) throws MalformedTemplateNameException {
+        String rootBasedNameToAbsoluteName(String name) {
             if (name.indexOf("://") > 0) {
                 return name;
             }
@@ -452,7 +449,7 @@ public abstract class TemplateNameFormat {
         }
 
         @Override
-        String rootBasedNameToAbsoluteName(String name) throws MalformedTemplateNameException {
+        String rootBasedNameToAbsoluteName(String name) {
             if (findSchemeSectionEnd(name) != 0) {
                 return name;
             }

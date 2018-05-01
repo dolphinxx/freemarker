@@ -20,7 +20,6 @@
 package freemarker.ext.beans;
 
 import freemarker.core.BugException;
-import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.CollectionUtils;
 
@@ -58,7 +57,7 @@ public class _BeansAPI {
     /**
      * Gets the constructor that matches the types of the arguments the best. So this is more
      * than what the Java reflection API provides in that it can handle overloaded constructors. This re-uses the
-     * overloaded method selection logic of {@link BeansWrapper}.
+     * overloaded method selection logic of {link BeansWrapper}.
      */
     private static CallableMemberDescriptor getConstructorDescriptor(Class<?> pClass, Object[] args)
             throws NoSuchMethodException {
@@ -134,10 +133,10 @@ public class _BeansAPI {
     }
     
     /**
-     * Contains the common parts of the singleton management for {@link BeansWrapper} and {@link DefaultObjectWrapper}.  
+     * Contains the common parts of the singleton management for {link BeansWrapper} and {link DefaultObjectWrapper}.
      *  
      * @param beansWrapperSubclassFactory Creates a <em>new</em> read-only object wrapper of the desired
-     *     {@link BeansWrapper} subclass. 
+     *     {link BeansWrapper} subclass.
      */
     public static <BW extends BeansWrapper, BWC extends BeansWrapperConfiguration> BW getBeansWrapperSubclassSingleton(
             BWC settings,
@@ -219,7 +218,7 @@ public class _BeansAPI {
      */
     public interface _BeansWrapperSubclassFactory<BW extends BeansWrapper, BWC extends BeansWrapperConfiguration> {
         
-        /** Creates a new read-only {@link BeansWrapper}; used for {@link BeansWrapperBuilder} and such. */
+        /** Creates a new read-only {link BeansWrapper}; used for {link BeansWrapperBuilder} and such. */
         BW create(BWC sa);
     }
     

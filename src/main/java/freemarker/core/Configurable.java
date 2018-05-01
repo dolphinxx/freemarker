@@ -19,28 +19,12 @@
 
 package freemarker.core;
 
-import freemarker.cache.AndMatcher;
-import freemarker.cache.ConditionalTemplateConfigurationFactory;
-import freemarker.cache.FileNameGlobMatcher;
-import freemarker.cache.FirstMatchTemplateConfigurationFactory;
-import freemarker.cache.MergingTemplateConfigurationFactory;
-import freemarker.cache.NotMatcher;
-import freemarker.cache.OrMatcher;
-import freemarker.cache.PathGlobMatcher;
-import freemarker.cache.PathRegexMatcher;
-import freemarker.cache.TemplateLoader;
 import freemarker.ext.beans.BeansWrapper;
-import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.template.AttemptExceptionReporter;
 import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.ObjectWrapper;
-import freemarker.template.SimpleObjectWrapper;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.TemplateMethodModel;
-import freemarker.template.TemplateModel;
 import freemarker.template.Version;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.NullArgumentException;
@@ -48,9 +32,6 @@ import freemarker.template.utility.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Writer;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,8 +49,8 @@ import java.util.Set;
 import java.util.TimeZone;
 
 /**
- * This is a common superclass of {@link freemarker.template.Configuration},
- * {@link freemarker.template.Template}, and {@link Environment} classes.
+ * This is a common superclass of {link freemarker.template.Configuration},
+ * {link freemarker.template.Template}, and {link Environment} classes.
  * It provides settings that are common to each of them. FreeMarker
  * uses a three-level setting hierarchy - the return value of every setting
  * getter method on <code>Configurable</code> objects inherits its value from its parent 
@@ -283,7 +264,7 @@ public class Configurable {
     /** Alias to the {@code ..._SNAKE_CASE} variation due to backward compatibility constraints. */
     public static final String AUTO_INCLUDE_KEY = AUTO_INCLUDE_KEY_SNAKE_CASE;
     
-    /** @deprecated Use {@link #STRICT_BEAN_MODELS_KEY} instead. */
+    /** @deprecated Use {link #STRICT_BEAN_MODELS_KEY} instead. */
     @Deprecated
     public static final String STRICT_BEAN_MODELS = STRICT_BEAN_MODELS_KEY;
     
@@ -402,7 +383,7 @@ public class Configurable {
     /**
      * Intended to be called from inside FreeMarker only.
      * Creates a top-level configurable, one that doesn't inherit from a parent, and thus stores the default values.
-     * Called by the {@link Configuration} constructor.
+     * Called by the {link Configuration} constructor.
      */
     protected Configurable(Version incompatibleImprovements) {
         _TemplateAPI.checkVersionNotNullAndSupported(incompatibleImprovements);
@@ -431,7 +412,7 @@ public class Configurable {
         dateTimeFormat = "";
         properties.setProperty(DATETIME_FORMAT_KEY, dateTimeFormat);
         
-        classicCompatible = Integer.valueOf(0);
+        classicCompatible = 0;
         properties.setProperty(CLASSIC_COMPATIBLE_KEY, classicCompatible.toString());
         
         templateExceptionHandler = _TemplateAPI.getDefaultTemplateExceptionHandler(incompatibleImprovements);
@@ -459,8 +440,7 @@ public class Configurable {
         apiBuiltinEnabled = Boolean.FALSE;
         properties.setProperty(API_BUILTIN_ENABLED_KEY, apiBuiltinEnabled.toString());
         
-        logTemplateExceptions = Boolean.valueOf(
-                _TemplateAPI.getDefaultLogTemplateExceptions(incompatibleImprovements));
+        logTemplateExceptions = _TemplateAPI.getDefaultLogTemplateExceptions(incompatibleImprovements);
         properties.setProperty(LOG_TEMPLATE_EXCEPTIONS_KEY, logTemplateExceptions.toString());
         
         // outputEncoding and urlEscapingCharset defaults to null,
@@ -509,22 +489,22 @@ public class Configurable {
     }
     
     /**
-     * Returns the parent {@link Configurable} object of this object. The parent stores the default setting values for
-     * this {@link Configurable}. For example, the parent of a {@link freemarker.template.Template} object is a
-     * {@link Configuration} object, so values not specified on {@link Template}-level are get from the
-     * {@link Configuration} object.
+     * Returns the parent {link Configurable} object of this object. The parent stores the default setting values for
+     * this {link Configurable}. For example, the parent of a {link freemarker.template.Template} object is a
+     * {link Configuration} object, so values not specified on {link Template}-level are get from the
+     * {link Configuration} object.
      * 
      * <p>
-     * Note on the parent of {@link Environment}: If you set {@link Configuration#setIncompatibleImprovements(Version)
-     * incompatible_improvements} to at least 2.3.22, it will be always the "main" {@link Template}, that is, the
-     * template for whose processing the {@link Environment} was created. With lower {@code incompatible_improvements},
+     * Note on the parent of {link Environment}: If you set {link Configuration#setIncompatibleImprovements(Version)
+     * incompatible_improvements} to at least 2.3.22, it will be always the "main" {link Template}, that is, the
+     * template for whose processing the {link Environment} was created. With lower {@code incompatible_improvements},
      * the current parent can temporary change <em>during template execution</em>, for example when your are inside an
-     * {@code #include}-d template (among others). Thus, don't build on which {@link Template} the parent of
-     * {@link Environment} is during template execution, unless you set {@code incompatible_improvements} to 2.3.22 or
+     * {@code #include}-d template (among others). Thus, don't build on which {link Template} the parent of
+     * {link Environment} is during template execution, unless you set {@code incompatible_improvements} to 2.3.22 or
      * higher.
      *
-     * @return The parent {@link Configurable} object, or {@code null} if this is the root {@link Configurable} object
-     *         (i.e, if it's the {@link Configuration} object).
+     * @return The parent {link Configurable} object, or {@code null} if this is the root {link Configurable} object
+     *         (i.e, if it's the {link Configuration} object).
      */
     public final Configurable getParent() {
         return parent;
@@ -541,34 +521,34 @@ public class Configurable {
     
     /**
      * Toggles the "Classic Compatible" mode. For a comprehensive description
-     * of this mode, see {@link #isClassicCompatible()}.
+     * of this mode, see {link #isClassicCompatible()}.
      */
     public void setClassicCompatible(boolean classicCompatibility) {
-        this.classicCompatible = Integer.valueOf(classicCompatibility ? 1 : 0);
+        this.classicCompatible = classicCompatibility ? 1 : 0;
         properties.setProperty(CLASSIC_COMPATIBLE_KEY, classicCompatibilityIntToString(classicCompatible));
     }
 
     /**
-     * Same as {@link #setClassicCompatible(boolean)}, but allows some extra values. 
+     * Same as {link #setClassicCompatible(boolean)}, but allows some extra values.
      * 
      * @param classicCompatibility {@code 0} means {@code false}, {@code 1} means {@code true},
      *     {@code 2} means {@code true} but with emulating bugs in early 2.x classic-compatibility mode. Currently
      *     {@code 2} affects how booleans are converted to string; with {@code 1} it's always {@code "true"}/{@code ""},
-     *     but with {@code 2} it's {@code "true"}/{@code "false"} for values wrapped by {@link BeansWrapper} as then
-     *     {@link Boolean#toString()} prevails. Note that {@code someBoolean?string} will always consistently format the
+     *     but with {@code 2} it's {@code "true"}/{@code "false"} for values wrapped by {link BeansWrapper} as then
+     *     {link Boolean#toString()} prevails. Note that {@code someBoolean?string} will always consistently format the
      *     boolean according the {@code boolean_format} setting, just like in FreeMarker 2.3 and later.
      */
     public void setClassicCompatibleAsInt(int classicCompatibility) {
         if (classicCompatibility < 0 || classicCompatibility > 2) {
             throw new IllegalArgumentException("Unsupported \"classicCompatibility\": " + classicCompatibility);
         }
-        this.classicCompatible = Integer.valueOf(classicCompatibility);
+        this.classicCompatible = classicCompatibility;
     }
     
     private String classicCompatibilityIntToString(Integer i) {
         if (i == null) return null;
-        else if (i.intValue() == 0) return MiscUtil.C_FALSE;
-        else if (i.intValue() == 1) return MiscUtil.C_TRUE;
+        else if (i == 0) return MiscUtil.C_FALSE;
+        else if (i == 1) return MiscUtil.C_TRUE;
         else return i.toString();
     }
     
@@ -623,15 +603,15 @@ public class Configurable {
      * mode - you don't lose any of the new functionality by enabling it.
      */
     public boolean isClassicCompatible() {
-        return classicCompatible != null ? classicCompatible.intValue() != 0 : parent.isClassicCompatible();
+        return classicCompatible != null ? classicCompatible != 0 : parent.isClassicCompatible();
     }
 
     public int getClassicCompatibleAsInt() {
-        return classicCompatible != null ? classicCompatible.intValue() : parent.getClassicCompatibleAsInt();
+        return classicCompatible != null ? classicCompatible : parent.getClassicCompatibleAsInt();
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -641,11 +621,11 @@ public class Configurable {
     
     /**
      * Sets the locale used for number and date formatting (among others), also the locale used for searching
-     * localized template variations when no locale was explicitly requested. On the {@link Configuration} level it
+     * localized template variations when no locale was explicitly requested. On the {link Configuration} level it
      * defaults to the default locale of system (of the JVM), for server-side application usually you should set it
-     * explicitly in the {@link Configuration} to use the preferred locale of your application instead.  
+     * explicitly in the {link Configuration} to use the preferred locale of your application instead.
      * 
-     * @see Configuration#getTemplate(String, Locale)
+     * see Configuration#getTemplate(String, Locale)
      */
     public void setLocale(Locale locale) {
         NullArgumentException.check("locale", locale);
@@ -654,14 +634,14 @@ public class Configurable {
     }
 
     /**
-     * Getter pair of {@link #setLocale(Locale)}. Not {@code null}.
+     * Getter pair of {link #setLocale(Locale)}. Not {@code null}.
      */
     public Locale getLocale() {
         return locale != null ? locale : parent.getLocale();
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -671,14 +651,14 @@ public class Configurable {
     
     /**
      * Sets the time zone to use when formatting date/time values.
-     * Defaults to the system time zone ({@link TimeZone#getDefault()}), regardless of the "locale" FreeMarker setting,
-     * so in a server application you probably want to set it explicitly in the {@link Environment} to match the
+     * Defaults to the system time zone ({link TimeZone#getDefault()}), regardless of the "locale" FreeMarker setting,
+     * so in a server application you probably want to set it explicitly in the {link Environment} to match the
      * preferred time zone of target audience (like the Web page visitor).
      * 
      * <p>If you or the templates set the time zone, you should probably also set
-     * {@link #setSQLDateAndTimeTimeZone(TimeZone)}!
+     * {link #setSQLDateAndTimeTimeZone(TimeZone)}!
      * 
-     * @see #setSQLDateAndTimeTimeZone(TimeZone)
+     * see #setSQLDateAndTimeTimeZone(TimeZone)
      */
     public void setTimeZone(TimeZone timeZone) {
         NullArgumentException.check("timeZone", timeZone);
@@ -687,14 +667,14 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setTimeZone(TimeZone)}. 
+     * The getter pair of {link #setTimeZone(TimeZone)}.
      */
     public TimeZone getTimeZone() {
         return timeZone != null ? timeZone : parent.getTimeZone();
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -703,16 +683,16 @@ public class Configurable {
     }
     
     /**
-     * Sets the time zone used when dealing with {@link java.sql.Date java.sql.Date} and
-     * {@link java.sql.Time java.sql.Time} values. It defaults to {@code null} for backward compatibility, but in most
+     * Sets the time zone used when dealing with {link java.sql.Date java.sql.Date} and
+     * {link java.sql.Time java.sql.Time} values. It defaults to {@code null} for backward compatibility, but in most
      * applications this should be set to the JVM default time zone (server default time zone), because that's what
-     * most JDBC drivers will use when constructing the {@link java.sql.Date java.sql.Date} and
-     * {@link java.sql.Time java.sql.Time} values. If this setting is {@code null}, FreeMarker will use the value of
-     * ({@link #getTimeZone()}) for {@link java.sql.Date java.sql.Date} and {@link java.sql.Time java.sql.Time} values,
+     * most JDBC drivers will use when constructing the {link java.sql.Date java.sql.Date} and
+     * {link java.sql.Time java.sql.Time} values. If this setting is {@code null}, FreeMarker will use the value of
+     * ({link #getTimeZone()}) for {link java.sql.Date java.sql.Date} and {link java.sql.Time java.sql.Time} values,
      * which often gives bad results.
      * 
      * <p>This setting doesn't influence the formatting of other kind of values (like of
-     * {@link java.sql.Timestamp java.sql.Timestamp} or plain {@link java.util.Date java.util.Date} values).
+     * {link java.sql.Timestamp java.sql.Timestamp} or plain {link java.util.Date java.util.Date} values).
      * 
      * <p>To decide what value you need, a few things has to be understood:
      * <ul>
@@ -722,7 +702,7 @@ public class Configurable {
      *   differently depending on the time zone of the audience.
      *   
      *   <li>When a JDBC query has to return a date-only or time-only value, it has to convert it to a point on the
-     *   physical time line, because that's what {@link java.util.Date} and its subclasses store (milliseconds since
+     *   physical time line, because that's what {link java.util.Date} and its subclasses store (milliseconds since
      *   the epoch). Obviously, this is impossible to do. So JDBC just chooses a physical time which, when rendered
      *   <em>with the JVM default time zone</em>, will give the same field values as those stored
      *   in the database. (Actually, you can give JDBC a calendar, and so it can use other time zones too, but most
@@ -735,32 +715,32 @@ public class Configurable {
      *   
      *   <li>The value of the {@code time_zone} FreeMarker configuration setting sets the time zone used for the
      *   template output. For example, when a web page visitor has a preferred time zone, the web application framework
-     *   may calls {@link Environment#setTimeZone(TimeZone)} with that time zone. Thus, the visitor will
-     *   see {@link java.sql.Timestamp java.sql.Timestamp} and plain {@link java.util.Date java.util.Date} values as
+     *   may calls {link Environment#setTimeZone(TimeZone)} with that time zone. Thus, the visitor will
+     *   see {link java.sql.Timestamp java.sql.Timestamp} and plain {link java.util.Date java.util.Date} values as
      *   they look in his own time zone. While
      *   this is desirable for those types, as they meant to represent physical points on the time line, this is not
      *   necessarily desirable for date-only and time-only values. When {@code sql_date_and_time_time_zone} is
      *   {@code null}, {@code time_zone} is used for rendering all kind of date/time/dateTime values, including
-     *   {@link java.sql.Date java.sql.Date} and {@link java.sql.Time java.sql.Time}, and then if, for example,
+     *   {link java.sql.Date java.sql.Date} and {link java.sql.Time java.sql.Time}, and then if, for example,
      *   {@code time_zone} is GMT+00:00, the
      *   values from the earlier examples will be shown as 2014-07-11 (one day off) and 09:57:00 (2 hours off). While
      *   those are the time zone correct renderings, those values are probably meant to be shown "as is".
      *   
      *   <li>You may wonder why this setting isn't simply "SQL time zone", that is, why's this time zone not applied to
-     *   {@link java.sql.Timestamp java.sql.Timestamp} values as well. Timestamps in databases refer to a point on
+     *   {link java.sql.Timestamp java.sql.Timestamp} values as well. Timestamps in databases refer to a point on
      *   the physical time line, and thus doesn't have the inherent problem of date-only and time-only values.
      *   FreeMarker assumes that the JDBC driver converts time stamps coming from the database so that they store
-     *   the distance from the epoch (1970-01-01 00:00:00 UTC), as requested by the {@link java.util.Date} API.
+     *   the distance from the epoch (1970-01-01 00:00:00 UTC), as requested by the {link java.util.Date} API.
      *   Then time stamps can be safely rendered in different time zones, and thus need no special treatment.
      * </ul>
      * 
-     * @param tz Maybe {@code null}, in which case {@link java.sql.Date java.sql.Date} and
-     *          {@link java.sql.Time java.sql.Time} values will be formatted in the time zone returned by
-     *          {@link #getTimeZone()}.
+     * @param tz Maybe {@code null}, in which case {link java.sql.Date java.sql.Date} and
+     *          {link java.sql.Time java.sql.Time} values will be formatted in the time zone returned by
+     *          {link #getTimeZone()}.
      *          (Note that since {@code null} is an allowed value for this setting, it will not cause
-     *          {@link #getSQLDateAndTimeTimeZone()} to fall back to the parent configuration.)
+     *          {link #getSQLDateAndTimeTimeZone()} to fall back to the parent configuration.)
      * 
-     * @see #setTimeZone(TimeZone)
+     * see #setTimeZone(TimeZone)
      * 
      * @since 2.3.21
      */
@@ -771,10 +751,10 @@ public class Configurable {
     }
     
     /**
-     * The getter pair of {@link #setSQLDateAndTimeTimeZone(TimeZone)}.
+     * The getter pair of {link #setSQLDateAndTimeTimeZone(TimeZone)}.
      * 
-     * @return {@code null} if the value of {@link #getTimeZone()} should be used for formatting
-     *     {@link java.sql.Date java.sql.Date} and {@link java.sql.Time java.sql.Time} values, otherwise the time zone
+     * @return {@code null} if the value of {link #getTimeZone()} should be used for formatting
+     *     {link java.sql.Date java.sql.Date} and {link java.sql.Time java.sql.Time} values, otherwise the time zone
      *     that should be used to format the values of those two types.  
      * 
      * @since 2.3.21
@@ -786,7 +766,7 @@ public class Configurable {
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -797,22 +777,22 @@ public class Configurable {
     /**
      * Sets the default number format used to convert numbers to strings. Currently, this is one of these:
      * <ul>
-     *   <li>{@code "number"}: The number format returned by {@link NumberFormat#getNumberInstance(Locale)}</li>
-     *   <li>{@code "currency"}: The number format returned by {@link NumberFormat#getCurrencyInstance(Locale)}</li>
-     *   <li>{@code "percent"}: The number format returned by {@link NumberFormat#getPercentInstance(Locale)}</li>
+     *   <li>{@code "number"}: The number format returned by {link NumberFormat#getNumberInstance(Locale)}</li>
+     *   <li>{@code "currency"}: The number format returned by {link NumberFormat#getCurrencyInstance(Locale)}</li>
+     *   <li>{@code "percent"}: The number format returned by {link NumberFormat#getPercentInstance(Locale)}</li>
      *   <li>{@code "computer"}: The number format used by FTL's {@code c} built-in (like in {@code someNumber?c}).</li>
-     *   <li>{@link java.text.DecimalFormat} pattern (like {@code "0.##"}). This syntax is extended by FreeMarker
+     *   <li>{link java.text.DecimalFormat} pattern (like {@code "0.##"}). This syntax is extended by FreeMarker
      *       so that you can specify options like the rounding mode and the symbols used after a 2nd semicolon. For
      *       example, {@code ",000;; roundingMode=halfUp groupingSeparator=_"} will format numbers like {@code ",000"}
      *       would, but with half-up rounding mode, and {@code _} as the group separator. See more about "extended Java
      *       decimal format" in the FreeMarker Manual.
      *       </li>
      *   <li>If the string starts with {@code @} character followed by a letter then it's interpreted as a custom number
-     *       format, but only if either {@link Configuration#getIncompatibleImprovements()} is at least 2.3.24, or
+     *       format, but only if either {link Configuration#getIncompatibleImprovements()} is at least 2.3.24, or
      *       there's any custom formats defined (even if custom date/time/dateTime format). The format of a such string
      *       is <code>"@<i>name</i>"</code> or <code>"@<i>name</i> <i>parameters</i>"</code>, where
-     *       <code><i>name</i></code> is the key in the {@link Map} set by {@link #setCustomNumberFormats(Map)}, and
-     *       <code><i>parameters</i></code> is parsed by the custom {@link TemplateNumberFormat}.
+     *       <code><i>name</i></code> is the key in the {link Map} set by {link #setCustomNumberFormats(Map)}, and
+     *       <code><i>parameters</i></code> is parsed by the custom {link TemplateNumberFormat}.
      *   </li>
      * </ul>
      * 
@@ -826,14 +806,14 @@ public class Configurable {
     }
     
     /**
-     * Getter pair of {@link #setNumberFormat(String)}. 
+     * Getter pair of {link #setNumberFormat(String)}.
      */
     public String getNumberFormat() {
         return numberFormat != null ? numberFormat : parent.getNumberFormat();
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -842,19 +822,19 @@ public class Configurable {
     }
     
     /**
-     * Getter pair of {@link #setCustomNumberFormats(Map)}; do not modify the returned {@link Map}! To be consistent
-     * with other setting getters, if this setting was set directly on this {@link Configurable} object, this simply
-     * returns that value, otherwise it returns the value from the parent {@link Configurable}. So beware, the returned
-     * value doesn't reflect the {@link Map} key granularity fallback logic that FreeMarker actually uses for this
-     * setting (for that, use {@link #getCustomNumberFormat(String)}). The returned value isn't a snapshot; it may or
-     * may not shows the changes later made to this setting on this {@link Configurable} level (but usually it's well
+     * Getter pair of {link #setCustomNumberFormats(Map)}; do not modify the returned {link Map}! To be consistent
+     * with other setting getters, if this setting was set directly on this {link Configurable} object, this simply
+     * returns that value, otherwise it returns the value from the parent {link Configurable}. So beware, the returned
+     * value doesn't reflect the {link Map} key granularity fallback logic that FreeMarker actually uses for this
+     * setting (for that, use {link #getCustomNumberFormat(String)}). The returned value isn't a snapshot; it may or
+     * may not shows the changes later made to this setting on this {link Configurable} level (but usually it's well
      * defined if until what point settings are possibly modified).
      * 
      * <p>
-     * The return value is never {@code null}; called on the {@link Configuration} (top) level, it defaults to an empty
-     * {@link Map}.
+     * The return value is never {@code null}; called on the {link Configuration} (top) level, it defaults to an empty
+     * {link Map}.
      * 
-     * @see #getCustomNumberFormatsWithoutFallback()
+     * see #getCustomNumberFormatsWithoutFallback()
      * 
      * @since 2.3.24
      */
@@ -863,7 +843,7 @@ public class Configurable {
     }
 
     /**
-     * Like {@link #getCustomNumberFormats()}, but doesn't fall back to the parent {@link Configurable}.
+     * Like {link #getCustomNumberFormats()}, but doesn't fall back to the parent {link Configurable}.
      * 
      * @since 2.3.25
      */
@@ -872,11 +852,11 @@ public class Configurable {
     }
     
     /**
-     * Associates names with formatter factories, which then can be referred by the {@link #setNumberFormat(String)
+     * Associates names with formatter factories, which then can be referred by the {link #setNumberFormat(String)
      * number_format} setting with values starting with <code>@<i>name</i></code>. Beware, if you specify any custom
      * formats here, an initial {@code @} followed by a letter will have special meaning in number/date/time/datetime
-     * format strings, even if {@link Configuration#getIncompatibleImprovements() incompatible_improvements} is less
-     * than 2.3.24 (starting with {@link Configuration#getIncompatibleImprovements() incompatible_improvements} 2.3.24
+     * format strings, even if {link Configuration#getIncompatibleImprovements() incompatible_improvements} is less
+     * than 2.3.24 (starting with {link Configuration#getIncompatibleImprovements() incompatible_improvements} 2.3.24
      * {@code @} always has special meaning).
      * 
      * @param customNumberFormats
@@ -915,7 +895,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -987,14 +967,14 @@ public class Configurable {
     }
     
     /**
-     * The getter pair of {@link #setBooleanFormat(String)}.
+     * The getter pair of {link #setBooleanFormat(String)}.
      */
     public String getBooleanFormat() {
         return booleanFormat != null ? booleanFormat : parent.getBooleanFormat(); 
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1063,7 +1043,7 @@ public class Configurable {
     }
 
     /**
-     * Same as {@link #getTrueStringValue()} but with {@code false}. 
+     * Same as {link #getTrueStringValue()} but with {@code false}.
      * @since 2.3.20
      */
     String getFalseStringValue() {
@@ -1072,10 +1052,10 @@ public class Configurable {
     }
 
     /**
-     * Sets the format used to convert {@link java.util.Date}-s that are time (no date part) values to string-s, also
+     * Sets the format used to convert {link java.util.Date}-s that are time (no date part) values to string-s, also
      * the format that {@code someString?time} will use to parse strings.
      *
-     * <p>For the possible values see {@link #setDateTimeFormat(String)}.
+     * <p>For the possible values see {link #setDateTimeFormat(String)}.
      *
      * <p>Defaults to {@code ""}, which is equivalent to {@code "medium"}.
      */
@@ -1086,14 +1066,14 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setTimeFormat(String)}.
+     * The getter pair of {link #setTimeFormat(String)}.
      */
     public String getTimeFormat() {
         return timeFormat != null ? timeFormat : parent.getTimeFormat();
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1102,10 +1082,10 @@ public class Configurable {
     }
     
     /**
-     * Sets the format used to convert {@link java.util.Date}-s that are date-only (no time part) values to string-s,
+     * Sets the format used to convert {link java.util.Date}-s that are date-only (no time part) values to string-s,
      * also the format that {@code someString?date} will use to parse strings.
      * 
-     * <p>For the possible values see {@link #setDateTimeFormat(String)}.
+     * <p>For the possible values see {link #setDateTimeFormat(String)}.
      *   
      * <p>Defaults to {@code ""} which is equivalent to {@code "medium"}.
      */
@@ -1116,14 +1096,14 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setDateFormat(String)}.
+     * The getter pair of {link #setDateFormat(String)}.
      */
     public String getDateFormat() {
         return dateFormat != null ? dateFormat : parent.getDateFormat();
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1132,13 +1112,13 @@ public class Configurable {
     }
     
     /**
-     * Sets the format used to convert {@link java.util.Date}-s that are date-time (timestamp) values to string-s,
+     * Sets the format used to convert {link java.util.Date}-s that are date-time (timestamp) values to string-s,
      * also the format that {@code someString?datetime} will use to parse strings.
      * 
      * <p>The possible setting values are (the quotation marks aren't part of the value itself):
      * 
      * <ul>
-     *   <li><p>Patterns accepted by Java's {@link SimpleDateFormat}, for example {@code "dd.MM.yyyy HH:mm:ss"} (where
+     *   <li><p>Patterns accepted by Java's {link SimpleDateFormat}, for example {@code "dd.MM.yyyy HH:mm:ss"} (where
      *       {@code HH} means 24 hours format) or {@code "MM/dd/yyyy hh:mm:ss a"} (where {@code a} prints AM or PM, if
      *       the current language is English).
      *   
@@ -1159,24 +1139,24 @@ public class Configurable {
      *                     
      *         <li><p>Time zone offset visibility options:<br>
      *             {@code fz} = "Force Zone", always show time zone offset (even for for
-     *                     {@link java.sql.Date java.sql.Date} and {@link java.sql.Time java.sql.Time} values).
+     *                     {link java.sql.Date java.sql.Date} and {link java.sql.Time java.sql.Time} values).
      *                     But, because ISO 8601 doesn't allow for dates (means date without time of the day) to
      *                     show the zone offset, this option will have no effect in the case of {@code "iso"} with
      *                     dates.<br>
      *             {@code nz} = "No Zone", never show time zone offset<br>
-     *             Neither = always show time zone offset, except for {@link java.sql.Date java.sql.Date}
-     *                     and {@link java.sql.Time java.sql.Time}, and for {@code "iso"} date values.
+     *             Neither = always show time zone offset, except for {link java.sql.Date java.sql.Date}
+     *                     and {link java.sql.Time java.sql.Time}, and for {@code "iso"} date values.
      *                     
      *         <li><p>Time zone options:<br>
      *             {@code u} = Use UTC instead of what the {@code time_zone} setting suggests. However,
-     *                     {@link java.sql.Date java.sql.Date} and {@link java.sql.Time java.sql.Time} aren't affected
-     *                     by this (see {@link #setSQLDateAndTimeTimeZone(TimeZone)} to understand why)<br>
+     *                     {link java.sql.Date java.sql.Date} and {link java.sql.Time java.sql.Time} aren't affected
+     *                     by this (see {link #setSQLDateAndTimeTimeZone(TimeZone)} to understand why)<br>
      *             {@code fu} = "Force UTC", that is, use UTC instead of what the {@code time_zone} or the
      *                     {@code sql_date_and_time_time_zone} setting suggests. This also effects
-     *                     {@link java.sql.Date java.sql.Date} and {@link java.sql.Time java.sql.Time} values<br>
+     *                     {link java.sql.Date java.sql.Date} and {link java.sql.Time java.sql.Time} values<br>
      *             Neither = Use the time zone suggested by the {@code time_zone} or the
-     *                     {@code sql_date_and_time_time_zone} configuration setting ({@link #setTimeZone(TimeZone)} and
-     *                     {@link #setSQLDateAndTimeTimeZone(TimeZone)}).
+     *                     {@code sql_date_and_time_time_zone} configuration setting ({link #setTimeZone(TimeZone)} and
+     *                     {link #setSQLDateAndTimeTimeZone(TimeZone)}).
      *       </ul>
      *       
      *       <p>The options can be specified in any order.</p>
@@ -1201,16 +1181,16 @@ public class Configurable {
      *       format.
      *       
      *   <li><p>{@code "short"}, {@code "medium"}, {@code "long"}, or {@code "full"}, which that has locale-dependent
-     *       meaning defined by the Java platform (see in the documentation of {@link java.text.DateFormat}).
+     *       meaning defined by the Java platform (see in the documentation of {link java.text.DateFormat}).
      *       For date-time values, you can specify the length of the date and time part independently, be separating
      *       them with {@code _}, like {@code "short_medium"}. ({@code "medium"} means
      *       {@code "medium_medium"} for date-time values.)
      *       
      *   <li><p>Anything that starts with {@code "@"} followed by a letter is interpreted as a custom
-     *       date/time/dateTime format, but only if either {@link Configuration#getIncompatibleImprovements()}
+     *       date/time/dateTime format, but only if either {link Configuration#getIncompatibleImprovements()}
      *       is at least 2.3.24, or there's any custom formats defined (even if custom number format). The format of
      *       such string is <code>"@<i>name</i>"</code> or <code>"@<i>name</i> <i>parameters</i>"</code>, where
-     *       <code><i>name</i></code> is the key in the {@link Map} set by {@link #setCustomDateFormats(Map)}, and
+     *       <code><i>name</i></code> is the key in the {link Map} set by {link #setCustomDateFormats(Map)}, and
      *       <code><i>parameters</i></code> is parsed by the custom number format.
      *       
      * </ul> 
@@ -1224,14 +1204,14 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setDateTimeFormat(String)}.
+     * The getter pair of {link #setDateTimeFormat(String)}.
      */
     public String getDateTimeFormat() {
         return dateTimeFormat != null ? dateTimeFormat : parent.getDateTimeFormat();
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1240,19 +1220,19 @@ public class Configurable {
     }
     
     /**
-     * Getter pair of {@link #setCustomDateFormats(Map)}; do not modify the returned {@link Map}! To be consistent with
-     * other setting getters, if this setting was set directly on this {@link Configurable} object, this simply returns
-     * that value, otherwise it returns the value from the parent {@link Configurable}. So beware, the returned value
-     * doesn't reflect the {@link Map} key granularity fallback logic that FreeMarker actually uses for this setting
-     * (for that, use {@link #getCustomDateFormat(String)}). The returned value isn't a snapshot; it may or may not
-     * shows the changes later made to this setting on this {@link Configurable} level (but usually it's well defined if
+     * Getter pair of {link #setCustomDateFormats(Map)}; do not modify the returned {link Map}! To be consistent with
+     * other setting getters, if this setting was set directly on this {link Configurable} object, this simply returns
+     * that value, otherwise it returns the value from the parent {link Configurable}. So beware, the returned value
+     * doesn't reflect the {link Map} key granularity fallback logic that FreeMarker actually uses for this setting
+     * (for that, use {link #getCustomDateFormat(String)}). The returned value isn't a snapshot; it may or may not
+     * shows the changes later made to this setting on this {link Configurable} level (but usually it's well defined if
      * until what point settings are possibly modified).
      * 
      * <p>
-     * The return value is never {@code null}; called on the {@link Configuration} (top) level, it defaults to an empty
-     * {@link Map}.
+     * The return value is never {@code null}; called on the {link Configuration} (top) level, it defaults to an empty
+     * {link Map}.
      * 
-     * @see #getCustomDateFormatsWithoutFallback()
+     * see #getCustomDateFormatsWithoutFallback()
      * 
      * @since 2.3.24
      */
@@ -1261,8 +1241,8 @@ public class Configurable {
     }
 
     /**
-     * Like {@link #getCustomDateFormats()}, but doesn't fall back to the parent {@link Configurable}, nor does it
-     * provide a non-{@code null} default when called as the method of a {@link Configuration}.
+     * Like {link #getCustomDateFormats()}, but doesn't fall back to the parent {link Configurable}, nor does it
+     * provide a non-{@code null} default when called as the method of a {link Configuration}.
      * 
      * @since 2.3.25
      */
@@ -1271,12 +1251,12 @@ public class Configurable {
     }
     
     /**
-     * Associates names with formatter factories, which then can be referred by the {@link #setDateTimeFormat(String)
-     * date_format}, {@link #setDateTimeFormat(String) time_format}, and {@link #setDateTimeFormat(String)
+     * Associates names with formatter factories, which then can be referred by the {link #setDateTimeFormat(String)
+     * date_format}, {link #setDateTimeFormat(String) time_format}, and {link #setDateTimeFormat(String)
      * datetime_format} settings with values starting with <code>@<i>name</i></code>. Beware, if you specify any custom
      * formats here, an initial {@code @} followed by a letter will have special meaning in number/date/time/datetime
-     * format strings, even if {@link Configuration#getIncompatibleImprovements() incompatible_improvements} is less
-     * than 2.3.24 (starting with {@link Configuration#getIncompatibleImprovements() incompatible_improvements} 2.3.24
+     * format strings, even if {link Configuration#getIncompatibleImprovements() incompatible_improvements} is less
+     * than 2.3.24 (starting with {link Configuration#getIncompatibleImprovements() incompatible_improvements} 2.3.24
      * {@code @} always has special meaning).
      *
      * @param customDateFormats
@@ -1292,7 +1272,7 @@ public class Configurable {
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      * 
      * @since 2.3.24
      */
@@ -1318,28 +1298,28 @@ public class Configurable {
     
     /**
      * Sets the exception handler used to handle exceptions occurring inside templates.
-     * The default is {@link TemplateExceptionHandler#DEBUG_HANDLER}. The recommended values are:
+     * The default is {link TemplateExceptionHandler#DEBUG_HANDLER}. The recommended values are:
      * 
      * <ul>
-     *   <li>In production systems: {@link TemplateExceptionHandler#RETHROW_HANDLER}
-     *   <li>During development of HTML templates: {@link TemplateExceptionHandler#HTML_DEBUG_HANDLER}
-     *   <li>During development of non-HTML templates: {@link TemplateExceptionHandler#DEBUG_HANDLER}
+     *   <li>In production systems: {link TemplateExceptionHandler#RETHROW_HANDLER}
+     *   <li>During development of HTML templates: {link TemplateExceptionHandler#HTML_DEBUG_HANDLER}
+     *   <li>During development of non-HTML templates: {link TemplateExceptionHandler#DEBUG_HANDLER}
      * </ul>
      * 
      * <p>All of these will let the exception propagate further, so that you can catch it around
-     * {@link Template#process(Object, Writer)} for example. The difference is in what they print on the output before
+     * {link Template#process(Object, Writer)} for example. The difference is in what they print on the output before
      * they do that.
      * 
-     * <p>Note that the {@link TemplateExceptionHandler} is not meant to be used for generating HTTP error pages.
+     * <p>Note that the {link TemplateExceptionHandler} is not meant to be used for generating HTTP error pages.
      * Neither is it meant to be used to roll back the printed output. These should be solved outside template
-     * processing when the exception raises from {@link Template#process(Object, Writer) Template.process}.
-     * {@link TemplateExceptionHandler} meant to be used if you want to include special content <em>in</em> the template
+     * processing when the exception raises from {link Template#process(Object, Writer) Template.process}.
+     * {link TemplateExceptionHandler} meant to be used if you want to include special content <em>in</em> the template
      * output, or if you want to suppress certain exceptions. If you suppress an exception, and the
-     * {@link Environment#getLogTemplateExceptions()} returns {@code false}, then it's the responsibility of the
-     * {@link TemplateExceptionHandler} to log the exception (if you want it to be logged).  
+     * {link Environment#getLogTemplateExceptions()} returns {@code false}, then it's the responsibility of the
+     * {link TemplateExceptionHandler} to log the exception (if you want it to be logged).
      * 
-     * @see #setLogTemplateExceptions(boolean)
-     * @see #setAttemptExceptionReporter(AttemptExceptionReporter)
+     * see #setLogTemplateExceptions(boolean)
+     * see #setAttemptExceptionReporter(AttemptExceptionReporter)
      */
     public void setTemplateExceptionHandler(TemplateExceptionHandler templateExceptionHandler) {
         NullArgumentException.check("templateExceptionHandler", templateExceptionHandler);
@@ -1348,7 +1328,7 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setTemplateExceptionHandler(TemplateExceptionHandler)}.
+     * The getter pair of {link #setTemplateExceptionHandler(TemplateExceptionHandler)}.
      */
     public TemplateExceptionHandler getTemplateExceptionHandler() {
         return templateExceptionHandler != null
@@ -1356,7 +1336,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1366,16 +1346,16 @@ public class Configurable {
     
     /**
      * Specifies how exceptions handled (and hence suppressed) by an {@code #attempt} blocks will be logged or otherwise
-     * reported. The default value is {@link AttemptExceptionReporter#LOG_ERROR_REPORTER}.
+     * reported. The default value is {link AttemptExceptionReporter#LOG_ERROR_REPORTER}.
      * 
      * <p>Note that {@code #attempt} is not supposed to be a general purpose error handler mechanism, like {@code try}
      * is in Java. It's for decreasing the impact of unexpected errors, by making it possible that only part of the
      * page is going down, instead of the whole page. But it's still an error, something that someone should fix. So the
-     * error should be reported, not just ignored in a custom {@link AttemptExceptionReporter}-s.
+     * error should be reported, not just ignored in a custom {link AttemptExceptionReporter}-s.
      * 
-     * <p>The {@link AttemptExceptionReporter} is invoked regardless of the value of the
-     * {@link #setLogTemplateExceptions(boolean) log_template_exceptions} setting.
-     * The {@link AttemptExceptionReporter} is not invoked if the {@link TemplateExceptionHandler} has suppressed the
+     * <p>The {link AttemptExceptionReporter} is invoked regardless of the value of the
+     * {link #setLogTemplateExceptions(boolean) log_template_exceptions} setting.
+     * The {link AttemptExceptionReporter} is not invoked if the {link TemplateExceptionHandler} has suppressed the
      * exception.
      * 
      * @since 2.3.27
@@ -1386,7 +1366,7 @@ public class Configurable {
     }
     
     /**
-     * The getter pair of {@link #setAttemptExceptionReporter(AttemptExceptionReporter)}.
+     * The getter pair of {link #setAttemptExceptionReporter(AttemptExceptionReporter)}.
      * 
      * @since 2.3.27
      */
@@ -1396,7 +1376,7 @@ public class Configurable {
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.27
      */
@@ -1406,7 +1386,7 @@ public class Configurable {
 
     /**
      * Sets the arithmetic engine used to perform arithmetic operations.
-     * The default is {@link ArithmeticEngine#BIGDECIMAL_ENGINE}.
+     * The default is {link ArithmeticEngine#BIGDECIMAL_ENGINE}.
      */
     public void setArithmeticEngine(ArithmeticEngine arithmeticEngine) {
         NullArgumentException.check("arithmeticEngine", arithmeticEngine);
@@ -1415,7 +1395,7 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setArithmeticEngine(ArithmeticEngine)}.
+     * The getter pair of {link #setArithmeticEngine(ArithmeticEngine)}.
      */
     public ArithmeticEngine getArithmeticEngine() {
         return arithmeticEngine != null
@@ -1423,7 +1403,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1432,8 +1412,8 @@ public class Configurable {
     }
 
     /**
-     * Sets the object wrapper used to wrap objects to {@link TemplateModel}-s.
-     * The default is {@link ObjectWrapper#DEFAULT_WRAPPER}.
+     * Sets the object wrapper used to wrap objects to {link TemplateModel}-s.
+     * The default is {link ObjectWrapper#DEFAULT_WRAPPER}.
      */
     public void setObjectWrapper(ObjectWrapper objectWrapper) {
         NullArgumentException.check("objectWrapper", objectWrapper);
@@ -1442,7 +1422,7 @@ public class Configurable {
     }
 
     /**
-     * The getter pair of {@link #setObjectWrapper(ObjectWrapper)}.
+     * The getter pair of {link #setObjectWrapper(ObjectWrapper)}.
      */
     public ObjectWrapper getObjectWrapper() {
         return objectWrapper != null
@@ -1450,7 +1430,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1484,7 +1464,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1494,7 +1474,7 @@ public class Configurable {
     
     /**
      * Sets the URL escaping (URL encoding, percentage encoding) charset. If {@code null}, the output encoding
-     * ({@link #setOutputEncoding(String)}) will be used for URL escaping.
+     * ({link #setOutputEncoding(String)}) will be used for URL escaping.
      * 
      * Defaults to {@code null}.
      */
@@ -1516,7 +1496,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1525,15 +1505,15 @@ public class Configurable {
     }
 
     /**
-     * Sets the {@link TemplateClassResolver} that is used when the
+     * Sets the {link TemplateClassResolver} that is used when the
      * <code>new</code> built-in is called in a template. That is, when
      * a template contains the <code>"com.example.SomeClassName"?new</code>
      * expression, this object will be called to resolve the
      * <code>"com.example.SomeClassName"</code> string to a class. The default
-     * value is {@link TemplateClassResolver#UNRESTRICTED_RESOLVER} in
-     * FreeMarker 2.3.x, and {@link TemplateClassResolver#SAFER_RESOLVER}
+     * value is {link TemplateClassResolver#UNRESTRICTED_RESOLVER} in
+     * FreeMarker 2.3.x, and {link TemplateClassResolver#SAFER_RESOLVER}
      * starting from FreeMarker 2.4.0. If you allow users to upload templates,
-     * it's important to use a custom restrictive {@link TemplateClassResolver}.
+     * it's important to use a custom restrictive {link TemplateClassResolver}.
      * 
      * @since 2.3.17
      */
@@ -1545,7 +1525,7 @@ public class Configurable {
     }
 
     /**
-     * Retrieves the {@link TemplateClassResolver} used
+     * Retrieves the {link TemplateClassResolver} used
      * to resolve classes when "SomeClassName"?new is called in a template.
      * 
      * @since 2.3.17
@@ -1556,7 +1536,7 @@ public class Configurable {
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1565,15 +1545,15 @@ public class Configurable {
     }
     
     /**
-     * Sets whether the output {@link Writer} is automatically flushed at
-     * the end of {@link Template#process(Object, Writer)} (and its
+     * Sets whether the output {link Writer} is automatically flushed at
+     * the end of {link Template#process(Object, Writer)} (and its
      * overloads). The default is {@code true}.
      * 
      * <p>Using {@code false} is needed for example when a Web page is composed
      * from several boxes (like portlets, GUI panels, etc.) that aren't inserted
      * with <tt>#include</tt> (or with similar directives) into a master
      * FreeMarker template, rather they are all processed with a separate
-     * {@link Template#process(Object, Writer)} call. In a such scenario the
+     * {link Template#process(Object, Writer)} call. In a such scenario the
      * automatic flushes would commit the HTTP response after each box, hence
      * interfering with full-page buffering, and also possibly decreasing
      * performance with too frequent and too early response buffer flushes.
@@ -1581,23 +1561,23 @@ public class Configurable {
      * @since 2.3.17
      */
     public void setAutoFlush(boolean autoFlush) {
-        this.autoFlush = Boolean.valueOf(autoFlush);
+        this.autoFlush = autoFlush;
         properties.setProperty(AUTO_FLUSH_KEY, String.valueOf(autoFlush));
     }
     
     /**
-     * See {@link #setAutoFlush(boolean)}
+     * See {link #setAutoFlush(boolean)}
      * 
      * @since 2.3.17
      */
     public boolean getAutoFlush() {
         return autoFlush != null 
-            ? autoFlush.booleanValue()
-            : (parent != null ? parent.getAutoFlush() : true);
+            ? autoFlush
+            : (parent == null || parent.getAutoFlush());
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1612,23 +1592,23 @@ public class Configurable {
      * @since 2.3.21
      */
     public void setShowErrorTips(boolean showTips) {
-        this.showErrorTips = Boolean.valueOf(showTips);
+        this.showErrorTips = showTips;
         properties.setProperty(SHOW_ERROR_TIPS_KEY, String.valueOf(showTips));
     }
     
     /**
-     * See {@link #setShowErrorTips(boolean)}
+     * See {link #setShowErrorTips(boolean)}
      * 
      * @since 2.3.21
      */
     public boolean getShowErrorTips() {
         return showErrorTips != null 
-            ? showErrorTips.booleanValue()
-            : (parent != null ? parent.getShowErrorTips() : true);
+            ? showErrorTips
+            : (parent == null || parent.getShowErrorTips());
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1643,23 +1623,23 @@ public class Configurable {
      * @since 2.3.22
      */
     public void setAPIBuiltinEnabled(boolean value) {
-        apiBuiltinEnabled = Boolean.valueOf(value);
+        apiBuiltinEnabled = value;
         properties.setProperty(API_BUILTIN_ENABLED_KEY, String.valueOf(value));
     }
 
     /**
-     * See {@link #setAPIBuiltinEnabled(boolean)}
+     * See {link #setAPIBuiltinEnabled(boolean)}
      * 
      * @since 2.3.22
      */
     public boolean isAPIBuiltinEnabled() {
         return apiBuiltinEnabled != null 
-                ? apiBuiltinEnabled.booleanValue()
-                : (parent != null ? parent.isAPIBuiltinEnabled() : false);
+                ? apiBuiltinEnabled
+                : (parent != null && parent.isAPIBuiltinEnabled());
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1668,35 +1648,35 @@ public class Configurable {
     }
     
     /**
-     * Specifies if {@link TemplateException}-s thrown by template processing are logged by FreeMarker or not. The
+     * Specifies if {link TemplateException}-s thrown by template processing are logged by FreeMarker or not. The
      * default is {@code true} for backward compatibility, but that results in logging the exception twice in properly
-     * written applications, because there the {@link TemplateException} thrown by the public FreeMarker API is also
+     * written applications, because there the {link TemplateException} thrown by the public FreeMarker API is also
      * logged by the caller (even if only as the cause exception of a higher level exception). Hence, in modern
      * applications it should be set to {@code false}. Note that this setting has no effect on the logging of exceptions
      * caught by {@code #attempt}; by default those are always logged as errors (because those exceptions won't bubble
-     * up to the API caller), however, that can be changed with the {@link
+     * up to the API caller), however, that can be changed with the {link
      * #setAttemptExceptionReporter(AttemptExceptionReporter) attempt_exception_reporter} setting.
      * 
      * @since 2.3.22
      */
     public void setLogTemplateExceptions(boolean value) {
-        logTemplateExceptions = Boolean.valueOf(value);
+        logTemplateExceptions = value;
         properties.setProperty(LOG_TEMPLATE_EXCEPTIONS_KEY, String.valueOf(value));
     }
 
     /**
-     * See {@link #setLogTemplateExceptions(boolean)}
+     * See {link #setLogTemplateExceptions(boolean)}
      * 
      * @since 2.3.22
      */
     public boolean getLogTemplateExceptions() {
         return logTemplateExceptions != null 
-                ? logTemplateExceptions.booleanValue()
-                : (parent != null ? parent.getLogTemplateExceptions() : true);
+                ? logTemplateExceptions
+                : (parent == null || parent.getLogTemplateExceptions());
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.24
      */
@@ -1706,18 +1686,18 @@ public class Configurable {
 
     /**
      * Specifies if unchecked exceptions thrown during expression evaluation or during executing custom directives (and
-     * transform) will be wrapped into {@link TemplateException}-s, or will bubble up to the caller of
-     * {@link Template#process(Object, Writer, ObjectWrapper)} as is. The default is {@code false} for backward
+     * transform) will be wrapped into {link TemplateException}-s, or will bubble up to the caller of
+     * {link Template#process(Object, Writer, ObjectWrapper)} as is. The default is {@code false} for backward
      * compatibility (as some applications catch certain unchecked exceptions thrown by the template processing to do
      * something special), but the recommended value is {@code true}.    
-     * When this is {@code true}, the unchecked exceptions will be wrapped into a {@link TemplateException}-s, thus the
+     * When this is {@code true}, the unchecked exceptions will be wrapped into a {link TemplateException}-s, thus the
      * exception will include the location in the template (not
-     * just the Java stack trace). Another consequence of the wrapping is that the {@link TemplateExceptionHandler} will
-     * be invoked for the exception (as that only handles {@link TemplateException}-s, it wasn't invoked for unchecked
+     * just the Java stack trace). Another consequence of the wrapping is that the {link TemplateExceptionHandler} will
+     * be invoked for the exception (as that only handles {link TemplateException}-s, it wasn't invoked for unchecked
      * exceptions). When this setting is {@code false}, unchecked exception will be thrown by
-     * {@link Template#process(Object, Writer, ObjectWrapper)}.
-     * Note that plain Java methods called from templates aren't user defined {@link TemplateMethodModel}-s, and have
-     * always wrapped the thrown exception into {@link TemplateException}, regardless of this setting.  
+     * {link Template#process(Object, Writer, ObjectWrapper)}.
+     * Note that plain Java methods called from templates aren't user defined {link TemplateMethodModel}-s, and have
+     * always wrapped the thrown exception into {link TemplateException}, regardless of this setting.
      * 
      * @since 2.3.27
      */
@@ -1726,13 +1706,13 @@ public class Configurable {
     }
     
     /**
-     * The getter pair of {@link #setWrapUncheckedExceptions(boolean)}.
+     * The getter pair of {link #setWrapUncheckedExceptions(boolean)}.
      * 
      * @since 2.3.27
      */
     public boolean getWrapUncheckedExceptions() {
         return wrapUncheckedExceptions != null ? wrapUncheckedExceptions
-                : (parent != null ? parent.getWrapUncheckedExceptions() : false /* [2.4] true */);
+                : (parent != null && parent.getWrapUncheckedExceptions() /* [2.4] true */);
     }
 
     /**
@@ -1743,16 +1723,16 @@ public class Configurable {
     }
     
     /**
-     * The getter pair of {@link #setLazyImports(boolean)}.
+     * The getter pair of {link #setLazyImports(boolean)}.
      * 
      * @since 2.3.25
      */
     public boolean getLazyImports() {
-        return lazyImports != null ? lazyImports.booleanValue() : parent.getLazyImports();
+        return lazyImports != null ? lazyImports : parent.getLazyImports();
     }
     
     /**
-     * Specifies if {@code <#import ...>} (and {@link Environment#importLib(String, String)}) should delay the loading
+     * Specifies if {@code <#import ...>} (and {link Environment#importLib(String, String)}) should delay the loading
      * and processing of the imported templates until the content of the imported namespace is actually accessed. This
      * makes the overhead of <em>unused</em> imports negligible. Note that turning on lazy importing isn't entirely
      * transparent, as accessing global variables (usually created with {@code <#global ...=...>}) that should be
@@ -1762,7 +1742,7 @@ public class Configurable {
      * be executed, though it shouldn't mater for most well designed imported templates.
      * Another drawback is that importing a missing or otherwise broken template will be successful, and the problem
      * will remain hidden until (and if) the namespace content is actually used. Note that the namespace initializing
-     * code will run with the same {@linkplain Configurable#getLocale() locale} as it was at the point of the
+     * code will run with the same {linkplain Configurable#getLocale() locale} as it was at the point of the
      * {@code <#import ...>} call (other settings won't be handled specially like that).
      * 
      * <p>
@@ -1770,19 +1750,19 @@ public class Configurable {
      * perceivable overhead if you have many imports and only a few of them is actually used.
      * 
      * <p>
-     * This setting also affects {@linkplain #setAutoImports(Map) auto-imports}, unless you have set a non-{@code null}
-     * value with {@link #setLazyAutoImports(Boolean)}.
+     * This setting also affects {linkplain #setAutoImports(Map) auto-imports}, unless you have set a non-{@code null}
+     * value with {link #setLazyAutoImports(Boolean)}.
      * 
-     * @see #setLazyAutoImports(Boolean)
+     * see #setLazyAutoImports(Boolean)
      * 
      * @since 2.3.25
      */
     public void setLazyImports(boolean lazyImports) {
-        this.lazyImports = Boolean.valueOf(lazyImports);
+        this.lazyImports = lazyImports;
     }
 
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.25
      */
@@ -1791,7 +1771,7 @@ public class Configurable {
     }
     
     /**
-     * The getter pair of {@link #setLazyAutoImports(Boolean)}.
+     * The getter pair of {link #setLazyAutoImports(Boolean)}.
      * 
      * @since 2.3.25
      */
@@ -1800,9 +1780,9 @@ public class Configurable {
     }
 
     /**
-     * Specifies if {@linkplain #setAutoImports(Map) auto-imports} will be
-     * {@link #setLazyImports(boolean) lazy imports}. This is useful to make the overhead of <em>unused</em>
-     * auto-imports negligible. If this is set to {@code null}, {@link #getLazyImports()} specifies the behavior of
+     * Specifies if {linkplain #setAutoImports(Map) auto-imports} will be
+     * {link #setLazyImports(boolean) lazy imports}. This is useful to make the overhead of <em>unused</em>
+     * auto-imports negligible. If this is set to {@code null}, {link #getLazyImports()} specifies the behavior of
      * auto-imports too. The default value is {@code null}.
      * 
      * @since 2.3.25
@@ -1813,7 +1793,7 @@ public class Configurable {
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      *  
      * @since 2.3.25
      */
@@ -1825,11 +1805,11 @@ public class Configurable {
      * Adds an invisible <code>#import <i>templateName</i> as <i>namespaceVarName</i></code> at the beginning of the
      * main template (that's the top-level template that wasn't included/imported from another template). While it only
      * affects the main template directly, as the imports will create a global variable there, the imports will be
-     * visible from the further imported templates too (note that {@link Configuration#getIncompatibleImprovements()}
+     * visible from the further imported templates too (note that {link Configuration#getIncompatibleImprovements()}
      * set to 2.3.24 fixes a rarely surfacing bug with that).
      * 
      * <p>
-     * It's recommended to set the {@code lazy_auto_imports} setting ({@link Configuration#setLazyAutoImports(Boolean)})
+     * It's recommended to set the {@code lazy_auto_imports} setting ({link Configuration#setLazyAutoImports(Boolean)})
      * to {@code true} when using this, so that auto-imports that are unused in a template won't degrade performance by
      * unnecessary loading and initializing the imported library.
      * 
@@ -1839,16 +1819,16 @@ public class Configurable {
      * of the auto-import order.)
      * 
      * <p>
-     * The auto-import is added directly to the {@link Configurable} on which this method is called (not to the parents
+     * The auto-import is added directly to the {link Configurable} on which this method is called (not to the parents
      * or children), but when the main template is processed, the auto-imports are collected from all the
-     * {@link Configurable} levels, in parent-to-child order: {@link Configuration}, {@link Template} (the main
-     * template), {@link Environment}. If the same {@code namespaceVarName} occurs on multiple levels, the one on the
+     * {link Configurable} levels, in parent-to-child order: {link Configuration}, {link Template} (the main
+     * template), {link Environment}. If the same {@code namespaceVarName} occurs on multiple levels, the one on the
      * child level is used, and the clashing import from the parent level is skipped.
      * 
-     * <p>If there are also auto-includes (see {@link #addAutoInclude(String)}), those will be executed after
+     * <p>If there are also auto-includes (see {link #addAutoInclude(String)}), those will be executed after
      * the auto-imports.
      * 
-     * @see #setAutoImports(Map)
+     * see #setAutoImports(Map)
      */
     public void addAutoImport(String namespaceVarName, String templateName) {
         // "synchronized" is removed from the API as it's not safe to set anything after publishing the Configuration
@@ -1868,8 +1848,8 @@ public class Configurable {
     }
     
     /**
-     * Removes an auto-import from this {@link Configurable} level (not from the parents or children);
-     * see {@link #addAutoImport(String, String)}. Does nothing if the auto-import doesn't exist.
+     * Removes an auto-import from this {link Configurable} level (not from the parents or children);
+     * see {link #addAutoImport(String, String)}. Does nothing if the auto-import doesn't exist.
      */
     public void removeAutoImport(String namespaceVarName) {
         // "synchronized" is removed from the API as it's not safe to set anything after publishing the Configuration
@@ -1881,8 +1861,8 @@ public class Configurable {
     }
     
     /**
-     * Removes all auto-imports, then calls {@link #addAutoImport(String, String)} for each {@link Map}-entry (the entry
-     * key is the {@code namespaceVarName}). The order of the auto-imports will be the same as {@link Map#keySet()}
+     * Removes all auto-imports, then calls {link #addAutoImport(String, String)} for each {link Map}-entry (the entry
+     * key is the {@code namespaceVarName}). The order of the auto-imports will be the same as {link Map#keySet()}
      * returns the keys (but the order of imports doesn't mater for properly designed libraries anyway).
      * 
      * @param map
@@ -1915,20 +1895,20 @@ public class Configurable {
     }
     
     /**
-     * Getter pair of {@link #setAutoImports(Map)}; do not modify the returned {@link Map}! To be consistent with other
-     * setting getters, if this setting was set directly on this {@link Configurable} object, this simply returns that
-     * value, otherwise it returns the value from the parent {@link Configurable}. So beware, the returned value doesn't
-     * reflect the {@link Map} key granularity fallback logic that FreeMarker actually uses for this setting. The
-     * returned value is not the same {@link Map} object that was set with {@link #setAutoImports(Map)}, only its
+     * Getter pair of {link #setAutoImports(Map)}; do not modify the returned {link Map}! To be consistent with other
+     * setting getters, if this setting was set directly on this {link Configurable} object, this simply returns that
+     * value, otherwise it returns the value from the parent {link Configurable}. So beware, the returned value doesn't
+     * reflect the {link Map} key granularity fallback logic that FreeMarker actually uses for this setting. The
+     * returned value is not the same {link Map} object that was set with {link #setAutoImports(Map)}, only its
      * content is the same. The returned value isn't a snapshot; it may or may not shows the changes later made to this
-     * setting on this {@link Configurable} level (but usually it's well defined if until what point settings are
+     * setting on this {link Configurable} level (but usually it's well defined if until what point settings are
      * possibly modified).
      * 
      * <p>
-     * The return value is never {@code null}; called on the {@link Configuration} (top) level, it defaults to an empty
-     * {@link Map}.
+     * The return value is never {@code null}; called on the {link Configuration} (top) level, it defaults to an empty
+     * {link Map}.
      * 
-     * @see #getAutoImportsWithoutFallback()
+     * see #getAutoImportsWithoutFallback()
      * 
      * @since 2.3.25
      */
@@ -1937,7 +1917,7 @@ public class Configurable {
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      * 
      * @since 2.3.25
      */
@@ -1946,7 +1926,7 @@ public class Configurable {
     }
 
     /**
-     * Like {@link #getAutoImports()}, but doesn't fall back to the parent {@link Configurable} (and so it can be
+     * Like {link #getAutoImports()}, but doesn't fall back to the parent {link Configurable} (and so it can be
      * {@code null}).
      *  
      * @since 2.3.25
@@ -1963,22 +1943,22 @@ public class Configurable {
      * The order of the inclusions will be the same as the order in which they were added with this method.
      * 
      * <p>
-     * The auto-include is added directly to the {@link Configurable} on which this method is called (not to the parents
+     * The auto-include is added directly to the {link Configurable} on which this method is called (not to the parents
      * or children), but when the main template is processed, the auto-includes are collected from all the
-     * {@link Configurable} levels, in parent-to-child order: {@link Configuration}, {@link Template} (the main
-     * template), {@link Environment}.
+     * {link Configurable} levels, in parent-to-child order: {link Configuration}, {link Template} (the main
+     * template), {link Environment}.
      * 
      * <p>
-     * If there are also auto-imports ({@link #addAutoImport(String, String)}), those imports will be executed before
+     * If there are also auto-imports ({link #addAutoImport(String, String)}), those imports will be executed before
      * the auto-includes, hence the namespace variables are accessible for the auto-included templates.
      * 
      * <p>
-     * Calling {@link #addAutoInclude(String)} with an already added template name will just move that to the end of the
-     * auto-include list (within the same {@link Configurable} level). This works even if the same template name appears
-     * on different {@link Configurable} levels, in which case only the inclusion on the lowest (child) level will be
+     * Calling {link #addAutoInclude(String)} with an already added template name will just move that to the end of the
+     * auto-include list (within the same {link Configurable} level). This works even if the same template name appears
+     * on different {link Configurable} levels, in which case only the inclusion on the lowest (child) level will be
      * executed.
      * 
-     * @see #setAutoIncludes(List)
+     * see #setAutoIncludes(List)
      */
     public void addAutoInclude(String templateName) {
         addAutoInclude(templateName, false);
@@ -1987,7 +1967,7 @@ public class Configurable {
     /**
      * @param keepDuplicate
      *            Used for emulating legacy glitch, where duplicates weren't removed if the inclusion was added via
-     *            {@link #setAutoIncludes(List)}.
+     *            {link #setAutoIncludes(List)}.
      */
     private void addAutoInclude(String templateName, boolean keepDuplicate) {
         // "synchronized" is removed from the API as it's not safe to set anything after publishing the Configuration
@@ -2008,10 +1988,10 @@ public class Configurable {
     }
     
     /**
-     * Removes all auto-includes, then calls {@link #addAutoInclude(String)} for each {@link List} items.
+     * Removes all auto-includes, then calls {link #addAutoInclude(String)} for each {link List} items.
      * 
-     * <p>Before {@linkplain Configuration#Configuration(Version) incompatible improvements} 2.3.25 it doesn't filter
-     * out duplicates from the list if this method was called on a {@link Configuration} instance.
+     * <p>Before {linkplain Configuration#Configuration(Version) incompatible improvements} 2.3.25 it doesn't filter
+     * out duplicates from the list if this method was called on a {link Configuration} instance.
      */
     public void setAutoIncludes(List templateNames) {
         NullArgumentException.check("templateNames", templateNames);
@@ -2031,20 +2011,20 @@ public class Configurable {
     }
     
     /**
-     * Getter pair of {@link #setAutoIncludes(List)}; do not modify the returned {@link List}! To be consistent with
-     * other setting getters, if this setting was set directly on this {@link Configurable} object, this simply returns
-     * that value, otherwise it returns the value from the parent {@link Configurable}. So beware, the returned value
-     * doesn't reflect the {@link List} concatenation logic that FreeMarker actually uses for this setting. The returned
-     * value is not the same {@link List} object that was set with {@link #setAutoIncludes(List)}, only its content is
+     * Getter pair of {link #setAutoIncludes(List)}; do not modify the returned {link List}! To be consistent with
+     * other setting getters, if this setting was set directly on this {link Configurable} object, this simply returns
+     * that value, otherwise it returns the value from the parent {link Configurable}. So beware, the returned value
+     * doesn't reflect the {link List} concatenation logic that FreeMarker actually uses for this setting. The returned
+     * value is not the same {link List} object that was set with {link #setAutoIncludes(List)}, only its content is
      * the same (except that duplicate are removed). The returned value isn't a snapshot; it may or may not shows the
-     * changes later made to this setting on this {@link Configurable} level (but usually it's well defined if until
+     * changes later made to this setting on this {link Configurable} level (but usually it's well defined if until
      * what point settings are possibly modified).
      * 
      * <p>
-     * The return value is never {@code null}; called on the {@link Configuration} (top) level, it defaults to an empty
-     * {@link List}.
+     * The return value is never {@code null}; called on the {link Configuration} (top) level, it defaults to an empty
+     * {link List}.
      * 
-     * @see #getAutoIncludesWithoutFallback()
+     * see #getAutoIncludesWithoutFallback()
      * 
      * @since 2.3.25
      */
@@ -2053,7 +2033,7 @@ public class Configurable {
     }
     
     /**
-     * Tells if this setting is set directly in this object or its value is coming from the {@link #getParent() parent}.
+     * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      * 
      * @since 2.3.25
      */
@@ -2062,7 +2042,7 @@ public class Configurable {
     }
     
     /**
-     * Like {@link #getAutoIncludes()}, but doesn't fall back to the parent {@link Configurable} (and so it can be
+     * Like {link #getAutoIncludes()}, but doesn't fall back to the parent {link Configurable} (and so it can be
      * {@code null}).
      *  
      * @since 2.3.25
@@ -2072,8 +2052,8 @@ public class Configurable {
     }
     
     /**
-     * Removes the auto-include from this {@link Configurable} level (not from the parents or children); see
-     * {@link #addAutoInclude(String)}. Does nothing if the template is not there.
+     * Removes the auto-include from this {link Configurable} level (not from the parents or children); see
+     * {link #addAutoInclude(String)}. Does nothing if the template is not there.
      */
     public void removeAutoInclude(String templateName) {
         // "synchronized" is removed from the API as it's not safe to set anything after publishing the Configuration
@@ -2092,59 +2072,59 @@ public class Configurable {
     /**
      * Sets a FreeMarker setting by a name and string value. If you can configure FreeMarker directly with Java (or
      * other programming language), you should use the dedicated setter methods instead (like
-     * {@link #setObjectWrapper(ObjectWrapper)}. This meant to be used only when you get settings from somewhere
-     * as {@link String}-{@link String} name-value pairs (typically, as a {@link Properties} object). Below you find an
+     * {link #setObjectWrapper(ObjectWrapper)}. This meant to be used only when you get settings from somewhere
+     * as {link String}-{link String} name-value pairs (typically, as a {link Properties} object). Below you find an
      * overview of the settings available.
      * 
      * <p>Note: As of FreeMarker 2.3.23, setting names can be written in camel case too. For example, instead of
      * {@code date_format} you can also use {@code dateFormat}. It's likely that camel case will become to the
      * recommended convention in the future.
      * 
-     * <p>The list of settings commonly supported in all {@link Configurable} subclasses:
+     * <p>The list of settings commonly supported in all {link Configurable} subclasses:
      * <ul>
      *   <li><p>{@code "locale"}:
-     *       See {@link #setLocale(Locale)}.
+     *       See {link #setLocale(Locale)}.
      *       <br>String value: local codes with the usual format in Java, such as {@code "en_US"}, or since 2.3.26,
      *       "JVM default" (ignoring case) to use the default locale of the Java environment.
      *       
      *   <li><p>{@code "classic_compatible"}:
-     *       See {@link #setClassicCompatible(boolean)} and {@link Configurable#setClassicCompatibleAsInt(int)}.
+     *       See {link #setClassicCompatible(boolean)} and {link Configurable#setClassicCompatibleAsInt(int)}.
      *       <br>String value: {@code "true"}, {@code "false"}, also since 2.3.20 {@code 0} or {@code 1} or {@code 2}.
      *       (Also accepts {@code "yes"}, {@code "no"}, {@code "t"}, {@code "f"}, {@code "y"}, {@code "n"}.)
      *       Case insensitive.
      *
-     *   <li><p>{@code "custom_number_formats"}: See {@link #setCustomNumberFormats(Map)}.
+     *   <li><p>{@code "custom_number_formats"}: See {link #setCustomNumberFormats(Map)}.
      *   <br>String value: Interpreted as an <a href="#fm_obe">object builder expression</a>.
      *   <br>Example: <code>{ "hex": com.example.HexTemplateNumberFormatFactory,
      *   "gps": com.example.GPSTemplateNumberFormatFactory }</code>
      *
-     *   <li><p>{@code "custom_date_formats"}: See {@link #setCustomDateFormats(Map)}.
+     *   <li><p>{@code "custom_date_formats"}: See {link #setCustomDateFormats(Map)}.
      *   <br>String value: Interpreted as an <a href="#fm_obe">object builder expression</a>.
      *   <br>Example: <code>{ "trade": com.example.TradeTemplateDateFormatFactory,
      *   "log": com.example.LogTemplateDateFormatFactory }</code>
      *       
      *   <li><p>{@code "template_exception_handler"}:
-     *       See {@link #setTemplateExceptionHandler(TemplateExceptionHandler)}.
+     *       See {link #setTemplateExceptionHandler(TemplateExceptionHandler)}.
      *       <br>String value: If the value contains dot, then it's interpreted as an <a href="#fm_obe">object builder
      *       expression</a>.
      *       If the value does not contain dot, then it must be one of these predefined values (case insensitive):
-     *       {@code "rethrow"} (means {@link TemplateExceptionHandler#RETHROW_HANDLER}),
-     *       {@code "debug"} (means {@link TemplateExceptionHandler#DEBUG_HANDLER}),
-     *       {@code "html_debug"} (means {@link TemplateExceptionHandler#HTML_DEBUG_HANDLER}),
-     *       {@code "ignore"} (means {@link TemplateExceptionHandler#IGNORE_HANDLER}), or
-     *       {@code "default"} (only allowed for {@link Configuration} instances) for the default value.
+     *       {@code "rethrow"} (means {link TemplateExceptionHandler#RETHROW_HANDLER}),
+     *       {@code "debug"} (means {link TemplateExceptionHandler#DEBUG_HANDLER}),
+     *       {@code "html_debug"} (means {link TemplateExceptionHandler#HTML_DEBUG_HANDLER}),
+     *       {@code "ignore"} (means {link TemplateExceptionHandler#IGNORE_HANDLER}), or
+     *       {@code "default"} (only allowed for {link Configuration} instances) for the default value.
      *       
      *   <li><p>{@code "attempt_exception_reporter"}:
-     *       See {@link #setAttemptExceptionReporter(AttemptExceptionReporter)}.
+     *       See {link #setAttemptExceptionReporter(AttemptExceptionReporter)}.
      *       <br>String value: If the value contains dot, then it's interpreted as an <a href="#fm_obe">object builder
      *       expression</a>.
      *       If the value does not contain dot, then it must be one of these predefined values (case insensitive):
-     *       {@code "log_error"} (means {@link AttemptExceptionReporter#LOG_ERROR_REPORTER}),
-     *       {@code "log_warn"} (means {@link AttemptExceptionReporter#LOG_WARN_REPORTER}), or
-     *       {@code "default"} (only allowed for {@link Configuration} instances) for the default value.
+     *       {@code "log_error"} (means {link AttemptExceptionReporter#LOG_ERROR_REPORTER}),
+     *       {@code "log_warn"} (means {link AttemptExceptionReporter#LOG_WARN_REPORTER}), or
+     *       {@code "default"} (only allowed for {link Configuration} instances) for the default value.
      *       
      *   <li><p>{@code "arithmetic_engine"}:
-     *       See {@link #setArithmeticEngine(ArithmeticEngine)}.  
+     *       See {link #setArithmeticEngine(ArithmeticEngine)}.
      *       <br>String value: If the value contains dot, then it's interpreted as an <a href="#fm_obe">object builder
      *       expression</a>.
      *       If the value does not contain dot,
@@ -2152,90 +2132,90 @@ public class Configurable {
      *       {@code "bigdecimal"}, {@code "conservative"}.
      *       
      *   <li><p>{@code "object_wrapper"}:
-     *       See {@link #setObjectWrapper(ObjectWrapper)}.
+     *       See {link #setObjectWrapper(ObjectWrapper)}.
      *       <br>String value: If the value contains dot, then it's interpreted as an <a href="#fm_obe">object builder
-     *       expression</a>, with the addition that {@link BeansWrapper}, {@link DefaultObjectWrapper} and
-     *       {@link SimpleObjectWrapper} can be referred without package name. For example, these strings are valid
+     *       expression</a>, with the addition that {link BeansWrapper}, {link DefaultObjectWrapper} and
+     *       {link SimpleObjectWrapper} can be referred without package name. For example, these strings are valid
      *       values: {@code "DefaultObjectWrapper(2.3.21, forceLegacyNonListCollections=false, iterableSupport=true)"},
      *       {@code "BeansWrapper(2.3.21, simpleMapWrapper=true)"}.
      *       <br>If the value does not contain dot, then it must be one of these special values (case insensitive):
-     *       {@code "default"} means the default of {@link Configuration} (the default depends on the
+     *       {@code "default"} means the default of {link Configuration} (the default depends on the
      *       {@code Configuration#Configuration(Version) incompatible_improvements}, but a bug existed in 2.3.21 where
      *       that was ignored),
-     *       {@code "default_2_3_0"} (means the deprecated {@link ObjectWrapper#DEFAULT_WRAPPER})
-     *       {@code "simple"} (means the deprecated {@link ObjectWrapper#SIMPLE_WRAPPER}),
-     *       {@code "beans"} (means the deprecated {@link BeansWrapper#BEANS_WRAPPER}
-     *       or {@link BeansWrapperBuilder#build()}),
-     *       {@code "jython"} (means {@link freemarker.ext.jython.JythonWrapper#DEFAULT_WRAPPER})
+     *       {@code "default_2_3_0"} (means the deprecated {link ObjectWrapper#DEFAULT_WRAPPER})
+     *       {@code "simple"} (means the deprecated {link ObjectWrapper#SIMPLE_WRAPPER}),
+     *       {@code "beans"} (means the deprecated {link BeansWrapper#BEANS_WRAPPER}
+     *       or {link BeansWrapperBuilder#build()}),
+     *       {@code "jython"} (means {link freemarker.ext.jython.JythonWrapper#DEFAULT_WRAPPER})
      *       
-     *   <li><p>{@code "number_format"}: See {@link #setNumberFormat(String)}.
+     *   <li><p>{@code "number_format"}: See {link #setNumberFormat(String)}.
      *   
-     *   <li><p>{@code "boolean_format"}: See {@link #setBooleanFormat(String)} .
+     *   <li><p>{@code "boolean_format"}: See {link #setBooleanFormat(String)} .
      *   
      *   <li><p>{@code "date_format", "time_format", "datetime_format"}:
-     *       See {@link #setDateFormat(String)}, {@link #setTimeFormat(String)}, {@link #setDateTimeFormat(String)}. 
+     *       See {link #setDateFormat(String)}, {link #setTimeFormat(String)}, {link #setDateTimeFormat(String)}.
      *        
      *   <li><p>{@code "time_zone"}:
-     *       See {@link #setTimeZone(TimeZone)}.
-     *       <br>String value: With the format as {@link TimeZone#getTimeZone} defines it. Also, since 2.3.21
+     *       See {link #setTimeZone(TimeZone)}.
+     *       <br>String value: With the format as {link TimeZone#getTimeZone} defines it. Also, since 2.3.21
      *       {@code "JVM default"} can be used that will be replaced with the actual JVM default time zone when
-     *       {@link #setSetting(String, String)} is called.
+     *       {link #setSetting(String, String)} is called.
      *       For example {@code "GMT-8:00"} or {@code "America/Los_Angeles"}
      *       <br>If you set this setting, consider setting {@code sql_date_and_time_time_zone}
      *       too (see below)! 
      *       
      *   <li><p>{@code sql_date_and_time_time_zone}:
-     *       See {@link #setSQLDateAndTimeTimeZone(TimeZone)}.
+     *       See {link #setSQLDateAndTimeTimeZone(TimeZone)}.
      *       Since 2.3.21.
-     *       <br>String value: With the format as {@link TimeZone#getTimeZone} defines it. Also, {@code "JVM default"}
+     *       <br>String value: With the format as {link TimeZone#getTimeZone} defines it. Also, {@code "JVM default"}
      *       can be used that will be replaced with the actual JVM default time zone when
-     *       {@link #setSetting(String, String)} is called. Also {@code "null"} can be used, which has the same effect
-     *       as {@link #setSQLDateAndTimeTimeZone(TimeZone) setSQLDateAndTimeTimeZone(null)}.
+     *       {link #setSetting(String, String)} is called. Also {@code "null"} can be used, which has the same effect
+     *       as {link #setSQLDateAndTimeTimeZone(TimeZone) setSQLDateAndTimeTimeZone(null)}.
      *       
      *   <li><p>{@code "output_encoding"}:
-     *       See {@link #setOutputEncoding(String)}.
+     *       See {link #setOutputEncoding(String)}.
      *       
      *   <li><p>{@code "url_escaping_charset"}:
-     *       See {@link #setURLEscapingCharset(String)}.
+     *       See {link #setURLEscapingCharset(String)}.
      *       
      *   <li><p>{@code "auto_flush"}:
-     *       See {@link #setAutoFlush(boolean)}.
+     *       See {link #setAutoFlush(boolean)}.
      *       Since 2.3.17.
      *       <br>String value: {@code "true"}, {@code "false"}, {@code "y"},  etc.
      *       
      *   <li><p>{@code "auto_import"}:
-     *       See {@link Configuration#setAutoImports(Map)}
+     *       See {link Configuration#setAutoImports(Map)}
      *       <br>String value is something like:
      *       <br>{@code /lib/form.ftl as f, /lib/widget as w, "/lib/odd name.ftl" as odd}
      *       
      *   <li><p>{@code "auto_include"}: Sets the list of auto-includes.
-     *       See {@link Configuration#setAutoIncludes(List)}
+     *       See {link Configuration#setAutoIncludes(List)}
      *       <br>String value is something like:
      *       <br>{@code /include/common.ftl, "/include/evil name.ftl"}
      *       
      *   <li><p>{@code "lazy_auto_imports"}:
-     *       See {@link Configuration#setLazyAutoImports(Boolean)}.
+     *       See {link Configuration#setLazyAutoImports(Boolean)}.
      *       <br>String value: {@code "true"}, {@code "false"} (also the equivalents: {@code "yes"}, {@code "no"},
      *       {@code "t"}, {@code "f"}, {@code "y"}, {@code "n"}), case insensitive. Also can be {@code "null"}.
 
      *   <li><p>{@code "lazy_imports"}:
-     *       See {@link Configuration#setLazyImports(boolean)}.
+     *       See {link Configuration#setLazyImports(boolean)}.
      *       <br>String value: {@code "true"}, {@code "false"} (also the equivalents: {@code "yes"}, {@code "no"},
      *       {@code "t"}, {@code "f"}, {@code "y"}, {@code "n"}), case insensitive.
      *       
      *   <li><p>{@code "new_builtin_class_resolver"}:
-     *       See {@link #setNewBuiltinClassResolver(TemplateClassResolver)}.
+     *       See {link #setNewBuiltinClassResolver(TemplateClassResolver)}.
      *       Since 2.3.17.
      *       The value must be one of these (ignore the quotation marks):
      *       <ol>
      *         <li><p>{@code "unrestricted"}:
-     *             Use {@link TemplateClassResolver#UNRESTRICTED_RESOLVER}
+     *             Use {link TemplateClassResolver#UNRESTRICTED_RESOLVER}
      *         <li><p>{@code "safer"}:
-     *             Use {@link TemplateClassResolver#SAFER_RESOLVER}
+     *             Use {link TemplateClassResolver#SAFER_RESOLVER}
      *         <li><p>{@code "allows_nothing"} (or {@code "allowsNothing"}):
-     *             Use {@link TemplateClassResolver#ALLOWS_NOTHING_RESOLVER}
+     *             Use {link TemplateClassResolver#ALLOWS_NOTHING_RESOLVER}
      *         <li><p>Something that contains colon will use
-     *             {@link OptInTemplateClassResolver} and is expected to
+     *             {link OptInTemplateClassResolver} and is expected to
      *             store comma separated values (possibly quoted) segmented
      *             with {@code "allowed_classes:"} (or {@code "allowedClasses:"}) and/or
      *             {@code "trusted_templates:"} (or {@code "trustedTemplates:"}). Examples of valid values:
@@ -2256,7 +2236,7 @@ public class Configurable {
      *                   {@code lib/foo/bar.ftl}) and template {@code safe.ftl}
      *                   (that does not match {@code foo/safe.ftl}, only
      *                   exactly {@code safe.ftl}) to instantiate anything
-     *                   that {@link TemplateClassResolver#SAFER_RESOLVER} allows.
+     *                   that {link TemplateClassResolver#SAFER_RESOLVER} allows.
      *               <tr>
      *                 <td>
      *                   {@code allowed_classes: com.example.C1, com.example.C2}
@@ -2272,72 +2252,72 @@ public class Configurable {
      *                   {@code safe.ftl}.
      *             </table>
      *             
-     *             <p>For more details see {@link OptInTemplateClassResolver}.
+     *             <p>For more details see {link OptInTemplateClassResolver}.
      *             
      *         <li><p>Otherwise if the value contains dot, it's interpreted as an <a href="#fm_obe">object builder
      *             expression</a>.
      *       </ol>
      *       
      *   <li><p>{@code "show_error_tips"}:
-     *       See {@link #setShowErrorTips(boolean)}.
+     *       See {link #setShowErrorTips(boolean)}.
      *       Since 2.3.21.
      *       <br>String value: {@code "true"}, {@code "false"}, {@code "y"},  etc.
      *       
      *   <li><p>{@code api_builtin_enabled}:
-     *       See {@link #setAPIBuiltinEnabled(boolean)}.
+     *       See {link #setAPIBuiltinEnabled(boolean)}.
      *       Since 2.3.22.
      *       <br>String value: {@code "true"}, {@code "false"}, {@code "y"},  etc.
      *       
      * </ul>
      * 
-     * <p>{@link Configuration} (a subclass of {@link Configurable}) also understands these:</p>
+     * <p>{link Configuration} (a subclass of {link Configurable}) also understands these:</p>
      * <ul>
      *   <li><p>{@code "auto_escaping"}:
-     *       See {@link Configuration#setAutoEscapingPolicy(int)}
+     *       See {link Configuration#setAutoEscapingPolicy(int)}
      *       <br>String value: {@code "enable_if_default"} or {@code "enableIfDefault"} for
-     *       {@link Configuration#ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY},
+     *       {link Configuration#ENABLE_IF_DEFAULT_AUTO_ESCAPING_POLICY},
      *       {@code "enable_if_supported"} or {@code "enableIfSupported"} for
-     *       {@link Configuration#ENABLE_IF_SUPPORTED_AUTO_ESCAPING_POLICY}
-     *       {@code "disable"} for {@link Configuration#DISABLE_AUTO_ESCAPING_POLICY}.
+     *       {link Configuration#ENABLE_IF_SUPPORTED_AUTO_ESCAPING_POLICY}
+     *       {@code "disable"} for {link Configuration#DISABLE_AUTO_ESCAPING_POLICY}.
      *       
      *   <li><p>{@code "default_encoding"}:
-     *       See {@link Configuration#setDefaultEncoding(String)}; since 2.3.26 also accepts value "JVM default"
+     *       See {link Configuration#setDefaultEncoding(String)}; since 2.3.26 also accepts value "JVM default"
      *       (not case sensitive) to set the Java environment default value.
      *       <br>As the default value is the system default, which can change
      *       from one server to another, <b>you should always set this!</b>
      *       
      *   <li><p>{@code "localized_lookup"}:
-     *       See {@link Configuration#setLocalizedLookup}.
+     *       See {link Configuration#setLocalizedLookup}.
      *       <br>String value: {@code "true"}, {@code "false"} (also the equivalents: {@code "yes"}, {@code "no"},
      *       {@code "t"}, {@code "f"}, {@code "y"}, {@code "n"}).
      *       Case insensitive.
      *       
      *   <li><p>{@code "output_format"}:
-     *       See {@link Configuration#setOutputFormat(OutputFormat)}.
+     *       See {link Configuration#setOutputFormat(OutputFormat)}.
      *       <br>String value: {@code "default"} (case insensitive) for the default, or an
-     *       <a href="#fm_obe">object builder expression</a> that gives an {@link OutputFormat}, for example
+     *       <a href="#fm_obe">object builder expression</a> that gives an {link OutputFormat}, for example
      *       {@code HTMLOutputFormat} or {@code XMLOutputFormat}.
      *       
      *   <li><p>{@code "registered_custom_output_formats"}:
-     *       See {@link Configuration#setRegisteredCustomOutputFormats(Collection)}.
-     *       <br>String value: an <a href="#fm_obe">object builder expression</a> that gives a {@link List} of
-     *       {@link OutputFormat}-s.
+     *       See {link Configuration#setRegisteredCustomOutputFormats(Collection)}.
+     *       <br>String value: an <a href="#fm_obe">object builder expression</a> that gives a {link List} of
+     *       {link OutputFormat}-s.
      *       Example: {@code [com.example.MyOutputFormat(), com.example.MyOtherOutputFormat()]}
      *       
      *   <li><p>{@code "strict_syntax"}:
-     *       See {@link Configuration#setStrictSyntaxMode}. Deprecated.
+     *       See {link Configuration#setStrictSyntaxMode}. Deprecated.
      *       <br>String value: {@code "true"}, {@code "false"}, {@code yes}, etc.
      *       
      *   <li><p>{@code "whitespace_stripping"}:
-     *       See {@link Configuration#setWhitespaceStripping}.
+     *       See {link Configuration#setWhitespaceStripping}.
      *       <br>String value: {@code "true"}, {@code "false"}, {@code yes}, etc.
      *       
      *   <li><p>{@code "cache_storage"}:
-     *       See {@link Configuration#setCacheStorage}.
+     *       See {link Configuration#setCacheStorage}.
      *       <br>String value: If the value contains dot, then it's interpreted as an <a href="#fm_obe">object builder
      *       expression</a>.
      *       If the value does not contain dot,
-     *       then a {@link freemarker.cache.MruCacheStorage} will be used with the
+     *       then a {link freemarker.cache.MruCacheStorage} will be used with the
      *       maximum strong and soft sizes specified with the setting value. Examples
      *       of valid setting values:
      *       
@@ -2356,14 +2336,14 @@ public class Configurable {
      *       
      *   <li><p>{@code "template_update_delay"}:
      *       Template update delay in <b>seconds</b> (not in milliseconds) if no unit is specified; see
-     *       {@link Configuration#setTemplateUpdateDelayMilliseconds(long)} for more.
+     *       {link Configuration#setTemplateUpdateDelayMilliseconds(long)} for more.
      *       <br>String value: Valid positive integer, optionally followed by a time unit (recommended). The default
      *       unit is seconds. It's strongly recommended to specify the unit for clarity, like in "500 ms" or "30 s".
      *       Supported units are: "s" (seconds), "ms" (milliseconds), "m" (minutes), "h" (hours). The whitespace between
      *       the unit and the number is optional. Units are only supported since 2.3.23.
      *       
      *   <li><p>{@code "tag_syntax"}:
-     *       See {@link Configuration#setTagSyntax(int)}.
+     *       See {link Configuration#setTagSyntax(int)}.
      *       <br>String value: Must be one of
      *       {@code "auto_detect"}, {@code "angle_bracket"}, and {@code "square_bracket"} (like {@code [#if x]}).
      *       <br>Note that setting the {@code "tagSyntax"} to {@code "square_bracket"} does <em>not</em> change
@@ -2371,7 +2351,7 @@ public class Configurable {
      *       {@code "interpolation_syntax"} setting for that, not this setting.
      *        
      *   <li><p>{@code "interpolation_syntax"} (since 2.3.28):
-     *       See {@link Configuration#setInterpolationSyntax(int)}.
+     *       See {link Configuration#setInterpolationSyntax(int)}.
      *       <br>String value: Must be one of
      *       {@code "legacy"}, {@code "dollar"}, and {@code "square_bracket"} (like {@code [=x]}). 
      *       <br>Note that setting the {@code "interpolation_syntax"} to {@code "square_bracket"} does <em>not</em>
@@ -2379,43 +2359,43 @@ public class Configurable {
      *       {@code "tag_syntax"} setting for that, not this setting.       
      *       
      *   <li><p>{@code "naming_convention"}:
-     *       See {@link Configuration#setNamingConvention(int)}.
+     *       See {link Configuration#setNamingConvention(int)}.
      *       <br>String value: Must be one of
      *       {@code "auto_detect"}, {@code "legacy"}, and {@code "camel_case"}.
      *       
      *   <li><p>{@code "incompatible_improvements"}:
-     *       See {@link Configuration#setIncompatibleImprovements(Version)}.
+     *       See {link Configuration#setIncompatibleImprovements(Version)}.
      *       <br>String value: version number like {@code 2.3.20}.
      *       
      *   <li><p>{@code "incompatible_enhancements"}:
-     *       See: {@link Configuration#setIncompatibleEnhancements(String)}.
+     *       See: {link Configuration#setIncompatibleEnhancements(String)}.
      *       This setting name is deprecated, use {@code "incompatible_improvements"} instead.
      *        
      *   <li><p>{@code "recognize_standard_file_extensions"}:
-     *       See {@link Configuration#setRecognizeStandardFileExtensions(boolean)}.
+     *       See {link Configuration#setRecognizeStandardFileExtensions(boolean)}.
      *       <br>String value: {@code "default"} (case insensitive) for the default, or {@code "true"}, {@code "false"},
      *       {@code yes}, etc.
      *       
      *   <li><p>{@code "template_configurations"}:
-     *       See: {@link Configuration#setTemplateConfigurations(freemarker.cache.TemplateConfigurationFactory)}.
+     *       See: {link Configuration#setTemplateConfigurations(freemarker.cache.TemplateConfigurationFactory)}.
      *       <br>String value: Interpreted as an <a href="#fm_obe">object builder expression</a>,
      *       can be {@code null}.
      *       
      *   <li><p>{@code "template_loader"}:
-     *       See: {@link Configuration#setTemplateLoader(TemplateLoader)}.
+     *       See: {link Configuration#setTemplateLoader(TemplateLoader)}.
      *       <br>String value: {@code "default"} (case insensitive) for the default, or else interpreted as an
      *       <a href="#fm_obe">object builder expression</a>. {@code "null"} is also allowed since 2.3.26.
      *       
      *   <li><p>{@code "template_lookup_strategy"}:
-     *       See: {@link Configuration#setTemplateLookupStrategy(freemarker.cache.TemplateLookupStrategy)}.
+     *       See: {link Configuration#setTemplateLookupStrategy(freemarker.cache.TemplateLookupStrategy)}.
      *       <br>String value: {@code "default"} (case insensitive) for the default, or else interpreted as an
      *       <a href="#fm_obe">object builder expression</a>.
      *       
      *   <li><p>{@code "template_name_format"}:
-     *       See: {@link Configuration#setTemplateNameFormat(freemarker.cache.TemplateNameFormat)}.
+     *       See: {link Configuration#setTemplateNameFormat(freemarker.cache.TemplateNameFormat)}.
      *       <br>String value: {@code "default"} (case insensitive) for the default, {@code "default_2_3_0"}
-     *       for {@link freemarker.cache.TemplateNameFormat#DEFAULT_2_3_0}, {@code "default_2_4_0"} for
-     *       {@link freemarker.cache.TemplateNameFormat#DEFAULT_2_4_0}.
+     *       for {link freemarker.cache.TemplateNameFormat#DEFAULT_2_3_0}, {@code "default_2_4_0"} for
+     *       {link freemarker.cache.TemplateNameFormat#DEFAULT_2_4_0}.
      * </ul>
      * 
      * <p><a name="fm_obe"></a>Regarding <em>object builder expressions</em> (used by the setting values where it was
@@ -2474,7 +2454,7 @@ public class Configurable {
      *            The list items can be any kind of expression, like even object builder expressions.
      *        <li>A map literal (since 2.3.24) with FTL-like syntax, for example <code>{ 'foo': 2, 'bar': true }</code>.
      *            The keys and values can be any kind of expression, like even object builder expressions.
-     *            The resulting Java object will be a {@link Map} that keeps the item order ({@link LinkedHashMap} as
+     *            The resulting Java object will be a {link Map} that keeps the item order ({link LinkedHashMap} as
      *            of this writing).
      *        <li>A reference to a public static filed, like {@code Configuration.AUTO_DETECT_TAG_SYNTAX} or
      *            {@code com.example.MyClass.MY_CONSTANT}.
@@ -2493,15 +2473,15 @@ public class Configurable {
      *   </li>
      *   <li>
      *     <p>The following classes can be referred to with simple (unqualified) name instead of fully qualified name:
-     *     {@link DefaultObjectWrapper}, {@link BeansWrapper}, {@link SimpleObjectWrapper}, {@link Locale},
-     *     {@link TemplateConfiguration}, {@link PathGlobMatcher}, {@link FileNameGlobMatcher}, {@link PathRegexMatcher},
-     *     {@link AndMatcher}, {@link OrMatcher}, {@link NotMatcher}, {@link ConditionalTemplateConfigurationFactory},
-     *     {@link MergingTemplateConfigurationFactory}, {@link FirstMatchTemplateConfigurationFactory},
-     *     {@link HTMLOutputFormat}, {@link XMLOutputFormat}, {@link RTFOutputFormat}, {@link PlainTextOutputFormat},
-     *     {@link UndefinedOutputFormat}, {@link Configuration}.
+     *     {link DefaultObjectWrapper}, {link BeansWrapper}, {link SimpleObjectWrapper}, {link Locale},
+     *     {link TemplateConfiguration}, {link PathGlobMatcher}, {link FileNameGlobMatcher}, {link PathRegexMatcher},
+     *     {link AndMatcher}, {link OrMatcher}, {link NotMatcher}, {link ConditionalTemplateConfigurationFactory},
+     *     {link MergingTemplateConfigurationFactory}, {link FirstMatchTemplateConfigurationFactory},
+     *     {link HTMLOutputFormat}, {link XMLOutputFormat}, {link RTFOutputFormat}, {link PlainTextOutputFormat},
+     *     {link UndefinedOutputFormat}, {link Configuration}.
      *   </li>
      *   <li>
-     *     <p>{@link TimeZone} objects can be created like {@code TimeZone("UTC")}, despite that there's no a such
+     *     <p>{link TimeZone} objects can be created like {@code TimeZone("UTC")}, despite that there's no a such
      *     constructor (since 2.3.24).
      *   </li>
      *   <li>
@@ -2562,7 +2542,7 @@ public class Configurable {
                 if (Character.isDigit(firstChar) || firstChar == '+' || firstChar == '-') {
                     setClassicCompatibleAsInt(Integer.parseInt(value));
                 } else {
-                    setClassicCompatible(value != null ? StringUtil.getYesNo(value) : false);
+                    setClassicCompatible(value != null && StringUtil.getYesNo(value));
                 }
             } else if (TEMPLATE_EXCEPTION_HANDLER_KEY_SNAKE_CASE.equals(name)
                     || TEMPLATE_EXCEPTION_HANDLER_KEY_CAMEL_CASE.equals(name)) {
@@ -2713,7 +2693,7 @@ public class Configurable {
                     || WRAP_UNCHECKED_EXCEPTIONS_KEY_CAMEL_CASE.equals(name)) {
                 setWrapUncheckedExceptions(StringUtil.getYesNo(value));
             } else if (LAZY_AUTO_IMPORTS_KEY_SNAKE_CASE.equals(name) || LAZY_AUTO_IMPORTS_KEY_CAMEL_CASE.equals(name)) {
-                setLazyAutoImports(value.equals(NULL) ? null : Boolean.valueOf(StringUtil.getYesNo(value)));
+                setLazyAutoImports(value.equals(NULL) ? null : StringUtil.getYesNo(value));
             } else if (LAZY_IMPORTS_KEY_SNAKE_CASE.equals(name) || LAZY_IMPORTS_KEY_CAMEL_CASE.equals(name)) {
                 setLazyImports(StringUtil.getYesNo(value));
             } else if (AUTO_INCLUDE_KEY_SNAKE_CASE.equals(name)
@@ -2733,13 +2713,13 @@ public class Configurable {
     }
     
     /**
-     * Returns the valid setting names that aren't {@link Configuration}-only.
+     * Returns the valid setting names that aren't {link Configuration}-only.
      *
      * @param camelCase
      *            If we want the setting names with camel case naming convention, or with snake case (legacy) naming
      *            convention.
      * 
-     * @see Configuration#getSettingNames(boolean)
+     * see Configuration#getSettingNames(boolean)
      * 
      * @since 2.3.24
      */
@@ -2758,7 +2738,7 @@ public class Configurable {
     }
 
     /**
-     * @deprecated Set this on the {@link ObjectWrapper} itself. 
+     * @deprecated Set this on the {link ObjectWrapper} itself.
      */
     @Deprecated
     public void setStrictBeanModels(boolean strict) {
@@ -2775,7 +2755,7 @@ public class Configurable {
      * constants, or a custom key.
      *
      * @deprecated It's not possible in general to convert setting values to string,
-     *     and thus it's impossible to ensure that {@link #setSetting(String, String)} will work with
+     *     and thus it's impossible to ensure that {link #setSetting(String, String)} will work with
      *     the returned value correctly.
      */
     @Deprecated
@@ -2792,7 +2772,7 @@ public class Configurable {
      * @deprecated This method was always defective, and certainly it always
      *     will be. Don't use it. (Simply, it's hardly possible in general to
      *     convert setting values to text in a way that ensures that
-     *     {@link #setSettings(Properties)} will work with them correctly.)
+     *     {link #setSettings(Properties)} will work with them correctly.)
      */
     @Deprecated
     public Map getSettings() {
@@ -2843,7 +2823,7 @@ public class Configurable {
             super(env,
                     "Unknown FreeMarker configuration setting: ", new _DelayedJQuote(name),
                     correctedName == null
-                            ? (Object) "" : new Object[] { ". You may meant: ", new _DelayedJQuote(correctedName) });
+                            ? "" : new Object[] { ". You may meant: ", new _DelayedJQuote(correctedName) });
         }
         
     }
@@ -2901,7 +2881,7 @@ public class Configurable {
     /**
      * Internal entry point for setting unnamed custom attributes.
      * 
-     * @see CustomAttribute
+     * see CustomAttribute
      */
     void setCustomAttribute(Object key, Object value) {
         synchronized (customAttributes) {
@@ -2912,7 +2892,7 @@ public class Configurable {
     /**
      * Internal entry point for getting unnamed custom attributes.
      * 
-     * @see CustomAttribute
+     * see CustomAttribute
      */
     Object getCustomAttribute(Object key, CustomAttribute attr) {
         synchronized (customAttributes) {
@@ -2931,9 +2911,9 @@ public class Configurable {
     
     /**
      * For internal usage only, copies the custom attributes set directly on this objects into another
-     * {@link Configurable}. The target {@link Configurable} is assumed to be not seen be other thread than the current
-     * one yet. (That is, the operation is not synchronized on the target {@link Configurable}, only on the source 
-     * {@link Configurable})
+     * {link Configurable}. The target {link Configurable} is assumed to be not seen be other thread than the current
+     * one yet. (That is, the operation is not synchronized on the target {link Configurable}, only on the source
+     * {link Configurable})
      * 
      * @since 2.3.24
      */
@@ -2959,7 +2939,7 @@ public class Configurable {
      * @param value the value of the custom attribute. You can set the value to
      * null, however note that there is a semantic difference between an
      * attribute set to null and an attribute that is not present, see
-     * {@link #removeCustomAttribute(String)}.
+     * {link #removeCustomAttribute(String)}.
      */
     public void setCustomAttribute(String name, Object value) {
         synchronized (customAttributes) {
@@ -2990,7 +2970,7 @@ public class Configurable {
     /**
      * Removes a named custom attribute for this configurable. Note that this
      * is different than setting the custom attribute value to null. If you
-     * set the value to null, {@link #getCustomAttribute(String)} will return
+     * set the value to null, {link #getCustomAttribute(String)} will return
      * null, while if you remove the attribute, it will return the value of
      * the attribute in the parent configurable (if there is a parent 
      * configurable, that is). 

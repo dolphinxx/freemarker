@@ -48,7 +48,7 @@ public final class AliasTemplateNumberFormatFactory extends TemplateNumberFormat
      *            The format string this format will be an alias to if there's no locale-specific format string for the
      *            requested locale in {@code localizedTargetFormatStrings}
      * @param localizedTargetFormatStrings
-     *            Maps {@link Locale}-s to format strings. If the desired locale doesn't occur in the map, a less
+     *            Maps {link Locale}-s to format strings. If the desired locale doesn't occur in the map, a less
      *            specific locale is tried, repeatedly until only the language part remains. For example, if locale is
      *            {@code new Locale("en", "US", "Linux")}, then these keys will be attempted untol a match is found, in
      *            this order: {@code new Locale("en", "US", "Linux")}, {@code new Locale("en", "US")},

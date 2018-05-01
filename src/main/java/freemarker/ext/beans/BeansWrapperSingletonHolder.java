@@ -23,9 +23,9 @@ package freemarker.ext.beans;
 class BeansWrapperSingletonHolder {
     
     /**
-     * Used in {@link BeansWrapper#getDefaultInstance()}.
+     * Used in {link BeansWrapper#getDefaultInstance()}.
      * 
-     * @deprecated Use {@link BeansWrapperBuilder#build()} to get or create singletons.
+     * @deprecated Use {link BeansWrapperBuilder#build()} to get or create singletons.
      */
     @Deprecated
     static final BeansWrapper INSTANCE = new BeansWrapper();

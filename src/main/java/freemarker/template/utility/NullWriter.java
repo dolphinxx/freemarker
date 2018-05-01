@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * A {@link Writer} that simply drops what it gets.
+ * A {link Writer} that simply drops what it gets.
  * 
  * @since 2.3.20
  */
@@ -31,58 +31,58 @@ public final class NullWriter extends Writer {
     
     public static final NullWriter INSTANCE = new NullWriter();
     
-    /** Can't be instantiated; use {@link #INSTANCE}. */
+    /** Can't be instantiated; use {link #INSTANCE}. */
     private NullWriter() { }
     
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException {
+    public void write(char[] cbuf, int off, int len) {
         // Do nothing
     }
 
     @Override
-    public void flush() throws IOException {
+    public void flush() {
         // Do nothing
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         // Do nothing
     }
 
     @Override
-    public void write(int c) throws IOException {
+    public void write(int c) {
         // Do nothing
     }
 
     @Override
-    public void write(char[] cbuf) throws IOException {
+    public void write(char[] cbuf) {
         // Do nothing
     }
 
     @Override
-    public void write(String str) throws IOException {
+    public void write(String str) {
         // Do nothing
     }
 
     @Override
-    public void write(String str, int off, int len) throws IOException {
+    public void write(String str, int off, int len) {
         // Do nothing
     }
 
     @Override
-    public Writer append(CharSequence csq) throws IOException {
-        // Do nothing
-        return this;
-    }
-
-    @Override
-    public Writer append(CharSequence csq, int start, int end) throws IOException {
+    public Writer append(CharSequence csq) {
         // Do nothing
         return this;
     }
 
     @Override
-    public Writer append(char c) throws IOException {
+    public Writer append(CharSequence csq, int start, int end) {
+        // Do nothing
+        return this;
+    }
+
+    @Override
+    public Writer append(char c) {
         // Do nothing
         return this;
     }

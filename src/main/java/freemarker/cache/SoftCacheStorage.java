@@ -31,12 +31,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * Soft cache storage is a cache storage that uses {@link SoftReference} objects to hold the objects it was passed,
+ * Soft cache storage is a cache storage that uses {link SoftReference} objects to hold the objects it was passed,
  * therefore allows the garbage collector to purge the cache when it determines that it wants to free up memory. This
  * class is thread-safe to the extent that its underlying map is. The parameterless constructor uses a thread-safe map
  * since 2.3.24 or Java 5.
  *
- * @see freemarker.template.Configuration#setCacheStorage(CacheStorage)
+ * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
  */
 public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWithGetSize {
     private static final Method atomicRemove = getAtomicRemoveMethod();
@@ -46,7 +46,7 @@ public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
     private final boolean concurrent;
     
     /**
-     * Creates an instance that uses a {@link ConcurrentMap} internally.
+     * Creates an instance that uses a {link ConcurrentMap} internally.
      */
     public SoftCacheStorage() {
         this(new ConcurrentHashMap());
@@ -104,7 +104,7 @@ public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
             Object key = ref.getKey();
             if (concurrent) {
                 try {
-                    atomicRemove.invoke(map, new Object[] { key, ref });
+                    atomicRemove.invoke(map, key, ref);
                 } catch (IllegalAccessException e) {
                     throw new UndeclaredThrowableException(e);
                 } catch (InvocationTargetException e) {
@@ -131,7 +131,7 @@ public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
     
     private static Method getAtomicRemoveMethod() {
         try {
-            return Class.forName("java.util.concurrent.ConcurrentMap").getMethod("remove", new Class[] { Object.class, Object.class });
+            return Class.forName("java.util.concurrent.ConcurrentMap").getMethod("remove", Object.class, Object.class);
         } catch (ClassNotFoundException e) {
             return null;
         } catch (NoSuchMethodException e) {

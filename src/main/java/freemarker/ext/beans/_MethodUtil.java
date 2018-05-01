@@ -62,7 +62,7 @@ public final class _MethodUtil {
      *                  This ignores primitive VS boxed mismatches, except that a boxed class is never seen as
      *                  convertible to a primitive class.</li>
      *           <li>4: One class is {@code instanceof} of the other, but they aren't identical.
-     *               But unlike in Java, primitive numerical types are {@code instanceof} {@link Number} here.</li>
+     *               But unlike in Java, primitive numerical types are {@code instanceof} {link Number} here.</li>
      *         </ul> 
      */
     public static int isMoreOrSameSpecificParameterType(final Class specific, final Class generic, boolean bugfixed,
@@ -125,14 +125,10 @@ public final class _MethodUtil {
            (source == Long.TYPE || source == Integer.TYPE || 
             source == Short.TYPE || source == Byte.TYPE)) {
             return true;
-        } else if (target == Double.TYPE && 
-           (source == Float.TYPE || source == Long.TYPE || 
-            source == Integer.TYPE || source == Short.TYPE || 
-            source == Byte.TYPE)) {
-            return true; 
-        } else {
-            return false;
-        }
+        } else return target == Double.TYPE &&
+                (source == Float.TYPE || source == Long.TYPE ||
+                        source == Integer.TYPE || source == Short.TYPE ||
+                        source == Byte.TYPE);
     }
 
     private static boolean isWideningBoxedNumberConversion(final Class source, final Class target) {
@@ -149,14 +145,10 @@ public final class _MethodUtil {
            (source == Long.class || source == Integer.class || 
             source == Short.class || source == Byte.class)) {
             return true;
-        } else if (target == Double.class && 
-           (source == Float.class || source == Long.class || 
-            source == Integer.class || source == Short.class || 
-            source == Byte.class)) {
-            return true; 
-        } else {
-            return false;
-        }
+        } else return target == Double.class &&
+                (source == Float.class || source == Long.class ||
+                        source == Integer.class || source == Short.class ||
+                        source == Byte.class);
     }
 
     /**
@@ -229,7 +221,7 @@ public final class _MethodUtil {
             if (i != 0) sb.append(", ");
             String paramTypeDecl = ClassUtil.getShortClassName(paramTypes[i]);
             if (i == paramTypes.length - 1 && paramTypeDecl.endsWith("[]") && _MethodUtil.isVarargs(member)) {
-                sb.append(paramTypeDecl.substring(0, paramTypeDecl.length() - 2));
+                sb.append(paramTypeDecl, 0, paramTypeDecl.length() - 2);
                 sb.append("...");
             } else {
                 sb.append(paramTypeDecl);
@@ -285,7 +277,7 @@ public final class _MethodUtil {
         return new _TemplateModelException(e,
                 invocationErrorMessageStart(member, isConstructor),
                 " threw an exception",
-                isStatic || isConstructor ? (Object) "" : new Object[] {
+                isStatic || isConstructor ? "" : new Object[] {
                     " when invoked on ", parentObject.getClass(), " object ", new _DelayedJQuote(parentObject) 
                 },
                 "; see cause exception in the Java stack trace.");

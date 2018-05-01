@@ -22,14 +22,14 @@ package freemarker.template.utility;
 import freemarker.core.Environment;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.AdapterTemplateModel;
+import freemarker.template.KeyValuePair;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateHashModelEx2;
-import freemarker.template.TemplateHashModelEx2.KeyValuePair;
-import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
@@ -42,33 +42,33 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Utility methods for unwrapping {@link TemplateModel}-s.
+ * Utility methods for unwrapping {link TemplateModel}-s.
  */
 public class DeepUnwrap {
     private static final Class OBJECT_CLASS = Object.class;
     /**
-     * Unwraps {@link TemplateModel}-s recursively.
-     * The converting of the {@link TemplateModel} object happens with the following rules:
+     * Unwraps {link TemplateModel}-s recursively.
+     * The converting of the {link TemplateModel} object happens with the following rules:
      * <ol>
-     *   <li>If the object implements {@link AdapterTemplateModel}, then the result
-     *       of {@link AdapterTemplateModel#getAdaptedObject(Class)} for <tt>Object.class</tt> is returned.
-     *   <li>If the object implements {@link WrapperTemplateModel}, then the result
-     *       of {@link WrapperTemplateModel#getWrappedObject()} is returned.
+     *   <li>If the object implements {link AdapterTemplateModel}, then the result
+     *       of {link AdapterTemplateModel#getAdaptedObject(Class)} for <tt>Object.class</tt> is returned.
+     *   <li>If the object implements {link WrapperTemplateModel}, then the result
+     *       of {link WrapperTemplateModel#getWrappedObject()} is returned.
      *   <li>If the object is identical to the null model of the current object 
      *       wrapper, null is returned. 
-     *   <li>If the object implements {@link TemplateScalarModel}, then the result
-     *       of {@link TemplateScalarModel#getAsString()} is returned.
-     *   <li>If the object implements {@link TemplateNumberModel}, then the result
-     *       of {@link TemplateNumberModel#getAsNumber()} is returned.
-     *   <li>If the object implements {@link TemplateDateModel}, then the result
-     *       of {@link TemplateDateModel#getAsDate()} is returned.
-     *   <li>If the object implements {@link TemplateBooleanModel}, then the result
-     *       of {@link TemplateBooleanModel#getAsBoolean()} is returned.
-     *   <li>If the object implements {@link TemplateSequenceModel} or
-     *       {@link TemplateCollectionModel}, then a <code>java.util.ArrayList</code> is
+     *   <li>If the object implements {link TemplateScalarModel}, then the result
+     *       of {link TemplateScalarModel#getAsString()} is returned.
+     *   <li>If the object implements {link TemplateNumberModel}, then the result
+     *       of {link TemplateNumberModel#getAsNumber()} is returned.
+     *   <li>If the object implements {link TemplateDateModel}, then the result
+     *       of {link TemplateDateModel#getAsDate()} is returned.
+     *   <li>If the object implements {link TemplateBooleanModel}, then the result
+     *       of {link TemplateBooleanModel#getAsBoolean()} is returned.
+     *   <li>If the object implements {link TemplateSequenceModel} or
+     *       {link TemplateCollectionModel}, then a <code>java.util.ArrayList</code> is
      *       constructed from the subvariables, and each subvariable is unwrapped with
      *       the rules described here (recursive unwrapping).
-     *   <li>If the object implements {@link TemplateHashModelEx}, then a
+     *   <li>If the object implements {link TemplateHashModelEx}, then a
      *       <code>java.util.HashMap</code> is constructed from the subvariables, and each
      *       subvariable is unwrapped with the rules described here (recursive unwrapping).
      *   <li>Throw a <code>TemplateModelException</code>, because it doesn't know how to
@@ -80,7 +80,7 @@ public class DeepUnwrap {
     }
 
     /**
-     * Same as {@link #unwrap(TemplateModel)}, but it doesn't throw exception 
+     * Same as {link #unwrap(TemplateModel)}, but it doesn't throw exception
      * if it doesn't know how to unwrap the model, but rather returns it as-is.
      * @since 2.3.14
      */
@@ -90,7 +90,7 @@ public class DeepUnwrap {
     
     /**
      * @deprecated the name of this method is mistyped. Use 
-     * {@link #permissiveUnwrap(TemplateModel)} instead.
+     * {link #permissiveUnwrap(TemplateModel)} instead.
      */
     @Deprecated
     public static Object premissiveUnwrap(TemplateModel model) throws TemplateModelException {
@@ -129,7 +129,7 @@ public class DeepUnwrap {
             return ((TemplateDateModel) model).getAsDate();
         }
         if (model instanceof TemplateBooleanModel) {
-            return Boolean.valueOf(((TemplateBooleanModel) model).getAsBoolean());
+            return ((TemplateBooleanModel) model).getAsBoolean();
         }
         if (model instanceof TemplateSequenceModel) {
             TemplateSequenceModel seq = (TemplateSequenceModel) model;

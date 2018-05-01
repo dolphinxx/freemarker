@@ -19,8 +19,6 @@
 
 package freemarker.core;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import freemarker.ext.dom._ExtDomApi;
 import freemarker.template.SimpleScalar;
 import freemarker.template.SimpleSequence;
 import freemarker.template.TemplateMethodModel;
@@ -118,8 +116,6 @@ class BuiltInsForNodes {
 
     static class AncestorSequence extends SimpleSequence implements TemplateMethodModel {
         
-        @SuppressFBWarnings(value="SE_BAD_FIELD",
-                justification="Can't make this Serializable, and not extneding SimpleSequence would be non-BC.")
         private Environment env;
         
         AncestorSequence(Environment env) {
@@ -130,25 +126,26 @@ class BuiltInsForNodes {
             if (names == null || names.isEmpty()) {
                 return this;
             }
-            AncestorSequence result = new AncestorSequence(env);
-            for (int i = 0; i < size(); i++) {
-                TemplateNodeModel tnm = (TemplateNodeModel) get(i);
-                String nodeName = tnm.getNodeName();
-                String nsURI = tnm.getNodeNamespace();
-                if (nsURI == null) {
-                    if (names.contains(nodeName)) {
-                        result.add(tnm);
-                    }
-                } else {
-                    for (int j = 0; j < names.size(); j++) {
-                        if (_ExtDomApi.matchesName((String) names.get(j), nodeName, nsURI, env)) {
-                            result.add(tnm);
-                            break;
-                        }
-                    }
-                }
-            }
-            return result;
+//            AncestorSequence result = new AncestorSequence(env);
+//            for (int i = 0; i < size(); i++) {
+//                TemplateNodeModel tnm = (TemplateNodeModel) get(i);
+//                String nodeName = tnm.getNodeName();
+//                String nsURI = tnm.getNodeNamespace();
+//                if (nsURI == null) {
+//                    if (names.contains(nodeName)) {
+//                        result.add(tnm);
+//                    }
+//                } else {
+//                    for (int j = 0; j < names.size(); j++) {
+//                        if (_ExtDomApi.matchesName((String) names.get(j), nodeName, nsURI, env)) {
+//                            result.add(tnm);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//            return result;
+            throw new UnsupportedOperationException();
         }
     }    
 }

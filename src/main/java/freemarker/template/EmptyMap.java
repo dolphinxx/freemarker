@@ -25,11 +25,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Read-only empty map. {@link #remove(Object)}, {@link #clear()} and
- * {@link #putAll(Map)} with an empty {@link Map} as parameter are supported
+ * Read-only empty map. {link #remove(Object)}, {link #clear()} and
+ * {link #putAll(Map)} with an empty {link Map} as parameter are supported
  * operations (and do nothing) since FreeMarker 2.3.20. 
  * 
- * @deprecated Use {@link Collections#EMPTY_MAP} on J2SE 1.3 or later.   
+ * @deprecated Use {link Collections#EMPTY_MAP} on J2SE 1.3 or later.
  */
 @Deprecated
 public class EmptyMap implements Map, Cloneable {

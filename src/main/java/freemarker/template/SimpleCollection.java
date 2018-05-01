@@ -24,18 +24,18 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * A simple implementation of {@link TemplateCollectionModel}.
+ * A simple implementation of {link TemplateCollectionModel}.
  * It's able to wrap <tt>java.util.Iterator</tt>-s and <tt>java.util.Collection</tt>-s.
  * If you wrap an <tt>Iterator</tt>, the variable can be &lt;#list&gt;-ed only once!
  *
- * <p>Consider using {@link SimpleSequence} instead of this class if you want to wrap <tt>Iterator</tt>s.
+ * <p>Consider using {link SimpleSequence} instead of this class if you want to wrap <tt>Iterator</tt>s.
  * <tt>SimpleSequence</tt> will read all elements of the <tt>Iterator</tt>, and store them in a <tt>List</tt>
  * (this may cause too high resource consumption in some applications), so you can list the variable
  * for unlimited times. Also, if you want to wrap <tt>Collection</tt>s, and then list the resulting
  * variable for many times, <tt>SimpleSequence</tt> may gives better performance, as the
  * wrapping of non-<tt>TemplateModel</tt> objects happens only once.
  *
- * <p>This class is thread-safe. The returned {@link TemplateModelIterator}-s
+ * <p>This class is thread-safe. The returned {link TemplateModelIterator}-s
  * are <em>not</em> thread-safe.
  */
 public class SimpleCollection extends WrappingTemplateModel
@@ -46,7 +46,7 @@ implements TemplateCollectionModel, Serializable {
     private final Iterable iterable;
 
     /**
-     * @deprecated Use {@link #SimpleCollection(Iterator, ObjectWrapper)}
+     * @deprecated Use {link #SimpleCollection(Iterator, ObjectWrapper)}
      */
     @Deprecated
     public SimpleCollection(Iterator iterator) {
@@ -55,7 +55,7 @@ implements TemplateCollectionModel, Serializable {
     }
 
     /**
-     * @deprecated Use {@link #SimpleCollection(Iterable, ObjectWrapper)} instead.
+     * @deprecated Use {link #SimpleCollection(Iterable, ObjectWrapper)} instead.
      */
     @Deprecated
     public SimpleCollection(Iterable iterable) {
@@ -64,9 +64,9 @@ implements TemplateCollectionModel, Serializable {
     }
 
     /**
-     * Same as {@link SimpleCollection#SimpleCollection(Iterable)}; kept for binary compatibility.
+     * Same as {link SimpleCollection#SimpleCollection(Iterable)}; kept for binary compatibility.
      * 
-     * @deprecated Use {@link #SimpleCollection(Iterable, ObjectWrapper)} instead.
+     * @deprecated Use {link #SimpleCollection(Iterable, ObjectWrapper)} instead.
      */
     @Deprecated
     public SimpleCollection(Collection collection) {
@@ -74,7 +74,7 @@ implements TemplateCollectionModel, Serializable {
     }
     
     /**
-     * Same as {@link SimpleCollection#SimpleCollection(Iterable, ObjectWrapper)}; kept for binary compatibility.
+     * Same as {link SimpleCollection#SimpleCollection(Iterable, ObjectWrapper)}; kept for binary compatibility.
      */
     public SimpleCollection(Collection collection, ObjectWrapper wrapper) {
         this((Iterable) collection, wrapper);
@@ -87,7 +87,7 @@ implements TemplateCollectionModel, Serializable {
     }
 
     /**
-     * @param iterable Note that this was a {@link Collection} before 2.3.27, not an {@link Iterable}
+     * @param iterable Note that this was a {link Collection} before 2.3.27, not an {link Iterable}
      */
     public SimpleCollection(Iterable iterable, ObjectWrapper wrapper) {
         super(wrapper);
@@ -111,10 +111,10 @@ implements TemplateCollectionModel, Serializable {
     }
     
     /**
-     * Wraps an {@link Iterator}; not thread-safe. The encapsulated {@link Iterator} may be accessible from multiple
-     * threads (as multiple {@link SimpleTemplateModelIterator} instance can wrap the same {@link Iterator} instance),
-     * but if the {@link Iterator} was marked in the constructor as shared, the first thread which uses the
-     * {@link Iterator} will monopolize that.
+     * Wraps an {link Iterator}; not thread-safe. The encapsulated {link Iterator} may be accessible from multiple
+     * threads (as multiple {link SimpleTemplateModelIterator} instance can wrap the same {link Iterator} instance),
+     * but if the {link Iterator} was marked in the constructor as shared, the first thread which uses the
+     * {link Iterator} will monopolize that.
      */
     private class SimpleTemplateModelIterator implements TemplateModelIterator {
         

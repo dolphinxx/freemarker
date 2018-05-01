@@ -24,7 +24,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 /**
- * An operator for arithmetic operations. Note that the + operator is in {@link AddConcatExpression}, because its
+ * An operator for arithmetic operations. Note that the + operator is in {link AddConcatExpression}, because its
  * overloaded (does string concatenation and more).
  */
 final class ArithmeticExpression extends Expression {
@@ -52,7 +52,7 @@ final class ArithmeticExpression extends Expression {
     }
 
     static TemplateModel _eval(Environment env, TemplateObject parent, Number lhoNumber, int operator, Number rhoNumber)
-            throws TemplateException, _MiscTemplateException {
+            throws TemplateException {
         ArithmeticEngine ae = EvalUtil.getArithmeticEngine(env, parent); 
         try {
             switch (operator) {
@@ -67,9 +67,9 @@ final class ArithmeticExpression extends Expression {
                 default:
                     if (parent instanceof Expression) {
                         throw new _MiscTemplateException((Expression) parent,
-                                "Unknown operation: ", Integer.valueOf(operator));
+                                "Unknown operation: ", operator);
                     } else {
-                        throw new _MiscTemplateException("Unknown operation: ", Integer.valueOf(operator));
+                        throw new _MiscTemplateException("Unknown operation: ", operator);
                     }
             }
         } catch (ArithmeticException e) {
@@ -117,7 +117,7 @@ final class ArithmeticExpression extends Expression {
         switch (idx) {
         case 0: return lho;
         case 1: return rho;
-        case 2: return Integer.valueOf(operator);
+        case 2: return operator;
         default: throw new IndexOutOfBoundsException();
         }
     }

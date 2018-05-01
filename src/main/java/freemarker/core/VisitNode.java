@@ -34,7 +34,8 @@ import java.io.IOException;
  */
 final class VisitNode extends TemplateElement {
     
-    Expression targetNode, namespaces;
+    Expression targetNode;
+    Expression namespaces;
     
     VisitNode(Expression targetNode, Expression namespaces) {
         this.targetNode = targetNode;

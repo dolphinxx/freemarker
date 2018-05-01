@@ -21,8 +21,6 @@ package freemarker.core;
 
 import freemarker.template.SimpleSequence;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateMethodModel;
-import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateSequenceModel;
 
@@ -57,8 +55,8 @@ final class ListLiteral extends Expression {
     }
 
     /**
-     * For {@link TemplateMethodModel} calls, but not for {@link TemplateMethodModelEx}-es, returns the list of
-     * arguments as {@link String}-s.
+     * For {link TemplateMethodModel} calls, but not for {link TemplateMethodModelEx}-es, returns the list of
+     * arguments as {link String}-s.
      */
     List/*<String>*/ getValueList(Environment env) throws TemplateException {
         int size = items.size();
@@ -81,7 +79,7 @@ final class ListLiteral extends Expression {
     }
 
     /**
-     * For {@link TemplateMethodModelEx} calls, returns the list of arguments as {@link TemplateModel}-s.
+     * For {link TemplateMethodModelEx} calls, returns the list of arguments as {link TemplateModel}-s.
      */
     List/*<TemplateModel>*/ getModelList(Environment env) throws TemplateException {
         int size = items.size();

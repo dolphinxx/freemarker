@@ -26,7 +26,7 @@ import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Deals with {@link TemplateNumberFormat}-s that just wrap a Java {@link NumberFormat}.
+ * Deals with {link TemplateNumberFormat}-s that just wrap a Java {link NumberFormat}.
  */
 class JavaTemplateNumberFormatFactory extends TemplateNumberFormatFactory {
     

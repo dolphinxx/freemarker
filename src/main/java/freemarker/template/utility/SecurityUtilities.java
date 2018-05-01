@@ -71,7 +71,7 @@ public class SecurityUtilities {
         } catch (AccessControlException e) {
             LOG.warn("Insufficient permissions to read system property " + 
                     StringUtil.jQuote(key) + ", using default value " + defValue);
-            return Integer.valueOf(defValue);
+            return defValue;
         }
     }
 }

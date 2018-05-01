@@ -18,11 +18,10 @@
  */
 package freemarker.ext.beans;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
- * Used instead of {@link PropertyDescriptor}, because the methods of that are synchronized.
+ * Used instead of {link PropertyDescriptor}, because the methods of that are synchronized.
  * 
  * @since 2.3.27
  */

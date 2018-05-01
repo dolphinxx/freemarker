@@ -19,7 +19,7 @@
 package freemarker.core;
 
 /**
- * Used when creating {@link TemplateDateFormat}-s and {@link TemplateNumberFormat}-s to indicate that the format
+ * Used when creating {link TemplateDateFormat}-s and {link TemplateNumberFormat}-s to indicate that the format
  * string (like the value of the {@code dateFormat} setting) is malformed.
  * 
  * @since 2.3.24

@@ -69,7 +69,7 @@ public final class _ParserConfigurationWithInheritedFormat implements ParserConf
     }
 
     public int getAutoEscapingPolicy() {
-        return autoEscapingPolicy != null ? autoEscapingPolicy.intValue() : wrappedPCfg.getAutoEscapingPolicy();
+        return autoEscapingPolicy != null ? autoEscapingPolicy : wrappedPCfg.getAutoEscapingPolicy();
     }
 
     public ArithmeticEngine getArithmeticEngine() {

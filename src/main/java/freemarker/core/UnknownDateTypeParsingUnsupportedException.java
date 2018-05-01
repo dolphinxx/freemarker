@@ -19,11 +19,9 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateDateModel;
-
 /**
- * Thrown when a string can't be parsed to {@link TemplateDateModel}, because the provided target type is
- * {@link TemplateDateModel#UNKNOWN}.
+ * Thrown when a string can't be parsed to {link TemplateDateModel}, because the provided target type is
+ * {link TemplateDateModel#UNKNOWN}.
  * 
  * @since 2.3.24
  */

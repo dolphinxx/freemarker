@@ -26,7 +26,7 @@ import freemarker.template.TemplateScalarModel;
 
 /**
  * An instruction that makes a single assignment, like [#local x=1].
- * This is also used as the child of {@link AssignmentInstruction}, if there are multiple assignments in the same tag,
+ * This is also used as the child of {link AssignmentInstruction}, if there are multiple assignments in the same tag,
  * like in [#local x=1 x=2].
  */
 final class Assignment extends TemplateElement {
@@ -47,7 +47,7 @@ final class Assignment extends TemplateElement {
     static final int LOCAL = 2;
     static final int GLOBAL = 3;
     
-    private static final Number ONE = Integer.valueOf(1);
+    private static final Number ONE = 1;
 
     /**
      * @param variableName the variable name to assign to.
@@ -255,7 +255,7 @@ final class Assignment extends TemplateElement {
         case 0: return variableName;
         case 1: return getOperatorTypeAsString();
         case 2: return valueExp;
-        case 3: return Integer.valueOf(scope);
+        case 3: return scope;
         case 4: return namespaceExp;
         default: throw new IndexOutOfBoundsException();
         }

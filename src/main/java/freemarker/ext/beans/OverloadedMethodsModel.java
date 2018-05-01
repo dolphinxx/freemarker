@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Wraps a set of same-name overloaded methods behind {@link freemarker.template.TemplateMethodModel} interface,
+ * Wraps a set of same-name overloaded methods behind {link freemarker.template.TemplateMethodModel} interface,
  * like if it was a single method, chooses among them behind the scenes on call-time based on the argument values.
  */
 public class OverloadedMethodsModel

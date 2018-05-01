@@ -23,11 +23,11 @@ import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.StringUtil;
 
 /**
- * Represents an output format. If you need auto-escaping, see its subclass, {@link MarkupOutputFormat}. 
+ * Represents an output format. If you need auto-escaping, see its subclass, {link MarkupOutputFormat}.
  * 
- * @see Configuration#setOutputFormat(OutputFormat)
- * @see Configuration#setRegisteredCustomOutputFormats(java.util.Collection)
- * @see MarkupOutputFormat
+ * see Configuration#setOutputFormat(OutputFormat)
+ * see Configuration#setRegisteredCustomOutputFormats(java.util.Collection)
+ * see MarkupOutputFormat
  * 
  * @since 2.3.24
  */
@@ -45,8 +45,8 @@ public abstract class OutputFormat {
     public abstract String getMimeType();
 
     /**
-     * Tells if this output format allows inserting {@link TemplateMarkupOutputModel}-s of another output formats into
-     * it. If {@code true}, the foreign {@link TemplateMarkupOutputModel} will be inserted into the output as is (like
+     * Tells if this output format allows inserting {link TemplateMarkupOutputModel}-s of another output formats into
+     * it. If {@code true}, the foreign {link TemplateMarkupOutputModel} will be inserted into the output as is (like
      * if the surrounding output format was the same). This is usually a bad idea to allow, as such an event could
      * indicate application bugs. If this method returns {@code false} (recommended), then FreeMarker will try to
      * assimilate the inserted value by converting its format to this format, which will currently (2.3.24) cause
@@ -55,13 +55,13 @@ public abstract class OutputFormat {
      * this, if there will be demand for that.)
      * 
      * <p>
-     * {@code true} value is used by {@link UndefinedOutputFormat}.
+     * {@code true} value is used by {link UndefinedOutputFormat}.
      */
     public abstract boolean isOutputFormatMixingAllowed();
 
     /**
      * Returns the short description of this format, to be used in error messages.
-     * Override {@link #toStringExtraProperties()} to customize this.
+     * Override {link #toStringExtraProperties()} to customize this.
      */
     @Override
     public final String toString() {
@@ -75,7 +75,7 @@ public abstract class OutputFormat {
     
     /**
      * Should be like {@code "foo=\"something\", bar=123"}; this will be inserted inside the parentheses in
-     * {@link #toString()}. Shouldn't return {@code null}; should return {@code ""} if there are no extra properties.  
+     * {link #toString()}. Shouldn't return {@code null}; should return {@code ""} if there are no extra properties.
      */
     protected String toStringExtraProperties() {
         return "";

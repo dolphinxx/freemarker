@@ -19,9 +19,7 @@
 
 package freemarker.template.utility;
 
-import freemarker.core.Environment;
 import freemarker.core.ParseException;
-import freemarker.ext.dom._ExtDomApi;
 import freemarker.template.Version;
 
 import java.io.IOException;
@@ -61,7 +59,7 @@ public class StringUtil {
      *  The last is not escaped as back then when this was written some user agents didn't understood 
      *  "&amp;apos;" nor "&amp;#39;".
      *    
-     *  @deprecated Use {@link #XHTMLEnc(String)} instead, because it escapes apostrophe-quote too.
+     *  @deprecated Use {link #XHTMLEnc(String)} instead, because it escapes apostrophe-quote too.
      */
     @Deprecated
     public static String HTMLEnc(String s) {
@@ -77,7 +75,7 @@ public class StringUtil {
     }
 
     /**
-     * Like {@link #XMLEnc(String)}, but writes the result into a {@link Writer}.
+     * Like {link #XMLEnc(String)}, but writes the result into a {link Writer}.
      * 
      * @since 2.3.24
      */
@@ -97,7 +95,7 @@ public class StringUtil {
     }
 
     /**
-     * Like {@link #XHTMLEnc(String)}, but writes the result into a {@link Writer}.
+     * Like {link #XHTMLEnc(String)}, but writes the result into a {link Writer}.
      * 
      * @since 2.3.24
      */
@@ -200,8 +198,7 @@ public class StringUtil {
     private static boolean maybeCDataEndGT(String s, int i) {
         if (i == 0) return true;
         if (s.charAt(i - 1) != ']') return false;
-        if (i == 1 || s.charAt(i - 2) == ']') return true;
-        return false;
+        return i == 1 || s.charAt(i - 2) == ']';
     }
 
     private static void XMLOrHTMLEnc(String s, char[] apos, Writer out) throws IOException {
@@ -313,7 +310,7 @@ public class StringUtil {
     }
     
     /**
-     * Like {@link #RTFEnc(String)}, but writes the result into a {@link Writer}.
+     * Like {link #RTFEnc(String)}, but writes the result into a {link Writer}.
      * 
      * @since 2.3.24
      */
@@ -346,7 +343,7 @@ public class StringUtil {
     }
     
     /**
-     * Like {@link #URLEnc(String, String)} but doesn't escape the slash character ({@code /}).
+     * Like {link #URLEnc(String, String)} but doesn't escape the slash character ({@code /}).
      * This can be used to encode a path only if you know that no folder or file name will contain {@code /}
      * character (not in the path, but in the name itself), which usually stands, as the commonly used OS-es don't
      * allow that.
@@ -373,7 +370,7 @@ public class StringUtil {
         }
 
         StringBuilder b = new StringBuilder(ln + ln / 3 + 2);
-        b.append(s.substring(0, i));
+        b.append(s, 0, i);
 
         int encStart = i;
         for (i++; i < ln; i++) {
@@ -461,7 +458,7 @@ public class StringUtil {
      * method doesn't know if the string literal is quoted with reuglar quotation marks or apostrophe quute, it will
      * escape both.
      * 
-     * @see #FTLStringLiteralEnc(String, char)
+     * see #FTLStringLiteralEnc(String, char)
      */
     public static String FTLStringLiteralEnc(String s) {
         return FTLStringLiteralEnc(s, (char) 0, false);
@@ -505,7 +502,7 @@ public class StringUtil {
                     if (addQuotation) {
                         buf.append(quotation);
                     }
-                    buf.append(s.substring(0, i));
+                    buf.append(s, 0, i);
                 }
                 if (escape == 1) {
                     // hex encoding for characters below 0x20
@@ -565,7 +562,7 @@ public class StringUtil {
         int bidx = 0;
         StringBuilder buf = new StringBuilder(lidx);
         do {
-            buf.append(s.substring(bidx, idx));
+            buf.append(s, bidx, idx);
             if (idx >= lidx) {
                 throw new ParseException("The last character of string literal is backslash", 0,0);
             }
@@ -664,8 +661,9 @@ public class StringUtil {
        Locale locale = Locale.getDefault();
        if (input.length() > 0 && input.charAt(0) == '"') input = input.substring(1, input.length() - 1);
        StringTokenizer st = new StringTokenizer(input, ",_ ");
-       String lang = "", country = "";
-       if (st.hasMoreTokens()) {
+       String lang = "";
+        String country = "";
+        if (st.hasMoreTokens()) {
           lang = st.nextToken();
        }
        if (st.hasMoreTokens()) {
@@ -713,7 +711,9 @@ public class StringUtil {
      * Splits a string at the specified character.
      */
     public static String[] split(String s, char c) {
-        int i, b, e;
+        int i;
+        int b;
+        int e;
         int cnt;
         String res[];
         int ln = s.length();
@@ -783,7 +783,7 @@ public class StringUtil {
     }
 
     /**
-     * Same as {@link #replace(String, String, String, boolean, boolean)} with two {@code false} parameters. 
+     * Same as {link #replace(String, String, String, boolean, boolean)} with two {@code false} parameters.
      * @since 2.3.20
      */
     public static String replace(String text, String oldSub, String newSub) {
@@ -835,7 +835,7 @@ public class StringUtil {
             buf = new StringBuilder(
                     tln + Math.max(newsub.length() - oln, 0) * 3);
             do {
-                buf.append(text.substring(b, e));
+                buf.append(text, b, e);
                 buf.append(newsub);
                 b = e + oln;
                 e = input.indexOf(oldsub, b);
@@ -866,7 +866,7 @@ public class StringUtil {
     
     /**
      * Converts the parameter with <code>toString</code> (if it's not <code>null</code>) and passes it to
-     * {@link #jQuote(String)}.
+     * {link #jQuote(String)}.
      */
     public static String jQuote(Object obj) {
         return jQuote(obj != null ? obj.toString() : null);
@@ -918,14 +918,14 @@ public class StringUtil {
 
     /**
      * Converts the parameter with <code>toString</code> (if not
-     * <code>null</code>)and passes it to {@link #jQuoteNoXSS(String)}. 
+     * <code>null</code>)and passes it to {link #jQuoteNoXSS(String)}.
      */
     public static String jQuoteNoXSS(Object obj) {
         return jQuoteNoXSS(obj != null ? obj.toString() : null);
     }
     
     /**
-     * Same as {@link #jQuoteNoXSS(String)} but also escapes <code>'&lt;'</code>
+     * Same as {link #jQuoteNoXSS(String)} but also escapes <code>'&lt;'</code>
      * as <code>\</code><code>u003C</code>. This is used for log messages to prevent XSS
      * on poorly written Web-based log viewers. 
      */
@@ -1280,7 +1280,7 @@ public class StringUtil {
      * Where they have no dedicated escape sequence in Java, they will
      * be replaced with hexadecimal escape (<tt>\</tt><tt>u<i>XXXX</i></tt>). 
      * 
-     * @see #jQuote(String)
+     * see #jQuote(String)
      */ 
     public static String javaStringEnc(String s) {
         int ln = s.length();
@@ -1288,7 +1288,7 @@ public class StringUtil {
             char c = s.charAt(i);
             if (c == '"' || c == '\\' || c < 0x20) {
                 StringBuilder b = new StringBuilder(ln + 4);
-                b.append(s.substring(0, i));
+                b.append(s, 0, i);
                 while (true) {
                     if (c == '"') {
                         b.append("\\\"");
@@ -1329,16 +1329,16 @@ public class StringUtil {
     }
     
     /**
-     * Escapes a {@link String} to be safely insertable into a JavaScript string literal; for more see
-     * {@link #jsStringEnc(String, boolean) jsStringEnc(s, false)}.
+     * Escapes a {link String} to be safely insertable into a JavaScript string literal; for more see
+     * {link #jsStringEnc(String, boolean) jsStringEnc(s, false)}.
      */
     public static String javaScriptStringEnc(String s) {
         return jsStringEnc(s, false);
     }
 
     /**
-     * Escapes a {@link String} to be safely insertable into a JSON string literal; for more see
-     * {@link #jsStringEnc(String, boolean) jsStringEnc(s, true)}.
+     * Escapes a {link String} to be safely insertable into a JSON string literal; for more see
+     * {link #jsStringEnc(String, boolean) jsStringEnc(s, true)}.
      */
     public static String jsonStringEnc(String s) {
         return jsStringEnc(s, true);
@@ -1349,7 +1349,7 @@ public class StringUtil {
     private static final int ESC_BACKSLASH = 3;
     
     /**
-     * Escapes a {@link String} to be safely insertable into a JavaScript or a JSON string literal.
+     * Escapes a {link String} to be safely insertable into a JavaScript or a JSON string literal.
      * The resulting string will <em>not</em> be quoted; the caller must ensure that they are there in the final
      * output. Note that for JSON, the quotation marks must be {@code "}, not {@code '}, because JSON doesn't escape
      * {@code '}.
@@ -1469,7 +1469,7 @@ public class StringUtil {
                 if (escapeType != NO_ESC) { // If needs escaping
                     if (sb == null) {
                         sb = new StringBuilder(ln + 6);
-                        sb.append(s.substring(0, i));
+                        sb.append(s, 0, i);
                     }
                     
                     sb.append('\\');
@@ -1675,25 +1675,25 @@ public class StringUtil {
         return map;
     }
     
-    /**
-     * Used internally by the XML DOM wrapper to check if the subvariable name is just an element name, or a more
-     * complex XPath expression.
-     * 
-     * @return whether the name is a valid XML element name. (This routine might only be 99% accurate. REVISIT)
-     * 
-     * @deprecated Don't use this outside FreeMarker; it's name if misleading, and it doesn't follow the XML specs.
-     */
-    @Deprecated
-    static public boolean isXMLID(String name) {
-        return _ExtDomApi.isXMLNameLike(name);
-    }
+//    /**
+//     * Used internally by the XML DOM wrapper to check if the subvariable name is just an element name, or a more
+//     * complex XPath expression.
+//     *
+//     * @return whether the name is a valid XML element name. (This routine might only be 99% accurate. REVISIT)
+//     *
+//     * @deprecated Don't use this outside FreeMarker; it's name if misleading, and it doesn't follow the XML specs.
+//     */
+//    @Deprecated
+//    static public boolean isXMLID(String name) {
+//        return _ExtDomApi.isXMLNameLike(name);
+//    }
     
-    /**
-     * @return whether the qname matches the combination of nodeName, nsURI, and environment prefix settings.
-     */
-    static public boolean matchesName(String qname, String nodeName, String nsURI, Environment env) {
-        return _ExtDomApi.matchesName(qname, nodeName, nsURI, env);
-    }
+//    /**
+//     * @return whether the qname matches the combination of nodeName, nsURI, and environment prefix settings.
+//     */
+//    static public boolean matchesName(String qname, String nodeName, String nsURI, Environment env) {
+//        return _ExtDomApi.matchesName(qname, nodeName, nsURI, env);
+//    }
     
     /**
      * Pads the string at the left with spaces until it reaches the desired
@@ -1918,7 +1918,7 @@ public class StringUtil {
     }
 
     /**
-     * Same as {@link #toUpperABC(int)}, but produces lower case result, like {@code "ab"}.
+     * Same as {link #toUpperABC(int)}, but produces lower case result, like {@code "ab"}.
      * 
      * @since 2.3.22
      */
@@ -1970,9 +1970,9 @@ public class StringUtil {
     }
 
     /**
-     * Behaves exactly like {@link String#trim()}, but works on arrays. If the resulting array would have the same
+     * Behaves exactly like {link String#trim()}, but works on arrays. If the resulting array would have the same
      * content after trimming, it returns the original array instance. Otherwise it returns a new array instance (or
-     * {@link CollectionUtils#EMPTY_CHAR_ARRAY}).
+     * {link CollectionUtils#EMPTY_CHAR_ARRAY}).
      * 
      * @since 2.3.22
      */
@@ -2003,7 +2003,7 @@ public class StringUtil {
     }
 
     /**
-     * Tells if {@link String#trim()} will return a 0-length string for the {@link String} equivalent of the argument.
+     * Tells if {link String#trim()} will return a 0-length string for the {link String} equivalent of the argument.
      * 
      * @since 2.3.22
      */
@@ -2012,7 +2012,7 @@ public class StringUtil {
     }
 
     /**
-     * Like {@link #isTrimmableToEmpty(char[])}, but acts on a sub-array that starts at {@code start} (inclusive index).
+     * Like {link #isTrimmableToEmpty(char[])}, but acts on a sub-array that starts at {@code start} (inclusive index).
      * 
      * @since 2.3.23
      */
@@ -2021,7 +2021,7 @@ public class StringUtil {
     }
     
     /**
-     * Like {@link #isTrimmableToEmpty(char[])}, but acts on a sub-array that starts at {@code start} (inclusive index)
+     * Like {link #isTrimmableToEmpty(char[])}, but acts on a sub-array that starts at {@code start} (inclusive index)
      * and ends at {@code end} (exclusive index).
      * 
      * @since 2.3.23
@@ -2037,7 +2037,7 @@ public class StringUtil {
     }
 
     /**
-     * Same as {@link #globToRegularExpression(String, boolean)} with {@code caseInsensitive} argument {@code false}.
+     * Same as {link #globToRegularExpression(String, boolean)} with {@code caseInsensitive} argument {@code false}.
      * 
      * @since 2.3.24
      */

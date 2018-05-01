@@ -19,24 +19,23 @@
 
 package freemarker.template;
 
-import freemarker.core.Configurable;
 import freemarker.core.Environment;
 
 /**
- * Used for the {@link Configurable#setAttemptExceptionReporter(AttemptExceptionReporter) attempt_exception_reported}
+ * Used for the {link Configurable#setAttemptExceptionReporter(AttemptExceptionReporter) attempt_exception_reported}
  * configuration setting.
  */
 public interface AttemptExceptionReporter {
     
     /**
      * Logs the exception into the "freemarker.runtime" log category with "error" log level. This is the default
-     * {@link AttemptExceptionReporter}. The error message will explain that the error was handled by an
+     * {link AttemptExceptionReporter}. The error message will explain that the error was handled by an
      * {@code #attempt} block.
      */
     AttemptExceptionReporter LOG_ERROR_REPORTER = new LoggingAttemptExceptionReporter(false);
 
     /**
-     * Like {@link #LOG_ERROR_REPORTER}, but it logs with "warn" log level.
+     * Like {link #LOG_ERROR_REPORTER}, but it logs with "warn" log level.
      */
     AttemptExceptionReporter LOG_WARN_REPORTER = new LoggingAttemptExceptionReporter(true);
     

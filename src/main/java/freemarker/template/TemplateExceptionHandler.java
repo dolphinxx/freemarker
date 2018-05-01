@@ -19,9 +19,7 @@
 
 package freemarker.template;
 
-import freemarker.core.Configurable;
 import freemarker.core.Environment;
-import freemarker.core.StopException;
 import freemarker.template.utility.StringUtil;
 
 import java.io.PrintWriter;
@@ -29,23 +27,23 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Used for the {@link Configurable#setTemplateExceptionHandler(TemplateExceptionHandler) template_exception_handler}
+ * Used for the {link Configurable#setTemplateExceptionHandler(TemplateExceptionHandler) template_exception_handler}
  * configuration setting.
  */
 public interface TemplateExceptionHandler {
     
     /** 
-     * Method called after a {@link TemplateException} was raised inside a template. The exception should be re-thrown
+     * Method called after a {link TemplateException} was raised inside a template. The exception should be re-thrown
      * unless you want to suppress the exception.
      * 
-     * <p>Note that you can check with {@link Environment#isInAttemptBlock()} if you are inside a {@code #attempt}
+     * <p>Note that you can check with {link Environment#isInAttemptBlock()} if you are inside a {@code #attempt}
      * block, which then will handle this exception and roll back the output generated inside it.
      * 
-     * <p>Note that {@link StopException}-s (raised by {@code #stop}) won't be captured here.
+     * <p>Note that {link StopException}-s (raised by {@code #stop}) won't be captured here.
      * 
      * <p>Note that you shouldn't log the exception in this method unless you suppress it. If there's a concern that the
-     * exception might won't be logged after it bubbles up from {@link Template#process(Object, Writer)}, simply
-     * ensure that {@link Configuration#getLogTemplateExceptions()} is {@code true}. 
+     * exception might won't be logged after it bubbles up from {link Template#process(Object, Writer)}, simply
+     * ensure that {link Configuration#getLogTemplateExceptions()} is {@code true}.
      * 
      * @param te The exception that occurred; don't forget to re-throw it unless you want to suppress it
      * @param env The runtime environment of the template
@@ -54,9 +52,9 @@ public interface TemplateExceptionHandler {
     void handleTemplateException(TemplateException te, Environment env, Writer out) throws TemplateException;
             
    /**
-    * {@link TemplateExceptionHandler} that simply skips the failing instructions, letting the template continue
+    * {link TemplateExceptionHandler} that simply skips the failing instructions, letting the template continue
     * executing. It does nothing to handle the event. Note that the exception is still logged, as with all
-    * other {@link TemplateExceptionHandler}-s.
+    * other {link TemplateExceptionHandler}-s.
     */
     TemplateExceptionHandler IGNORE_HANDLER = new TemplateExceptionHandler() {
         public void handleTemplateException(TemplateException te, Environment env, Writer out) {
@@ -65,7 +63,7 @@ public interface TemplateExceptionHandler {
     };
         
     /**
-     * {@link TemplateExceptionHandler} that simply re-throws the exception; this should be used in most production
+     * {link TemplateExceptionHandler} that simply re-throws the exception; this should be used in most production
      * systems.
      */
     TemplateExceptionHandler RETHROW_HANDLER = new TemplateExceptionHandler() {
@@ -76,7 +74,7 @@ public interface TemplateExceptionHandler {
     };
         
     /**
-     * {@link TemplateExceptionHandler} useful when you developing non-HTML templates. This handler
+     * {link TemplateExceptionHandler} useful when you developing non-HTML templates. This handler
      * outputs the stack trace information to the client and then re-throws the exception.
      */
     TemplateExceptionHandler DEBUG_HANDLER = new TemplateExceptionHandler() {
@@ -85,7 +83,7 @@ public interface TemplateExceptionHandler {
             if (!env.isInAttemptBlock()) {
                 PrintWriter pw = (out instanceof PrintWriter) ? (PrintWriter) out : new PrintWriter(out);
                 pw.print("FreeMarker template error (DEBUG mode; use RETHROW in production!):\n");
-                te.printStackTrace(pw, false, true, true);
+                te._printStackTrace(pw, false, true, true);
                 
                 pw.flush();  // To commit the HTTP response
             }
@@ -94,7 +92,7 @@ public interface TemplateExceptionHandler {
     }; 
     
     /**
-     * {@link TemplateExceptionHandler} useful when you developing HTML templates. This handler
+     * {link TemplateExceptionHandler} useful when you developing HTML templates. This handler
      * outputs the stack trace information to the client, formatting it so that it will be usually well readable
      * in the browser, and then re-throws the exception.
      */
@@ -131,7 +129,7 @@ public interface TemplateExceptionHandler {
                     
                     StringWriter stackTraceSW = new StringWriter();
                     PrintWriter stackPW = new PrintWriter(stackTraceSW);
-                    te.printStackTrace(stackPW, false, true, true);
+                    te._printStackTrace(stackPW, false, true, true);
                     stackPW.close();
                     pw.println();
                     pw.println(StringUtil.XMLEncNQG(stackTraceSW.toString()));

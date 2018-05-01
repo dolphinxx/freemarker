@@ -19,7 +19,6 @@
 
 package freemarker.ext.beans;
 
-import freemarker.template.TemplateNumberModel;
 import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.NumberUtil;
 
@@ -57,22 +56,22 @@ class OverloadedNumberUtil {
     private static final double HIGHEST_BELOW_ONE = 0.999999;
 
     /**
-     * Attaches the lowest alternative number type to the parameter number via {@link NumberWithFallbackType}, if
+     * Attaches the lowest alternative number type to the parameter number via {link NumberWithFallbackType}, if
      * that's useful according the possible target number types. This transformation is applied on the method call
      * argument list before overloaded method selection.
      * 
      * <p>Note that as of this writing, this method is only used when
-     * {@link BeansWrapper#getIncompatibleImprovements()} >= 2.3.21.
+     * {link BeansWrapper#getIncompatibleImprovements()} >= 2.3.21.
      * 
      * <p>Why's this needed, how it works: Overloaded method selection only selects methods where the <em>type</em>
      * (not the value!) of the argument is "smaller" or the same as the parameter type. This is similar to how it's in
      * the Java language. That it only decides based on the parameter type is important because this way
-     * {@link OverloadedMethodsSubset} can cache method lookup decisions using the types as the cache key. Problem is,
+     * {link OverloadedMethodsSubset} can cache method lookup decisions using the types as the cache key. Problem is,
      * since you don't declare the exact numerical types in FTL, and FTL has only a single generic numeric type
-     * anyway, what Java type a {@link TemplateNumberModel} uses internally is often seen as a technical detail of which
+     * anyway, what Java type a {link TemplateNumberModel} uses internally is often seen as a technical detail of which
      * the template author can't always keep track of. So we investigate the <em>value</em> of the number too,
      * then coerce it down without overflow to a type that will match the most overloaded methods. (This
-     * is especially important as FTL often stores numbers in {@link BigDecimal}-s, which will hardly ever match any
+     * is especially important as FTL often stores numbers in {link BigDecimal}-s, which will hardly ever match any
      * method parameters.) We could simply return that number, like {@code Byte(0)} for an {@code Integer(0)},
      * however, then we would lose the information about what the original type was. The original type is sometimes
      * important, as in ambiguous situations the method where there's an exact type match should be selected (like,
@@ -80,16 +79,16 @@ class OverloadedNumberUtil {
      * the parameter type at the position of the number is {@code Number} or {@code Object} (or {@code Comparable}
      * etc.), it's expected that we pass in the original value (an {@code Integer} in this example), especially if that
      * value is the return value of another Java method. That's why we use
-     * {@link NumberWithFallbackType} numerical classes like {@link IntegerOrByte}, which represents both the original
+     * {link NumberWithFallbackType} numerical classes like {link IntegerOrByte}, which represents both the original
      * type and the coerced type, all encoded into the class of the value, which is used as the overloaded method lookup
      * cache key.
      *  
      * <p>See also: <tt>src\main\misc\overloadedNumberRules\prices.ods</tt>.
      * 
      * @param num the number to coerce
-     * @param typeFlags the type flags of the target parameter position; see {@link TypeFlags}
+     * @param typeFlags the type flags of the target parameter position; see {link TypeFlags}
      * 
-     * @return The original number or a {@link NumberWithFallbackType}, depending on the actual value and the types
+     * @return The original number or a {link NumberWithFallbackType}, depending on the actual value and the types
      *     indicated in the {@code targetNumTypes} parameter.
      */
     static Number addFallbackType(final Number num, final int typeFlags) {
@@ -312,18 +311,18 @@ class OverloadedNumberUtil {
         }
     }
 
-    static interface ByteSource { Byte byteValue(); }
-    static interface ShortSource { Short shortValue(); }
-    static interface IntegerSource { Integer integerValue(); }
-    static interface LongSource { Long longValue(); }
-    static interface FloatSource { Float floatValue(); }
-    static interface DoubleSource { Double doubleValue(); }
-    static interface BigIntegerSource { BigInteger bigIntegerValue(); }
-    static interface BigDecimalSource { BigDecimal bigDecimalValue(); }
+    interface ByteSource { Byte byteValue(); }
+    interface ShortSource { Short shortValue(); }
+    interface IntegerSource { Integer integerValue(); }
+    interface LongSource { Long longValue(); }
+    interface FloatSource { Float floatValue(); }
+    interface DoubleSource { Double doubleValue(); }
+    interface BigIntegerSource { BigInteger bigIntegerValue(); }
+    interface BigDecimalSource { BigDecimal bigDecimalValue(); }
     
     /**
      * Superclass of "Or"-ed numerical types. With an example, a {@code int} 1 has the fallback type {@code byte}, as
-     * that's the smallest type that can store the value, so it can be represented as an {@link IntegerOrByte}.
+     * that's the smallest type that can store the value, so it can be represented as an {link IntegerOrByte}.
      * This is useful as overloaded method selection only examines the type of the arguments, not the value of them,
      * but with "Or"-ed types we can encode this value-related information into the argument type, hence influencing the
      * method selection.
@@ -395,9 +394,9 @@ class OverloadedNumberUtil {
     }
 
     /**
-     * Holds a {@link BigDecimal} that stores a whole number. When selecting a overloaded method, FreeMarker tries to
-     * associate {@link BigDecimal} values to parameters of types that can hold non-whole numbers, unless the
-     * {@link BigDecimal} is wrapped into this class, in which case it does the opposite. This mechanism is, however,
+     * Holds a {link BigDecimal} that stores a whole number. When selecting a overloaded method, FreeMarker tries to
+     * associate {link BigDecimal} values to parameters of types that can hold non-whole numbers, unless the
+     * {link BigDecimal} is wrapped into this class, in which case it does the opposite. This mechanism is, however,
      * too rough to prevent roll overs or magnitude losses. Those are not yet handled for backward compatibility (they
      * were suppressed earlier too).
      */
@@ -435,7 +434,7 @@ class OverloadedNumberUtil {
 
         @Override
         public long longValue() {
-            return n.longValue();
+            return n;
         }
         
     }
@@ -503,7 +502,7 @@ class OverloadedNumberUtil {
 
         @Override
         public int intValue() {
-            return n.intValue();
+            return n;
         }
         
     }
@@ -557,7 +556,7 @@ class OverloadedNumberUtil {
 
         @Override
         public short shortValue() {
-            return n.shortValue();
+            return n;
         }
 
         @Override
@@ -582,7 +581,7 @@ class OverloadedNumberUtil {
         
         @Override
         public double doubleValue() {
-            return n.doubleValue();
+            return n;
         }
         
     }
@@ -717,7 +716,7 @@ class OverloadedNumberUtil {
         
         @Override
         public double doubleValue() {
-            return n.doubleValue();
+            return n;
         }
 
         @Override
@@ -742,7 +741,7 @@ class OverloadedNumberUtil {
         
         @Override
         public float floatValue() {
-            return n.floatValue();
+            return n;
         }
         
     }
@@ -878,13 +877,13 @@ class OverloadedNumberUtil {
             super(n);
         }
 
-        /** Faster version of {@link BigDecimal#floatValue()}, utilizes that the number known to fit into a long. */
+        /** Faster version of {link BigDecimal#floatValue()}, utilizes that the number known to fit into a long. */
         @Override
         public float floatValue() {
             return n.longValue(); 
         }
         
-        /** Faster version of {@link BigDecimal#doubleValue()}, utilizes that the number known to fit into a long. */
+        /** Faster version of {link BigDecimal#doubleValue()}, utilizes that the number known to fit into a long. */
         @Override
         public double doubleValue() {
             return n.longValue(); 
@@ -912,13 +911,13 @@ class OverloadedNumberUtil {
      * Returns a non-negative number that indicates how much we want to avoid a given numerical type conversion. Since
      * we only consider the types here, not the actual value, we always consider the worst case scenario. Like it will
      * say that converting int to short is not allowed, although int 1 can be converted to byte without loss. To account
-     * for such situations, "Or"-ed types, like {@link IntegerOrByte} has to be used. 
+     * for such situations, "Or"-ed types, like {link IntegerOrByte} has to be used.
      * 
      * @param fromC the non-primitive type of the argument (with other words, the actual type).
-     *        Must be {@link Number} or its subclass. This is possibly an {@link NumberWithFallbackType} subclass.
+     *        Must be {link Number} or its subclass. This is possibly an {link NumberWithFallbackType} subclass.
      * @param toC the <em>non-primitive</em> type of the target parameter (with other words, the format type).
-     *        Must be a {@link Number} subclass, not {@link Number} itself.
-     *        Must <em>not</em> be {@link NumberWithFallbackType} or its subclass.
+     *        Must be a {link Number} subclass, not {link Number} itself.
+     *        Must <em>not</em> be {link NumberWithFallbackType} or its subclass.
      * 
      * @return
      *     <p>The possible values are:
@@ -927,12 +926,12 @@ class OverloadedNumberUtil {
      *       <li>[0, 30000): Lossless conversion
      *       <li>[30000, 40000): Smaller precision loss in mantissa is possible.
      *       <li>[40000, 50000): Bigger precision loss in mantissa is possible.
-     *       <li>{@link Integer#MAX_VALUE}: Conversion not allowed due to the possibility of magnitude loss or
+     *       <li>{link Integer#MAX_VALUE}: Conversion not allowed due to the possibility of magnitude loss or
      *          overflow</li>
      *     </ul>
      * 
      *     <p>At some places, we only care if the conversion is possible, i.e., whether the return value is
-     *     {@link Integer#MAX_VALUE} or not. But when multiple overloaded methods have an argument type to which we
+     *     {link Integer#MAX_VALUE} or not. But when multiple overloaded methods have an argument type to which we
      *     could convert to, this number will influence which of those will be chosen.
      */
     static int getArgumentConversionPrice(Class fromC, Class toC) {

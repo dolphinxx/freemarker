@@ -19,12 +19,9 @@
 
 package freemarker.core;
 
-import freemarker.template.Configuration;
-import freemarker.template.Version;
-
 /**
  * An object that has another older version that's used below a certain
- * {@link Configuration#setIncompatibleImprovements(Version) InCompatible Improvements} version.  
+ * {link Configuration#setIncompatibleImprovements(Version) InCompatible Improvements} version.
  */
 interface ICIChainMember {
 
@@ -34,7 +31,7 @@ interface ICIChainMember {
     int getMinimumICIVersion();
 
     /**
-     * The closest object used for ICE lower than {@link #getMinimumICIVersion()}.
+     * The closest object used for ICE lower than {link #getMinimumICIVersion()}.
      */
     Object getPreviousICIChainMember();
     

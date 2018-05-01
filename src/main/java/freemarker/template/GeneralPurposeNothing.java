@@ -77,7 +77,7 @@ implements TemplateBooleanModel, TemplateScalarModel, TemplateSequenceModel, Tem
         return Constants.EMPTY_COLLECTION;
     }
 
-    public KeyValuePairIterator keyValuePairIterator() throws TemplateModelException {
+    public KeyValuePairIterator keyValuePairIterator() {
         return Constants.EMPTY_KEY_VALUE_PAIR_ITERATOR;
     }
 }

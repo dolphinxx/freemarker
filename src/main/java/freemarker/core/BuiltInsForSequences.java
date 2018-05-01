@@ -213,7 +213,7 @@ class BuiltInsForSequences {
                             sb.append(EvalUtil.coerceModelToStringOrUnsupportedMarkup(item, null, null, env));
                         } catch (TemplateException e) {
                             throw new _TemplateModelException(e,
-                                    "\"?", key, "\" failed at index ", Integer.valueOf(idx), " with this error:\n\n",
+                                    "\"?", key, "\" failed at index ", idx, " with this error:\n\n",
                                     _MessageUtil.EMBEDDED_MESSAGE_BEGIN,
                                     new _DelayedGetMessageWithoutStackTop(e),
                                     _MessageUtil.EMBEDDED_MESSAGE_END);
@@ -546,7 +546,7 @@ class BuiltInsForSequences {
                             if (!(item instanceof TemplateScalarModel)) {
                                 throw new _TemplateModelException(
                                         "The argument to ?", key, "(key), when it's a sequence, must be a "
-                                        + "sequence of strings, but the item at index ", Integer.valueOf(i),
+                                        + "sequence of strings, but the item at index ", i,
                                         " is not a string.");
                             }
                         }
@@ -572,8 +572,8 @@ class BuiltInsForSequences {
 
             public int compare(Object arg0, Object arg1) {
                 // JDK 1.2 doesn't have Boolean.compareTo
-                boolean b0 = ((Boolean) ((KVP) arg0).key).booleanValue();
-                boolean b1 = ((Boolean) ((KVP) arg1).key).booleanValue();
+                boolean b0 = (Boolean) ((KVP) arg0).key;
+                boolean b1 = (Boolean) ((KVP) arg1).key;
                 if (b0) {
                     return b1 ? 0 : 1;
                 } else {
@@ -771,7 +771,7 @@ class BuiltInsForSequences {
                     case KEY_TYPE_BOOLEAN:
                         try {
                             res.add(new KVP(
-                                    Boolean.valueOf(((TemplateBooleanModel) key).getAsBoolean()),
+                                    ((TemplateBooleanModel) key).getAsBoolean(),
                                     item));
                         } catch (ClassCastException e) {
                             if (!(key instanceof TemplateBooleanModel)) {
@@ -809,7 +809,7 @@ class BuiltInsForSequences {
         static Object[] startErrorMessage(int keyNamesLn, int index) {
             return new Object[] {
                     (keyNamesLn == 0 ? "?sort" : "?sort_by(...)"),
-                    " failed at sequence index ", Integer.valueOf(index),
+                    " failed at sequence index ", index,
                     (index == 0 ? ": " : " (0-based): ") };
         }
         
@@ -860,9 +860,7 @@ class BuiltInsForSequences {
     
     private static boolean isBuggySeqButGoodCollection(
             TemplateModel model) {
-        return model instanceof CollectionModel
-                ? !((CollectionModel) model).getSupportsIndexedAccess()
-                : false;
+        return model instanceof CollectionModel && !((CollectionModel) model).getSupportsIndexedAccess();
     }
     
     private static boolean modelsEqual(
@@ -879,7 +877,7 @@ class BuiltInsForSequences {
                     env);
         } catch (TemplateException ex) {
             throw new _TemplateModelException(ex,
-                    "This error has occurred when comparing sequence item at 0-based index ", Integer.valueOf(seqItemIndex),
+                    "This error has occurred when comparing sequence item at 0-based index ", seqItemIndex,
                     " to the searched item:\n", new _DelayedGetMessage(ex));
         }
     }

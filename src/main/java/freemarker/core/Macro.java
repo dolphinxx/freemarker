@@ -178,7 +178,8 @@ public final class Macro extends TemplateElement implements TemplateModel {
 
         // Set default parameters, check if all the required parameters are defined.
         void sanityCheck(Environment env) throws TemplateException {
-            boolean resolvedAnArg, hasUnresolvedArg;
+            boolean resolvedAnArg;
+            boolean hasUnresolvedArg;
             Expression firstUnresolvedExpression;
             InvalidReferenceException firstReferenceException;
             do {
@@ -214,7 +215,7 @@ public final class Macro extends TemplateElement implements TemplateModel {
                                             "When calling ", (isFunction() ? "function" : "macro"), " ",
                                             new _DelayedJQuote(name), 
                                             ", required parameter ", new _DelayedJQuote(argName),
-                                            " (parameter #", Integer.valueOf(i + 1), ") was ", 
+                                            " (parameter #", i + 1, ") was ",
                                             (argWasSpecified
                                                     ? "specified, but had null/missing value."
                                                     : "not specified.") 
@@ -291,7 +292,7 @@ public final class Macro extends TemplateElement implements TemplateModel {
             } else if (idx == argDescsEnd) {
                 return catchAllParamName;
             } else if (idx == argDescsEnd + 1) {
-                return Integer.valueOf(function ? TYPE_FUNCTION : TYPE_MACRO);
+                return function ? TYPE_FUNCTION : TYPE_MACRO;
             } else {
                 throw new IndexOutOfBoundsException();
             }

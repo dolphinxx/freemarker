@@ -19,7 +19,6 @@
 
 package freemarker.core;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.DateUtil;
@@ -185,9 +184,9 @@ abstract class ISOLikeTemplateDateFormat  extends TemplateDateFormat {
                 dateType != TemplateDateModel.DATE,
                 showZoneOffset == null
                         ? !zonelessInput
-                        : showZoneOffset.booleanValue(),
+                        : showZoneOffset,
                 accuracy,
-                (forceUTC == null ? !zonelessInput : forceUTC.booleanValue()) ? DateUtil.UTC : timeZone,
+                (forceUTC == null ? !zonelessInput : forceUTC) ? DateUtil.UTC : timeZone,
                 factory.getISOBuiltInCalendar(env));
     }
     
@@ -198,8 +197,6 @@ abstract class ISOLikeTemplateDateFormat  extends TemplateDateFormat {
             DateToISO8601CalendarFactory calendarFactory);
 
     @Override
-    @SuppressFBWarnings(value = "RC_REF_COMPARISON_BAD_PRACTICE_BOOLEAN",
-            justification = "Known to use the singleton Boolean-s only")
     public final Date parse(String s, int dateType) throws UnparsableValueException {
         CalendarFieldsToDateConverter calToDateConverter = factory.getCalendarFieldsToDateCalculator(env);
         TimeZone tz = forceUTC != Boolean.FALSE ? DateUtil.UTC : timeZone;

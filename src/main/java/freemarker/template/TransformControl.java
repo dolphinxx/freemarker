@@ -23,7 +23,7 @@ import java.io.IOException;
 
 /**
  * An interface that can be implemented by writers returned from
- * {@link TemplateTransformModel#getWriter(java.io.Writer, java.util.Map)}. The
+ * {link TemplateTransformModel#getWriter(java.io.Writer, java.util.Map)}. The
  * methods on this
  * interfaces are callbacks that will be called by the template engine and that
  * give the writer a chance to better control the evaluation of the transform
@@ -33,41 +33,41 @@ import java.io.IOException;
  */
 public interface TransformControl {
     /**
-     * Constant returned from {@link #afterBody()} that tells the
+     * Constant returned from {link #afterBody()} that tells the
      * template engine to repeat transform body evaluation and feed
      * it again to the transform.
      */
-    public static final int REPEAT_EVALUATION = 0;
+    int REPEAT_EVALUATION = 0;
 
     /**
-     * Constant returned from {@link #afterBody()} that tells the
+     * Constant returned from {link #afterBody()} that tells the
      * template engine to end the transform and close the writer.
      */
-    public static final int END_EVALUATION = 1;
+    int END_EVALUATION = 1;
  
     /**
-     * Constant returned from {@link #onStart()} that tells the
+     * Constant returned from {link #onStart()} that tells the
      * template engine to skip evaluation of the body.
      */
-    public static final int SKIP_BODY = 0;
+    int SKIP_BODY = 0;
     
     /**
-     * Constant returned from {@link #onStart()} that tells the
+     * Constant returned from {link #onStart()} that tells the
      * template engine to evaluate the body.
      */
-    public static final int EVALUATE_BODY = 1;
+    int EVALUATE_BODY = 1;
 
     /**
      * Called before the body is evaluated for the first time.
      * @return 
      * <ul>
      * <li><tt>SKIP_BODY</tt> if the transform wants to ignore the body. In this
-     * case, only {@link java.io.Writer#close()} is called next and processing ends.</li>
+     * case, only {link java.io.Writer#close()} is called next and processing ends.</li>
      * <li><tt>EVALUATE_BODY</tt> to normally evaluate the body of the transform
      * and feed it to the writer</li>
      * </ul>
      */
-    public int onStart() throws TemplateModelException, IOException;
+    int onStart() throws TemplateModelException, IOException;
     
     /**
      * Called after the body has been evaluated.
@@ -78,22 +78,22 @@ public interface TransformControl {
      * transform body and feed it again to the writer.</li>
      * </ul>
      */
-    public int afterBody() throws TemplateModelException, IOException;
+    int afterBody() throws TemplateModelException, IOException;
     
     /**
      * Called if any exception occurs during the transform between the
-     * {@link TemplateTransformModel#getWriter(java.io.Writer, java.util.Map)} call
-     * and the {@link java.io.Writer#close()} call.
+     * {link TemplateTransformModel#getWriter(java.io.Writer, java.util.Map)} call
+     * and the {link java.io.Writer#close()} call.
      * @param t the throwable that represents the exception. It can be any 
-     * non-checked throwable, as well as {@link TemplateException} and 
-     * {@link java.io.IOException}.
+     * non-checked throwable, as well as {link TemplateException} and
+     * {link java.io.IOException}.
      * 
      * @throws Throwable is recommended that the methods rethrow the received 
      * throwable. If the method wants to throw another throwable, it should
      * either throw a non-checked throwable, or an instance of 
-     * {@link TemplateException} and {@link java.io.IOException}. Throwing any
+     * {link TemplateException} and {link java.io.IOException}. Throwing any
      * other checked exception will cause the engine to rethrow it as
-     * a {@link java.lang.reflect.UndeclaredThrowableException}.
+     * a {link java.lang.reflect.UndeclaredThrowableException}.
      */
-    public void onError(Throwable t) throws Throwable;
+    void onError(Throwable t) throws Throwable;
 }

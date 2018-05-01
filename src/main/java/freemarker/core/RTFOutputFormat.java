@@ -26,15 +26,15 @@ import java.io.Writer;
 
 /**
  * Represents the Rich Text Format output format (MIME type "application/rtf", name "RTF"). This format escapes by
- * default (via {@link StringUtil#RTFEnc(String)}). The {@code ?rtf} built-in silently bypasses template output values
- * of the type produced by this output format ({@link TemplateRTFOutputModel}).
+ * default (via {link StringUtil#RTFEnc(String)}). The {@code ?rtf} built-in silently bypasses template output values
+ * of the type produced by this output format ({link TemplateRTFOutputModel}).
  * 
  * @since 2.3.24
  */
 public final class RTFOutputFormat extends CommonMarkupOutputFormat<TemplateRTFOutputModel> {
 
     /**
-     * The only instance (singleton) of this {@link OutputFormat}.
+     * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final RTFOutputFormat INSTANCE = new RTFOutputFormat();
     
@@ -53,7 +53,7 @@ public final class RTFOutputFormat extends CommonMarkupOutputFormat<TemplateRTFO
     }
 
     @Override
-    public void output(String textToEsc, Writer out) throws IOException, TemplateModelException {
+    public void output(String textToEsc, Writer out) throws IOException {
         StringUtil.RTFEnc(textToEsc, out);
     }
 

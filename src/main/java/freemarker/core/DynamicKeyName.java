@@ -111,12 +111,12 @@ final class DynamicKeyName extends Expression {
                 return new SimpleScalar(s.substring(index, index + 1));
             } catch (IndexOutOfBoundsException e) {
                 if (index < 0) {
-                    throw new _MiscTemplateException("Negative index not allowed: ", Integer.valueOf(index));
+                    throw new _MiscTemplateException("Negative index not allowed: ", index);
                 }
                 if (index >= s.length()) {
                     throw new _MiscTemplateException(
-                            "String index out of range: The index was ", Integer.valueOf(index),
-                            " (0-based), but the length of the string is only ", Integer.valueOf(s.length()) , ".");
+                            "String index out of range: The index was ", index,
+                            " (0-based), but the length of the string is only ", s.length(), ".");
                 }
                 throw new RuntimeException("Can't explain exception", e);
             }
@@ -143,7 +143,7 @@ final class DynamicKeyName extends Expression {
     }
 
     private TemplateModel dealWithRangeKey(TemplateModel targetModel, RangeModel range, Environment env)
-    throws UnexpectedTypeException, InvalidReferenceException, TemplateException {
+    throws TemplateException {
         final TemplateSequenceModel targetSeq;
         final String targetStr;
         if (targetModel instanceof TemplateSequenceModel) {
@@ -174,7 +174,7 @@ final class DynamicKeyName extends Expression {
         final int firstIdx = range.getBegining();
         if (firstIdx < 0) {
             throw new _MiscTemplateException(keyExpression,
-                    "Negative range start index (", Integer.valueOf(firstIdx),
+                    "Negative range start index (", firstIdx,
                     ") isn't allowed for a range used for slicing.");
         }
         
@@ -188,9 +188,9 @@ final class DynamicKeyName extends Expression {
         // Right-bounded ranges at this point aren't empty, so the right index surely can't reach targetSize. 
         if (rightAdaptive && step == 1 ? firstIdx > targetSize : firstIdx >= targetSize) {
             throw new _MiscTemplateException(keyExpression,
-                    "Range start index ", Integer.valueOf(firstIdx), " is out of bounds, because the sliced ",
+                    "Range start index ", firstIdx, " is out of bounds, because the sliced ",
                     (targetStr != null ? "string" : "sequence"),
-                    " has only ", Integer.valueOf(targetSize), " ", (targetStr != null ? "character(s)" : "element(s)"),
+                    " has only ", targetSize, " ", (targetStr != null ? "character(s)" : "element(s)"),
                     ". ", "(Note that indices are 0-based).");
         }
         
@@ -200,7 +200,7 @@ final class DynamicKeyName extends Expression {
             if (lastIdx < 0) {
                 if (!rightAdaptive) {
                     throw new _MiscTemplateException(keyExpression,
-                            "Negative range end index (", Integer.valueOf(lastIdx),
+                            "Negative range end index (", lastIdx,
                             ") isn't allowed for a range used for slicing.");
                 } else {
                     resultSize = firstIdx + 1;
@@ -208,9 +208,9 @@ final class DynamicKeyName extends Expression {
             } else if (lastIdx >= targetSize) {
                 if (!rightAdaptive) {
                     throw new _MiscTemplateException(keyExpression,
-                            "Range end index ", Integer.valueOf(lastIdx), " is out of bounds, because the sliced ",
+                            "Range end index ", lastIdx, " is out of bounds, because the sliced ",
                             (targetStr != null ? "string" : "sequence"),
-                            " has only ", Integer.valueOf(targetSize), " ", (targetStr != null ? "character(s)" : "element(s)"),
+                            " has only ", targetSize, " ", (targetStr != null ? "character(s)" : "element(s)"),
                             ". (Note that indices are 0-based).");
                 } else {
                     resultSize = Math.abs(targetSize - firstIdx);
@@ -240,8 +240,8 @@ final class DynamicKeyName extends Expression {
                 if (!(range.isAffactedByStringSlicingBug() && resultSize == 2)) {
                     throw new _MiscTemplateException(keyExpression,
                             "Decreasing ranges aren't allowed for slicing strings (as it would give reversed text). "
-                            + "The index range was: first = ", Integer.valueOf(firstIdx),
-                            ", last = ", Integer.valueOf(firstIdx + (resultSize - 1) * step));
+                            + "The index range was: first = ", firstIdx,
+                            ", last = ", firstIdx + (resultSize - 1) * step);
                 } else {
                     // Emulate the legacy bug, where "foo"[n .. n-1] gives "" instead of an error (if n >= 1).  
                     // Fix this in FTL [2.4]

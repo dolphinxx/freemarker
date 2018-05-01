@@ -19,7 +19,6 @@
 
 package freemarker.ext.beans;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.ext.util.ModelCache;
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.TemplateModel;
@@ -45,7 +44,6 @@ public class BeansModelCache extends ModelCache {
     }
     
     @Override
-    @SuppressFBWarnings(value="JLM_JSR166_UTILCONCURRENT_MONITORENTER", justification="Locks for factory creation only")
     protected TemplateModel create(Object object) {
         Class clazz = object.getClass();
         

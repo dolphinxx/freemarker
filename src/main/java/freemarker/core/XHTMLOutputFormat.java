@@ -26,15 +26,15 @@ import java.io.Writer;
 
 /**
  * Represents the XML output format (MIME type "application/xhtml+xml", name "XHTML"). This format escapes by default
- * (via {@link StringUtil#XHTMLEnc(String)}). The {@code ?xml} built-in silently bypasses template output values of the
- * type produced by this output format ({@link TemplateXHTMLOutputModel}).
+ * (via {link StringUtil#XHTMLEnc(String)}). The {@code ?xml} built-in silently bypasses template output values of the
+ * type produced by this output format ({link TemplateXHTMLOutputModel}).
  * 
  * @since 2.3.24
  */
 public final class XHTMLOutputFormat extends CommonMarkupOutputFormat<TemplateXHTMLOutputModel> {
 
     /**
-     * The only instance (singleton) of this {@link OutputFormat}.
+     * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final XHTMLOutputFormat INSTANCE = new XHTMLOutputFormat();
     
@@ -53,7 +53,7 @@ public final class XHTMLOutputFormat extends CommonMarkupOutputFormat<TemplateXH
     }
 
     @Override
-    public void output(String textToEsc, Writer out) throws IOException, TemplateModelException {
+    public void output(String textToEsc, Writer out) throws IOException {
         StringUtil.XHTMLEnc(textToEsc, out);
     }
 

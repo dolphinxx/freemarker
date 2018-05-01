@@ -25,7 +25,8 @@ package freemarker.core;
  */
 final class BoundedRangeModel extends RangeModel {
 
-    private final int step, size;
+    private final int step;
+    private final int size;
     private final boolean rightAdaptive;
     private final boolean affectedByStringSlicingBug;
     

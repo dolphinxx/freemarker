@@ -81,7 +81,7 @@ class BuiltInsForStringsMisc {
                     // pCfg.outputFormat is exceptional: it's inherited from the lexical context
                     if (pCfg.getOutputFormat() != outputFormat) {
                         pCfg = new _ParserConfigurationWithInheritedFormat(
-                                pCfg, outputFormat, Integer.valueOf(autoEscapingPolicy));
+                                pCfg, outputFormat, autoEscapingPolicy);
                     }
                     
                     FMParser parser = new FMParser(

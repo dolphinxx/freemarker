@@ -21,7 +21,6 @@ package freemarker.ext.beans;
 import freemarker.core.BugException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
-import freemarker.template.Version;
 import freemarker.template.utility.ClassUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -60,8 +59,8 @@ final class ArgumentTypes {
     
     /**
      * @param args The actual arguments. A varargs argument should be present exploded, no as an array.
-     * @param bugfixed Introduced in 2.3.21, sets this object to a mode that works well with {@link BeansWrapper}-s
-     *      created with {@link Version} 2.3.21 or higher.
+     * @param bugfixed Introduced in 2.3.21, sets this object to a mode that works well with {link BeansWrapper}-s
+     *      created with {link Version} 2.3.21 or higher.
      */
     ArgumentTypes(Object[] args, boolean bugfixed) {
         int ln = args.length;
@@ -105,8 +104,8 @@ final class ArgumentTypes {
     }
     
     /**
-     * @return Possibly {@link EmptyCallableMemberDescriptor#NO_SUCH_METHOD} or
-     *         {@link EmptyCallableMemberDescriptor#AMBIGUOUS_METHOD}. 
+     * @return Possibly {link EmptyCallableMemberDescriptor#NO_SUCH_METHOD} or
+     *         {link EmptyCallableMemberDescriptor#AMBIGUOUS_METHOD}.
      */
     MaybeEmptyCallableMemberDescriptor getMostSpecific(
             List<ReflectionCallableMemberDescriptor> memberDescs, boolean varArg) {
@@ -147,7 +146,7 @@ final class ArgumentTypes {
      * This method assumes that the parameter lists are applicable to this argument lists; if that's not ensured,
      * what the result will be is undefined.
      * 
-     * <p>This method behaves differently in {@code bugfixed}-mode (used when a {@link BeansWrapper} is created with
+     * <p>This method behaves differently in {@code bugfixed}-mode (used when a {link BeansWrapper} is created with
      * incompatible improvements set to 2.3.21 or higher). Below we describe the bugfixed behavior only. 
      *  
      * <p>The decision is made by comparing the preferability of each parameter types of the same position in a loop.
@@ -156,13 +155,13 @@ final class ArgumentTypes {
      * is the preferred one. Otherwise the two parameter list are considered to be equal in terms of preferability.
      * 
      * <p>If there's no numerical conversion involved, the preferability of two parameter types is decided on how
-     * specific their types are. For example, {@code String} is more specific than {@link Object} (because
+     * specific their types are. For example, {@code String} is more specific than {link Object} (because
      * {@code Object.class.isAssignableFrom(String.class)}-s), and so {@code String} is preferred. Primitive
      * types are considered to be more specific than the corresponding boxing class (like {@code boolean} is more
      * specific than {@code Boolean}, because the former can't store {@code null}). The preferability decision gets
      * trickier when there's a possibility of numerical conversion from the actual argument type to the type of some of
      * the parameters. If such conversion is only possible for one of the competing parameter types, that parameter
-     * automatically wins. If it's possible for both, {@link OverloadedNumberUtil#getArgumentConversionPrice} will
+     * automatically wins. If it's possible for both, {link OverloadedNumberUtil#getArgumentConversionPrice} will
      * be used to calculate the conversion "price", and the parameter type with lowest price wins. There are also
      * a twist with array-to-list and list-to-array conversions; we try to avoid those, so the parameter where such
      * conversion isn't needed will always win.
@@ -525,7 +524,7 @@ final class ArgumentTypes {
      * their object duals in reflective method calls.
      * @param formal the parameter type to which the actual 
      * parameter type should be convertible; possibly a primitive type
-     * @param actual the argument type; not a primitive type, maybe {@link Null}.
+     * @param actual the argument type; not a primitive type, maybe {link Null}.
      * 
      * @return One of the <tt>CONVERSION_DIFFICULTY_...</tt> constants.
      */
@@ -636,9 +635,9 @@ final class ArgumentTypes {
     }
     
     /**
-     * Used instead of {@link ReflectionCallableMemberDescriptor} when the method is only applicable
-     * ({@link #isApplicable}) with conversion that Java reflection won't do. It delegates to a
-     * {@link ReflectionCallableMemberDescriptor}, but it adds the necessary conversions to the invocation methods. 
+     * Used instead of {link ReflectionCallableMemberDescriptor} when the method is only applicable
+     * ({link #isApplicable}) with conversion that Java reflection won't do. It delegates to a
+     * {link ReflectionCallableMemberDescriptor}, but it adds the necessary conversions to the invocation methods.
      */
     private static final class SpecialConversionCallableMemberDescriptor extends CallableMemberDescriptor {
         
@@ -722,7 +721,7 @@ final class ArgumentTypes {
                     if (paramType == Character.class || paramType == char.class
                             || (!paramType.isAssignableFrom(String.class)
                                     && paramType.isAssignableFrom(Character.class))) {
-                        args[i] = Character.valueOf(((CharacterOrString) arg).getAsChar());
+                        args[i] = ((CharacterOrString) arg).getAsChar();
                     } else {
                         args[i] = ((CharacterOrString) arg).getAsString();
                     }

@@ -19,6 +19,8 @@
 
 package freemarker.core;
 
+import freemarker.template.KeyValuePair;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
@@ -27,8 +29,6 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModelEx;
-import freemarker.template.TemplateHashModelEx2.KeyValuePair;
-import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
@@ -48,15 +48,17 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
             BuiltinVariable.GET_OPTIONAL_TEMPLATE);
     static final GetOptionalTemplateMethod INSTANCE_CC = new GetOptionalTemplateMethod(
             BuiltinVariable.GET_OPTIONAL_TEMPLATE_CC);
-    
+
     private static final String OPTION_ENCODING = "encoding";
     private static final String OPTION_PARSE = "parse";
 
     private static final String RESULT_INCLUDE = "include";
     private static final String RESULT_IMPORT = "import";
     private static final String RESULT_EXISTS = "exists";
-   
-    /** Used in error messages */
+
+    /**
+     * Used in error messages
+     */
     private final String methodName;
 
     private GetOptionalTemplateMethod(String builtInVarName) {
@@ -73,15 +75,15 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
         if (env == null) {
             throw new IllegalStateException("No freemarer.core.Environment is associated to the current thread.");
         }
-        
+
         final String absTemplateName;
         {
             TemplateModel arg = (TemplateModel) args.get(0);
             if (!(arg instanceof TemplateScalarModel)) {
                 throw _MessageUtil.newMethodArgMustBeStringException(methodName, 0, arg);
             }
-            String templateName  = EvalUtil.modelToString((TemplateScalarModel) arg, null, env);
-            
+            String templateName = EvalUtil.modelToString((TemplateScalarModel) arg, null, env);
+
             try {
                 absTemplateName = env.toFullTemplateName(env.getCurrentTemplate().getName(), templateName);
             } catch (MalformedTemplateNameException e) {
@@ -89,7 +91,7 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
                         e, "Failed to convert template path to full path; see cause exception.");
             }
         }
-        
+
         final TemplateHashModelEx options;
         if (argCnt > 1) {
             TemplateModel arg = (TemplateModel) args.get(1);
@@ -100,14 +102,14 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
         } else {
             options = null;
         }
-        
+
         String encoding = null;
         boolean parse = true;
         if (options != null) {
             final KeyValuePairIterator kvpi = TemplateModelUtils.getKeyValuePairIterator(options);
             while (kvpi.hasNext()) {
                 final KeyValuePair kvp = kvpi.next();
-                
+
                 final String optName;
                 {
                     TemplateModel optNameTM = kvp.getKey();
@@ -118,13 +120,13 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
                     }
                     optName = ((TemplateScalarModel) optNameTM).getAsString();
                 }
-                
+
                 final TemplateModel optValue = kvp.getValue();
-                
+
                 if (OPTION_ENCODING.equals(optName)) {
-                    encoding = getStringOption(OPTION_ENCODING, optValue); 
+                    encoding = getStringOption(OPTION_ENCODING, optValue);
                 } else if (OPTION_PARSE.equals(optName)) {
-                    parse = getBooleanOption(OPTION_PARSE, optValue); 
+                    parse = getBooleanOption(OPTION_PARSE, optValue);
                 } else {
                     throw _MessageUtil.newMethodArgInvalidValueException(methodName, 1,
                             "Unsupported option ", new _DelayedJQuote(optName), "; valid names are: ",
@@ -139,9 +141,9 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
         } catch (IOException e) {
             throw new _TemplateModelException(
                     e, "I/O error when trying to load optional template ", new _DelayedJQuote(absTemplateName),
-                        "; see cause exception");
+                    "; see cause exception");
         }
-        
+
         SimpleHash result = new SimpleHash(env.getObjectWrapper());
         result.put(RESULT_EXISTS, template != null);
         // If the template is missing, result.include and such will be missing too, so that a default can be
@@ -159,7 +161,7 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
                     if (body != null) {
                         throw new TemplateException("This directive supports no nested content.", env);
                     }
-                    
+
                     env.include(template);
                 }
             });
@@ -168,7 +170,7 @@ class GetOptionalTemplateMethod implements TemplateMethodModelEx {
                     if (!args.isEmpty()) {
                         throw new TemplateModelException("This method supports no parameters.");
                     }
-                    
+
                     try {
                         return env.importLib(template, null);
                     } catch (IOException e) {

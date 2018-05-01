@@ -19,7 +19,6 @@
 
 package freemarker.cache;
 
-import freemarker.cache.MultiTemplateLoader.MultiSource;
 import freemarker.core.BugException;
 import freemarker.core.Environment;
 import freemarker.core.TemplateConfiguration;
@@ -27,7 +26,6 @@ import freemarker.log.Logger;
 import freemarker.template.Configuration;
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
-import freemarker.template.TemplateNotFoundException;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.NullArgumentException;
 import freemarker.template.utility.StringUtil;
@@ -38,7 +36,6 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -46,19 +43,19 @@ import java.util.StringTokenizer;
 
 /**
  * Performs caching and on-demand loading of the templates.
- * The actual template "file" loading is delegated to a {@link TemplateLoader} that you can specify in the constructor.
- * Some aspects of caching is delegated to a {@link CacheStorage} that you can also specify in the constructor.
+ * The actual template "file" loading is delegated to a {link TemplateLoader} that you can specify in the constructor.
+ * Some aspects of caching is delegated to a {link CacheStorage} that you can also specify in the constructor.
  * 
- * <p>Typically you don't instantiate or otherwise use this class directly. The {@link Configuration} embeds an
- * instance of this class, that you access indirectly through {@link Configuration#getTemplate(String)} and other
- * {@link Configuration} API-s. Then {@link TemplateLoader} and {@link CacheStorage} can be set with
- * {@link Configuration#setTemplateLoader(TemplateLoader)} and
- * {@link Configuration#setCacheStorage(CacheStorage)}.
+ * <p>Typically you don't instantiate or otherwise use this class directly. The {link Configuration} embeds an
+ * instance of this class, that you access indirectly through {link Configuration#getTemplate(String)} and other
+ * {link Configuration} API-s. Then {link TemplateLoader} and {link CacheStorage} can be set with
+ * {link Configuration#setTemplateLoader(TemplateLoader)} and
+ * {link Configuration#setCacheStorage(CacheStorage)}.
  */
 public class TemplateCache {
     
     /**
-     * The default template update delay; see {@link Configuration#setTemplateUpdateDelayMilliseconds(long)}.
+     * The default template update delay; see {link Configuration#setTemplateUpdateDelayMilliseconds(long)}.
      * 
      * @since 2.3.23
      */
@@ -80,9 +77,9 @@ public class TemplateCache {
     private final TemplateConfigurationFactory templateConfigurations;
     
     private final boolean isStorageConcurrent;
-    /** {@link Configuration#setTemplateUpdateDelayMilliseconds(long)} */
+    /** {link Configuration#setTemplateUpdateDelayMilliseconds(long)} */
     private long updateDelay = DEFAULT_TEMPLATE_UPDATE_DELAY_MILLIS;
-    /** {@link Configuration#setLocalizedLookup(boolean)} */
+    /** {link Configuration#setLocalizedLookup(boolean)} */
     private boolean localizedLookup = true;
 
     private Configuration config;
@@ -92,7 +89,7 @@ public class TemplateCache {
      * the file system relative to the current user directory (i.e. the value
      * of the system property <code>user.dir</code>), then from the classpath.
      * 
-     * @deprecated Use {@link #TemplateCache(TemplateLoader)} instead. The default loader is useless in most
+     * @deprecated Use {link #TemplateCache(TemplateLoader)} instead. The default loader is useless in most
      *     applications, also it can mean a security risk.
      */
     @Deprecated
@@ -101,7 +98,7 @@ public class TemplateCache {
     }
 
     /**
-     * @deprecated Use {@link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} instead.
+     * @deprecated Use {link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} instead.
      */
     @Deprecated
     public TemplateCache(TemplateLoader templateLoader) {
@@ -109,7 +106,7 @@ public class TemplateCache {
     }
 
     /**
-     * @deprecated Use {@link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} instead.
+     * @deprecated Use {link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} instead.
      */
     @Deprecated
     public TemplateCache(TemplateLoader templateLoader, CacheStorage cacheStorage) {
@@ -117,7 +114,7 @@ public class TemplateCache {
     }
 
     /**
-     * Same as {@link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} with a new {@link SoftCacheStorage}
+     * Same as {link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} with a new {link SoftCacheStorage}
      * as the 2nd parameter.
      * 
      * @since 2.3.21
@@ -128,8 +125,8 @@ public class TemplateCache {
     
     /**
      * Same as
-     * {@link #TemplateCache(TemplateLoader, CacheStorage, TemplateLookupStrategy, TemplateNameFormat, Configuration)}
-     * with {@link TemplateLookupStrategy#DEFAULT_2_3_0} and {@link TemplateNameFormat#DEFAULT_2_3_0}.
+     * {link #TemplateCache(TemplateLoader, CacheStorage, TemplateLookupStrategy, TemplateNameFormat, Configuration)}
+     * with {link TemplateLookupStrategy#DEFAULT_2_3_0} and {link TemplateNameFormat#DEFAULT_2_3_0}.
      * 
      * @since 2.3.21
      */
@@ -142,7 +139,7 @@ public class TemplateCache {
     
     /**
      * Same as
-     * {@link TemplateCache#TemplateCache(TemplateLoader, CacheStorage, TemplateLookupStrategy, TemplateNameFormat,
+     * {link TemplateCache#TemplateCache(TemplateLoader, CacheStorage, TemplateLookupStrategy, TemplateNameFormat,
      * TemplateConfigurationFactory, Configuration)} with {@code null} for {@code templateConfigurations}-s.
      * 
      * @since 2.3.22
@@ -155,20 +152,20 @@ public class TemplateCache {
 
     /**
      * @param templateLoader
-     *            The {@link TemplateLoader} to use. Can be {@code null}, though then every request will result in
-     *            {@link TemplateNotFoundException}.
+     *            The {link TemplateLoader} to use. Can be {@code null}, though then every request will result in
+     *            {link TemplateNotFoundException}.
      * @param cacheStorage
-     *            The {@link CacheStorage} to use. Can't be {@code null}.
+     *            The {link CacheStorage} to use. Can't be {@code null}.
      * @param templateLookupStrategy
-     *            The {@link TemplateLookupStrategy} to use. Can't be {@code null}.
+     *            The {link TemplateLookupStrategy} to use. Can't be {@code null}.
      * @param templateNameFormat
-     *            The {@link TemplateNameFormat} to use. Can't be {@code null}.
+     *            The {link TemplateNameFormat} to use. Can't be {@code null}.
      * @param templateConfigurations
-     *            The {@link TemplateConfigurationFactory} to use. Can be {@code null} (then all templates will use the
-     *            settings coming from the {@link Configuration} as is).
+     *            The {link TemplateConfigurationFactory} to use. Can be {@code null} (then all templates will use the
+     *            settings coming from the {link Configuration} as is).
      * @param config
-     *            The {@link Configuration} this cache will be used for. Can be {@code null} for backward compatibility,
-     *            as it can be set with {@link #setConfiguration(Configuration)} later.
+     *            The {link Configuration} this cache will be used for. Can be {@code null} for backward compatibility,
+     *            as it can be set with {link #setConfiguration(Configuration)} later.
      * 
      * @since 2.3.24
      */
@@ -200,7 +197,7 @@ public class TemplateCache {
      * method is called by the configuration itself to establish the
      * relation, and should not be called by users.
      * 
-     * @deprecated Use the {@link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} constructor.
+     * @deprecated Use the {link #TemplateCache(TemplateLoader, CacheStorage, Configuration)} constructor.
      */
     @Deprecated
     public void setConfiguration(Configuration config) {
@@ -243,26 +240,26 @@ public class TemplateCache {
      * 
      * <p>
      * All parameters must be non-{@code null}, except {@code customLookupCondition}. For the meaning of the parameters
-     * see {@link Configuration#getTemplate(String, Locale, String, boolean)}.
+     * see {link Configuration#getTemplate(String, Locale, String, boolean)}.
      *
-     * @return A {@link MaybeMissingTemplate} object that contains the {@link Template}, or a
-     *         {@link MaybeMissingTemplate} object that contains {@code null} as the {@link Template} and information
+     * @return A {link MaybeMissingTemplate} object that contains the {link Template}, or a
+     *         {link MaybeMissingTemplate} object that contains {@code null} as the {link Template} and information
      *         about the missing template. The return value itself is never {@code null}. Note that exceptions occurring
      *         during template loading will not be classified as a missing template, so they will cause an exception to
-     *         be thrown by this method instead of returning a {@link MaybeMissingTemplate}. The idea is that having a
+     *         be thrown by this method instead of returning a {link MaybeMissingTemplate}. The idea is that having a
      *         missing template is normal (not exceptional), providing that the backing storage mechanism could indeed
      *         check that it's missing.
      * 
      * @throws MalformedTemplateNameException
-     *             If the {@code name} was malformed according the current {@link TemplateNameFormat}. However, if the
-     *             {@link TemplateNameFormat} is {@link TemplateNameFormat#DEFAULT_2_3_0} and
-     *             {@link Configuration#getIncompatibleImprovements()} is less than 2.4.0, then instead of throwing this
-     *             exception, a {@link MaybeMissingTemplate} will be returned, similarly as if the template were missing
-     *             (the {@link MaybeMissingTemplate#getMissingTemplateReason()} will describe the real error).
+     *             If the {@code name} was malformed according the current {link TemplateNameFormat}. However, if the
+     *             {link TemplateNameFormat} is {link TemplateNameFormat#DEFAULT_2_3_0} and
+     *             {link Configuration#getIncompatibleImprovements()} is less than 2.4.0, then instead of throwing this
+     *             exception, a {link MaybeMissingTemplate} will be returned, similarly as if the template were missing
+     *             (the {link MaybeMissingTemplate#getMissingTemplateReason()} will describe the real error).
      * 
      * @throws IOException
      *             If reading the template has failed from a reason other than the template is missing. This method
-     *             should never be a {@link TemplateNotFoundException}, as that condition is indicated in the return
+     *             should never be a {link TemplateNotFoundException}, as that condition is indicated in the return
      *             value.
      * 
      * @since 2.3.22
@@ -294,13 +291,13 @@ public class TemplateCache {
     }    
 
     /**
-     * Similar to {@link #getTemplate(String, Locale, Object, String, boolean)} with {@code null}
+     * Similar to {link #getTemplate(String, Locale, Object, String, boolean)} with {@code null}
      * {@code customLookupCondition}.
      * 
-     * @return {@link MaybeMissingTemplate#getTemplate()} of the
-     *         {@link #getTemplate(String, Locale, Object, String, boolean)} return value.
+     * @return {link MaybeMissingTemplate#getTemplate()} of the
+     *         {link #getTemplate(String, Locale, Object, String, boolean)} return value.
      * 
-     * @deprecated Use {@link #getTemplate(String, Locale, Object, String, boolean)}, which can return more detailed
+     * @deprecated Use {link #getTemplate(String, Locale, Object, String, boolean)}, which can return more detailed
      *             result when the template is missing.
      */
     @Deprecated
@@ -312,7 +309,7 @@ public class TemplateCache {
     /**
      * Returns the deprecated default template loader of FreeMarker 2.3.0.
      * 
-     * @deprecated The {@link TemplateLoader} should be always specified by the constructor caller.
+     * @deprecated The {link TemplateLoader} should be always specified by the constructor caller.
      */
     @Deprecated
     protected static TemplateLoader createLegacyDefaultTemplateLoader() {
@@ -465,14 +462,14 @@ public class TemplateCache {
     
     private static final Method getInitCauseMethod() {
         try {
-            return Throwable.class.getMethod("initCause", new Class[] { Throwable.class });
+            return Throwable.class.getMethod("initCause", Throwable.class);
         } catch (NoSuchMethodException e) {
             return null;
         }
     }
     
     /**
-     * Creates an {@link IOException} that has a cause exception.
+     * Creates an {link IOException} that has a cause exception.
      */
     // [Java 6] Remove
     private IOException newIOException(String message, Throwable cause) {
@@ -644,22 +641,16 @@ public class TemplateCache {
 
     /**
      * Removes all entries from the cache, forcing reloading of templates
-     * on subsequent {@link #getTemplate(String, Locale, String, boolean)}
+     * on subsequent {link #getTemplate(String, Locale, String, boolean)}
      * calls. If the configured template loader is 
-     * {@link StatefulTemplateLoader stateful}, then its 
-     * {@link StatefulTemplateLoader#resetState()} method is invoked as well.
+     * {link StatefulTemplateLoader stateful}, then its
+     * {link StatefulTemplateLoader#resetState()} method is invoked as well.
      */
     public void clear() {
-        synchronized (storage) {
-            storage.clear();
-            if (templateLoader instanceof StatefulTemplateLoader) {
-                ((StatefulTemplateLoader) templateLoader).resetState();
-            }
-        }
     }
 
     /**
-     * Same as {@link #removeTemplate(String, Locale, Object, String, boolean)} with {@code null}
+     * Same as {link #removeTemplate(String, Locale, Object, String, boolean)} with {@code null}
      * {@code customLookupCondition}.
      */
     public void removeTemplate(
@@ -670,10 +661,10 @@ public class TemplateCache {
     /**
      * Removes an entry from the cache, hence forcing the re-loading of it when it's next time requested. (It doesn't
      * delete the template file itself.) This is to give the application finer control over cache updating than
-     * {@link #setDelay(long)} alone does.
+     * {link #setDelay(long)} alone does.
      * 
      * For the meaning of the parameters, see
-     * {@link Configuration#getTemplate(String, Locale, Object, String, boolean, boolean)}
+     * {link Configuration#getTemplate(String, Locale, Object, String, boolean, boolean)}
      */
     public void removeTemplate(
             String name, Locale locale, Object customLookupCondition, String encoding, boolean parse)
@@ -718,11 +709,11 @@ public class TemplateCache {
     }    
 
     /**
-     * @deprecated Use {@link Environment#toFullTemplateName(String, String)} instead, as that can throw
-     *             {@link MalformedTemplateNameException}, and is on a more logical place anyway.
+     * @deprecated Use {link Environment#toFullTemplateName(String, String)} instead, as that can throw
+     *             {link MalformedTemplateNameException}, and is on a more logical place anyway.
      * 
      * @throws IllegalArgumentException
-     *             If the {@code baseName} or {@code targetName} is malformed according the {@link TemplateNameFormat}
+     *             If the {@code baseName} or {@code targetName} is malformed according the {link TemplateNameFormat}
      *             in use.
      */
     @Deprecated
@@ -797,8 +788,8 @@ public class TemplateCache {
     }
 
     /**
-     * If IcI >= 2.3.21, sets {@link URLTemplateSource#setUseCaches(boolean)} to {@code false} for sources that come
-     * from a {@link TemplateLoader} where {@link URLConnection} cache usage wasn't set explicitly.  
+     * If IcI >= 2.3.21, sets {link URLTemplateSource#setUseCaches(boolean)} to {@code false} for sources that come
+     * from a {link TemplateLoader} where {link URLConnection} cache usage wasn't set explicitly.
      */
     private Object modifyForConfIcI(Object templateSource) {
         if (templateSource == null) return null;
@@ -807,14 +798,6 @@ public class TemplateCache {
             return templateSource;
         }
         
-        if (templateSource instanceof URLTemplateSource) {
-            URLTemplateSource urlTemplateSource = (URLTemplateSource) templateSource;
-            if (urlTemplateSource.getUseCaches() == null) {  // It was left unset
-                urlTemplateSource.setUseCaches(false);
-            }
-        } else if (templateSource instanceof MultiSource) {
-            modifyForConfIcI(((MultiSource) templateSource).getWrappedSource());
-        }
         return templateSource;
     }
 
@@ -861,7 +844,7 @@ public class TemplateCache {
 
         private boolean nullSafeEquals(Object o1, Object o2) {
             return o1 != null
-                ? (o2 != null ? o1.equals(o2) : false)
+                ? (o2 != null && o1.equals(o2))
                 : o2 == null;
         }
 
@@ -951,7 +934,7 @@ public class TemplateCache {
     }
     
     /**
-     * Used for the return value of {@link TemplateCache#getTemplate(String, Locale, Object, String, boolean)}.
+     * Used for the return value of {link TemplateCache#getTemplate(String, Locale, Object, String, boolean)}.
      * 
      * @since 2.3.22
      */
@@ -984,7 +967,7 @@ public class TemplateCache {
         }
         
         /**
-         * The {@link Template} if it wasn't missing, otherwise {@code null}.
+         * The {link Template} if it wasn't missing, otherwise {@code null}.
          */
         public Template getTemplate() {
             return template;
@@ -992,7 +975,7 @@ public class TemplateCache {
 
         /**
          * When the template was missing, this <em>possibly</em> contains the explanation, or {@code null}. If the
-         * template wasn't missing (i.e., when {@link #getTemplate()} return non-{@code null}) this is always
+         * template wasn't missing (i.e., when {link #getTemplate()} return non-{@code null}) this is always
          * {@code null}.
          */
         public String getMissingTemplateReason() {
@@ -1005,7 +988,7 @@ public class TemplateCache {
         
         /**
          * When the template was missing, this <em>possibly</em> contains its normalized name. If the template wasn't
-         * missing (i.e., when {@link #getTemplate()} return non-{@code null}) this is always {@code null}. When the
+         * missing (i.e., when {link #getTemplate()} return non-{@code null}) this is always {@code null}. When the
          * template is missing, it will be {@code null} for example if the normalization itself was unsuccessful.
          */
         public String getMissingTemplateNormalizedName() {

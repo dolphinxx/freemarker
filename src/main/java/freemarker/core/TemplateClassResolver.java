@@ -31,16 +31,16 @@ import freemarker.template.utility.ObjectConstructor;
  * restrictions and for working around local class-loader issues. 
  * 
  * The implementation should be thread-safe, unless an
- * instance is always only used in a single {@link Environment} object.
+ * instance is always only used in a single {link Environment} object.
  * 
- * @see Configurable#setNewBuiltinClassResolver(TemplateClassResolver)
+ * see Configurable#setNewBuiltinClassResolver(TemplateClassResolver)
  * 
  * @since 2.3.17
  */
 public interface TemplateClassResolver {
     
     /**
-     * Simply calls {@link ClassUtil#forName(String)}.
+     * Simply calls {link ClassUtil#forName(String)}.
      */
     TemplateClassResolver UNRESTRICTED_RESOLVER = new TemplateClassResolver() {
 
@@ -56,8 +56,8 @@ public interface TemplateClassResolver {
     };
     
     /**
-     * Same as {@link #UNRESTRICTED_RESOLVER}, except that it doesn't allow
-     * resolving {@link ObjectConstructor} and {@link Execute} and {@code freemarker.template.utility.JythonRuntime}.
+     * Same as {link #UNRESTRICTED_RESOLVER}, except that it doesn't allow
+     * resolving {link ObjectConstructor} and {link Execute} and {@code freemarker.template.utility.JythonRuntime}.
      */
     TemplateClassResolver SAFER_RESOLVER =  new TemplateClassResolver() {
 
@@ -90,7 +90,7 @@ public interface TemplateClassResolver {
     };
 
     /**
-     * Gets a {@link Class} based on the class name.
+     * Gets a {link Class} based on the class name.
      * 
      * @param className the full-qualified class name
      * @param env the environment in which the template executes

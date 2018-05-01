@@ -23,7 +23,7 @@ import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateModel;
 
 /**
- * Indicates that a {@link TemplateHashModelEx} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateHashModelEx} value was expected, but the value had a different type.
  */
 public class NonExtendedHashException extends UnexpectedTypeException {
 

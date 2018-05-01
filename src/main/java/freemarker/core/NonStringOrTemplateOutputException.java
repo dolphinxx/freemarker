@@ -20,11 +20,10 @@
 package freemarker.core;
 
 import freemarker.template.TemplateModel;
-import freemarker.template.TemplateScalarModel;
 
 /**
- * Indicates that a {@link TemplateScalarModel} (or maybe something that can be automatically coerced
- * to that) or {@link TemplateMarkupOutputModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateScalarModel} (or maybe something that can be automatically coerced
+ * to that) or {link TemplateMarkupOutputModel} value was expected, but the value had a different type.
  */
 public class NonStringOrTemplateOutputException extends UnexpectedTypeException {
 
@@ -39,8 +38,8 @@ public class NonStringOrTemplateOutputException extends UnexpectedTypeException 
             STRING_COERCABLE_TYPES_AND_TOM[i] = NonStringException.STRING_COERCABLE_TYPES[i];
         }
         STRING_COERCABLE_TYPES_AND_TOM[i] = TemplateMarkupOutputModel.class;
-    };
-    
+    }
+
     private static final String DEFAULT_DESCRIPTION
             = "Expecting " + NonStringOrTemplateOutputException.STRING_COERCABLE_TYPES_OR_TOM_DESC + " value here";
 

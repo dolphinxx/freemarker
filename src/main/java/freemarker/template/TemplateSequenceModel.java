@@ -26,7 +26,7 @@ package freemarker.template;
  * <p>
  * Used in templates like: {@code mySeq[index]}, {@code <#list mySeq as i>...</#list>}, {@code mySeq?size}, etc.
  * 
- * @see TemplateCollectionModel
+ * see TemplateCollectionModel
  */
 public interface TemplateSequenceModel extends TemplateModel {
 

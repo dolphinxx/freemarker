@@ -61,7 +61,7 @@ public class FirstMatchTemplateConfigurationFactory extends TemplateConfiguratio
     }
 
     /**
-     * Getter pair of {@link #setAllowNoMatch(boolean)}.
+     * Getter pair of {link #setAllowNoMatch(boolean)}.
      */
     public boolean getAllowNoMatch() {
         return allowNoMatch;
@@ -71,7 +71,7 @@ public class FirstMatchTemplateConfigurationFactory extends TemplateConfiguratio
      * Use this to specify if having no matching choice is an error. The default is {@code false}, that is, it's an
      * error if there was no matching choice.
      * 
-     * @see #setNoMatchErrorDetails(String)
+     * see #setNoMatchErrorDetails(String)
      */
     public void setAllowNoMatch(boolean allowNoMatch) {
         this.allowNoMatch = allowNoMatch;
@@ -81,7 +81,7 @@ public class FirstMatchTemplateConfigurationFactory extends TemplateConfiguratio
      * Use this to specify the text added to the exception error message when there was no matching choice.
      * The default is {@code null} (no error details).
      * 
-     * @see #setAllowNoMatch(boolean)
+     * see #setAllowNoMatch(boolean)
      */
     public String getNoMatchErrorDetails() {
         return noMatchErrorDetails;
@@ -93,7 +93,7 @@ public class FirstMatchTemplateConfigurationFactory extends TemplateConfiguratio
     }
     
     /**
-     * Same as {@link #setAllowNoMatch(boolean)}, but return this object to support "fluent API" style. 
+     * Same as {link #setAllowNoMatch(boolean)}, but return this object to support "fluent API" style.
      */
     public FirstMatchTemplateConfigurationFactory allowNoMatch(boolean allow) {
         setAllowNoMatch(allow);
@@ -101,7 +101,7 @@ public class FirstMatchTemplateConfigurationFactory extends TemplateConfiguratio
     }
 
     /**
-     * Same as {@link #setNoMatchErrorDetails(String)}, but return this object to support "fluent API" style. 
+     * Same as {link #setNoMatchErrorDetails(String)}, but return this object to support "fluent API" style.
      */
     public FirstMatchTemplateConfigurationFactory noMatchErrorDetails(String message) {
         setNoMatchErrorDetails(message);

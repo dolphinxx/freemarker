@@ -39,7 +39,6 @@ import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelAdapter;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
@@ -50,7 +49,6 @@ import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.RichObjectWrapper;
 import freemarker.template.utility.WriteProtectable;
 
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
@@ -71,24 +69,24 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 /**
- * {@link ObjectWrapper} that is able to expose the Java API of arbitrary Java objects. This is also the superclass of
- * {@link DefaultObjectWrapper}. Note that instances of this class generally should be created with a
- * {@link BeansWrapperBuilder}, not with its public constructors.
+ * {link ObjectWrapper} that is able to expose the Java API of arbitrary Java objects. This is also the superclass of
+ * {link DefaultObjectWrapper}. Note that instances of this class generally should be created with a
+ * {link BeansWrapperBuilder}, not with its public constructors.
  * 
  * <p>
- * As of 2.3.22, using {@link BeansWrapper} unextended is not recommended. Instead, {@link DefaultObjectWrapper} with
- * its {@code incompatibleImprovements} property set to 2.3.22 (or higher) is the recommended {@link ObjectWrapper}.
+ * As of 2.3.22, using {link BeansWrapper} unextended is not recommended. Instead, {link DefaultObjectWrapper} with
+ * its {@code incompatibleImprovements} property set to 2.3.22 (or higher) is the recommended {link ObjectWrapper}.
  * 
  * <p>
  * This class is only thread-safe after you have finished calling its setter methods, and then safely published it (see
- * JSR 133 and related literature). When used as part of {@link Configuration}, of course it's enough if that was safely
- * published and then left unmodified. Using {@link BeansWrapperBuilder} also guarantees thread safety.
+ * JSR 133 and related literature). When used as part of {link Configuration}, of course it's enough if that was safely
+ * published and then left unmodified. Using {link BeansWrapperBuilder} also guarantees thread safety.
  */
 public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     private static final Logger LOG = Logger.getLogger("freemarker.beans");
 
     /**
-     * @deprecated Use {@link ObjectWrapperAndUnwrapper#CANT_UNWRAP_TO_TARGET_CLASS} instead. It's not a public field
+     * @deprecated Use {link ObjectWrapperAndUnwrapper#CANT_UNWRAP_TO_TARGET_CLASS} instead. It's not a public field
      *             anyway.
      */
     @Deprecated
@@ -125,7 +123,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * Only map items, resource bundle items, and objects retrieved through
      * the generic get method (on objects of classes that have a generic get
      * method) can be retrieved through the hash interface. You might want to 
-     * call {@link #setMethodsShadowItems(boolean)} with <tt>false</tt> value to
+     * call {link #setMethodsShadowItems(boolean)} with <tt>false</tt> value to
      * speed up map item retrieval.
      */
     public static final int EXPOSE_NOTHING = 3;
@@ -136,10 +134,10 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     private final Object sharedIntrospectionLock;
     
     /** 
-     * {@link Class} to class info cache.
-     * This object is possibly shared with other {@link BeansWrapper}-s!
+     * {link Class} to class info cache.
+     * This object is possibly shared with other {link BeansWrapper}-s!
      * 
-     * <p>To write this, always use {@link #replaceClassIntrospector(ClassIntrospectorBuilder)}.
+     * <p>To write this, always use {link #replaceClassIntrospector(ClassIntrospectorBuilder)}.
      * 
      * <p>When reading this, it's good idea to synchronize on sharedInrospectionLock when it doesn't hurt overall
      * performance. In theory that's not needed, but apps might fail to keep the rules.
@@ -147,24 +145,24 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     private ClassIntrospector classIntrospector;
     
     /**
-     * {@link String} class name to {@link StaticModel} cache.
-     * This object only belongs to a single {@link BeansWrapper}.
-     * This has to be final as {@link #getStaticModels()} might returns it any time and then it has to remain a good
+     * {link String} class name to {link StaticModel} cache.
+     * This object only belongs to a single {link BeansWrapper}.
+     * This has to be final as {link #getStaticModels()} might returns it any time and then it has to remain a good
      * reference.
      */
     private final StaticModels staticModels;
     
     /**
-     * {@link String} class name to {@link EnumerationModel} cache.
-     * This object only belongs to a single {@link BeansWrapper}.
-     * This has to be final as {@link #getStaticModels()} might returns it any time and then it has to remain a good
+     * {link String} class name to {link EnumerationModel} cache.
+     * This object only belongs to a single {link BeansWrapper}.
+     * This has to be final as {link #getStaticModels()} might returns it any time and then it has to remain a good
      * reference.
      */
     private final ClassBasedModelFactory enumModels;
     
     /**
      * Object to wrapped object cache; not used by default.
-     * This object only belongs to a single {@link BeansWrapper}.
+     * This object only belongs to a single {link BeansWrapper}.
      */
     private final ModelCache modelCache;
 
@@ -190,9 +188,9 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     
     /**
      * Creates a new instance with the incompatible-improvements-version specified in
-     * {@link Configuration#DEFAULT_INCOMPATIBLE_IMPROVEMENTS}.
+     * {link Configuration#DEFAULT_INCOMPATIBLE_IMPROVEMENTS}.
      * 
-     * @deprecated Use {@link BeansWrapperBuilder} or, in rare cases, {@link #BeansWrapper(Version)} instead.
+     * @deprecated Use {link BeansWrapperBuilder} or, in rare cases, {link #BeansWrapper(Version)} instead.
      */
     @Deprecated
     public BeansWrapper() {
@@ -201,7 +199,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Use {@link BeansWrapperBuilder} instead of the public constructors if possible.
+     * Use {link BeansWrapperBuilder} instead of the public constructors if possible.
      * The main disadvantage of using the public constructors is that the instances won't share caches. So unless having
      * a private cache is your goal, don't use them. See 
      * 
@@ -215,8 +213,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      *   below. Increasing the 2nd or 1st version number possibly mean substantial changes with higher risk of breaking
      *   the application, but again, see the list of effects below.
      *   
-     *   <p>The reason it's separate from {@link Configuration#setIncompatibleImprovements(Version)} is that
-     *   {@link ObjectWrapper} objects are often shared among multiple {@link Configuration}-s, so the two version
+     *   <p>The reason it's separate from {link Configuration#setIncompatibleImprovements(Version)} is that
+     *   {link ObjectWrapper} objects are often shared among multiple {link Configuration}-s, so the two version
      *   numbers are technically independent. But it's recommended to keep those two version numbers the same.
      * 
      *   <p>The changes enabled by {@code incompatibleImprovements} are:
@@ -238,26 +236,26 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      *     </li>
      *     <li>
      *       <p>2.3.24 (or higher):
-     *       {@link Iterator}-s were always said to be non-empty when using {@code ?has_content} and such (i.e.,
-     *       operators that check emptiness without reading any elements). Now an {@link Iterator} counts as
+     *       {link Iterator}-s were always said to be non-empty when using {@code ?has_content} and such (i.e.,
+     *       operators that check emptiness without reading any elements). Now an {link Iterator} counts as
      *       empty exactly if it has no elements left. (Note that this bug has never affected basic functionality, like
      *       {@code <#list ...>}.) 
      *     </li>  
      *     <li>
      *       <p>2.3.26 (or higher):
-     *       The default of {@link BeansWrapper#getTreatDefaultMethodsAsBeanMembers()} changes from {@code false} to
+     *       The default of {link BeansWrapper#getTreatDefaultMethodsAsBeanMembers()} changes from {@code false} to
      *       {@code true}. Thus, Java 8 default methods (and the bean properties they define) are exposed, despite that
-     *       {@link java.beans.Introspector} (the official JavaBeans introspector) ignores them, at least as of Java 8. 
+     *       {link java.beans.Introspector} (the official JavaBeans introspector) ignores them, at least as of Java 8.
      *     </li>  
      *     <li>
      *       <p>2.3.27 (or higher):
-     *       The default of the {@link #setPreferIndexedReadMethod(boolean) preferIndexedReadMethod} setting changes
+     *       The default of the {link #setPreferIndexedReadMethod(boolean) preferIndexedReadMethod} setting changes
      *       from {@code true} to {@code false}.
      *     </li>  
      *   </ul>
      *   
      *   <p>Note that the version will be normalized to the lowest version where the same incompatible
-     *   {@link BeansWrapper} improvements were already present, so {@link #getIncompatibleImprovements()} might returns
+     *   {link BeansWrapper} improvements were already present, so {link #getIncompatibleImprovements()} might returns
      *   a lower version than what you have specified.
      *
      * @since 2.3.21
@@ -271,7 +269,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     private static volatile boolean ftmaDeprecationWarnLogged;
     
     /**
-     * Same as {@link #BeansWrapper(BeansWrapperConfiguration, boolean, boolean)} with {@code true}
+     * Same as {link #BeansWrapper(BeansWrapperConfiguration, boolean, boolean)} with {@code true}
      * {@code finalizeConstruction} argument.
      * 
      * @since 2.3.21
@@ -281,13 +279,13 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Initializes the instance based on the the {@link BeansWrapperConfiguration} specified.
+     * Initializes the instance based on the the {link BeansWrapperConfiguration} specified.
      * 
      * @param writeProtected Makes the instance's configuration settings read-only via
-     *     {@link WriteProtectable#writeProtect()}; this way it can use the shared class introspection cache.
+     *     {link WriteProtectable#writeProtect()}; this way it can use the shared class introspection cache.
      *     
      * @param finalizeConstruction Decides if the construction is finalized now, or the caller will do some more
-     *     adjustments on the instance and then call {@link #finalizeConstruction(boolean)} itself. 
+     *     adjustments on the instance and then call {link #finalizeConstruction(boolean)} itself.
      * 
      * @since 2.3.22
      */
@@ -304,7 +302,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
                         && thisClass != SimpleObjectWrapper.class) {
                     try {
                         thisClass.getDeclaredMethod("finetuneMethodAppearance",
-                                new Class<?>[] { Class.class, Method.class, MethodAppearanceDecision.class });
+                                Class.class, Method.class, MethodAppearanceDecision.class);
                         overridden = true;
                     } catch (NoSuchMethodException e) {
                         thisClass = thisClass.getSuperclass();
@@ -371,7 +369,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * Meant to be called after {@link BeansWrapper#BeansWrapper(BeansWrapperConfiguration, boolean, boolean)} when
+     * Meant to be called after {link BeansWrapper#BeansWrapper(BeansWrapperConfiguration, boolean, boolean)} when
      * its last argument was {@code false}; makes the instance read-only if necessary, then registers the model
      * factories in the class introspector. No further changes should be done after calling this, if
      * {@code writeProtected} was {@code true}. 
@@ -392,11 +390,11 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Makes the configuration properties (settings) of this {@link BeansWrapper} object read-only. As changing them
+     * Makes the configuration properties (settings) of this {link BeansWrapper} object read-only. As changing them
      * after the object has become visible to multiple threads leads to undefined behavior, it's recommended to call
      * this when you have finished configuring the object.
      * 
-     * <p>Consider using {@link BeansWrapperBuilder} instead, which gives an instance that's already
+     * <p>Consider using {link BeansWrapperBuilder} instead, which gives an instance that's already
      * write protected and also uses some shared caches/pools. 
      * 
      * @since 2.3.21
@@ -417,7 +415,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * If this object is already read-only according to {@link WriteProtectable}, throws {@link IllegalStateException},
+     * If this object is already read-only according to {link WriteProtectable}, throws {link IllegalStateException},
      * otherwise does nothing.
      * 
      * @since 2.3.21
@@ -428,7 +426,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * @see #setStrict(boolean)
+     * see #setStrict(boolean)
      */
     public boolean isStrict() {
     	return strict;
@@ -436,7 +434,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     
     /**
      * Specifies if an attempt to read a bean property that doesn't exist in the
-     * wrapped object should throw an {@link InvalidPropertyException}.
+     * wrapped object should throw an {link InvalidPropertyException}.
      * 
      * <p>If this property is <tt>false</tt> (the default) then an attempt to read
      * a missing bean property is the same as reading an existing bean property whose
@@ -447,7 +445,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * <p>If this property is <tt>true</tt> then an attempt to read a bean propertly in
      * the template (like <tt>myBean.aProperty</tt>) that doesn't exist in the bean
      * object (as opposed to just holding <tt>null</tt> value) will cause
-     * {@link InvalidPropertyException}, which can't be suppressed in the template
+     * {link InvalidPropertyException}, which can't be suppressed in the template
      * (not even with <tt>myBean.noSuchProperty?default('something')</tt>). This way
      * <tt>?default('something')</tt> and <tt>?exists</tt> and similar built-ins can be used to
      * handle existing properties whose value is <tt>null</tt>, without the risk of
@@ -476,29 +474,29 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * By default returns <tt>this</tt>.
-     * @see #setOuterIdentity(ObjectWrapper)
+     * see #setOuterIdentity(ObjectWrapper)
      */
     public ObjectWrapper getOuterIdentity() {
         return outerIdentity;
     }
 
     /**
-     * When set to {@code true}, the keys in {@link Map}-s won't mix with the method names when looking at them
+     * When set to {@code true}, the keys in {link Map}-s won't mix with the method names when looking at them
      * from templates. The default is {@code false} for backward-compatibility, but is not recommended.
      * 
      * <p>When this is {@code false}, {@code myMap.foo} or {@code myMap['foo']} either returns the method {@code foo},
-     * or calls {@code Map.get("foo")}. If both exists (the method and the {@link Map} key), one will hide the other,
-     * depending on the {@link #isMethodsShadowItems()}, which default to {@code true} (the method
+     * or calls {@code Map.get("foo")}. If both exists (the method and the {link Map} key), one will hide the other,
+     * depending on the {link #isMethodsShadowItems()}, which default to {@code true} (the method
      * wins). Some frameworks use this so that you can call {@code myMap.get(nonStringKey)} from templates [*], but it
      * comes on the cost of polluting the key-set with the method names, and risking methods accidentally hiding
-     * {@link Map} entries (or the other way around). Thus, this setup is not recommended.
-     * (Technical note: {@link Map}-s will be wrapped into {@link MapModel} in this case.)  
+     * {link Map} entries (or the other way around). Thus, this setup is not recommended.
+     * (Technical note: {link Map}-s will be wrapped into {link MapModel} in this case.)
      *
      * <p>When this is {@code true}, {@code myMap.foo} or {@code myMap['foo']} always calls {@code Map.get("foo")}.
-     * The methods of the {@link Map} object aren't visible from templates in this case. This, however, spoils the
+     * The methods of the {link Map} object aren't visible from templates in this case. This, however, spoils the
      * {@code myMap.get(nonStringKey)} workaround. But now you can use {@code myMap(nonStringKey)} instead, that is, you
      * can use the map itself as the {@code get} method. 
-     * (Technical note: {@link Map}-s will be wrapped into {@link SimpleMapModel} in this case.)
+     * (Technical note: {link Map}-s will be wrapped into {link SimpleMapModel} in this case.)
      * 
      * <p>*: For historical reasons, FreeMarker 2.3.X doesn't support non-string keys with the {@code []} operator,
      *       hence the workarounds. This will be likely fixed in FreeMarker 2.4.0. Also note that the method- and
@@ -512,7 +510,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * Tells whether Maps are exposed as simple maps, without access to their
-     * method. See {@link #setSimpleMapWrapper(boolean)} for details.
+     * method. See {link #setSimpleMapWrapper(boolean)} for details.
      * @return true if Maps are exposed as simple hashes, false if they're
      * exposed as full JavaBeans.
      */
@@ -521,7 +519,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * Getter pair of {@link #setPreferIndexedReadMethod(boolean)} 
+     * Getter pair of {link #setPreferIndexedReadMethod(boolean)}
      * 
      * @since 2.3.27
      */
@@ -531,20 +529,20 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * Sets if when a JavaBean property has both a normal read method (like {@code String[] getFoos()}) and an indexed
-     * read method (like {@code String getFoos(int index)}), and the Java {@link Introspector} exposes both (which only
+     * read method (like {@code String getFoos(int index)}), and the Java {link Introspector} exposes both (which only
      * happens since Java 8, apparently), which read method will be used when the property is accessed with the
-     * shorthand syntax (like {@code myObj.foos}). Before {@link #getIncompatibleImprovements() incompatibleImprovements}
+     * shorthand syntax (like {@code myObj.foos}). Before {link #getIncompatibleImprovements() incompatibleImprovements}
      * 2.3.27 it defaults to {@code true} for backward compatibility (although it's actually less backward compatible if
      * you are just switching to Java 8; see later), but the recommended value and the default starting with
-     * {@link #getIncompatibleImprovements() incompatibleImprovements} 2.3.27 is {@code false}. This setting has no
+     * {link #getIncompatibleImprovements() incompatibleImprovements} 2.3.27 is {@code false}. This setting has no
      * effect on properties that only has normal read method, or only has indexed read method. In case a property has
      * both, using the indexed reader method is disadvantageous, as then FreeMarker can't tell what the highest allowed
      * index is, and so the property will be unlistable ({@code <#list foo as myObj.foos>} will fail).
      * 
      * <p>
-     * Apparently, this setting only matters since Java 8, as before that {@link Introspector} did not expose the
+     * Apparently, this setting only matters since Java 8, as before that {link Introspector} did not expose the
      * indexed reader method if there was also a normal reader method. As with Java 8 the behavior of
-     * {@link Introspector} has changed, some old templates started to break, as the property has suddenly become
+     * {link Introspector} has changed, some old templates started to break, as the property has suddenly become
      * unlistable (see earlier why). So setting this to {@code false} can be seen as a Java 8 compatibility fix.
      * 
      * @since 2.3.27
@@ -599,11 +597,11 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     /**
      * Controls whether Java 8 default methods that weren't overridden in a class will be recognized as bean property
      * accessors and/or bean actions, and thus will be visible from templates. (We expose bean properties and bean
-     * actions, not methods in general.) Before {@link #getIncompatibleImprovements incompatibleImprovements} 2.3.26
-     * this defaults to {@code false} for backward compatibility. Starting with {@link #getIncompatibleImprovements
+     * actions, not methods in general.) Before {link #getIncompatibleImprovements incompatibleImprovements} 2.3.26
+     * this defaults to {@code false} for backward compatibility. Starting with {link #getIncompatibleImprovements
      * incompatibleImprovements} 2.3.26 it defaults to {@code true}.
      * <p>
-     * Some explanation: FreeMarker uses {@link java.beans.Introspector} to discover the bean properties and actions of
+     * Some explanation: FreeMarker uses {link java.beans.Introspector} to discover the bean properties and actions of
      * classes, for maximum conformance to the JavaBeans specification. But for some reason (perhaps just a bug in the
      * Oracle/OpenJDK Java 8 implementation) that ignores the Java 8 default methods coming from the interfaces. When
      * this setting is {@code true}, we search for non-overridden default methods ourselves, and add them to the set of
@@ -623,7 +621,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     
     /**
      * Returns whether exposure of public instance fields of classes is 
-     * enabled. See {@link #setExposeFields(boolean)} for details.
+     * enabled. See {link #setExposeFields(boolean)} for details.
      * @return true if public instance fields are exposed, false otherwise.
      * 
      * @since 2.3.26
@@ -633,7 +631,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * See {@link #setTreatDefaultMethodsAsBeanMembers(boolean)}.
+     * See {link #setTreatDefaultMethodsAsBeanMembers(boolean)}.
      */
     public boolean getTreatDefaultMethodsAsBeanMembers() {
         return classIntrospector.getTreatDefaultMethodsAsBeanMembers();
@@ -645,7 +643,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * Used to tweak certain aspects of how methods appear in the data-model;
-     * see {@link MethodAppearanceFineTuner} for more.
+     * see {link MethodAppearanceFineTuner} for more.
      */
     public void setMethodAppearanceFineTuner(MethodAppearanceFineTuner methodAppearanceFineTuner) {
         checkModifiable();
@@ -672,10 +670,10 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Tells if this instance acts like if its class introspection cache is sharable with other {@link BeansWrapper}-s.
-     * A restricted cache denies certain too "antisocial" operations, like {@link #clearClassIntrospecitonCache()}.
+     * Tells if this instance acts like if its class introspection cache is sharable with other {link BeansWrapper}-s.
+     * A restricted cache denies certain too "antisocial" operations, like {link #clearClassIntrospecitonCache()}.
      * The value depends on how the instance
-     * was created; with a public constructor (then this is {@code false}), or with {@link BeansWrapperBuilder}
+     * was created; with a public constructor (then this is {@code false}), or with {link BeansWrapperBuilder}
      * (then it's {@code true}). Note that in the last case it's possible that the introspection cache
      * will not be actually shared because there's no one to share with, but this will {@code true} even then. 
      * 
@@ -686,8 +684,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /** 
-     * Replaces the value of {@link #classIntrospector}, but first it unregisters
-     * the model factories in the old {@link #classIntrospector}.
+     * Replaces the value of {link #classIntrospector}, but first it unregisters
+     * the model factories in the old {link #classIntrospector}.
      */
     private void replaceClassIntrospector(ClassIntrospectorBuilder builder) {
         checkModifiable();
@@ -770,7 +768,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * Sets the default date type to use for date models that result from
      * a plain <tt>java.util.Date</tt> instead of <tt>java.sql.Date</tt> or
      * <tt>java.sql.Time</tt> or <tt>java.sql.Timestamp</tt>. Default value is 
-     * {@link TemplateDateModel#UNKNOWN}.
+     * {link TemplateDateModel#UNKNOWN}.
      * @param defaultDateType the new default date type.
      */
     public void setDefaultDateType(int defaultDateType) {
@@ -784,7 +782,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * Returns the default date type. See {@link #setDefaultDateType(int)} for
+     * Returns the default date type. See {link #setDefaultDateType(int)} for
      * details.
      * @return the default date type
      */
@@ -793,9 +791,9 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Sets whether this wrapper caches the {@link TemplateModel}-s created for the Java objects that has wrapped with
+     * Sets whether this wrapper caches the {link TemplateModel}-s created for the Java objects that has wrapped with
      * this object wrapper. Default is {@code false}.
-     * When set to {@code true}, calling {@link #wrap(Object)} multiple times for
+     * When set to {@code true}, calling {link #wrap(Object)} multiple times for
      * the same object will likely return the same model (although there is
      * no guarantee as the cache items can be cleared any time).
      */
@@ -812,11 +810,11 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Sets the null model. This model is returned from the {@link #wrap(Object)} method whenever the wrapped object is
+     * Sets the null model. This model is returned from the {link #wrap(Object)} method whenever the wrapped object is
      * {@code null}. It defaults to {@code null}, which is dealt with quite strictly on engine level, however you can
      * substitute an arbitrary (perhaps more lenient) model, like an empty string. For proper working, the
-     * {@code nullModel} should be an {@link AdapterTemplateModel} that returns {@code null} for
-     * {@link AdapterTemplateModel#getAdaptedObject(Class)}.
+     * {@code nullModel} should be an {link AdapterTemplateModel} that returns {@code null} for
+     * {link AdapterTemplateModel#getAdaptedObject(Class)}.
      * 
      * @deprecated Changing the {@code null} model can cause a lot of confusion; don't do it.
      */
@@ -827,7 +825,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Returns the version given with {@link #BeansWrapper(Version)}, normalized to the lowest version where a change
+     * Returns the version given with {link #BeansWrapper(Version)}, normalized to the lowest version where a change
      * has occurred. Thus, this is not necessarily the same version than that was given to the constructor.
      * 
      * @since 2.3.21
@@ -872,14 +870,14 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * Returns the default instance of the wrapper. This instance is used
      * when you construct various bean models without explicitly specifying
      * a wrapper. It is also returned by 
-     * {@link freemarker.template.ObjectWrapper#BEANS_WRAPPER}
+     * {link freemarker.template.ObjectWrapper#BEANS_WRAPPER}
      * and this is the sole instance that is used by the JSP adapter.
      * You can modify the properties of the default instance (caching,
      * exposure level, null model) to affect its operation. By default, the
      * default instance is not caching, uses the <code>EXPOSE_SAFE</code>
      * exposure level, and uses null reference as the null model.
      * 
-     * @deprecated Use {@link BeansWrapperBuilder} instead. The instance returned here is not read-only, so it's
+     * @deprecated Use {link BeansWrapperBuilder} instead. The instance returned here is not read-only, so it's
      *     dangerous to use.
      */
     @Deprecated
@@ -891,20 +889,20 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * Wraps the object with a template model that is most specific for the object's
      * class. Specifically:
      * <ul>
-     * <li>if the object is null, returns the {@link #setNullModel(TemplateModel) null model},</li>
-     * <li>if the object is a Number returns a {@link NumberModel} for it,</li>
-     * <li>if the object is a Date returns a {@link DateModel} for it,</li>
+     * <li>if the object is null, returns the {link #setNullModel(TemplateModel) null model},</li>
+     * <li>if the object is a Number returns a {link NumberModel} for it,</li>
+     * <li>if the object is a Date returns a {link DateModel} for it,</li>
      * <li>if the object is a Boolean returns 
-     * {@link freemarker.template.TemplateBooleanModel#TRUE} or 
-     * {@link freemarker.template.TemplateBooleanModel#FALSE}</li>
+     * {link freemarker.template.TemplateBooleanModel#TRUE} or
+     * {link freemarker.template.TemplateBooleanModel#FALSE}</li>
      * <li>if the object is already a TemplateModel, returns it unchanged,</li>
-     * <li>if the object is an array, returns a {@link ArrayModel} for it
-     * <li>if the object is a Map, returns a {@link MapModel} for it
-     * <li>if the object is a Collection, returns a {@link CollectionModel} for it
-     * <li>if the object is an Iterator, returns a {@link IteratorModel} for it
-     * <li>if the object is an Enumeration, returns a {@link EnumerationModel} for it
-     * <li>if the object is a String, returns a {@link StringModel} for it
-     * <li>otherwise, returns a generic {@link StringModel} for it.
+     * <li>if the object is an array, returns a {link ArrayModel} for it
+     * <li>if the object is a Map, returns a {link MapModel} for it
+     * <li>if the object is a Collection, returns a {link CollectionModel} for it
+     * <li>if the object is an Iterator, returns a {link IteratorModel} for it
+     * <li>if the object is an Enumeration, returns a {link EnumerationModel} for it
+     * <li>if the object is a String, returns a {link StringModel} for it
+     * <li>otherwise, returns a generic {link StringModel} for it.
      * </ul>
      */
     public TemplateModel wrap(Object object) throws TemplateModelException {
@@ -915,14 +913,14 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     /**
      * Wraps a Java method so that it can be called from templates, without wrapping its parent ("this") object. The
      * result is almost the same as that you would get by wrapping the parent object then getting the method from the
-     * resulting {@link TemplateHashModel} by name. Except, if the wrapped method is overloaded, with this method you
-     * explicitly select an overload, while otherwise you would get a {@link TemplateMethodModelEx} that selects an
+     * resulting {link TemplateHashModel} by name. Except, if the wrapped method is overloaded, with this method you
+     * explicitly select an overload, while otherwise you would get a {link TemplateMethodModelEx} that selects an
      * overload each time it's called based on the argument values.
      * 
      * @param object The object whose method will be called, or {@code null} if {@code method} is a static method.
-     *          This object will be used "as is", like without unwrapping it if it's a {@link TemplateModelAdapter}.
+     *          This object will be used "as is", like without unwrapping it if it's a {link TemplateModelAdapter}.
      * @param method The method to call, which must be an (inherited) member of the class of {@code object}, as
-     *          described by {@link Method#invoke(Object, Object...)}
+     *          described by {link Method#invoke(Object, Object...)}
      * 
      * @since 2.3.22
      */
@@ -938,7 +936,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * @deprecated override {@link #getModelFactory(Class)} instead. Using this
+     * @deprecated override {link #getModelFactory(Class)} instead. Using this
      * method will now bypass wrapper caching (if it's enabled) and always 
      * result in creation of a new wrapper. This method will be removed in 2.4
      * @param object The object to wrap
@@ -951,7 +949,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     private final ModelFactory BOOLEAN_FACTORY = new ModelFactory() {
         public TemplateModel create(Object object, ObjectWrapper wrapper) {
-            return ((Boolean) object).booleanValue() ? trueModel : falseModel; 
+            return (Boolean) object ? trueModel : falseModel;
         }
     };
 
@@ -1000,14 +998,14 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * Attempts to unwrap a model into underlying object. Generally, this
-     * method is the inverse of the {@link #wrap(Object)} method. In addition
-     * it will unwrap arbitrary {@link TemplateNumberModel} instances into
-     * a number, arbitrary {@link TemplateDateModel} instances into a date,
-     * {@link TemplateScalarModel} instances into a String, arbitrary 
-     * {@link TemplateBooleanModel} instances into a Boolean, arbitrary 
-     * {@link TemplateHashModel} instances into a Map, arbitrary 
-     * {@link TemplateSequenceModel} into a List, and arbitrary 
-     * {@link TemplateCollectionModel} into a Set. All other objects are 
+     * method is the inverse of the {link #wrap(Object)} method. In addition
+     * it will unwrap arbitrary {link TemplateNumberModel} instances into
+     * a number, arbitrary {link TemplateDateModel} instances into a date,
+     * {link TemplateScalarModel} instances into a String, arbitrary
+     * {link TemplateBooleanModel} instances into a Boolean, arbitrary
+     * {link TemplateHashModel} instances into a Map, arbitrary
+     * {link TemplateSequenceModel} into a List, and arbitrary
+     * {link TemplateCollectionModel} into a Set. All other objects are
      * returned unchanged.
      * @throws TemplateModelException if an attempted unwrapping fails.
      */
@@ -1017,7 +1015,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * Attempts to unwrap a model into an object of the desired class. 
-     * Generally, this method is the inverse of the {@link #wrap(Object)} 
+     * Generally, this method is the inverse of the {link #wrap(Object)}
      * method. It recognizes a wide range of target classes - all Java built-in
      * primitives, primitive wrappers, numbers, dates, sets, lists, maps, and
      * native arrays.
@@ -1026,7 +1024,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * @return the unwrapped result of the desired class
      * @throws TemplateModelException if an attempted unwrapping fails.
      * 
-     * @see #tryUnwrapTo(TemplateModel, Class)
+     * see #tryUnwrapTo(TemplateModel, Class)
      */
     public Object unwrap(TemplateModel model, Class<?> targetClass) 
     throws TemplateModelException {
@@ -1049,8 +1047,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * @param typeFlags
      *            Used when unwrapping for overloaded methods and so the {@code targetClass} is possibly too generic.
      *            Must be 0 when unwrapping parameter values for non-overloaded methods, also if
-     *            {@link #is2321Bugfixed()} is {@code false}.
-     * @return {@link ObjectWrapperAndUnwrapper#CANT_UNWRAP_TO_TARGET_CLASS} or the unwrapped object.
+     *            {link #is2321Bugfixed()} is {@code false}.
+     * @return {link ObjectWrapperAndUnwrapper#CANT_UNWRAP_TO_TARGET_CLASS} or the unwrapped object.
      */
     Object tryUnwrapTo(TemplateModel model, Class<?> targetClass, int typeFlags) 
     throws TemplateModelException {
@@ -1064,7 +1062,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * See {@link #tryUnwrapTo(TemplateModel, Class, int)}.
+     * See {link #tryUnwrapTo(TemplateModel, Class, int)}.
      */
     private Object tryUnwrapTo(final TemplateModel model, Class<?> targetClass, final int typeFlags,
             final Map<Object, Object> recursionStops) 
@@ -1140,7 +1138,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
             
             if (boolean.class == targetClass || Boolean.class == targetClass) {
                 if (model instanceof TemplateBooleanModel) {
-                    return Boolean.valueOf(((TemplateBooleanModel) model).getAsBoolean());
+                    return ((TemplateBooleanModel) model).getAsBoolean();
                 }
                 // Boolean is final, no other conversion will work
                 return ObjectWrapperAndUnwrapper.CANT_UNWRAP_TO_TARGET_CLASS;
@@ -1188,7 +1186,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
                 if (model instanceof TemplateScalarModel) {
                     String s = ((TemplateScalarModel) model).getAsString();
                     if (s.length() == 1) {
-                        return Character.valueOf(s.charAt(0));
+                        return s.charAt(0);
                     }
                 }
                 // Character is final, no other conversion will work
@@ -1236,7 +1234,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
                         if ((itf & TypeFlags.ACCEPTS_STRING) != 0) {
                             return new CharacterOrString(strVal);
                         } else {
-                            return Character.valueOf(strVal.charAt(0));
+                            return strVal.charAt(0);
                         }
                     } else if ((itf & TypeFlags.ACCEPTS_STRING) != 0) {
                         return strVal; 
@@ -1248,7 +1246,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
             if ((itf == 0 || (itf & TypeFlags.ACCEPTS_BOOLEAN) != 0)
                     && model instanceof TemplateBooleanModel
                     && (itf != 0 || targetClass.isAssignableFrom(Boolean.class))) {
-                return Boolean.valueOf(((TemplateBooleanModel) model).getAsBoolean());
+                return ((TemplateBooleanModel) model).getAsBoolean();
             }
             if ((itf == 0 || (itf & TypeFlags.ACCEPTS_MAP) != 0)
                     && model instanceof TemplateHashModel
@@ -1292,8 +1290,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     /**
      * @param tryOnly
      *            If {@code true}, if the conversion of an item to the component type isn't possible, the method returns
-     *            {@link ObjectWrapperAndUnwrapper#CANT_UNWRAP_TO_TARGET_CLASS} instead of throwing a
-     *            {@link TemplateModelException}.
+     *            {link ObjectWrapperAndUnwrapper#CANT_UNWRAP_TO_TARGET_CLASS} instead of throwing a
+     *            {link TemplateModelException}.
      */
     Object unwrapSequenceToArray(
             TemplateSequenceModel seq, Class<?> arrayClass, boolean tryOnly, Map<Object, Object> recursionStops)
@@ -1321,7 +1319,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
                         throw new _TemplateModelException(
                                 "Failed to convert ",  new _DelayedFTLTypeDescription(seq),
                                 " object to ", new _DelayedShortClassName(array.getClass()),
-                                ": Problematic sequence item at index ", Integer.valueOf(i) ," with value type: ",
+                                ": Problematic sequence item at index ", i," with value type: ",
                                 new _DelayedFTLTypeDescription(seqItem));
                     }
                     
@@ -1376,7 +1374,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
                             && listItem instanceof String) {
                         String listItemStr = (String) listItem;
                         if (listItemStr.length() == 1) {
-                            listItem = Character.valueOf(listItemStr.charAt(0));
+                            listItem = listItemStr.charAt(0);
                         }
                     } else if (componentType.isArray()) {
                         if (listItem instanceof List) {
@@ -1408,7 +1406,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     /**
      * @param array Must be an array (of either a reference or primitive type)
      */
-    List<?> arrayToList(Object array) throws TemplateModelException {
+    List<?> arrayToList(Object array) {
         if (array instanceof Object[]) {
             // Array of any non-primitive type.
             // Note that an array of non-primitive type is always instanceof Object[].
@@ -1483,7 +1481,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     /**
      * Invokes the specified method, wrapping the return value. The specialty
      * of this method is that if the return value is null, and the return type
-     * of the invoked method is void, {@link TemplateModel#NOTHING} is returned.
+     * of the invoked method is void, {link TemplateModel#NOTHING} is returned.
      * @param object the object to invoke the method on
      * @param method the method to invoke 
      * @param args the arguments to the method
@@ -1516,7 +1514,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * class, get the element of this hash with the fully qualified class name.
      * For example, if you place this hash model inside the root data model
      * under name "statics", you can use i.e. <code>statics["java.lang.
-     * System"]. currentTimeMillis()</code> to call the {@link 
+     * System"]. currentTimeMillis()</code> to call the {link
      * java.lang.System#currentTimeMillis()} method.
      * @return a hash model whose keys are fully qualified class names, and
      * that returns hash models whose elements are the static models of the
@@ -1535,7 +1533,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * hash with the fully qualified class name. For example, if you place this 
      * hash model inside the root data model under name "enums", you can use 
      * i.e. <code>enums["java.math.RoundingMode"].UP</code> to access the 
-     * {@link java.math.RoundingMode#UP} value.
+     * {link java.math.RoundingMode#UP} value.
      * @return a hash model whose keys are fully qualified class names, and
      * that returns hash models whose elements are the enum models of the
      * classes.
@@ -1560,8 +1558,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * constructor. Overloaded constructors and varargs are supported. Only public constructors will be called.
      * 
      * @param clazz The class whose constructor we will call.
-     * @param arguments The list of {@link TemplateModel}-s to pass to the constructor after unwrapping them
-     * @return The instance created; it's not wrapped into {@link TemplateModel}.
+     * @param arguments The list of {link TemplateModel}-s to pass to the constructor after unwrapping them
+     * @return The instance created; it's not wrapped into {link TemplateModel}.
      */
     public Object newInstance(Class<?> clazz, List/*<? extends TemplateModel>*/ arguments)
     throws TemplateModelException {
@@ -1622,7 +1620,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
      * <p>Use this if you want to free up memory on the expense of recreating
      * the cache entries for the classes that will be used later in templates.
      * 
-     * @throws IllegalStateException if {@link #isClassIntrospectionCacheRestricted()} is {@code true}.
+     * @throws IllegalStateException if {link #isClassIntrospectionCacheRestricted()} is {@code true}.
      * 
      * @since 2.3.20
      */
@@ -1635,7 +1633,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * @deprecated Use {@link #setMethodAppearanceFineTuner(MethodAppearanceFineTuner)};
+     * @deprecated Use {link #setMethodAppearanceFineTuner(MethodAppearanceFineTuner)};
      *     no need to extend this class anymore.
      *     Soon this method will be final, so trying to override it will break your app.
      *     Note that if the {@code methodAppearanceFineTuner} property is set to non-{@code null}, this method is not
@@ -1648,7 +1646,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Converts any {@link BigDecimal}s in the passed array to the type of
+     * Converts any {link BigDecimal}s in the passed array to the type of
      * the corresponding formal argument of the method.
      */
     // Unused?
@@ -1674,8 +1672,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Converts any {@link BigDecimal}-s in the passed array to the type of
-     * the corresponding formal argument of the method via {@link #coerceBigDecimal(BigDecimal, Class)}.
+     * Converts any {link BigDecimal}-s in the passed array to the type of
+     * the corresponding formal argument of the method via {link #coerceBigDecimal(BigDecimal, Class)}.
      */
     public static void coerceBigDecimals(Class<?>[] formalTypes, Object[] args) {
         int typeLen = formalTypes.length;
@@ -1699,24 +1697,24 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
 
     /**
-     * Converts {@link BigDecimal} to the class given in the {@code formalType} argument if that's a known numerical
-     * type, returns the {@link BigDecimal} as is otherwise. Overflow and precision loss are possible, similarly as
+     * Converts {link BigDecimal} to the class given in the {@code formalType} argument if that's a known numerical
+     * type, returns the {link BigDecimal} as is otherwise. Overflow and precision loss are possible, similarly as
      * with casting in Java.
      */
     public static Object coerceBigDecimal(BigDecimal bd, Class<?> formalType) {
         // int is expected in most situations, so we check it first
         if (formalType == int.class || formalType == Integer.class) {
-            return Integer.valueOf(bd.intValue());
+            return bd.intValue();
         } else if (formalType == double.class || formalType == Double.class) {
-            return Double.valueOf(bd.doubleValue());
+            return bd.doubleValue();
         } else if (formalType == long.class || formalType == Long.class) {
-            return Long.valueOf(bd.longValue());
+            return bd.longValue();
         } else if (formalType == float.class || formalType == Float.class) {
-            return Float.valueOf(bd.floatValue());
+            return bd.floatValue();
         } else if (formalType == short.class || formalType == Short.class) {
-            return Short.valueOf(bd.shortValue());
+            return bd.shortValue();
         } else if (formalType == byte.class || formalType == Byte.class) {
-            return Byte.valueOf(bd.byteValue());
+            return bd.byteValue();
         } else if (java.math.BigInteger.class.isAssignableFrom(formalType)) {
             return bd.toBigInteger();
         } else {
@@ -1725,7 +1723,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Returns the exact class name and the identity hash, also the values of the most often used {@link BeansWrapper}
+     * Returns the exact class name and the identity hash, also the values of the most often used {link BeansWrapper}
      * configuration properties, also if which (if any) shared class introspection cache it uses.
      *  
      * @since 2.3.21
@@ -1740,8 +1738,8 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Returns the name-value pairs that describe the configuration of this {@link BeansWrapper}; called from
-     * {@link #toString()}. The expected format is like {@code "foo=bar, baaz=wombat"}. When overriding this, you should
+     * Returns the name-value pairs that describe the configuration of this {link BeansWrapper}; called from
+     * {link #toString()}. The expected format is like {@code "foo=bar, baaz=wombat"}. When overriding this, you should
      * call the super method, and then insert the content before it with a following {@code ", "}, or after it with a
      * preceding {@code ", "}.
      * 
@@ -1761,7 +1759,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
 
     /**
      * Used for
-     * {@link MethodAppearanceFineTuner#process}
+     * {link MethodAppearanceFineTuner#process}
      * to store the results; see there.
      */
     static public final class MethodAppearanceDecision {
@@ -1778,23 +1776,23 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
         }
         
         /**
-         * See in the documentation of {@link MethodAppearanceFineTuner#process}. 
+         * See in the documentation of {link MethodAppearanceFineTuner#process}.
          */
         public PropertyDescriptor getExposeAsProperty() {
             return exposeAsProperty;
         }
         
         /**
-         * See in the documentation of {@link MethodAppearanceFineTuner#process}.
+         * See in the documentation of {link MethodAppearanceFineTuner#process}.
          * Note that you may also want to call
-         * {@link #setMethodShadowsProperty(boolean) setMethodShadowsProperty(false)} when you call this. 
+         * {link #setMethodShadowsProperty(boolean) setMethodShadowsProperty(false)} when you call this.
          */
         public void setExposeAsProperty(PropertyDescriptor exposeAsProperty) {
             this.exposeAsProperty = exposeAsProperty;
         }
 
         /**
-         * Getter pair of {@link #setReplaceExistingProperty(boolean)}.
+         * Getter pair of {link #setReplaceExistingProperty(boolean)}.
          * 
          * @since 2.3.28
          */
@@ -1803,14 +1801,14 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
         }
 
         /**
-         * If {@link #getExposeAsProperty()} is non-{@code null}, and a {@link PropertyDescriptor} with the same
+         * If {link #getExposeAsProperty()} is non-{@code null}, and a {link PropertyDescriptor} with the same
          * property name was already added to the class introspection data, this decides if that will be replaced
-         * with the {@link PropertyDescriptor} returned by {@link #getExposeAsProperty()}. The default is {@code false},
-         * that is, the old {@link PropertyDescriptor} is kept, and the new one is ignored.
-         * JavaBean properties discovered with the standard (non-{@link MethodAppearanceFineTuner}) mechanism
-         * are added before those created by the {@link MethodAppearanceFineTuner}, so with this you can decide if a
+         * with the {link PropertyDescriptor} returned by {link #getExposeAsProperty()}. The default is {@code false},
+         * that is, the old {link PropertyDescriptor} is kept, and the new one is ignored.
+         * JavaBean properties discovered with the standard (non-{link MethodAppearanceFineTuner}) mechanism
+         * are added before those created by the {link MethodAppearanceFineTuner}, so with this you can decide if a
          * real JavaBeans property can be replaced by the "fake" one created with
-         * {@link #setExposeAsProperty(PropertyDescriptor)}.
+         * {link #setExposeAsProperty(PropertyDescriptor)}.
          * 
          * @since 2.3.28
          */
@@ -1819,28 +1817,28 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
         }
 
         /**
-         * See in the documentation of {@link MethodAppearanceFineTuner#process}. 
+         * See in the documentation of {link MethodAppearanceFineTuner#process}.
          */
         public String getExposeMethodAs() {
             return exposeMethodAs;
         }
         
         /**
-         * See in the documentation of {@link MethodAppearanceFineTuner#process}. 
+         * See in the documentation of {link MethodAppearanceFineTuner#process}.
          */
         public void setExposeMethodAs(String exposeAsMethod) {
             this.exposeMethodAs = exposeAsMethod;
         }
         
         /**
-         * See in the documentation of {@link MethodAppearanceFineTuner#process}. 
+         * See in the documentation of {link MethodAppearanceFineTuner#process}.
          */
         public boolean getMethodShadowsProperty() {
             return methodShadowsProperty;
         }
         
         /**
-         * See in the documentation of {@link MethodAppearanceFineTuner#process}. 
+         * See in the documentation of {link MethodAppearanceFineTuner#process}.
          */
         public void setMethodShadowsProperty(boolean shadowEarlierProperty) {
             this.methodShadowsProperty = shadowEarlierProperty;
@@ -1849,7 +1847,7 @@ public class BeansWrapper implements RichObjectWrapper, WriteProtectable {
     }
     
     /**
-     * Used for {@link MethodAppearanceFineTuner#process} as input parameter; see there.
+     * Used for {link MethodAppearanceFineTuner#process} as input parameter; see there.
      */
     static public final class MethodAppearanceDecisionInput {
         private Method method;

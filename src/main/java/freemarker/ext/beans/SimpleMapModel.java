@@ -23,6 +23,7 @@ import freemarker.core.CollectionAndSequence;
 import freemarker.ext.util.ModelFactory;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.AdapterTemplateModel;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.MapKeyValuePairIterator;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.SimpleSequence;
@@ -39,9 +40,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Model used by {@link BeansWrapper} when <tt>simpleMapWrapper</tt>
+ * Model used by {link BeansWrapper} when <tt>simpleMapWrapper</tt>
  * mode is enabled. Provides a simple hash model interface to the
- * underlying map (does not copy like {@link freemarker.template.SimpleHash}),
+ * underlying map (does not copy like {link freemarker.template.SimpleHash}),
  * and a method interface to non-string keys.
  */
 public class SimpleMapModel extends WrappingTemplateModel 
@@ -67,7 +68,7 @@ WrapperTemplateModel, TemplateModelWithAPISupport {
         if (val == null) {
             if (key.length() == 1) {
                 // just check for Character key if this is a single-character string
-                Character charKey = Character.valueOf(key.charAt(0));
+                Character charKey = key.charAt(0);
                 val = map.get(charKey);
                 if (val == null && !(map.containsKey(key) || map.containsKey(charKey))) {
                     return null;

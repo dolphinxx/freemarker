@@ -27,7 +27,7 @@ package freemarker.core;
 public class JavaScriptOutputFormat extends OutputFormat {
 
     /**
-     * The only instance (singleton) of this {@link OutputFormat}.
+     * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final JavaScriptOutputFormat INSTANCE = new JavaScriptOutputFormat();
     

@@ -29,17 +29,17 @@ import java.util.Map;
 import java.util.SortedMap;
 
 /**
- * Adapts a {@link Map} to the corresponding {@link TemplateModel} interface(s), most importantly to
- * {@link TemplateHashModelEx}. If you aren't wrapping an already existing {@link Map}, but build a hash specifically to
- * be used from a template, also consider using {@link SimpleHash} (see comparison there).
+ * Adapts a {link Map} to the corresponding {link TemplateModel} interface(s), most importantly to
+ * {link TemplateHashModelEx}. If you aren't wrapping an already existing {link Map}, but build a hash specifically to
+ * be used from a template, also consider using {link SimpleHash} (see comparison there).
  * 
  * <p>
- * Thread safety: A {@link DefaultMapAdapter} is as thread-safe as the {@link Map} that it wraps is. Normally you only
+ * Thread safety: A {link DefaultMapAdapter} is as thread-safe as the {link Map} that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these hashes (though of
  * course, Java methods called from the template can violate this rule).
  * 
  * <p>
- * This adapter is used by {@link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
+ * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
  * 
  * @since 2.3.22
@@ -56,7 +56,7 @@ public class DefaultMapAdapter extends WrappingTemplateModel
      * @param map
      *            The map to adapt; can't be {@code null}.
      * @param wrapper
-     *            The {@link ObjectWrapper} used to wrap the items in the array.
+     *            The {link ObjectWrapper} used to wrap the items in the array.
      */
     public static DefaultMapAdapter adapt(Map map, ObjectWrapperWithAPISupport wrapper) {
         return new DefaultMapAdapter(map, wrapper);
@@ -85,7 +85,7 @@ public class DefaultMapAdapter extends WrappingTemplateModel
             // Check for Character key if this is a single-character string.
             // In SortedMap-s, however, we can't do that safely, as it can cause ClassCastException.
             if (key.length() == 1 && !(map instanceof SortedMap)) {
-                Character charKey = Character.valueOf(key.charAt(0));
+                Character charKey = key.charAt(0);
                 try {
                     val = map.get(charKey);
                     if (val == null) {

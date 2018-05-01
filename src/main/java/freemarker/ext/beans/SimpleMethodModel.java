@@ -37,8 +37,8 @@ import java.util.List;
 
 /**
  * A class that will wrap a reflected method call into a
- * {@link freemarker.template.TemplateMethodModel} interface. 
- * It is used by {@link BeanModel} to wrap reflected method calls
+ * {link freemarker.template.TemplateMethodModel} interface.
+ * It is used by {link BeanModel} to wrap reflected method calls
  * for non-overloaded methods.
  */
 public final class SimpleMethodModel extends SimpleMethod

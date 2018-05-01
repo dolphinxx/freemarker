@@ -25,8 +25,8 @@ package freemarker.ext.beans;
  * <p>
  * Notes:
  * <ul>
- * <li>The exposing level is inherited from the {@link BeansWrapper}</li>
- * <li>But methods will always shadow properties and fields with identical name, regardless of {@link BeansWrapper}
+ * <li>The exposing level is inherited from the {link BeansWrapper}</li>
+ * <li>But methods will always shadow properties and fields with identical name, regardless of {link BeansWrapper}
  * settings</li>
  * </ul>
  * 

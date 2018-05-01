@@ -66,31 +66,31 @@ public class NumberUtil {
      */
     public static int getSignum(Number num) throws ArithmeticException {
         if (num instanceof Integer) {
-            int n = ((Integer) num).intValue();
+            int n = num.intValue();
             return n > 0 ? 1 : (n == 0 ? 0 : -1);
         } else if (num instanceof BigDecimal) {
             BigDecimal n = (BigDecimal) num;
             return n.signum();
         } else if (num instanceof Double) {
-            double n = ((Double) num).doubleValue();
+            double n = num.doubleValue();
             if (n > 0) return 1;
             else if (n == 0) return 0;
             else if (n < 0) return -1;
             else throw new ArithmeticException("The signum of " + n + " is not defined.");  // NaN
         } else if (num instanceof Float) {
-            float n = ((Float) num).floatValue();
+            float n = num.floatValue();
             if (n > 0) return 1;
             else if (n == 0) return 0;
             else if (n < 0) return -1;
             else throw new ArithmeticException("The signum of " + n + " is not defined.");  // NaN
         } else if (num instanceof Long) {
-            long n = ((Long) num).longValue();
+            long n = num.longValue();
             return n > 0 ? 1 : (n == 0 ? 0 : -1);
         } else if (num instanceof Short) {
-            short n = ((Short) num).shortValue();
+            short n = num.shortValue();
             return n > 0 ? 1 : (n == 0 ? 0 : -1);
         } else if (num instanceof Byte) {
-            byte n = ((Byte) num).byteValue();
+            byte n = num.byteValue();
             return n > 0 ? 1 : (n == 0 ? 0 : -1);
         } else if (num instanceof BigInteger) {
             BigInteger n = (BigInteger) num;
@@ -101,7 +101,7 @@ public class NumberUtil {
     }
     
     /**
-     * Tells if a {@link BigDecimal} stores a whole number. For example, it returns {@code true} for {@code 1.0000},
+     * Tells if a {link BigDecimal} stores a whole number. For example, it returns {@code true} for {@code 1.0000},
      * but {@code false} for {@code 1.0001}.
      * 
      * @since 2.3.21
@@ -127,7 +127,7 @@ public class NumberUtil {
     }
 
     /**
-     * Converts a {@link Number} to {@code int} whose mathematical value is exactly the same as of the original number.
+     * Converts a {link Number} to {@code int} whose mathematical value is exactly the same as of the original number.
      * 
      * @throws ArithmeticException
      *             if the conversion to {@code int} is not possible without losing precision or overflow/underflow.

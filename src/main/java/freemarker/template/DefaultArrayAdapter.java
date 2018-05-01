@@ -25,22 +25,22 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 
 /**
- * Adapts an {@code array} of a non-primitive elements to the corresponding {@link TemplateModel} interface(s), most
- * importantly to {@link TemplateHashModelEx}. If you aren't wrapping an already existing {@code array}, but build a
- * sequence specifically to be used from a template, also consider using {@link SimpleSequence} (see comparison there).
+ * Adapts an {@code array} of a non-primitive elements to the corresponding {link TemplateModel} interface(s), most
+ * importantly to {link TemplateHashModelEx}. If you aren't wrapping an already existing {@code array}, but build a
+ * sequence specifically to be used from a template, also consider using {link SimpleSequence} (see comparison there).
  *
  * <p>
- * Thread safety: A {@link DefaultListAdapter} is as thread-safe as the array that it wraps is. Normally you only
+ * Thread safety: A {link DefaultListAdapter} is as thread-safe as the array that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these sequences (though
  * of course, Java methods called from the template can violate this rule).
  * 
  * <p>
- * This adapter is used by {@link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
+ * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
  * 
- * @see SimpleSequence
- * @see DefaultListAdapter
- * @see TemplateSequenceModel
+ * see SimpleSequence
+ * see DefaultListAdapter
+ * see TemplateSequenceModel
  * 
  * @since 2.3.22
  */
@@ -53,8 +53,8 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
      * @param array
      *            The array to adapt; can't be {@code null}. Must be an array. 
      * @param wrapper
-     *            The {@link ObjectWrapper} used to wrap the items in the array. Has to be
-     *            {@link ObjectWrapperAndUnwrapper} because of planned future features.
+     *            The {link ObjectWrapper} used to wrap the items in the array. Has to be
+     *            {link ObjectWrapperAndUnwrapper} because of planned future features.
      */
     public static DefaultArrayAdapter adapt(Object array, ObjectWrapperAndUnwrapper wrapper) {
         final Class componentType = array.getClass().getComponentType();
@@ -134,7 +134,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Byte.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -157,7 +157,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Short.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -180,7 +180,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Integer.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -203,7 +203,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Long.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -226,7 +226,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Float.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -249,7 +249,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Double.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -272,7 +272,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Character.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {
@@ -295,7 +295,7 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
         }
 
         public TemplateModel get(int index) throws TemplateModelException {
-            return index >= 0 && index < array.length ? wrap(Boolean.valueOf(array[index])) : null;
+            return index >= 0 && index < array.length ? wrap(array[index]) : null;
         }
 
         public int size() throws TemplateModelException {

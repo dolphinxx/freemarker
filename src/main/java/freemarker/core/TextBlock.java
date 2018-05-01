@@ -106,7 +106,8 @@ public final class TextBlock extends TemplateElement {
     @Override
     TemplateElement postParseCleanup(boolean stripWhitespace) {
         if (text.length == 0) return this;
-        int openingCharsToStrip = 0, trailingCharsToStrip = 0;
+        int openingCharsToStrip = 0;
+        int trailingCharsToStrip = 0;
         boolean deliberateLeftTrim = deliberateLeftTrim();
         boolean deliberateRightTrim = deliberateRightTrim();
         if (!stripWhitespace || text.length == 0 ) {

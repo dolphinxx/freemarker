@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * The most commonly used {@link CallableMemberDescriptor} implementation. 
+ * The most commonly used {link CallableMemberDescriptor} implementation.
  */
 final class ReflectionCallableMemberDescriptor extends CallableMemberDescriptor {
 

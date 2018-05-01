@@ -23,8 +23,8 @@ import freemarker.template.TemplateException;
 
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
- * {@link TemplateException}-s that don't fit into any category that warrant its own class. In fact, this was added
- * because the API of {@link TemplateException} is too simple for the purposes of the core, but it can't be
+ * {link TemplateException}-s that don't fit into any category that warrant its own class. In fact, this was added
+ * because the API of {link TemplateException} is too simple for the purposes of the core, but it can't be
  * extended without breaking backward compatibility and exposing internals.  
  */
 public class _MiscTemplateException extends TemplateException {

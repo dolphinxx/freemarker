@@ -22,10 +22,10 @@ package freemarker.template;
 import freemarker.ext.beans.BeansWrapperConfiguration;
 
 /**
- * Holds {@link DefaultObjectWrapper} configuration settings and defines their defaults.
- * You will not use this abstract class directly, but concrete subclasses like {@link DefaultObjectWrapperBuilder}.
- * Unless, you are developing a builder for a custom {@link DefaultObjectWrapper} subclass. In that case, note that
- * overriding the {@link #equals} and {@link #hashCode} is important, as these objects are used as {@link ObjectWrapper}
+ * Holds {link DefaultObjectWrapper} configuration settings and defines their defaults.
+ * You will not use this abstract class directly, but concrete subclasses like {link DefaultObjectWrapperBuilder}.
+ * Unless, you are developing a builder for a custom {link DefaultObjectWrapper} subclass. In that case, note that
+ * overriding the {link #equals} and {link #hashCode} is important, as these objects are used as {link ObjectWrapper}
  * singleton lookup keys.
  * 
  * @since 2.3.22
@@ -42,28 +42,28 @@ public abstract class DefaultObjectWrapperConfiguration extends BeansWrapperConf
         forceLegacyNonListCollections = true; // [2.4]: = IcI < _TemplateAPI.VERSION_INT_2_4_0;
     }
 
-    /** See {@link DefaultObjectWrapper#getUseAdaptersForContainers()}. */
+    /** See {link DefaultObjectWrapper#getUseAdaptersForContainers()}. */
     public boolean getUseAdaptersForContainers() {
         return useAdaptersForContainers;
     }
 
-    /** See {@link DefaultObjectWrapper#setUseAdaptersForContainers(boolean)}. */
+    /** See {link DefaultObjectWrapper#setUseAdaptersForContainers(boolean)}. */
     public void setUseAdaptersForContainers(boolean useAdaptersForContainers) {
         this.useAdaptersForContainers = useAdaptersForContainers;
     }
     
-    /** See {@link DefaultObjectWrapper#getForceLegacyNonListCollections()}. */
+    /** See {link DefaultObjectWrapper#getForceLegacyNonListCollections()}. */
     public boolean getForceLegacyNonListCollections() {
         return forceLegacyNonListCollections;
     }
 
-    /** See {@link DefaultObjectWrapper#setForceLegacyNonListCollections(boolean)}. */
+    /** See {link DefaultObjectWrapper#setForceLegacyNonListCollections(boolean)}. */
     public void setForceLegacyNonListCollections(boolean legacyNonListCollectionWrapping) {
         this.forceLegacyNonListCollections = legacyNonListCollectionWrapping;
     }
 
     /**
-     * See {@link DefaultObjectWrapper#getIterableSupport()}.
+     * See {link DefaultObjectWrapper#getIterableSupport()}.
      * 
      * @since 2.3.25 
      */
@@ -72,7 +72,7 @@ public abstract class DefaultObjectWrapperConfiguration extends BeansWrapperConf
     }
 
     /**
-     * See {@link DefaultObjectWrapper#setIterableSupport(boolean)}.
+     * See {link DefaultObjectWrapper#setIterableSupport(boolean)}.
      * 
      * @since 2.3.25 
      */

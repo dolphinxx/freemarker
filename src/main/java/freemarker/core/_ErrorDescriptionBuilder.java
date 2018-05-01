@@ -54,9 +54,9 @@ public class _ErrorDescriptionBuilder {
     }
 
     /**
-     * @param descriptionParts These will be concatenated to a single {@link String} in {@link #toString()}.
-     *      {@link String} array items that look like FTL tag (must start with {@code "&lt;"} and end with {@code ">"})
-     *      will be converted to the actual template syntax if {@link #blamed} or {@link #template} was set.
+     * @param descriptionParts These will be concatenated to a single {link String} in {link #toString()}.
+     *      {link String} array items that look like FTL tag (must start with {@code "&lt;"} and end with {@code ">"})
+     *      will be converted to the actual template syntax if {link #blamed} or {link #template} was set.
      */
     public _ErrorDescriptionBuilder(Object... descriptionParts) {
         this.descriptionParts = descriptionParts;
@@ -230,7 +230,7 @@ public class _ErrorDescriptionBuilder {
                             && partStr.charAt(partStr.length() - 1) == '>') {
                         if (template.getActualTagSyntax() == Configuration.SQUARE_BRACKET_TAG_SYNTAX) {
                             sb.append('[');
-                            sb.append(partStr.substring(1, partStr.length() - 1));
+                            sb.append(partStr, 1, partStr.length() - 1);
                             sb.append(']');
                         } else {
                             sb.append(partStr);
@@ -278,7 +278,7 @@ public class _ErrorDescriptionBuilder {
     }
     
     /**
-     * Needed for description <em>parts</em> that look like an FTL tag to be converted, if there's no {@link #blamed}.
+     * Needed for description <em>parts</em> that look like an FTL tag to be converted, if there's no {link #blamed}.
      */
     public _ErrorDescriptionBuilder template(Template template) {
         this.template = template;

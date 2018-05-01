@@ -66,7 +66,7 @@ class BuiltInsForStringsRegexp {
             
             String matchString;
             
-            MatcherBuilder(String matchString) throws TemplateModelException {
+            MatcherBuilder(String matchString) {
                 this.matchString = matchString;
             }
             
@@ -177,7 +177,7 @@ class BuiltInsForStringsRegexp {
         
         public boolean getAsBoolean() {
             Boolean result = entireInputMatched;
-            return result != null ? result.booleanValue() : isEntrieInputMatchesAndStoreResults();
+            return result != null ? result : isEntrieInputMatchesAndStoreResults();
         }
         
         TemplateModel getGroups() {
@@ -214,7 +214,7 @@ class BuiltInsForStringsRegexp {
             return entireInputMatchGroups;
         }
         
-        private ArrayList getMatchingInputPartsAndStoreResults() throws TemplateModelException {
+        private ArrayList getMatchingInputPartsAndStoreResults() {
             ArrayList matchingInputParts = new ArrayList();
             
             Matcher matcher = pattern.matcher(input);
@@ -230,7 +230,7 @@ class BuiltInsForStringsRegexp {
             Matcher matcher = pattern.matcher(input);
             boolean matches = matcher.matches();
             firedEntireInputMatcher = matcher;
-            entireInputMatched = Boolean.valueOf(matches);
+            entireInputMatched = matches;
             return matches;
         }
         

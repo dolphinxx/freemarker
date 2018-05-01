@@ -45,7 +45,7 @@ final class EmptyMemberAndArguments extends MaybeEmptyMemberAndArguments {
     static EmptyMemberAndArguments noCompatibleOverload(int unwrappableIndex) {
         return new EmptyMemberAndArguments(
                 new Object[] { "No compatible overloaded variation was found; can't convert (unwrap) the ",
-                new _DelayedOrdinal(Integer.valueOf(unwrappableIndex)), " argument to the desired Java type." },
+                new _DelayedOrdinal(unwrappableIndex), " argument to the desired Java type." },
                 false,
                 null);
     }

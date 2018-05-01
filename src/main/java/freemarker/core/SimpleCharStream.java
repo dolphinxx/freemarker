@@ -206,7 +206,7 @@ public class SimpleCharStream
   @Deprecated
   /**
    * @deprecated
-   * @see #getEndColumn
+   * see #getEndColumn
    */
 
   public int getColumn() {
@@ -216,7 +216,7 @@ public class SimpleCharStream
   @Deprecated
   /**
    * @deprecated
-   * @see #getEndLine
+   * see #getEndLine
    */
 
   public int getLine() {
@@ -439,10 +439,13 @@ public class SimpleCharStream
       len = bufsize - tokenBegin + bufpos + 1 + inBuf;
     }
 
-    int i = 0, j = 0, k = 0;
-    int nextColDiff = 0, columnDiff = 0;
+    int i = 0;
+      int j = 0;
+      int k = 0;
+      int nextColDiff = 0;
+      int columnDiff = 0;
 
-    while (i < len && bufline[j = start % bufsize] == bufline[k = ++start % bufsize])
+      while (i < len && bufline[j = start % bufsize] == bufline[k = ++start % bufsize])
     {
       bufline[j] = newLine;
       nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];

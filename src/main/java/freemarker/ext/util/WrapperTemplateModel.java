@@ -25,11 +25,11 @@ import freemarker.template.TemplateModel;
  * A generic interface for template models that wrap some underlying
  * object, and wish to provide access to that wrapped object.
  * 
- * <p>You may also want to implement {@link freemarker.template.AdapterTemplateModel}.
+ * <p>You may also want to implement {link freemarker.template.AdapterTemplateModel}.
  */
 public interface WrapperTemplateModel extends TemplateModel {
     /**
      * Retrieves the original object wrapped by this model.
      */
-    public Object getWrappedObject();
+    Object getWrappedObject();
 }

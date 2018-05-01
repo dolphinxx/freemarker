@@ -23,7 +23,7 @@ import freemarker.template.TemplateMethodModel;
 import freemarker.template.TemplateModel;
 
 /**
- * Indicates that a {@link TemplateMethodModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateMethodModel} value was expected, but the value had a different type.
  * 
  * @since 2.3.21
  */

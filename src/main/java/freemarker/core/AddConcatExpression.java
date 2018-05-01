@@ -66,7 +66,7 @@ final class AddConcatExpression extends Expression {
             TemplateObject parent,
             Expression leftExp, TemplateModel leftModel,
             Expression rightExp, TemplateModel rightModel)
-            throws TemplateModelException, TemplateException, NonStringException {
+            throws TemplateException {
         if (leftModel instanceof TemplateNumberModel && rightModel instanceof TemplateNumberModel) {
             Number first = EvalUtil.modelToNumber((TemplateNumberModel) leftModel, leftExp);
             Number second = EvalUtil.modelToNumber((TemplateNumberModel) rightModel, rightExp);
@@ -81,7 +81,7 @@ final class AddConcatExpression extends Expression {
                 // we return null and do hash addition instead. (We can't simply give hash addition a priority, like
                 // with sequence addition above, as FTL strings are often also FTL hashes.)
                 Object leftOMOrStr = EvalUtil.coerceModelToStringOrMarkup(
-                        leftModel, leftExp, /* returnNullOnNonCoercableType = */ hashConcatPossible, (String) null,
+                        leftModel, leftExp, /* returnNullOnNonCoercableType = */ hashConcatPossible, null,
                         env);
                 if (leftOMOrStr == null) {
                     return _eval_concatenateHashes(leftModel, rightModel);
@@ -89,7 +89,7 @@ final class AddConcatExpression extends Expression {
 
                 // Same trick with null return as above.
                 Object rightOMOrStr = EvalUtil.coerceModelToStringOrMarkup(
-                        rightModel, rightExp, /* returnNullOnNonCoercableType = */ hashConcatPossible, (String) null,
+                        rightModel, rightExp, /* returnNullOnNonCoercableType = */ hashConcatPossible, null,
                         env);
                 if (rightOMOrStr == null) {
                     return _eval_concatenateHashes(leftModel, rightModel);

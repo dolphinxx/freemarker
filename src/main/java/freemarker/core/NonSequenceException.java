@@ -24,7 +24,7 @@ import freemarker.template.TemplateSequenceModel;
 import freemarker.template.utility.CollectionUtils;
 
 /**
- * Indicates that a {@link TemplateSequenceModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateSequenceModel} value was expected, but the value had a different type.
  * 
  * @since 2.3.21
  */

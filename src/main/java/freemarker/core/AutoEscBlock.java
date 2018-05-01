@@ -33,7 +33,7 @@ final class AutoEscBlock extends TemplateElement {
     }
 
     @Override
-    TemplateElement[] accept(Environment env) throws TemplateException, IOException {
+    TemplateElement[] accept(Environment env) {
         return getChildBuffer();
     }
 

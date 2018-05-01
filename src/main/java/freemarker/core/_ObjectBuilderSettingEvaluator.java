@@ -56,12 +56,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Don't use this; used internally by FreeMarker, might changes without notice.
  * 
- * Evaluates object builder expressions used in configuration {@link Properties}.
+ * Evaluates object builder expressions used in configuration {link Properties}.
  * It should be replaced with FTL later (when it was improved to be practical for this), so the syntax should be
  * a subset of the future FTL syntax. This is also why this syntax is restrictive; it shouldn't accept anything that
  * FTL will not.
@@ -148,8 +147,7 @@ public class _ObjectBuilderSettingEvaluator {
         return value;
     }
     
-    private int configureBean(Object bean) throws _ObjectBuilderSettingEvaluationException,
-            ClassNotFoundException, InstantiationException, IllegalAccessException {
+    private int configureBean(Object bean) throws _ObjectBuilderSettingEvaluationException {
         final PropertyAssignmentsExpression propAssignments = new PropertyAssignmentsExpression(bean);
         fetchParameterListInto(propAssignments);
         skipWS();
@@ -440,9 +438,9 @@ public class _ObjectBuilderSettingEvaluator {
                         BigInteger biNum = new BigInteger(numStr);
                         final int bitLength = biNum.bitLength();  // Doesn't include sign bit
                         if (bitLength <= 31) {
-                            return Integer.valueOf(biNum.intValue());
+                            return biNum.intValue();
                         } else if (bitLength <= 63) {
-                            return Long.valueOf(biNum.longValue());
+                            return biNum.longValue();
                         } else {
                             return biNum;
                         }

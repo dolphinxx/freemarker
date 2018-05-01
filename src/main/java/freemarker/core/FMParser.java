@@ -70,7 +70,9 @@ public class FMParser implements FMParserConstants {
 
     private Template template;
 
-    private boolean stripWhitespace, stripText, preventStrippings;
+    private boolean stripWhitespace;
+    private boolean stripText;
+    private boolean preventStrippings;
     private int incompatibleImprovements;
     private OutputFormat outputFormat;
     private int autoEscapingPolicy;
@@ -90,7 +92,8 @@ public class FMParser implements FMParserConstants {
      */
     private int continuableDirectiveNesting;
 
-    private boolean inMacro, inFunction;
+    private boolean inMacro;
+    private boolean inFunction;
     private LinkedList escapes = new LinkedList();
     private int mixedContentNesting; // for stripText
 
@@ -350,7 +353,7 @@ public class FMParser implements FMParserConstants {
     }
 
     /**
-     * Updates the {@link #autoEscaping} field based on the {@link #autoEscapingPolicy} and {@link #outputFormat} fields.
+     * Updates the {link #autoEscaping} field based on the {link #autoEscapingPolicy} and {link #outputFormat} fields.
      */
     private void recalculateAutoEscapingField() {
         if (outputFormat instanceof MarkupOutputFormat) {
@@ -534,7 +537,7 @@ public class FMParser implements FMParserConstants {
 
     private ParserIteratorBlockContext peekIteratorBlockContext() {
         int size = iteratorBlockContexts != null ? iteratorBlockContexts.size() : 0;
-        return size != 0 ? (ParserIteratorBlockContext) iteratorBlockContexts.get(size - 1) : null;
+        return size != 0 ? iteratorBlockContexts.get(size - 1) : null;
     }
 
     private void checkLoopVariableBuiltInLHO(String loopVarName, Expression lhoExp, Token biName)
@@ -596,8 +599,7 @@ public class FMParser implements FMParserConstants {
       case OPEN_BRACKET:
       case OPEN_PAREN:
       case TERMINATING_EXCLAM:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[0] = jj_gen;
@@ -690,9 +692,11 @@ public class FMParser implements FMParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression Parenthesis() throws ParseException {Expression exp, result;
-    Token start, end;
-    start = jj_consume_token(OPEN_PAREN);
+  final public Expression Parenthesis() throws ParseException {Expression exp;
+      Expression result;
+      Token start;
+      Token end;
+      start = jj_consume_token(OPEN_PAREN);
     exp = Expression();
     end = jj_consume_token(CLOSE_PAREN);
 result = new ParentheticalExpression(exp);
@@ -705,10 +709,12 @@ result = new ParentheticalExpression(exp);
  * Should be called UnaryPrefixExpression.
  * A primary expression preceded by zero or more unary prefix operators.
  */
-  final public Expression UnaryExpression() throws ParseException {Expression exp, result;
-    boolean haveNot = false;
-    Token t = null, start = null;
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+  final public Expression UnaryExpression() throws ParseException {Expression exp;
+      Expression result;
+      boolean haveNot = false;
+    Token t = null;
+      Token start = null;
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case PLUS:
     case MINUS:{
       result = UnaryPlusMinusExpression();
@@ -742,16 +748,16 @@ result = new ParentheticalExpression(exp);
   }
 
   final public Expression NotExpression() throws ParseException {Token t;
-    Expression exp, result = null;
-    ArrayList nots = new ArrayList();
+    Expression exp;
+      Expression result = null;
+      ArrayList nots = new ArrayList();
     label_2:
     while (true) {
       t = jj_consume_token(EXCLAM);
 nots.add(t);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case EXCLAM:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[4] = jj_gen;
@@ -769,8 +775,9 @@ for (int i = 0; i < nots.size(); i++) {
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression UnaryPlusMinusExpression() throws ParseException {Expression exp, result;
-    boolean isMinus = false;
+  final public Expression UnaryPlusMinusExpression() throws ParseException {Expression exp;
+      Expression result;
+      boolean isMinus = false;
     Token t;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case PLUS:{
@@ -794,14 +801,15 @@ result = new UnaryPlusMinusExpression(exp, isMinus);
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression AdditiveExpression() throws ParseException {Expression lhs, rhs, result;
-    boolean plus;
+  final public Expression AdditiveExpression() throws ParseException {Expression lhs;
+      Expression rhs;
+      Expression result;
+      boolean plus;
     lhs = MultiplicativeExpression();
 result = lhs;
     label_3:
     while (true) {
       if (jj_2_1(2147483647)) {
-        ;
       } else {
         break label_3;
       }
@@ -842,14 +850,15 @@ if (plus) {
  * A unary prefix expression followed by zero or more
  * unary prefix expressions with operators in between.
  */
-  final public Expression MultiplicativeExpression() throws ParseException {Expression lhs, rhs, result;
-    int operation = ArithmeticExpression.TYPE_MULTIPLICATION;
+  final public Expression MultiplicativeExpression() throws ParseException {Expression lhs;
+      Expression rhs;
+      Expression result;
+      int operation = ArithmeticExpression.TYPE_MULTIPLICATION;
     lhs = UnaryExpression();
 result = lhs;
     label_4:
     while (true) {
       if (jj_2_2(2147483647)) {
-        ;
       } else {
         break label_4;
       }
@@ -885,8 +894,10 @@ numberLiteralOnly(lhs);
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression EqualityExpression() throws ParseException {Expression lhs, rhs, result;
-    Token t;
+  final public Expression EqualityExpression() throws ParseException {Expression lhs;
+      Expression rhs;
+      Expression result;
+      Token t;
     lhs = RelationalExpression();
 result = lhs;
     if (jj_2_3(2147483647)) {
@@ -916,14 +927,15 @@ notHashLiteral(lhs, "string");
                 result = new ComparisonExpression(lhs, rhs, t.image);
                 result.setLocation(template, lhs, rhs);
     } else {
-      ;
     }
 {if ("" != null) return result;}
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression RelationalExpression() throws ParseException {Expression lhs, rhs, result;
-    Token t;
+  final public Expression RelationalExpression() throws ParseException {Expression lhs;
+      Expression rhs;
+      Expression result;
+      Token t;
     lhs = RangeExpression();
 result = lhs;
     if (jj_2_4(2147483647)) {
@@ -967,14 +979,15 @@ notHashLiteral(lhs, "number");
             result = new ComparisonExpression(lhs, rhs, t.image);
             result.setLocation(template, lhs, rhs);
     } else {
-      ;
     }
 {if ("" != null) return result;}
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression RangeExpression() throws ParseException {Expression lhs, rhs = null, result;
-    int endType;
+  final public Expression RangeExpression() throws ParseException {Expression lhs;
+      Expression rhs = null;
+      Expression result;
+      int endType;
     Token dotDot = null;
     lhs = AdditiveExpression();
 result = lhs;
@@ -1011,7 +1024,6 @@ endType = Range.END_UNBOUND;
           rhs = AdditiveExpression();
 endType = Range.END_INCLUSIVE;
         } else {
-          ;
         }
         break;
         }
@@ -1036,19 +1048,19 @@ numberLiteralOnly(lhs);
       }
     default:
       jj_la1[12] = jj_gen;
-      ;
     }
 {if ("" != null) return result;}
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression AndExpression() throws ParseException {Expression lhs, rhs, result;
-    lhs = EqualityExpression();
+  final public Expression AndExpression() throws ParseException {Expression lhs;
+      Expression rhs;
+      Expression result;
+      lhs = EqualityExpression();
 result = lhs;
     label_5:
     while (true) {
       if (jj_2_6(2147483647)) {
-        ;
       } else {
         break label_5;
       }
@@ -1064,13 +1076,14 @@ booleanLiteralOnly(lhs);
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression OrExpression() throws ParseException {Expression lhs, rhs, result;
-    lhs = AndExpression();
+  final public Expression OrExpression() throws ParseException {Expression lhs;
+      Expression rhs;
+      Expression result;
+      lhs = AndExpression();
 result = lhs;
     label_6:
     while (true) {
       if (jj_2_7(2147483647)) {
-        ;
       } else {
         break label_6;
       }
@@ -1087,8 +1100,9 @@ booleanLiteralOnly(lhs);
   }
 
   final public ListLiteral ListLiteral() throws ParseException {ArrayList values = new ArrayList();
-    Token begin, end;
-    begin = jj_consume_token(OPEN_BRACKET);
+    Token begin;
+      Token end;
+      begin = jj_consume_token(OPEN_BRACKET);
     values = PositionalArgs();
     end = jj_consume_token(CLOSE_BRACKET);
 ListLiteral result = new ListLiteral(values);
@@ -1097,8 +1111,9 @@ ListLiteral result = new ListLiteral(values);
     throw new Error("Missing return statement in function");
   }
 
-  final public Expression NumberLiteral() throws ParseException {Token op = null, t;
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+  final public Expression NumberLiteral() throws ParseException {Token op = null;
+      Token t;
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case INTEGER:{
       t = jj_consume_token(INTEGER);
       break;
@@ -1148,8 +1163,9 @@ Identifier id = new Identifier(t.image);
     throw new Error("Missing return statement in function");
   }
 
-  final public BuiltinVariable BuiltinVariable() throws ParseException {Token dot, name;
-    dot = jj_consume_token(DOT);
+  final public BuiltinVariable BuiltinVariable() throws ParseException {Token dot;
+      Token name;
+      dot = jj_consume_token(DOT);
     name = jj_consume_token(ID);
 BuiltinVariable result = null;
         token_source.checkNamingConvention(name);
@@ -1183,7 +1199,6 @@ BuiltinVariable result = null;
       if (jj_2_8(2147483647)) {
         rhs = Expression();
       } else {
-        ;
       }
       break;
       }
@@ -1275,7 +1290,6 @@ result.setLocation(template, lhoExp, closeParen);
 
             {if ("" != null) return result;}
     } else {
-      ;
     }
 // Should have already return-ed
         {if (true) throw new AssertionError("Unhandled " + SpecialBuiltIn.class.getName() + " subclass: " + result.getClass());}
@@ -1476,9 +1490,11 @@ result.setLocation(template, t, t);
     throw new Error("Missing return statement in function");
   }
 
-  final public HashLiteral HashLiteral() throws ParseException {Token begin, end;
-    Expression key, value;
-    ArrayList keys = new ArrayList();
+  final public HashLiteral HashLiteral() throws ParseException {Token begin;
+      Token end;
+      Expression key;
+      Expression value;
+      ArrayList keys = new ArrayList();
     ArrayList values = new ArrayList();
     begin = jj_consume_token(OPENING_CURLY_BRACKET);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -1519,8 +1535,7 @@ stringLiteralOnly(key);
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case COMMA:{
-          ;
-          break;
+            break;
           }
         default:
           jj_la1[21] = jj_gen;
@@ -1551,7 +1566,6 @@ stringLiteralOnly(key);
       }
     default:
       jj_la1[23] = jj_gen;
-      ;
     }
     end = jj_consume_token(CLOSING_CURLY_BRACKET);
 HashLiteral result = new HashLiteral(keys, values);
@@ -1564,8 +1578,9 @@ HashLiteral result = new HashLiteral(keys, values);
  * A production representing the ${...} or [=...] that outputs a variable; should be called NormalInterpolation.
  */
   final public DollarVariable StringOutput() throws ParseException {Expression exp;
-    Token begin, end;
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    Token begin;
+      Token end;
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case DOLLAR_INTERPOLATION_OPENING:{
       begin = jj_consume_token(DOLLAR_INTERPOLATION_OPENING);
       exp = Expression();
@@ -1597,8 +1612,10 @@ notHashLiteral(exp, NonStringException.STRING_COERCABLE_TYPES_DESC);
 
 /** Should be called NumericalInterpolation */
   final public NumericalOutput NumericalOutput() throws ParseException {Expression exp;
-    Token fmt = null, begin, end;
-    begin = jj_consume_token(HASH_INTERPOLATION_OPENING);
+    Token fmt = null;
+      Token begin;
+      Token end;
+      begin = jj_consume_token(HASH_INTERPOLATION_OPENING);
     exp = Expression();
 numberLiteralOnly(exp);
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -1609,7 +1626,6 @@ numberLiteralOnly(exp);
       }
     default:
       jj_la1[25] = jj_gen;
-      ;
     }
     end = jj_consume_token(CLOSING_CURLY_BRACKET);
 MarkupOutputFormat<?> autoEscOF = autoEscaping && outputFormat instanceof MarkupOutputFormat
@@ -1678,8 +1694,10 @@ MarkupOutputFormat<?> autoEscOF = autoEscaping && outputFormat instanceof Markup
     throw new Error("Missing return statement in function");
   }
 
-  final public TemplateElement If() throws ParseException {Token start, end, t;
-    Expression condition;
+  final public TemplateElement If() throws ParseException {Token start;
+      Token end;
+      Token t;
+      Expression condition;
     TemplateElements children;
     IfBlock ifBlock;
     ConditionalBlock cblock;
@@ -1694,8 +1712,7 @@ cblock = new ConditionalBlock(condition, children, ConditionalBlock.TYPE_IF);
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case ELSE_IF:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[26] = jj_gen;
@@ -1720,7 +1737,6 @@ cblock = new ConditionalBlock(null, children, ConditionalBlock.TYPE_ELSE);
       }
     default:
       jj_la1[27] = jj_gen;
-      ;
     }
     end = jj_consume_token(END_IF);
 ifBlock.setLocation(template, start, end);
@@ -1728,8 +1744,9 @@ ifBlock.setLocation(template, start, end);
     throw new Error("Missing return statement in function");
   }
 
-  final public AttemptBlock Attempt() throws ParseException {Token start, end;
-    TemplateElements children;
+  final public AttemptBlock Attempt() throws ParseException {Token start;
+      Token end;
+      TemplateElements children;
     RecoveryBlock recoveryBlock;
     start = jj_consume_token(ATTEMPT);
     children = MixedContentElements();
@@ -1765,8 +1782,11 @@ RecoveryBlock result = new RecoveryBlock(children);
   }
 
   final public TemplateElement List() throws ParseException {Expression exp;
-    Token loopVar = null, loopVar2 = null, start, end;
-    TemplateElements childrendBeforeElse;
+    Token loopVar = null;
+      Token loopVar2 = null;
+      Token start;
+      Token end;
+      TemplateElements childrendBeforeElse;
     ElseOfList elseOfList = null;
     ParserIteratorBlockContext iterCtx;
     start = jj_consume_token(LIST);
@@ -1783,13 +1803,11 @@ RecoveryBlock result = new RecoveryBlock(children);
         }
       default:
         jj_la1[29] = jj_gen;
-        ;
       }
       break;
       }
     default:
       jj_la1[30] = jj_gen;
-      ;
     }
     jj_consume_token(DIRECTIVE_END);
 iterCtx = pushIteratorBlockContext();
@@ -1824,7 +1842,6 @@ if (loopVar != null) {
       }
     default:
       jj_la1[31] = jj_gen;
-      ;
     }
     end = jj_consume_token(END_LIST);
 IteratorBlock list = new IteratorBlock(
@@ -1856,8 +1873,10 @@ ElseOfList result = new ElseOfList(children);
   }
 
   final public IteratorBlock ForEach() throws ParseException {Expression exp;
-    Token loopVar, start, end;
-    TemplateElements children;
+    Token loopVar;
+      Token start;
+      Token end;
+      TemplateElements children;
     start = jj_consume_token(FOREACH);
     loopVar = jj_consume_token(ID);
     jj_consume_token(IN);
@@ -1880,8 +1899,11 @@ breakableDirectiveNesting--;
     throw new Error("Missing return statement in function");
   }
 
-  final public Items Items() throws ParseException {Token loopVar, loopVar2 = null, start, end;
-    TemplateElements children;
+  final public Items Items() throws ParseException {Token loopVar;
+      Token loopVar2 = null;
+      Token start;
+      Token end;
+      TemplateElements children;
     ParserIteratorBlockContext iterCtx;
     start = jj_consume_token(ITEMS);
     loopVar = jj_consume_token(ID);
@@ -1893,7 +1915,6 @@ breakableDirectiveNesting--;
       }
     default:
       jj_la1[32] = jj_gen;
-      ;
     }
     jj_consume_token(DIRECTIVE_END);
 iterCtx = peekIteratorBlockContext();
@@ -1938,8 +1959,10 @@ breakableDirectiveNesting--;
     throw new Error("Missing return statement in function");
   }
 
-  final public Sep Sep() throws ParseException {Token loopVar, start, end = null;
-    TemplateElements children;
+  final public Sep Sep() throws ParseException {Token loopVar;
+      Token start;
+      Token end = null;
+      TemplateElements children;
     start = jj_consume_token(SEP);
 if (peekIteratorBlockContext() == null) {
             {if (true) throw new ParseException(
@@ -1954,7 +1977,6 @@ if (peekIteratorBlockContext() == null) {
       }
     default:
       jj_la1[33] = jj_gen;
-      ;
     }
 Sep result = new Sep(children);
         if (end != null) {
@@ -1966,9 +1988,11 @@ Sep result = new Sep(children);
     throw new Error("Missing return statement in function");
   }
 
-  final public VisitNode Visit() throws ParseException {Token start, end;
-    Expression targetNode, namespaces = null;
-    start = jj_consume_token(VISIT);
+  final public VisitNode Visit() throws ParseException {Token start;
+      Token end;
+      Expression targetNode;
+      Expression namespaces = null;
+      start = jj_consume_token(VISIT);
     targetNode = Expression();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case USING:{
@@ -1978,7 +2002,6 @@ Sep result = new Sep(children);
       }
     default:
       jj_la1[34] = jj_gen;
-      ;
     }
     end = LooseDirectiveEnd();
 VisitNode result = new VisitNode(targetNode, namespaces);
@@ -1987,9 +2010,11 @@ VisitNode result = new VisitNode(targetNode, namespaces);
     throw new Error("Missing return statement in function");
   }
 
-  final public RecurseNode Recurse() throws ParseException {Token start, end = null;
-    Expression node = null, namespaces = null;
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+  final public RecurseNode Recurse() throws ParseException {Token start;
+      Token end = null;
+      Expression node = null;
+      Expression namespaces = null;
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case SIMPLE_RECURSE:{
       start = jj_consume_token(SIMPLE_RECURSE);
       break;
@@ -2016,7 +2041,6 @@ VisitNode result = new VisitNode(targetNode, namespaces);
         }
       default:
         jj_la1[35] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case USING:{
@@ -2026,7 +2050,6 @@ VisitNode result = new VisitNode(targetNode, namespaces);
         }
       default:
         jj_la1[36] = jj_gen;
-        ;
       }
       end = LooseDirectiveEnd();
       break;
@@ -2090,8 +2113,9 @@ if (continuableDirectiveNesting < 1) {
  * Production used to jump out of a macro.
  * The stop instruction terminates the rendering of the template.
  */
-  final public ReturnInstruction Return() throws ParseException {Token start, end = null;
-    Expression exp = null;
+  final public ReturnInstruction Return() throws ParseException {Token start;
+      Token end = null;
+      Expression exp = null;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case SIMPLE_RETURN:{
       start = jj_consume_token(SIMPLE_RETURN);
@@ -2153,8 +2177,9 @@ StopInstruction result = new StopInstruction(exp);
     throw new Error("Missing return statement in function");
   }
 
-  final public TemplateElement Nested() throws ParseException {Token t, end;
-    ArrayList bodyParameters;
+  final public TemplateElement Nested() throws ParseException {Token t;
+      Token end;
+      ArrayList bodyParameters;
     BodyInstruction result = null;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case SIMPLE_NESTED:{
@@ -2224,12 +2249,15 @@ result.setLocation(template, t, t);
     throw new Error("Missing return statement in function");
   }
 
-  final public TemplateElement Assign() throws ParseException {Token start, end;
-    int scope;
+  final public TemplateElement Assign() throws ParseException {Token start;
+      Token end;
+      int scope;
     Token id = null;
     Token equalsOp;
-    Expression nameExp, exp, nsExp = null;
-    String varName;
+    Expression nameExp;
+      Expression exp;
+      Expression nsExp = null;
+      String varName;
     ArrayList assignments = new ArrayList();
     Assignment ass;
     TemplateElements children;
@@ -2347,7 +2375,6 @@ ass = new Assignment(varName, equalsOp.kind, exp, scope);
       label_9:
       while (true) {
         if (jj_2_9(2147483647)) {
-          ;
         } else {
           break label_9;
         }
@@ -2358,7 +2385,6 @@ ass = new Assignment(varName, equalsOp.kind, exp, scope);
           }
         default:
           jj_la1[46] = jj_gen;
-          ;
         }
         nameExp = IdentifierOrStringLiteral();
 varName = (nameExp instanceof StringLiteral)
@@ -2449,7 +2475,6 @@ if (scope != Assignment.NAMESPACE) {
         }
       default:
         jj_la1[50] = jj_gen;
-        ;
       }
       end = LooseDirectiveEnd();
 if (assignments.size() == 1) {
@@ -2481,7 +2506,6 @@ if (scope != Assignment.NAMESPACE) {
         }
       default:
         jj_la1[51] = jj_gen;
-        ;
       }
       jj_consume_token(DIRECTIVE_END);
       children = MixedContentElements();
@@ -2527,9 +2551,14 @@ BlockAssignment ba = new BlockAssignment(
   }
 
   final public Include Include() throws ParseException {Expression nameExp;
-    Token att, start, end;
-    Expression exp, parseExp = null, encodingExp = null, ignoreMissingExp = null;
-    start = jj_consume_token(_INCLUDE);
+    Token att;
+      Token start;
+      Token end;
+      Expression exp;
+      Expression parseExp = null;
+      Expression encodingExp = null;
+      Expression ignoreMissingExp = null;
+      start = jj_consume_token(_INCLUDE);
     nameExp = Expression();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case SEMICOLON:{
@@ -2538,14 +2567,12 @@ BlockAssignment ba = new BlockAssignment(
       }
     default:
       jj_la1[54] = jj_gen;
-      ;
     }
     label_10:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case ID:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[55] = jj_gen;
@@ -2582,8 +2609,10 @@ Include result = new Include(template, nameExp, encodingExp, parseExp, ignoreMis
     throw new Error("Missing return statement in function");
   }
 
-  final public LibraryLoad Import() throws ParseException {Token start, end, ns;
-    Expression nameExp;
+  final public LibraryLoad Import() throws ParseException {Token start;
+      Token end;
+      Token ns;
+      Expression nameExp;
     start = jj_consume_token(IMPORT);
     nameExp = Expression();
     jj_consume_token(AS);
@@ -2596,8 +2625,10 @@ LibraryLoad result = new LibraryLoad(template, nameExp, ns.image);
     throw new Error("Missing return statement in function");
   }
 
-  final public Macro Macro() throws ParseException {Token arg, start, end;
-    Expression nameExp;
+  final public Macro Macro() throws ParseException {Token arg;
+      Token start;
+      Token end;
+      Expression nameExp;
     String name;
     ArrayList argNames = new ArrayList();
     HashMap args = new HashMap();
@@ -2607,8 +2638,9 @@ LibraryLoad result = new LibraryLoad(template, nameExp, ns.image);
     int lastBreakableDirectiveNesting;
     int lastContiunableDirectiveNesting;
     TemplateElements children;
-    boolean isFunction = false, hasDefaults = false;
-    boolean isCatchAll = false;
+    boolean isFunction = false;
+      boolean hasDefaults = false;
+      boolean isCatchAll = false;
     String catchAll = null;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case MACRO:{
@@ -2640,14 +2672,12 @@ name = (nameExp instanceof StringLiteral)
       }
     default:
       jj_la1[57] = jj_gen;
-      ;
     }
     label_11:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case ID:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[58] = jj_gen;
@@ -2663,7 +2693,6 @@ isCatchAll = true;
         }
       default:
         jj_la1[59] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case EQUALS:{
@@ -2675,7 +2704,6 @@ defNames.add(arg.image);
         }
       default:
         jj_la1[60] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case COMMA:{
@@ -2684,7 +2712,6 @@ defNames.add(arg.image);
         }
       default:
         jj_la1[61] = jj_gen;
-        ;
       }
 if (catchAll != null) {
                 {if (true) throw new ParseException(
@@ -2716,7 +2743,6 @@ if (catchAll != null) {
       }
     default:
       jj_la1[62] = jj_gen;
-      ;
     }
     jj_consume_token(DIRECTIVE_END);
 // To prevent parser check loopholes like <#list ...><#macro ...><#break></#macro></#list>.
@@ -2763,8 +2789,9 @@ iteratorBlockContexts = lastIteratorBlockContexts;
   }
 
   final public CompressedBlock Compress() throws ParseException {TemplateElements children;
-    Token start, end;
-    start = jj_consume_token(COMPRESS);
+    Token start;
+      Token end;
+      start = jj_consume_token(COMPRESS);
     children = MixedContentElements();
     end = jj_consume_token(END_COMPRESS);
 CompressedBlock cb = new CompressedBlock(children);
@@ -2773,10 +2800,13 @@ CompressedBlock cb = new CompressedBlock(children);
     throw new Error("Missing return statement in function");
   }
 
-  final public TemplateElement UnifiedMacroTransform() throws ParseException {Token start = null, end, t;
-    HashMap namedArgs = null;
-    ArrayList positionalArgs = null, bodyParameters = null;
-    Expression startTagNameExp;
+  final public TemplateElement UnifiedMacroTransform() throws ParseException {Token start = null;
+      Token end;
+      Token t;
+      HashMap namedArgs = null;
+    ArrayList positionalArgs = null;
+      ArrayList bodyParameters = null;
+      Expression startTagNameExp;
     TemplateElements children;
     Expression exp;
     int pushedCtxCount = 0;
@@ -2794,7 +2824,6 @@ if (exp instanceof Identifier || (exp instanceof Dot && ((Dot) exp).onlyHasIdent
       }
     default:
       jj_la1[64] = jj_gen;
-      ;
     }
     if (jj_2_10(2147483647)) {
       namedArgs = NamedArgs();
@@ -2815,7 +2844,6 @@ bodyParameters = new ArrayList(4);
           }
         default:
           jj_la1[65] = jj_gen;
-          ;
         }
         t = jj_consume_token(ID);
 bodyParameters.add(t.image);
@@ -2824,8 +2852,7 @@ bodyParameters.add(t.image);
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
           case COMMA:
           case TERMINATING_WHITESPACE:{
-            ;
-            break;
+              break;
             }
           default:
             jj_la1[66] = jj_gen;
@@ -2838,7 +2865,6 @@ bodyParameters.add(t.image);
             }
           default:
             jj_la1[67] = jj_gen;
-            ;
           }
           jj_consume_token(COMMA);
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -2848,7 +2874,6 @@ bodyParameters.add(t.image);
             }
           default:
             jj_la1[68] = jj_gen;
-            ;
           }
           t = jj_consume_token(ID);
 bodyParameters.add(t.image);
@@ -2857,13 +2882,11 @@ bodyParameters.add(t.image);
         }
       default:
         jj_la1[69] = jj_gen;
-        ;
       }
       break;
       }
     default:
       jj_la1[70] = jj_gen;
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case EMPTY_DIRECTIVE_END:{
@@ -2881,7 +2904,7 @@ if (bodyParameters != null && iteratorBlockContexts != null && !iteratorBlockCon
                         String bodyParName = (String) bodyParameters.get(bodyParIdx);
                         walkCtxSack: for (int ctxIdx = ctxsLen - 1; ctxIdx >= 0; ctxIdx--) {
                             ParserIteratorBlockContext ctx
-                                    = (ParserIteratorBlockContext) iteratorBlockContexts.get(ctxIdx);
+                                    = iteratorBlockContexts.get(ctxIdx);
                             if (ctx.loopVarName != null && ctx.loopVarName.equals(bodyParName)) {
                                 // If it wasn't already shadowed, shadow it:
                                 if (ctx.kind != ITERATOR_BLOCK_KIND_USER_DIRECTIVE) {
@@ -2927,8 +2950,10 @@ TemplateElement result = (positionalArgs != null)
     throw new Error("Missing return statement in function");
   }
 
-  final public TemplateElement Call() throws ParseException {Token start, end, id;
-    HashMap namedArgs = null;
+  final public TemplateElement Call() throws ParseException {Token start;
+      Token end;
+      Token id;
+      HashMap namedArgs = null;
     ArrayList positionalArgs = null;
     Identifier macroName= null;
     start = jj_consume_token(CALL);
@@ -2941,7 +2966,6 @@ macroName = new Identifier(id.image);
       if (jj_2_11(2147483647)) {
         jj_consume_token(OPEN_PAREN);
       } else {
-        ;
       }
       positionalArgs = PositionalArgs();
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -2951,7 +2975,6 @@ macroName = new Identifier(id.image);
         }
       default:
         jj_la1[72] = jj_gen;
-        ;
       }
     }
     end = LooseDirectiveEnd();
@@ -2980,8 +3003,7 @@ token_source.SwitchTo(token_source.NAMED_PARAMETER_EXPRESSION);
 result.put(t.image, exp);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case ID:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[73] = jj_gen;
@@ -3030,8 +3052,7 @@ result.add(arg);
         case OPEN_PAREN:
         case OPENING_CURLY_BRACKET:
         case ID:{
-          ;
-          break;
+            break;
           }
         default:
           jj_la1[74] = jj_gen;
@@ -3044,7 +3065,6 @@ result.add(arg);
           }
         default:
           jj_la1[75] = jj_gen;
-          ;
         }
         arg = Expression();
 result.add(arg);
@@ -3053,14 +3073,14 @@ result.add(arg);
       }
     default:
       jj_la1[76] = jj_gen;
-      ;
     }
 {if ("" != null) return result;}
     throw new Error("Missing return statement in function");
   }
 
-  final public Comment Comment() throws ParseException {Token start, end;
-    StringBuilder buf = new StringBuilder();
+  final public Comment Comment() throws ParseException {Token start;
+      Token end;
+      StringBuilder buf = new StringBuilder();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case COMMENT:{
       start = jj_consume_token(COMMENT);
@@ -3082,8 +3102,9 @@ Comment result = new Comment(buf.toString());
     throw new Error("Missing return statement in function");
   }
 
-  final public TextBlock NoParse() throws ParseException {Token start, end;
-    StringBuilder buf = new StringBuilder();
+  final public TextBlock NoParse() throws ParseException {Token start;
+      Token end;
+      StringBuilder buf = new StringBuilder();
     start = jj_consume_token(NOPARSE);
     end = UnparsedContent(start, buf);
 TextBlock result = new TextBlock(buf.toString(), true);
@@ -3092,9 +3113,12 @@ TextBlock result = new TextBlock(buf.toString(), true);
     throw new Error("Missing return statement in function");
   }
 
-  final public TransformBlock Transform() throws ParseException {Token start, end, argName;
-    Expression exp, argExp;
-    TemplateElements children = null;
+  final public TransformBlock Transform() throws ParseException {Token start;
+      Token end;
+      Token argName;
+      Expression exp;
+      Expression argExp;
+      TemplateElements children = null;
     HashMap args = null;
     start = jj_consume_token(TRANSFORM);
     exp = Expression();
@@ -3105,14 +3129,12 @@ TextBlock result = new TextBlock(buf.toString(), true);
       }
     default:
       jj_la1[78] = jj_gen;
-      ;
     }
     label_15:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case ID:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[79] = jj_gen;
@@ -3150,8 +3172,9 @@ TransformBlock result = new TransformBlock(exp, args, children);
     MixedContent ignoredSectionBeforeFirstCase = null;
     Case caseIns;
     Expression switchExp;
-    Token start, end;
-    boolean defaultFound = false;
+    Token start;
+      Token end;
+      boolean defaultFound = false;
     start = jj_consume_token(SWITCH);
     switchExp = Expression();
     jj_consume_token(DIRECTIVE_END);
@@ -3164,7 +3187,6 @@ TransformBlock result = new TransformBlock(exp, args, children);
       }
     default:
       jj_la1[81] = jj_gen;
-      ;
     }
 breakableDirectiveNesting++;
         switchBlock = new SwitchBlock(switchExp, ignoredSectionBeforeFirstCase);
@@ -3185,8 +3207,7 @@ if (caseIns.condition == null) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case CASE:
         case DEFAUL:{
-          ;
-          break;
+            break;
           }
         default:
           jj_la1[82] = jj_gen;
@@ -3200,13 +3221,11 @@ if (caseIns.condition == null) {
         }
       default:
         jj_la1[83] = jj_gen;
-        ;
       }
       break;
       }
     default:
       jj_la1[84] = jj_gen;
-      ;
     }
     end = jj_consume_token(END_SWITCH);
 breakableDirectiveNesting--;
@@ -3242,8 +3261,10 @@ Case result = new Case(exp, children);
     throw new Error("Missing return statement in function");
   }
 
-  final public EscapeBlock Escape() throws ParseException {Token variable, start, end;
-    Expression escapeExpr;
+  final public EscapeBlock Escape() throws ParseException {Token variable;
+      Token start;
+      Token end;
+      Expression escapeExpr;
     TemplateElements children;
     start = jj_consume_token(ESCAPE);
 if (outputFormat instanceof MarkupOutputFormat && autoEscaping) {
@@ -3268,8 +3289,9 @@ result.setLocation(template, start, end);
     throw new Error("Missing return statement in function");
   }
 
-  final public NoEscapeBlock NoEscape() throws ParseException {Token start, end;
-    TemplateElements children;
+  final public NoEscapeBlock NoEscape() throws ParseException {Token start;
+      Token end;
+      TemplateElements children;
     start = jj_consume_token(NOESCAPE);
 if (escapes.isEmpty()) {
             {if (true) throw new ParseException("#noescape with no matching #escape encountered.", template, start);}
@@ -3284,8 +3306,9 @@ escapes.addFirst(escape);
     throw new Error("Missing return statement in function");
   }
 
-  final public OutputFormatBlock OutputFormat() throws ParseException {Token start, end;
-    Expression paramExp;
+  final public OutputFormatBlock OutputFormat() throws ParseException {Token start;
+      Token end;
+      Expression paramExp;
     TemplateElements children;
     OutputFormat lastOutputFormat;
     start = jj_consume_token(OUTPUTFORMAT);
@@ -3366,8 +3389,9 @@ OutputFormatBlock result = new OutputFormatBlock(children, paramExp);
     throw new Error("Missing return statement in function");
   }
 
-  final public AutoEscBlock AutoEsc() throws ParseException {Token start, end;
-    TemplateElements children;
+  final public AutoEscBlock AutoEsc() throws ParseException {Token start;
+      Token end;
+      TemplateElements children;
     int lastAutoEscapingPolicy;
     start = jj_consume_token(AUTOESC);
 checkCurrentOutputFormatCanEscape(start);
@@ -3385,8 +3409,9 @@ AutoEscBlock result = new AutoEscBlock(children);
     throw new Error("Missing return statement in function");
   }
 
-  final public NoAutoEscBlock NoAutoEsc() throws ParseException {Token start, end;
-    TemplateElements children;
+  final public NoAutoEscBlock NoAutoEsc() throws ParseException {Token start;
+      Token end;
+      TemplateElements children;
     int lastAutoEscapingPolicy;
     start = jj_consume_token(NOAUTOESC);
 lastAutoEscapingPolicy = autoEscapingPolicy;
@@ -3425,8 +3450,10 @@ NoAutoEscBlock result = new NoAutoEscBlock(children);
     throw new Error("Missing return statement in function");
   }
 
-  final public PropertySetting Setting() throws ParseException {Token start, end, key;
-    Expression value;
+  final public PropertySetting Setting() throws ParseException {Token start;
+      Token end;
+      Token key;
+      Expression value;
     start = jj_consume_token(SETTING);
     key = jj_consume_token(ID);
     jj_consume_token(EQUALS);
@@ -3602,8 +3629,10 @@ token_source.checkNamingConvention(key);
  * FreeMarker directives.
  */
   final public TextBlock PCData() throws ParseException {StringBuilder buf = new StringBuilder();
-    Token t = null, start = null, prevToken = null;
-    label_17:
+    Token t = null;
+      Token start = null;
+      Token prevToken = null;
+      label_17:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case STATIC_TEXT_WS:{
@@ -3631,8 +3660,7 @@ buf.append(t.image);
       case STATIC_TEXT_WS:
       case STATIC_TEXT_NON_WS:
       case STATIC_TEXT_FALSE_ALARM:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[89] = jj_gen;
@@ -3647,8 +3675,9 @@ if (stripText && mixedContentNesting == 1 && !preventStrippings) {if ("" != null
     throw new Error("Missing return statement in function");
   }
 
-  final public TextBlock WhitespaceText() throws ParseException {Token t = null, start = null;
-    t = jj_consume_token(STATIC_TEXT_WS);
+  final public TextBlock WhitespaceText() throws ParseException {Token t = null;
+      Token start = null;
+      t = jj_consume_token(STATIC_TEXT_WS);
 if (stripText && mixedContentNesting == 1 && !preventStrippings) {if ("" != null) return null;}
 
         TextBlock result = new TextBlock(t.image, false);
@@ -3694,8 +3723,7 @@ buf.append(t.image);
       case MAYBE_END:
       case KEEP_GOING:
       case LONE_LESS_THAN_OR_DASH:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[91] = jj_gen;
@@ -3768,8 +3796,7 @@ buf.setLength(buf.length() - t.image.length());
       case DOLLAR_INTERPOLATION_OPENING:
       case HASH_INTERPOLATION_OPENING:
       case SQUARE_BRACKET_INTERPOLATION_OPENING:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[92] = jj_gen;
@@ -3866,11 +3893,12 @@ mixedContentNesting--;
 /**
  * Not used anymore; kept for backward compatibility.
  *
- * @deprecated Use {@link #MixedContentElements} instead.
+ * @deprecated Use {link #MixedContentElements} instead.
  */
   final public MixedContent MixedContent() throws ParseException {MixedContent mixedContent = new MixedContent();
-    TemplateElement elem, begin = null;
-    mixedContentNesting++;
+    TemplateElement elem;
+      TemplateElement begin = null;
+      mixedContentNesting++;
     label_20:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -3996,8 +4024,7 @@ if (begin == null) {
       case DOLLAR_INTERPOLATION_OPENING:
       case HASH_INTERPOLATION_OPENING:
       case SQUARE_BRACKET_INTERPOLATION_OPENING:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[95] = jj_gen;
@@ -4017,7 +4044,7 @@ mixedContentNesting--;
  * Returns an empty Text block if there is no
  * content.
  *
- * @deprecated Use {@link #MixedContentElements} instead.
+ * @deprecated Use {link #MixedContentElements} instead.
  */
   final public TemplateElement OptionalBlock() throws ParseException {TemplateElement tp = null;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -4077,7 +4104,6 @@ mixedContentNesting--;
       }
     default:
       jj_la1[96] = jj_gen;
-      ;
     }
 {if ("" != null) return tp != null ? tp : new TextBlock(CollectionUtils.EMPTY_CHAR_ARRAY, false);}
     throw new Error("Missing return statement in function");
@@ -4088,8 +4114,9 @@ mixedContentNesting--;
  * ${...} and #{...} but no directives.
  */
   final public TemplateElement FreeMarkerText() throws ParseException {MixedContent nodes = new MixedContent();
-    TemplateElement elem, begin = null;
-    label_21:
+    TemplateElement elem;
+      TemplateElement begin = null;
+      label_21:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case STATIC_TEXT_WS:
@@ -4123,8 +4150,7 @@ if (begin == null) {
       case DOLLAR_INTERPOLATION_OPENING:
       case HASH_INTERPOLATION_OPENING:
       case SQUARE_BRACKET_INTERPOLATION_OPENING:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[98] = jj_gen;
@@ -4140,8 +4166,9 @@ nodes.setLocation(template, begin, elem);
  * To be used between tags that in theory has nothing between, such between #switch and the first #case.
  */
   final public MixedContent WhitespaceAndComments() throws ParseException {MixedContent nodes = new MixedContent();
-    TemplateElement elem, begin = null;
-    label_22:
+    TemplateElement elem;
+      TemplateElement begin = null;
+      label_22:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case STATIC_TEXT_WS:{
@@ -4168,8 +4195,7 @@ if (elem != null) { // not removed by stripText
       case COMMENT:
       case TERSE_COMMENT:
       case STATIC_TEXT_WS:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[100] = jj_gen;
@@ -4199,7 +4225,6 @@ if (begin == null // Was is removed by stripText?
       }
     default:
       jj_la1[101] = jj_gen;
-      ;
     }
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case TRIVIAL_FTL_HEADER:{
@@ -4212,8 +4237,7 @@ if (begin == null // Was is removed by stripText?
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case ID:{
-          ;
-          break;
+            break;
           }
         default:
           jj_la1[102] = jj_gen;
@@ -4366,12 +4390,10 @@ result.put(id.toString(), exp);
         }
       default:
         jj_la1[104] = jj_gen;
-        ;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case ID:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[105] = jj_gen;
@@ -4385,7 +4407,7 @@ result.put(id.toString(), exp);
 /**
  * Parses the already un-escaped content of a string literal (input must not include the quotation marks).
  *
- * @return A {@link List} of {@link String}-s and {@link Interpolation}-s. 
+ * @return A {link List} of {link String}-s and {link Interpolation}-s.
  */
   final public List<Object> StaticTextAndInterpolations() throws ParseException {Token t;
     Interpolation interpolation;
@@ -4400,8 +4422,7 @@ result.put(id.toString(), exp);
       case DOLLAR_INTERPOLATION_OPENING:
       case HASH_INTERPOLATION_OPENING:
       case SQUARE_BRACKET_INTERPOLATION_OPENING:{
-        ;
-        break;
+          break;
         }
       default:
         jj_la1[106] = jj_gen;
@@ -4479,7 +4500,6 @@ if (staticTextCollector != null && staticTextCollector.length() != 0) {
     if (jj_2_15(2147483647)) {
       HeaderElement();
     } else {
-      ;
     }
     children = MixedContentElements();
     jj_consume_token(0);
@@ -4616,27 +4636,23 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_60()
  {
-    if (jj_3R_75()) return true;
-    return false;
-  }
+     return jj_3R_75();
+ }
 
   private boolean jj_3R_59()
  {
-    if (jj_3R_74()) return true;
-    return false;
-  }
+     return jj_3R_74();
+ }
 
   private boolean jj_3R_58()
  {
-    if (jj_3R_73()) return true;
-    return false;
-  }
+     return jj_3R_73();
+ }
 
   private boolean jj_3R_57()
  {
-    if (jj_3R_72()) return true;
-    return false;
-  }
+     return jj_3R_72();
+ }
 
   private boolean jj_3_3()
  {
@@ -4646,7 +4662,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(105)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(106)) return true;
+        return jj_scan_token(106);
     }
     }
     return false;
@@ -4672,7 +4688,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(139)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(140)) return true;
+        return jj_scan_token(140);
     }
     }
     }
@@ -4686,15 +4702,13 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_56()
  {
-    if (jj_3R_71()) return true;
-    return false;
-  }
+     return jj_3R_71();
+ }
 
   private boolean jj_3R_76()
  {
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
+     return jj_scan_token(ID);
+ }
 
   private boolean jj_3R_52()
  {
@@ -4714,7 +4728,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_3R_62()) {
     jj_scanpos = xsp;
-    if (jj_3R_63()) return true;
+        return jj_3R_63();
     }
     }
     }
@@ -4727,9 +4741,8 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3_14()
  {
-    if (jj_scan_token(HASH_INTERPOLATION_OPENING)) return true;
-    return false;
-  }
+     return jj_scan_token(HASH_INTERPOLATION_OPENING);
+ }
 
   private boolean jj_3R_49()
  {
@@ -4742,9 +4755,8 @@ TemplateElement root = children.asSingleElement();
     if (jj_scan_token(106)) return true;
     }
     }
-    if (jj_3R_48()) return true;
-    return false;
-  }
+     return jj_3R_48();
+ }
 
   private boolean jj_3R_79()
  {
@@ -4757,7 +4769,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(122)) {
     jj_scanpos = xsp;
-    if (jj_3R_92()) return true;
+        return jj_3R_92();
     }
     }
     }
@@ -4770,7 +4782,7 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_scan_token(82)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(84)) return true;
+        return jj_scan_token(84);
     }
     return false;
   }
@@ -4786,21 +4798,18 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_69()
  {
-    if (jj_3R_84()) return true;
-    return false;
-  }
+     return jj_3R_84();
+ }
 
   private boolean jj_3_11()
  {
-    if (jj_scan_token(OPEN_PAREN)) return true;
-    return false;
-  }
+     return jj_scan_token(OPEN_PAREN);
+ }
 
   private boolean jj_3R_68()
  {
-    if (jj_3R_83()) return true;
-    return false;
-  }
+     return jj_3R_83();
+ }
 
   private boolean jj_3R_71()
  {
@@ -4808,34 +4817,30 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_scan_token(97)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(98)) return true;
+        return jj_scan_token(98);
     }
     return false;
   }
 
   private boolean jj_3R_67()
  {
-    if (jj_3R_82()) return true;
-    return false;
-  }
+     return jj_3R_82();
+ }
 
   private boolean jj_3R_66()
  {
-    if (jj_3R_81()) return true;
-    return false;
-  }
+     return jj_3R_81();
+ }
 
   private boolean jj_3R_65()
  {
-    if (jj_3R_80()) return true;
-    return false;
-  }
+     return jj_3R_80();
+ }
 
   private boolean jj_3R_42()
  {
-    if (jj_scan_token(PERCENT)) return true;
-    return false;
-  }
+     return jj_scan_token(PERCENT);
+ }
 
   private boolean jj_3R_53()
  {
@@ -4851,7 +4856,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_3R_68()) {
     jj_scanpos = xsp;
-    if (jj_3R_69()) return true;
+        return jj_3R_69();
     }
     }
     }
@@ -4862,28 +4867,24 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_64()
  {
-    if (jj_3R_79()) return true;
-    return false;
-  }
+     return jj_3R_79();
+ }
 
   private boolean jj_3R_41()
  {
-    if (jj_scan_token(DIVIDE)) return true;
-    return false;
-  }
+     return jj_scan_token(DIVIDE);
+ }
 
   private boolean jj_3_12()
  {
     if (jj_scan_token(ID)) return true;
-    if (jj_scan_token(EQUALS)) return true;
-    return false;
-  }
+     return jj_scan_token(EQUALS);
+ }
 
   private boolean jj_3R_40()
  {
-    if (jj_scan_token(TIMES)) return true;
-    return false;
-  }
+     return jj_scan_token(TIMES);
+ }
 
   private boolean jj_3R_98()
  {
@@ -4895,9 +4896,8 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(131)) return true;
     }
-    if (jj_3R_27()) return true;
-    return false;
-  }
+     return jj_3R_27();
+ }
 
   private boolean jj_3_2()
  {
@@ -4907,7 +4907,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(124)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(125)) return true;
+        return jj_scan_token(125);
     }
     }
     return false;
@@ -4917,9 +4917,8 @@ TemplateElement root = children.asSingleElement();
  {
     if (jj_scan_token(OPEN_PAREN)) return true;
     if (jj_3R_91()) return true;
-    if (jj_scan_token(CLOSE_PAREN)) return true;
-    return false;
-  }
+     return jj_scan_token(CLOSE_PAREN);
+ }
 
   private boolean jj_3R_47()
  {
@@ -4936,9 +4935,8 @@ TemplateElement root = children.asSingleElement();
  {
     if (jj_scan_token(OPEN_BRACKET)) return true;
     if (jj_3R_91()) return true;
-    if (jj_scan_token(CLOSE_BRACKET)) return true;
-    return false;
-  }
+     return jj_scan_token(CLOSE_BRACKET);
+ }
 
   private boolean jj_3R_32()
  {
@@ -4951,15 +4949,13 @@ TemplateElement root = children.asSingleElement();
     if (jj_3R_42()) return true;
     }
     }
-    if (jj_3R_31()) return true;
-    return false;
-  }
+     return jj_3R_31();
+ }
 
   private boolean jj_3_7()
  {
-    if (jj_scan_token(OR)) return true;
-    return false;
-  }
+     return jj_scan_token(OR);
+ }
 
   private boolean jj_3R_87()
  {
@@ -4991,9 +4987,8 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_27()
  {
-    if (jj_3R_30()) return true;
-    return false;
-  }
+     return jj_3R_30();
+ }
 
   private boolean jj_3R_72()
  {
@@ -5001,16 +4996,14 @@ TemplateElement root = children.asSingleElement();
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_87()) jj_scanpos = xsp;
-    if (jj_scan_token(CLOSING_CURLY_BRACKET)) return true;
-    return false;
-  }
+     return jj_scan_token(CLOSING_CURLY_BRACKET);
+ }
 
   private boolean jj_3R_36()
  {
     if (jj_scan_token(OR)) return true;
-    if (jj_3R_35()) return true;
-    return false;
-  }
+     return jj_3R_35();
+ }
 
   private boolean jj_3R_30()
  {
@@ -5048,7 +5041,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(113)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(114)) return true;
+        return jj_scan_token(114);
     }
     }
     }
@@ -5061,33 +5054,28 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_90()
  {
-    if (jj_scan_token(TRUE)) return true;
-    return false;
-  }
+     return jj_scan_token(TRUE);
+ }
 
   private boolean jj_3R_89()
  {
-    if (jj_scan_token(FALSE)) return true;
-    return false;
-  }
+     return jj_scan_token(FALSE);
+ }
 
   private boolean jj_3_6()
  {
-    if (jj_scan_token(AND)) return true;
-    return false;
-  }
+     return jj_scan_token(AND);
+ }
 
   private boolean jj_3R_34()
  {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
+     return jj_scan_token(MINUS);
+ }
 
   private boolean jj_3R_33()
  {
-    if (jj_scan_token(PLUS)) return true;
-    return false;
-  }
+     return jj_scan_token(PLUS);
+ }
 
   private boolean jj_3R_74()
  {
@@ -5095,7 +5083,7 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_3R_89()) {
     jj_scanpos = xsp;
-    if (jj_3R_90()) return true;
+        return jj_3R_90();
     }
     return false;
   }
@@ -5106,7 +5094,7 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_scan_token(119)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(120)) return true;
+        return jj_scan_token(120);
     }
     return false;
   }
@@ -5114,9 +5102,8 @@ TemplateElement root = children.asSingleElement();
   private boolean jj_3R_44()
  {
     if (jj_scan_token(AND)) return true;
-    if (jj_3R_43()) return true;
-    return false;
-  }
+     return jj_3R_43();
+ }
 
   private boolean jj_3R_29()
  {
@@ -5126,9 +5113,8 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_3R_34()) return true;
     }
-    if (jj_3R_28()) return true;
-    return false;
-  }
+     return jj_3R_28();
+ }
 
   private boolean jj_3R_35()
  {
@@ -5164,21 +5150,18 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3_5()
  {
-    if (jj_3R_26()) return true;
-    return false;
-  }
+     return jj_3R_26();
+ }
 
   private boolean jj_3R_50()
  {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
+     return jj_scan_token(MINUS);
+ }
 
   private boolean jj_3R_97()
  {
-    if (jj_3R_26()) return true;
-    return false;
-  }
+     return jj_3R_26();
+ }
 
   private boolean jj_3R_45()
  {
@@ -5188,39 +5171,33 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_3R_50()) return true;
     }
-    if (jj_3R_47()) return true;
-    return false;
-  }
+     return jj_3R_47();
+ }
 
   private boolean jj_3R_84()
  {
-    if (jj_scan_token(EXISTS)) return true;
-    return false;
-  }
+     return jj_scan_token(EXISTS);
+ }
 
   private boolean jj_3_8()
  {
-    if (jj_3R_27()) return true;
-    return false;
-  }
+     return jj_3R_27();
+ }
 
   private boolean jj_3R_88()
  {
-    if (jj_scan_token(RAW_STRING)) return true;
-    return false;
-  }
+     return jj_scan_token(RAW_STRING);
+ }
 
   private boolean jj_3R_96()
  {
-    if (jj_scan_token(DOT_DOT_ASTERISK)) return true;
-    return false;
-  }
+     return jj_scan_token(DOT_DOT_ASTERISK);
+ }
 
   private boolean jj_3R_95()
  {
-    if (jj_scan_token(DOT_DOT_LESS)) return true;
-    return false;
-  }
+     return jj_scan_token(DOT_DOT_LESS);
+ }
 
   private boolean jj_3R_86()
  {
@@ -5237,7 +5214,7 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_scan_token(93)) {
     jj_scanpos = xsp;
-    if (jj_3R_88()) return true;
+        return jj_3R_88();
     }
     return false;
   }
@@ -5245,15 +5222,13 @@ TemplateElement root = children.asSingleElement();
   private boolean jj_3_10()
  {
     if (jj_scan_token(ID)) return true;
-    if (jj_scan_token(EQUALS)) return true;
-    return false;
-  }
+     return jj_scan_token(EQUALS);
+ }
 
   private boolean jj_3R_100()
  {
-    if (jj_3R_27()) return true;
-    return false;
-  }
+     return jj_3R_27();
+ }
 
   private boolean jj_3R_85()
  {
@@ -5263,15 +5238,13 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_3R_96()) return true;
     }
-    if (jj_3R_26()) return true;
-    return false;
-  }
+     return jj_3R_26();
+ }
 
   private boolean jj_3R_51()
  {
-    if (jj_scan_token(EXCLAM)) return true;
-    return false;
-  }
+     return jj_scan_token(EXCLAM);
+ }
 
   private boolean jj_3R_94()
  {
@@ -5290,9 +5263,8 @@ TemplateElement root = children.asSingleElement();
       xsp = jj_scanpos;
       if (jj_3R_51()) { jj_scanpos = xsp; break; }
     }
-    if (jj_3R_47()) return true;
-    return false;
-  }
+     return jj_3R_47();
+ }
 
   private boolean jj_3R_70()
  {
@@ -5300,7 +5272,7 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_3R_85()) {
     jj_scanpos = xsp;
-    if (jj_3R_86()) return true;
+        return jj_3R_86();
     }
     return false;
   }
@@ -5309,9 +5281,8 @@ TemplateElement root = children.asSingleElement();
  {
     if (jj_scan_token(OPEN_PAREN)) return true;
     if (jj_3R_91()) return true;
-    if (jj_scan_token(CLOSE_PAREN)) return true;
-    return false;
-  }
+     return jj_scan_token(CLOSE_PAREN);
+ }
 
   private boolean jj_3R_54()
  {
@@ -5328,28 +5299,25 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_scan_token(152)) {
     jj_scanpos = xsp;
-    if (jj_3R_94()) return true;
+        return jj_3R_94();
     }
     return false;
   }
 
   private boolean jj_3R_39()
  {
-    if (jj_3R_47()) return true;
-    return false;
-  }
+     return jj_3R_47();
+ }
 
   private boolean jj_3R_38()
  {
-    if (jj_3R_46()) return true;
-    return false;
-  }
+     return jj_3R_46();
+ }
 
   private boolean jj_3R_37()
  {
-    if (jj_3R_45()) return true;
-    return false;
-  }
+     return jj_3R_45();
+ }
 
   private boolean jj_3R_31()
  {
@@ -5359,7 +5327,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_3R_38()) {
     jj_scanpos = xsp;
-    if (jj_3R_39()) return true;
+        return jj_3R_39();
     }
     }
     return false;
@@ -5369,9 +5337,8 @@ TemplateElement root = children.asSingleElement();
  {
     if (jj_scan_token(OPEN_BRACKET)) return true;
     if (jj_3R_27()) return true;
-    if (jj_scan_token(CLOSE_BRACKET)) return true;
-    return false;
-  }
+     return jj_scan_token(CLOSE_BRACKET);
+ }
 
   private boolean jj_3_4()
  {
@@ -5389,7 +5356,7 @@ TemplateElement root = children.asSingleElement();
     jj_scanpos = xsp;
     if (jj_scan_token(116)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(115)) return true;
+        return jj_scan_token(115);
     }
     }
     }
@@ -5402,26 +5369,23 @@ TemplateElement root = children.asSingleElement();
   private boolean jj_3R_78()
  {
     if (jj_scan_token(DOT)) return true;
-    if (jj_scan_token(ID)) return true;
-    return false;
-  }
+     return jj_scan_token(ID);
+ }
 
   private boolean jj_3R_101()
  {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(129)) jj_scanpos = xsp;
-    if (jj_3R_27()) return true;
-    return false;
-  }
+     return jj_3R_27();
+ }
 
   private boolean jj_3R_77()
  {
     if (jj_scan_token(OPEN_PAREN)) return true;
     if (jj_3R_27()) return true;
-    if (jj_scan_token(CLOSE_PAREN)) return true;
-    return false;
-  }
+     return jj_scan_token(CLOSE_PAREN);
+ }
 
   private boolean jj_3R_55()
  {
@@ -5443,9 +5407,8 @@ TemplateElement root = children.asSingleElement();
     }
     }
     }
-    if (jj_3R_54()) return true;
-    return false;
-  }
+     return jj_3R_54();
+ }
 
   private boolean jj_3R_99()
  {
@@ -5466,7 +5429,7 @@ TemplateElement root = children.asSingleElement();
     xsp = jj_scanpos;
     if (jj_scan_token(77)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(76)) return true;
+        return jj_scan_token(76);
     }
     return false;
   }
@@ -5490,21 +5453,18 @@ TemplateElement root = children.asSingleElement();
 
   private boolean jj_3R_63()
  {
-    if (jj_3R_78()) return true;
-    return false;
-  }
+     return jj_3R_78();
+ }
 
   private boolean jj_3R_62()
  {
-    if (jj_3R_77()) return true;
-    return false;
-  }
+     return jj_3R_77();
+ }
 
   private boolean jj_3R_61()
  {
-    if (jj_3R_76()) return true;
-    return false;
-  }
+     return jj_3R_76();
+ }
 
   /** Generated Token Manager. */
   public FMParserTokenManager token_source;
@@ -5514,7 +5474,8 @@ TemplateElement root = children.asSingleElement();
   /** Next token. */
   public Token jj_nt;
   private int jj_ntk;
-  private Token jj_scanpos, jj_lastpos;
+  private Token jj_scanpos;
+    private Token jj_lastpos;
   private int jj_la;
   private int jj_gen;
   final private int[] jj_la1 = new int[109];

@@ -139,7 +139,7 @@ public class _MessageUtil {
         if (brIdx != -1) {
             s = s.substring(0, brIdx);
             isTruncated = true;
-        };
+        }
         brIdx = s.indexOf('\r');
         if (brIdx != -1) {
             s = s.substring(0, brIdx);
@@ -207,17 +207,17 @@ public class _MessageUtil {
             if (maxCnt == 0) {
                 desc.add("no");
             } else {
-                desc.add(Integer.valueOf(maxCnt));
+                desc.add(maxCnt);
             }
         } else if (maxCnt - minCnt == 1) {
-            desc.add(Integer.valueOf(minCnt));
+            desc.add(minCnt);
             desc.add(" or ");
-            desc.add(Integer.valueOf(maxCnt));
+            desc.add(maxCnt);
         } else {
-            desc.add(Integer.valueOf(minCnt));
+            desc.add(minCnt);
             if (maxCnt != Integer.MAX_VALUE) {
                 desc.add(" to ");
-                desc.add(Integer.valueOf(maxCnt));
+                desc.add(maxCnt);
             } else {
                 desc.add(" or more (unlimited)");
             }
@@ -229,7 +229,7 @@ public class _MessageUtil {
         if (argCnt == 0) {
             desc.add("none");
         } else {
-            desc.add(Integer.valueOf(argCnt));
+            desc.add(argCnt);
         }
         desc.add(".");
         
@@ -266,7 +266,7 @@ public class _MessageUtil {
     public static TemplateModelException newMethodArgUnexpectedTypeException(
             String methodName, int argIdx, String expectedType, TemplateModel arg) {
         return new _TemplateModelException(
-                methodName, "(...) expects ", new _DelayedAOrAn(expectedType), " as argument #", Integer.valueOf(argIdx + 1),
+                methodName, "(...) expects ", new _DelayedAOrAn(expectedType), " as argument #", argIdx + 1,
                 ", but received ", new _DelayedAOrAn(new _DelayedFTLTypeDescription(arg)), ".");
     }
     
@@ -276,7 +276,7 @@ public class _MessageUtil {
     public static TemplateModelException newMethodArgInvalidValueException(
             String methodName, int argIdx, Object... details) {
         return new _TemplateModelException(
-                methodName, "(...) argument #", Integer.valueOf(argIdx + 1),
+                methodName, "(...) argument #", argIdx + 1,
                 " had invalid value: ", details);
     }
 
@@ -308,8 +308,8 @@ public class _MessageUtil {
                 e.getMessage())
                 .blame(dataSrcExp); 
         return useTempModelExc
-                ? new _TemplateModelException(e, (Environment) null, desc)
-                : new _MiscTemplateException(e, (Environment) null, desc);
+                ? new _TemplateModelException(e, null, desc)
+                : new _MiscTemplateException(e, null, desc);
     }
     
     public static TemplateException newCantFormatNumberException(TemplateNumberFormat format, Expression dataSrcExp,
@@ -319,8 +319,8 @@ public class _MessageUtil {
                 e.getMessage())
                 .blame(dataSrcExp); 
         return useTempModelExc
-                ? new _TemplateModelException(e, (Environment) null, desc)
-                : new _MiscTemplateException(e, (Environment) null, desc);
+                ? new _TemplateModelException(e, null, desc)
+                : new _MiscTemplateException(e, null, desc);
     }
 
     public static TemplateModelException newKeyValuePairListingNonStringKeyExceptionMessage(

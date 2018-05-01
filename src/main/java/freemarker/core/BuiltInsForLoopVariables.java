@@ -53,7 +53,7 @@ class BuiltInsForLoopVariables {
     static abstract class BooleanBuiltInForLoopVariable extends BuiltInForLoopVariable {
 
         @Override
-        final TemplateModel calculateResult(IterationContext iterCtx, Environment env) throws TemplateException {
+        final TemplateModel calculateResult(IterationContext iterCtx, Environment env) {
             return calculateBooleanResult(iterCtx, env) ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
 

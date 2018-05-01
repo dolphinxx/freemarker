@@ -26,7 +26,7 @@ public class _DelayedToString extends _DelayedConversionToString {
     }
 
     public _DelayedToString(int object) {
-        super(Integer.valueOf(object));
+        super(object);
     }
     
     @Override

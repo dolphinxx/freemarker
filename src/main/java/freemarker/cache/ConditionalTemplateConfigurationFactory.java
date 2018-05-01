@@ -24,7 +24,7 @@ import freemarker.template.Configuration;
 import java.io.IOException;
 
 /**
- * Returns the given {@link TemplateConfiguration} directly, or another {@link TemplateConfigurationFactory}'s result, when
+ * Returns the given {link TemplateConfiguration} directly, or another {link TemplateConfigurationFactory}'s result, when
  * the specified matcher matches the template source.
  * 
  * @since 2.3.24

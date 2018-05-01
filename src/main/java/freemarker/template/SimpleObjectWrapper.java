@@ -19,11 +19,9 @@
 
 package freemarker.template;
 
-import freemarker.ext.beans.BeansWrapper;
-
 /**
  * A restricted object wrapper that will not expose arbitrary object, just those that directly correspond to the
- * {@link TemplateModel} sub-interfaces ({@code String}, {@code Map} and such). If it had to wrap other kind of objects,
+ * {link TemplateModel} sub-interfaces ({@code String}, {@code Map} and such). If it had to wrap other kind of objects,
  * it will throw exception. It will also block {@code ?api} calls on the values it wraps.
  */
 public class SimpleObjectWrapper extends DefaultObjectWrapper {
@@ -31,7 +29,7 @@ public class SimpleObjectWrapper extends DefaultObjectWrapper {
     static final SimpleObjectWrapper instance = new SimpleObjectWrapper();
     
     /**
-     * @deprecated Use {@link #SimpleObjectWrapper(Version)} instead.
+     * @deprecated Use {link #SimpleObjectWrapper(Version)} instead.
      */
     @Deprecated
     public SimpleObjectWrapper() {
@@ -39,7 +37,7 @@ public class SimpleObjectWrapper extends DefaultObjectWrapper {
     }
     
     /**
-     * @param incompatibleImprovements see in {@link BeansWrapper#BeansWrapper(Version)}.
+     * @param incompatibleImprovements see in {link BeansWrapper#BeansWrapper(Version)}.
      * 
      * @since 2.3.21
      */

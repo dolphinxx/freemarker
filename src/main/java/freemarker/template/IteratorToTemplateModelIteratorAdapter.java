@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Unlike {@link DefaultIteratorAdapter}, this doesn't adapt to some {@link TemplateModel}, but to {@link
+ * Unlike {link DefaultIteratorAdapter}, this doesn't adapt to some {link TemplateModel}, but to {link
  * TemplateModelIterator}.
  */
 class IteratorToTemplateModelIteratorAdapter implements TemplateModelIterator {
@@ -43,7 +43,7 @@ class IteratorToTemplateModelIteratorAdapter implements TemplateModelIterator {
         }
     }
 
-    public boolean hasNext() throws TemplateModelException {
+    public boolean hasNext() {
         return it.hasNext();
     }
 

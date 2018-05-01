@@ -48,7 +48,7 @@ class Interpret extends OutputFormatBoundBuiltIn {
     
     /**
      * Constructs a template on-the-fly and returns it embedded in a
-     * {@link TemplateTransformModel}.
+     * {link TemplateTransformModel}.
      * 
      * <p>The built-in has two arguments:
      * the arguments passed to the method. It can receive at
@@ -57,7 +57,7 @@ class Interpret extends OutputFormatBoundBuiltIn {
      * is built from it. The second (optional) is used to give the generated
      * template a name.
      * 
-     * @return a {@link TemplateTransformModel} that when executed inside
+     * @return a {link TemplateTransformModel} that when executed inside
      * a <tt>&lt;transform></tt> block will process the generated template
      * just as if it had been <tt>&lt;transform></tt>-ed at that point.
      */
@@ -67,9 +67,9 @@ class Interpret extends OutputFormatBoundBuiltIn {
         Expression sourceExpr = null;
         String id = "anonymous_interpreted";
         if (model instanceof TemplateSequenceModel) {
-            sourceExpr = ((Expression) new DynamicKeyName(target, new NumberLiteral(Integer.valueOf(0))).copyLocationFrom(target));
+            sourceExpr = ((Expression) new DynamicKeyName(target, new NumberLiteral(0)).copyLocationFrom(target));
             if (((TemplateSequenceModel) model).size() > 1) {
-                id = ((Expression) new DynamicKeyName(target, new NumberLiteral(Integer.valueOf(1))).copyLocationFrom(target)).evalAndCoerceToPlainText(env);
+                id = ((Expression) new DynamicKeyName(target, new NumberLiteral(1)).copyLocationFrom(target)).evalAndCoerceToPlainText(env);
             }
         } else if (model instanceof TemplateScalarModel) {
             sourceExpr = target;
@@ -89,7 +89,7 @@ class Interpret extends OutputFormatBoundBuiltIn {
             // pCfg.outputFormat is exceptional: it's inherited from the lexical context
             if (pCfg.getOutputFormat() != outputFormat) {
                 pCfg = new _ParserConfigurationWithInheritedFormat(
-                        pCfg, outputFormat, Integer.valueOf(autoEscapingPolicy));
+                        pCfg, outputFormat, autoEscapingPolicy);
             }
             interpretedTemplate = new Template(
                     (parentTemplate.getName() != null ? parentTemplate.getName() : "nameless_template") + "->" + id,
@@ -98,12 +98,11 @@ class Interpret extends OutputFormatBoundBuiltIn {
                     parentTemplate.getConfiguration(), pCfg,
                     null);
         } catch (IOException e) {
-            throw new _MiscTemplateException(this, e, env, new Object[] {
-                        "Template parsing with \"?", key, "\" has failed with this error:\n\n",
-                        _MessageUtil.EMBEDDED_MESSAGE_BEGIN,
-                        new _DelayedGetMessage(e),
-                        _MessageUtil.EMBEDDED_MESSAGE_END,
-                        "\n\nThe failed expression:" });
+            throw new _MiscTemplateException(this, e, env, "Template parsing with \"?", key, "\" has failed with this error:\n\n",
+                    _MessageUtil.EMBEDDED_MESSAGE_BEGIN,
+                    new _DelayedGetMessage(e),
+                    _MessageUtil.EMBEDDED_MESSAGE_END,
+                    "\n\nThe failed expression:");
         }
         
         interpretedTemplate.setLocale(env.getLocale());
@@ -119,7 +118,7 @@ class Interpret extends OutputFormatBoundBuiltIn {
             this.template = template;
         }
         
-        public Writer getWriter(final Writer out, Map args) throws TemplateModelException, IOException {
+        public Writer getWriter(final Writer out, Map args) throws TemplateModelException {
             try {
                 Environment env = Environment.getCurrentEnvironment();
                 boolean lastFIRE = env.setFastInvalidReferenceExceptions(false);

@@ -67,7 +67,7 @@ public class ClassUtil {
     }
     
     /**
-     * Similar to {@link Class#forName(java.lang.String)}, but attempts to load
+     * Similar to {link Class#forName(java.lang.String)}, but attempts to load
      * through the thread context class loader. Only if thread context class
      * loader is inaccessible, or it can't find the class will it attempt to
      * fall back to the class loader that loads the FreeMarker classes.
@@ -80,16 +80,16 @@ public class ClassUtil {
                 return Class.forName(className, true, ctcl);
             }
         } catch (ClassNotFoundException e) {
-            ;// Intentionally ignored
+            // Intentionally ignored
         } catch (SecurityException e) {
-            ;// Intentionally ignored
+            // Intentionally ignored
         }
         // Fall back to the defining class loader of the FreeMarker classes 
         return Class.forName(className);
     }
     
     /**
-     * Same as {@link #getShortClassName(Class, boolean) getShortClassName(pClass, false)}.
+     * Same as {link #getShortClassName(Class, boolean) getShortClassName(pClass, false)}.
      * 
      * @since 2.3.20
      */
@@ -138,7 +138,7 @@ public class ClassUtil {
     }
 
     /**
-     * Same as {@link #getShortClassNameOfObject(Object, boolean) getShortClassNameOfObject(pClass, false)}.
+     * Same as {link #getShortClassNameOfObject(Object, boolean) getShortClassNameOfObject(pClass, false)}.
      * 
      * @since 2.3.20
      */
@@ -147,7 +147,7 @@ public class ClassUtil {
     }
     
     /**
-     * {@link #getShortClassName(Class, boolean)} called with {@code object.getClass()}, but returns the fictional
+     * {link #getShortClassName(Class, boolean)} called with {@code object.getClass()}, but returns the fictional
      * class name {@code Null} for a {@code null} value.
      * 
      * @since 2.3.20
@@ -161,7 +161,7 @@ public class ClassUtil {
     }
 
     /**
-     * Returns the {@link TemplateModel} interface that is the most characteristic of the object, or {@code null}.
+     * Returns the {link TemplateModel} interface that is the most characteristic of the object, or {@code null}.
      */
     private static Class getPrimaryTemplateModelInterface(TemplateModel tm) {
         if (tm instanceof BeanModel) {
@@ -329,10 +329,10 @@ public class ClassUtil {
     }
     
     /**
-     * Gets the wrapper class for a primitive class, like {@link Integer} for {@code int}, also returns {@link Void}
+     * Gets the wrapper class for a primitive class, like {link Integer} for {@code int}, also returns {link Void}
      * for {@code void}. 
      * 
-     * @param primitiveClass A {@link Class} like {@code int.type}, {@code boolean.type}, etc. If it's not a primitive
+     * @param primitiveClass A {link Class} like {@code int.type}, {@code boolean.type}, etc. If it's not a primitive
      *     class, or it's {@code null}, then the parameter value is returned as is. Note that performance-wise the
      *     method assumes that it's a primitive class.
      *     
@@ -353,7 +353,7 @@ public class ClassUtil {
     }
 
     /**
-     * The exact reverse of {@link #primitiveClassToBoxingClass}.
+     * The exact reverse of {link #primitiveClassToBoxingClass}.
      *     
      * @since 2.3.21
      */
@@ -384,17 +384,17 @@ public class ClassUtil {
     }
     
     /**
-     * Very similar to {@link Class#getResourceAsStream(String)}, but throws {@link IOException} instead of returning
+     * Very similar to {link Class#getResourceAsStream(String)}, but throws {link IOException} instead of returning
      * {@code null} if {@code optional} is {@code false}, and attempts to work around "IllegalStateException: zip file
      * closed" and similar {@code sun.net.www.protocol.jar.JarURLConnection}-related glitches. These are caused by bugs
      * outside of FreeMarker. Note that in cases where the JAR resource becomes broken concurrently, similar errors can
-     * still occur later when the {@link InputStream} is read ({@link #loadProperties(Class, String)} works that
+     * still occur later when the {link InputStream} is read ({link #loadProperties(Class, String)} works that
      * around as well).
      * 
      * @return If {@code optional} is {@code false}, it's never {@code null}, otherwise {@code null} indicates that the
      *         resource doesn't exist.
      * @throws IOException
-     *             If the resource wasn't found, or other {@link IOException} occurs.
+     *             If the resource wasn't found, or other {link IOException} occurs.
      * 
      * @since 2.3.27
      */
@@ -417,8 +417,8 @@ public class ClassUtil {
     }
 
     /**
-     * Same as {@link #getReasourceAsStream(Class, String, boolean)}, but uses a {@link ClassLoader} directly
-     * instead of a {@link Class}.
+     * Same as {link #getReasourceAsStream(Class, String, boolean)}, but uses a {link ClassLoader} directly
+     * instead of a {link Class}.
      * 
      * @since 2.3.27
      */
@@ -440,7 +440,7 @@ public class ClassUtil {
     }
 
     /**
-     * Loads a class loader resource into a {@link Properties}; tries to work around "zip file closed" and related
+     * Loads a class loader resource into a {link Properties}; tries to work around "zip file closed" and related
      * {@code sun.net.www.protocol.jar.JarURLConnection} glitches.
      * 
      * @since 2.3.27

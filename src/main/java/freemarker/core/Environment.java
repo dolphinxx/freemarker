@@ -19,12 +19,12 @@
 
 package freemarker.core;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.cache.TemplateNameFormat;
 import freemarker.cache._CacheAPI;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.log.Logger;
 import freemarker.template.Configuration;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.SimpleHash;
@@ -85,11 +85,11 @@ import java.util.TimeZone;
  *
  * <p>
  * Data models that need to access the <tt>Environment</tt> object that represents the template processing on the
- * current thread can use the {@link #getCurrentEnvironment()} method.
+ * current thread can use the {link #getCurrentEnvironment()} method.
  *
  * <p>
  * If you need to modify or read this object before or after the <tt>process</tt> call, use
- * {@link Template#createProcessingEnvironment(Object rootMap, Writer out, ObjectWrapper wrapper)}
+ * {link Template#createProcessingEnvironment(Object rootMap, Writer out, ObjectWrapper wrapper)}
  */
 public final class Environment extends Configurable {
     
@@ -126,7 +126,7 @@ public final class Environment extends Configurable {
      * 
      * <p>
      * The index of the array is calculated from what kind of formatter we want (see
-     * {@link #getTemplateDateFormatCacheArrayIndex(int, boolean, boolean)}):<br>
+     * {link #getTemplateDateFormatCacheArrayIndex(int, boolean, boolean)}):<br>
      * Zoned input: 0: U, 1: T, 2: D, 3: DT<br>
      * Zoneless input: 4: U, 5: T, 6: D, 7: DT<br>
      * SQL D T TZ + Zoned input: 8: U, 9: T, 10: D, 11: DT<br>
@@ -138,13 +138,13 @@ public final class Environment extends Configurable {
      * first needed.
      */
     private TemplateDateFormat[] cachedTempDateFormatArray;
-    /** Similar to {@link #cachedTempDateFormatArray}, but used when a formatting string was specified. */
+    /** Similar to {link #cachedTempDateFormatArray}, but used when a formatting string was specified. */
     private HashMap<String, TemplateDateFormat>[] cachedTempDateFormatsByFmtStrArray;
     private static final int CACHED_TDFS_ZONELESS_INPUT_OFFS = 4;
     private static final int CACHED_TDFS_SQL_D_T_TZ_OFFS = CACHED_TDFS_ZONELESS_INPUT_OFFS * 2;
     private static final int CACHED_TDFS_LENGTH = CACHED_TDFS_SQL_D_T_TZ_OFFS * 2;
 
-    /** Caches the result of {@link #isSQLDateAndTimeTimeZoneSameAsNormal()}. */
+    /** Caches the result of {link #isSQLDateAndTimeTimeZoneSameAsNormal()}. */
     private Boolean cachedSQLDateAndTimeTimeZoneSameAsNormal;
 
     private NumberFormat cNumberFormat;
@@ -152,7 +152,7 @@ public final class Environment extends Configurable {
     /**
      * Used by the "iso_" built-ins to accelerate formatting.
      * 
-     * @see #getISOBuiltInCalendarFactory()
+     * see #getISOBuiltInCalendarFactory()
      */
     private DateToISO8601CalendarFactory isoBuiltInCalendarFactory;
 
@@ -162,7 +162,8 @@ public final class Environment extends Configurable {
     private Macro.Context currentMacroContext;
     private LocalContextStack localContextStack;
     private final Namespace mainNamespace;
-    private Namespace currentNamespace, globalNamespace;
+    private Namespace currentNamespace;
+    private Namespace globalNamespace;
     private HashMap<String, Namespace> loadedLibs;
     private Configurable legacyParent;
 
@@ -176,7 +177,8 @@ public final class Environment extends Configurable {
     private TemplateSequenceModel nodeNamespaces;
     // Things we keep track of for the fallback mechanism.
     private int nodeNamespaceIndex;
-    private String currentNodeName, currentNodeNS;
+    private String currentNodeName;
+    private String currentNodeNS;
 
     private String cachedURLEscapingCharset;
     private boolean cachedURLEscapingCharsetSet;
@@ -209,13 +211,13 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Despite its name it just returns {@link #getParent()}. If {@link Configuration#getIncompatibleImprovements()} is
-     * at least 2.3.22, then that will be the same as {@link #getMainTemplate()}. Otherwise the returned value follows
-     * the {@link Environment} parent switchings that occur at {@code #include}/{@code #import} and {@code #nested}
+     * Despite its name it just returns {link #getParent()}. If {link Configuration#getIncompatibleImprovements()} is
+     * at least 2.3.22, then that will be the same as {link #getMainTemplate()}. Otherwise the returned value follows
+     * the {link Environment} parent switchings that occur at {@code #include}/{@code #import} and {@code #nested}
      * directive calls, that is, it's not very meaningful outside FreeMarker internals.
      * 
-     * @deprecated Use {@link #getMainTemplate()} instead (or {@link #getCurrentNamespace()} and then
-     *             {@link Namespace#getTemplate()}); the value returned by this method is often not what you expect when
+     * @deprecated Use {link #getMainTemplate()} instead (or {link #getCurrentNamespace()} and then
+     *             {link Namespace#getTemplate()}); the value returned by this method is often not what you expect when
      *             it comes to macro/function invocations.
      */
     @Deprecated
@@ -230,11 +232,11 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the topmost {@link Template}, with other words, the one for which this {@link Environment} was created.
+     * Returns the topmost {link Template}, with other words, the one for which this {link Environment} was created.
      * That template will never change, like {@code #include} or macro calls don't change it. This method never returns
      * {@code null}.
      * 
-     * @see #getCurrentNamespace()
+     * see #getCurrentNamespace()
      * 
      * @since 2.3.22
      */
@@ -243,18 +245,17 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the {@link Template} that we are "lexically" inside at the moment. This template will change when
+     * Returns the {link Template} that we are "lexically" inside at the moment. This template will change when
      * entering an {@code #include} or calling a macro or function in another template, or returning to yet another
      * template with {@code #nested}. When you are calling a directive that's implemented in Java or a Java method
      * from a template, the current template will be the last current template, not {@code null}. This method never
      * returns {@code null}.  
      * 
-     * @see #getMainTemplate()
-     * @see #getCurrentNamespace()
+     * see #getMainTemplate()
+     * see #getCurrentNamespace()
      * 
      * @since 2.3.23
      */
-    @SuppressFBWarnings(value = "RANGE_ARRAY_INDEX", justification = "False alarm")
     public Template getCurrentTemplate() {
         int ln = instructionStackSize;
         return ln == 0 ? getMainTemplate() : instructionStack[ln - 1].getTemplate();
@@ -263,12 +264,11 @@ public final class Environment extends Configurable {
     /**
      * Gets the currently executing <em>custom</em> directive's call place information, or {@code null} if there's no
      * executing custom directive. This currently only works for calls made from templates with the {@code <@...>}
-     * syntax. This should only be called from the {@link TemplateDirectiveModel} that was invoked with {@code <@...>},
+     * syntax. This should only be called from the {link TemplateDirectiveModel} that was invoked with {@code <@...>},
      * otherwise its return value is not defined by this API (it's usually {@code null}).
      * 
      * @since 2.3.22
      */
-    @SuppressFBWarnings(value = "RANGE_ARRAY_INDEX", justification = "False alarm")
     public DirectiveCallPlace getCurrentDirectiveCallPlace() {
         int ln = instructionStackSize;
         if (ln == 0) return null;
@@ -382,7 +382,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Visits the elements while temporarily using the parameter output {@link Writer}.
+     * Visits the elements while temporarily using the parameter output {link Writer}.
      * 
      * @since 2.3.27
      */
@@ -396,7 +396,6 @@ public final class Environment extends Configurable {
         }
     }
     
-    @SuppressFBWarnings(value = "RANGE_ARRAY_INDEX", justification = "Not called when stack is empty")
     private TemplateElement replaceTopElement(TemplateElement element) {
         return instructionStack[instructionStackSize - 1] = element;
     }
@@ -579,7 +578,7 @@ public final class Environment extends Configurable {
 
     /**
      * Tells if we are inside an <tt>#attempt</tt> block (but before <tt>#recover</tt>). This can be useful for
-     * {@link TemplateExceptionHandler}-s, as then they may don't want to print the error to the output, as
+     * {link TemplateExceptionHandler}-s, as then they may don't want to print the error to the output, as
      * <tt>#attempt</tt> will roll it back anyway.
      * 
      * @since 2.3.20
@@ -795,7 +794,7 @@ public final class Environment extends Configurable {
     private void setMacroContextLocalsFromArguments(
             final Macro.Context macroCtx,
             final Macro macro,
-            final Map namedArgs, final List positionalArgs) throws TemplateException, _MiscTemplateException {
+            final Map namedArgs, final List positionalArgs) throws TemplateException {
         String catchAllParamName = macro.getCatchAll();
         if (namedArgs != null) {
             final SimpleHash catchAllParamValue;
@@ -1026,11 +1025,10 @@ public final class Environment extends Configurable {
      */
     boolean isSQLDateAndTimeTimeZoneSameAsNormal() {
         if (cachedSQLDateAndTimeTimeZoneSameAsNormal == null) {
-            cachedSQLDateAndTimeTimeZoneSameAsNormal = Boolean.valueOf(
-                    getSQLDateAndTimeTimeZone() == null
-                            || getSQLDateAndTimeTimeZone().equals(getTimeZone()));
+            cachedSQLDateAndTimeTimeZoneSameAsNormal = getSQLDateAndTimeTimeZone() == null
+                    || getSQLDateAndTimeTimeZone().equals(getTimeZone());
         }
-        return cachedSQLDateAndTimeTimeZoneSameAsNormal.booleanValue();
+        return cachedSQLDateAndTimeTimeZoneSameAsNormal;
     }
 
     @Override
@@ -1073,7 +1071,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Compares two {@link TemplateModel}-s according the rules of the FTL "==" operator.
+     * Compares two {link TemplateModel}-s according the rules of the FTL "==" operator.
      * 
      * @since 2.3.20
      */
@@ -1083,7 +1081,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Compares two {@link TemplateModel}-s according the rules of the FTL "==" operator, except that if the two types
+     * Compares two {link TemplateModel}-s according the rules of the FTL "==" operator, except that if the two types
      * are incompatible, they are treated as non-equal instead of throwing an exception. Comparing dates of different
      * types (date-only VS time-only VS date-time) will still throw an exception, however.
      * 
@@ -1095,7 +1093,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Compares two {@link TemplateModel}-s according the rules of the FTL "&lt;" operator.
+     * Compares two {link TemplateModel}-s according the rules of the FTL "&lt;" operator.
      * 
      * @since 2.3.20
      */
@@ -1105,7 +1103,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Compares two {@link TemplateModel}-s according the rules of the FTL "&lt;" operator.
+     * Compares two {link TemplateModel}-s according the rules of the FTL "&lt;" operator.
      * 
      * @since 2.3.20
      */
@@ -1115,7 +1113,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Compares two {@link TemplateModel}-s according the rules of the FTL "&gt;" operator.
+     * Compares two {link TemplateModel}-s according the rules of the FTL "&gt;" operator.
      * 
      * @since 2.3.20
      */
@@ -1125,7 +1123,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Compares two {@link TemplateModel}-s according the rules of the FTL "&gt;=" operator.
+     * Compares two {link TemplateModel}-s according the rules of the FTL "&gt;=" operator.
      * 
      * @since 2.3.20
      */
@@ -1183,7 +1181,7 @@ public final class Environment extends Configurable {
      *            The blamed expression if an error occurs; it's only needed for better error messages
      */
     String formatNumberToPlainText(Number number, BackwardCompatibleTemplateNumberFormat format, Expression exp)
-            throws TemplateModelException, _MiscTemplateException {
+            throws _MiscTemplateException {
         try {
             return format.format(number);
         } catch (UnformattableValueException e) {
@@ -1194,12 +1192,12 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the current number format ({@link #getNumberFormat()}) as {@link TemplateNumberFormat}.
+     * Returns the current number format ({link #getNumberFormat()}) as {link TemplateNumberFormat}.
      * 
      * <p>
      * Performance notes: The result is stored for reuse, so calling this method frequently is usually not a problem.
-     * However, at least as of this writing (2.3.24), changing the current locale {@link #setLocale(Locale)} or changing
-     * the current number format ({@link #setNumberFormat(String)}) will drop the stored value, so it will have to be
+     * However, at least as of this writing (2.3.24), changing the current locale {link #setLocale(Locale)} or changing
+     * the current number format ({link #setNumberFormat(String)}) will drop the stored value, so it will have to be
      * recalculated.
      * 
      * @since 2.3.24
@@ -1214,10 +1212,10 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the number format as {@link TemplateNumberFormat} for the given format string and the current locale.
-     * (The current locale is the locale returned by {@link #getLocale()}.) Note that the result will be cached in the
-     * {@link Environment} instance (though at least in 2.3.24 the cache will be flushed if the current locale of the
-     * {@link Environment} is changed).
+     * Returns the number format as {link TemplateNumberFormat} for the given format string and the current locale.
+     * (The current locale is the locale returned by {link #getLocale()}.) Note that the result will be cached in the
+     * {link Environment} instance (though at least in 2.3.24 the cache will be flushed if the current locale of the
+     * {link Environment} is changed).
      * 
      * @param formatString
      *            A string that you could also use as the value of the {@code numberFormat} configuration setting. Can't
@@ -1230,15 +1228,15 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the number format as {@link TemplateNumberFormat}, for the given format string and locale. To get a
-     * number format for the current locale, use {@link #getTemplateNumberFormat(String)} instead.
+     * Returns the number format as {link TemplateNumberFormat}, for the given format string and locale. To get a
+     * number format for the current locale, use {link #getTemplateNumberFormat(String)} instead.
      * 
      * <p>
      * Note on performance (which was true at least for 2.3.24): Unless the locale happens to be equal to the current
-     * locale, the {@link Environment}-level format cache can't be used, so the format string has to be parsed and the
+     * locale, the {link Environment}-level format cache can't be used, so the format string has to be parsed and the
      * matching factory has to be get an invoked, which is much more expensive than getting the format from the cache.
      * Thus the returned format should be stored by the caller for later reuse (but only within the current thread and
-     * in relation to the current {@link Environment}), if it will be needed frequently.
+     * in relation to the current {link Environment}), if it will be needed frequently.
      * 
      * @param formatString
      *            A string that you could also use as the value of the {@code numberFormat} configuration setting.
@@ -1257,7 +1255,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Convenience wrapper around {@link #getTemplateNumberFormat()} to be called during expression evaluation.
+     * Convenience wrapper around {link #getTemplateNumberFormat()} to be called during expression evaluation.
      */
     TemplateNumberFormat getTemplateNumberFormat(Expression exp, boolean useTempModelExc) throws TemplateException {
         TemplateNumberFormat format;
@@ -1275,7 +1273,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Convenience wrapper around {@link #getTemplateNumberFormat(String)} to be called during expression evaluation.
+     * Convenience wrapper around {link #getTemplateNumberFormat(String)} to be called during expression evaluation.
      * 
      * @param exp
      *            The blamed expression if an error occurs; it's only needed for better error messages
@@ -1297,12 +1295,12 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Gets the {@link TemplateNumberFormat} <em>for the current locale</em>.
+     * Gets the {link TemplateNumberFormat} <em>for the current locale</em>.
      * 
      * @param formatString
      *            Not {@code null}
      * @param cacheResult
-     *            If the results should stored in the {@link Environment}-level cache. It will still try to get the
+     *            If the results should stored in the {link Environment}-level cache. It will still try to get the
      *            result from the cache regardless of this parameter.
      */
     private TemplateNumberFormat getTemplateNumberFormat(String formatString, boolean cacheResult)
@@ -1327,8 +1325,8 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the {@link TemplateNumberFormat} for the given parameters without using the {@link Environment}-level
-     * cache. Of course, the {@link TemplateNumberFormatFactory} involved might still uses its own cache.
+     * Returns the {link TemplateNumberFormat} for the given parameters without using the {link Environment}-level
+     * cache. Of course, the {link TemplateNumberFormatFactory} involved might still uses its own cache.
      * 
      * @param formatString
      *            Not {@code null}
@@ -1369,7 +1367,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the {@link NumberFormat} used for the <tt>c</tt> built-in. This is always US English
+     * Returns the {link NumberFormat} used for the <tt>c</tt> built-in. This is always US English
      * <code>"0.################"</code>, without grouping and without superfluous decimal separator.
      */
     public NumberFormat getCNumberFormat() {
@@ -1475,16 +1473,16 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Gets a {@link TemplateDateFormat} using the date/time/datetime format settings and the current locale and time
-     * zone. (The current locale is the locale returned by {@link #getLocale()}. The current time zone is
-     * {@link #getTimeZone()} or {@link #getSQLDateAndTimeTimeZone()}).
+     * Gets a {link TemplateDateFormat} using the date/time/datetime format settings and the current locale and time
+     * zone. (The current locale is the locale returned by {link #getLocale()}. The current time zone is
+     * {link #getTimeZone()} or {link #getSQLDateAndTimeTimeZone()}).
      * 
      * @param dateType
      *            The FTL date type; see the similar parameter of
-     *            {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
+     *            {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
      * @param dateClass
-     *            The exact {@link Date} class, like {@link java.sql.Date} or {@link java.sql.Time}; this can influences
-     *            time zone selection. See also: {@link #setSQLDateAndTimeTimeZone(TimeZone)}
+     *            The exact {link Date} class, like {link java.sql.Date} or {link java.sql.Time}; this can influences
+     *            time zone selection. See also: {link #setSQLDateAndTimeTimeZone(TimeZone)}
      */
     public TemplateDateFormat getTemplateDateFormat(int dateType, Class<? extends Date> dateClass)
             throws TemplateValueFormatException {
@@ -1493,14 +1491,14 @@ public final class Environment extends Configurable {
     }
     
     /**
-     * Gets a {@link TemplateDateFormat} for the specified format string and the current locale and time zone. (The
-     * current locale is the locale returned by {@link #getLocale()}. The current time zone is {@link #getTimeZone()} or
-     * {@link #getSQLDateAndTimeTimeZone()}).
+     * Gets a {link TemplateDateFormat} for the specified format string and the current locale and time zone. (The
+     * current locale is the locale returned by {link #getLocale()}. The current time zone is {link #getTimeZone()} or
+     * {link #getSQLDateAndTimeTimeZone()}).
      * 
      * <p>
-     * Note on performance: The result will be cached in the {@link Environment} instance. However, at least in 2.3.24
+     * Note on performance: The result will be cached in the {link Environment} instance. However, at least in 2.3.24
      * the cached entries that depend on the current locale or the current time zone or the current date/time/datetime
-     * format of the {@link Environment} will be lost when those settings are changed.
+     * format of the {link Environment} will be lost when those settings are changed.
      * 
      * @param formatString
      *            Like {@code "iso m"} or {@code "dd.MM.yyyy HH:mm"} or {@code "@somethingCustom"} or
@@ -1518,19 +1516,19 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Like {@link #getTemplateDateFormat(String, int, Class)}, but allows you to use a different locale than the
-     * current one. If you want to use the current locale, use {@link #getTemplateDateFormat(String, int, Class)}
+     * Like {link #getTemplateDateFormat(String, int, Class)}, but allows you to use a different locale than the
+     * current one. If you want to use the current locale, use {link #getTemplateDateFormat(String, int, Class)}
      * instead.
      * 
      * <p>
      * Performance notes regarding the locale and time zone parameters of
-     * {@link #getTemplateDateFormat(String, int, Locale, TimeZone, boolean)} apply.
+     * {link #getTemplateDateFormat(String, int, Locale, TimeZone, boolean)} apply.
      * 
      * @param locale
      *            Can't be {@code null}; See the similar parameter of
-     *            {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
+     *            {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
      * 
-     * @see #getTemplateDateFormat(String, int, Class)
+     * see #getTemplateDateFormat(String, int, Class)
      * 
      * @since 2.4
      */
@@ -1547,22 +1545,22 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Like {@link #getTemplateDateFormat(String, int, Class)}, but allows you to use a different locale and time zone
+     * Like {link #getTemplateDateFormat(String, int, Class)}, but allows you to use a different locale and time zone
      * than the current one. If you want to use the current locale and time zone, use
-     * {@link #getTemplateDateFormat(String, int, Class)} instead.
+     * {link #getTemplateDateFormat(String, int, Class)} instead.
      * 
      * <p>
      * Performance notes regarding the locale and time zone parameters of
-     * {@link #getTemplateDateFormat(String, int, Locale, TimeZone, boolean)} apply.
+     * {link #getTemplateDateFormat(String, int, Locale, TimeZone, boolean)} apply.
      * 
      * @param timeZone
-     *            The {@link TimeZone} used if {@code dateClass} is not an SQL date-only or time-only type. Can't be
+     *            The {link TimeZone} used if {@code dateClass} is not an SQL date-only or time-only type. Can't be
      *            {@code null}.
      * @param sqlDateAndTimeTimeZone
-     *            The {@link TimeZone} used if {@code dateClass} is an SQL date-only or time-only type. Can't be
+     *            The {link TimeZone} used if {@code dateClass} is an SQL date-only or time-only type. Can't be
      *            {@code null}.
      * 
-     * @see #getTemplateDateFormat(String, int, Class)
+     * see #getTemplateDateFormat(String, int, Class)
      * 
      * @since 2.4
      */
@@ -1579,19 +1577,19 @@ public final class Environment extends Configurable {
     }
     
     /**
-     * Gets a {@link TemplateDateFormat} for the specified parameters. This is mostly meant to be used by
-     * {@link TemplateDateFormatFactory} implementations to delegate to a format based on a specific format string. It
+     * Gets a {link TemplateDateFormat} for the specified parameters. This is mostly meant to be used by
+     * {link TemplateDateFormatFactory} implementations to delegate to a format based on a specific format string. It
      * works well for that, as its parameters are the same low level values as the parameters of
-     * {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}. For other tasks
+     * {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}. For other tasks
      * consider the other overloads of this method.
      * 
      * <p>
      * Note on performance (which was true at least for 2.3.24): Unless the locale happens to be equal to the current
-     * locale and the time zone with one of the current time zones ({@link #getTimeZone()} or
-     * {@link #getSQLDateAndTimeTimeZone()}), the {@link Environment}-level format cache can't be used, so the format
+     * locale and the time zone with one of the current time zones ({link #getTimeZone()} or
+     * {link #getSQLDateAndTimeTimeZone()}), the {link Environment}-level format cache can't be used, so the format
      * string has to be parsed and the matching factory has to be get an invoked, which is much more expensive than
      * getting the format from the cache. Thus the returned format should be stored by the caller for later reuse (but
-     * only within the current thread and in relation to the current {@link Environment}), if it will be needed
+     * only within the current thread and in relation to the current {link Environment}), if it will be needed
      * frequently.
      * 
      * @param formatString
@@ -1599,16 +1597,16 @@ public final class Environment extends Configurable {
      *            {@code "@somethingCustom params"}
      * @param dateType
      *            The FTL date type; see the similar parameter of
-     *            {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
+     *            {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
      * @param timeZone
      *            Not {@code null}; See the similar parameter of
-     *            {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
+     *            {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
      * @param locale
      *            Not {@code null}; See the similar parameter of
-     *            {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
+     *            {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
      * @param zonelessInput
      *            See the similar parameter of
-     *            {@link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
+     *            {link TemplateDateFormatFactory#get(String, int, Locale, TimeZone, boolean, Environment)}
      * 
      * @since 2.3.24
      */
@@ -1639,7 +1637,7 @@ public final class Environment extends Configurable {
     }
     
     TemplateDateFormat getTemplateDateFormat(TemplateDateModel tdm, Expression tdmSourceExpr, boolean useTempModelExc)
-            throws TemplateModelException, TemplateException {
+            throws TemplateException {
         Date date = EvalUtil.modelToDate(tdm, tdmSourceExpr);
         
         TemplateDateFormat format = getTemplateDateFormat(
@@ -1649,7 +1647,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Same as {@link #getTemplateDateFormat(int, Class)}, but translates the exceptions to {@link TemplateException}-s.
+     * Same as {link #getTemplateDateFormat(int, Class)}, but translates the exceptions to {link TemplateException}-s.
      */
     TemplateDateFormat getTemplateDateFormat(
             int dateType, Class<? extends Date> dateClass, Expression blamedDateSourceExp, boolean useTempModelExc)
@@ -1689,8 +1687,8 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Same as {@link #getTemplateDateFormat(String, int, Class)}, but translates the exceptions to
-     * {@link TemplateException}-s.
+     * Same as {link #getTemplateDateFormat(String, int, Class)}, but translates the exceptions to
+     * {link TemplateException}-s.
      */
     TemplateDateFormat getTemplateDateFormat(
             String formatString, int dateType, Class<? extends Date> dateClass,
@@ -1712,8 +1710,8 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Used to get the {@link TemplateDateFormat} according the date/time/datetime format settings, for the current
-     * locale and time zone. See {@link #getTemplateDateFormat(String, int, Locale, TimeZone, boolean)} for the meaning
+     * Used to get the {link TemplateDateFormat} according the date/time/datetime format settings, for the current
+     * locale and time zone. See {link #getTemplateDateFormat(String, int, Locale, TimeZone, boolean)} for the meaning
      * of some of the parameters.
      */
     private TemplateDateFormat getTemplateDateFormat(int dateType, boolean useSQLDTTZ, boolean zonelessInput)
@@ -1741,7 +1739,7 @@ public final class Environment extends Configurable {
                 formatString = getDateTimeFormat();
                 break;
             default:
-                throw new IllegalArgumentException("Invalid date type enum: " + Integer.valueOf(dateType));
+                throw new IllegalArgumentException("Invalid date type enum: " + dateType);
             }
 
             format = getTemplateDateFormat(formatString, dateType, useSQLDTTZ, zonelessInput, false);
@@ -1752,12 +1750,12 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Used to get the {@link TemplateDateFormat} for the specified parameters, using the {@link Environment}-level
-     * cache. As the {@link Environment}-level cache currently only stores formats for the current locale and time zone,
+     * Used to get the {link TemplateDateFormat} for the specified parameters, using the {link Environment}-level
+     * cache. As the {link Environment}-level cache currently only stores formats for the current locale and time zone,
      * there's no parameter to specify those.
      * 
      * @param cacheResult
-     *            If the results should stored in the {@link Environment}-level cache. It will still try to get the
+     *            If the results should stored in the {link Environment}-level cache. It will still try to get the
      *            result from the cache regardless of this parameter.
      */
     private TemplateDateFormat getTemplateDateFormat(
@@ -1812,16 +1810,16 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the {@link TemplateDateFormat} for the given parameters without using the {@link Environment}-level
-     * cache. Of course, the {@link TemplateDateFormatFactory} involved might still uses its own cache, which can be
-     * global (class-loader-level) or {@link Environment}-level.
+     * Returns the {link TemplateDateFormat} for the given parameters without using the {link Environment}-level
+     * cache. Of course, the {link TemplateDateFormatFactory} involved might still uses its own cache, which can be
+     * global (class-loader-level) or {link Environment}-level.
      * 
      * @param formatString
-     *            See the similar parameter of {@link TemplateDateFormatFactory#get}
+     *            See the similar parameter of {link TemplateDateFormatFactory#get}
      * @param dateType
-     *            See the similar parameter of {@link TemplateDateFormatFactory#get}
+     *            See the similar parameter of {link TemplateDateFormatFactory#get}
      * @param zonelessInput
-     *            See the similar parameter of {@link TemplateDateFormatFactory#get}
+     *            See the similar parameter of {link TemplateDateFormatFactory#get}
      */
     private TemplateDateFormat getTemplateDateFormatWithoutCache(
             String formatString, int dateType, Locale locale, TimeZone timeZone, boolean zonelessInput)
@@ -1888,7 +1886,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Tells if the given class is or is subclass of {@link java.sql.Date} or {@link java.sql.Time}.
+     * Tells if the given class is or is subclass of {link java.sql.Date} or {link java.sql.Time}.
      */
     private static boolean isSQLDateOrTimeClass(Class dateClass) {
         // We do shortcuts for the most common cases.
@@ -1906,10 +1904,10 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Returns the {@link DateToISO8601CalendarFactory} used by the the "iso_" built-ins. Be careful when using this; it
+     * Returns the {link DateToISO8601CalendarFactory} used by the the "iso_" built-ins. Be careful when using this; it
      * should only by used with
-     * {@link DateUtil#dateToISO8601String(Date, boolean, boolean, boolean, int, TimeZone, DateToISO8601CalendarFactory)}
-     * and {@link DateUtil#dateToXSString(Date, boolean, boolean, boolean, int, TimeZone, DateToISO8601CalendarFactory)}
+     * {link DateUtil#dateToISO8601String(Date, boolean, boolean, boolean, int, TimeZone, DateToISO8601CalendarFactory)}
+     * and {link DateUtil#dateToXSString(Date, boolean, boolean, boolean, int, TimeZone, DateToISO8601CalendarFactory)}
      * .
      */
     DateToISO8601CalendarFactory getISOBuiltInCalendarFactory() {
@@ -2033,10 +2031,10 @@ public final class Environment extends Configurable {
 
     /**
      * Returns a set of variable names that are known at the time of call. This includes names of all shared variables
-     * in the {@link Configuration}, names of all global variables that were assigned during the template processing,
+     * in the {link Configuration}, names of all global variables that were assigned during the template processing,
      * names of all variables in the current name-space, names of all local variables and loop variables. If the passed
-     * root data model implements the {@link TemplateHashModelEx} interface, then all names it retrieves through a call
-     * to {@link TemplateHashModelEx#keys()} method are returned as well. The method returns a new Set object on each
+     * root data model implements the {link TemplateHashModelEx} interface, then all names it retrieves through a call
+     * to {link TemplateHashModelEx#keys()} method are returned as well. The method returns a new Set object on each
      * call that is completely disconnected from the Environment. That is, modifying the set will have no effect on the
      * Environment object.
      */
@@ -2076,7 +2074,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Prints the current FTL stack trace. Useful for debugging. {@link TemplateException}s incorporate this information
+     * Prints the current FTL stack trace. Useful for debugging. {link TemplateException}s incorporate this information
      * in their stack traces.
      */
     public void outputInstructionStack(PrintWriter pw) {
@@ -2090,8 +2088,8 @@ public final class Environment extends Configurable {
      * Prints an FTL stack trace based on a stack trace snapshot.
      * 
      * @param w
-     *            If it's a {@link PrintWriter}, {@link PrintWriter#println()} will be used for line-breaks.
-     * @see #getInstructionStackSnapshot()
+     *            If it's a {link PrintWriter}, {link PrintWriter#println()} will be used for line-breaks.
+     * see #getInstructionStackSnapshot()
      * @since 2.3.21
      */
     static void outputInstructionStack(
@@ -2243,7 +2241,7 @@ public final class Environment extends Configurable {
      * 
      * @param name
      *            the template path that you have used with the <code>import</code> directive or
-     *            {@link #importLib(String, String)} call, in normalized form. That is, the path must be an absolute
+     *            {link #importLib(String, String)} call, in normalized form. That is, the path must be an absolute
      *            path, and it must not contain "/../" or "/./". The leading "/" is optional.
      */
     public Namespace getNamespace(String name) {
@@ -2283,12 +2281,12 @@ public final class Environment extends Configurable {
 
     /**
      * Returns a view of the data-model (also known as the template context in some other template engines) 
-     * that falls back to {@linkplain Configuration#setSharedVariable(String, TemplateModel) shared variables}.
+     * that falls back to {linkplain Configuration#setSharedVariable(String, TemplateModel) shared variables}.
      */
     public TemplateHashModel getDataModel() {
         return rootDataModel instanceof TemplateHashModelEx
                 ? new TemplateHashModelEx() {
-                    public boolean isEmpty() throws TemplateModelException {
+                    public boolean isEmpty() {
                         return false;
                     }
 
@@ -2327,7 +2325,7 @@ public final class Environment extends Configurable {
     /**
      * Returns the read-only hash of globally visible variables. This is the correspondent of FTL <code>.globals</code>
      * hash. That is, you see the variables created with <code>&lt;#global ...&gt;</code>, and the variables of the
-     * data-model. To create new global variables, use {@link #setGlobalVariable setGlobalVariable}.
+     * data-model. To create new global variables, use {link #setGlobalVariable setGlobalVariable}.
      */
     public TemplateHashModel getGlobalVariables() {
         return new TemplateHashModel() {
@@ -2485,8 +2483,8 @@ public final class Environment extends Configurable {
      * separately call these two methods, so you can determine the source of exceptions more precisely, and thus achieve
      * more intelligent error handling.
      *
-     * @see #getTemplateForInclusion(String name, String encoding, boolean parse)
-     * @see #include(Template includedTemplate)
+     * see #getTemplateForInclusion(String name, String encoding, boolean parse)
+     * see #include(Template includedTemplate)
      */
     public void include(String name, String encoding, boolean parse)
             throws IOException, TemplateException {
@@ -2494,7 +2492,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Same as {@link #getTemplateForInclusion(String, String, boolean, boolean)} with {@code false}
+     * Same as {link #getTemplateForInclusion(String, String, boolean, boolean)} with {@code false}
      * {@code ignoreMissing} argument.
      */
     public Template getTemplateForInclusion(String name, String encoding, boolean parse)
@@ -2503,7 +2501,7 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Gets a template for inclusion; used for implementing {@link #include(Template includedTemplate)}. The advantage
+     * Gets a template for inclusion; used for implementing {link #include(Template includedTemplate)}. The advantage
      * over simply using <code>config.getTemplate(...)</code> is that it chooses the default encoding exactly as the
      * <code>include</code> directive does, although that encoding selection mechanism is a historical baggage and
      * considered to be harmful.
@@ -2511,27 +2509,27 @@ public final class Environment extends Configurable {
      * @param name
      *            the name of the template, relatively to the template root directory (not the to the directory of the
      *            currently executing template file). (Note that you can use
-     *            {@link freemarker.cache.TemplateCache#getFullTemplatePath} to convert paths to template root relative
+     *            {link freemarker.cache.TemplateCache#getFullTemplatePath} to convert paths to template root relative
      *            paths.) For more details see the identical parameter of
-     *            {@link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
+     *            {link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
      * 
      * @param encoding
      *            the charset of the obtained template. If {@code null}, the encoding of the top template that is
-     *            currently being processed in this {@link Environment} is used, which can lead to odd situations, so
+     *            currently being processed in this {link Environment} is used, which can lead to odd situations, so
      *            using {@code null} is not recommended. In most applications, the value of
-     *            {@link Configuration#getEncoding(Locale)} (or {@link Configuration#getDefaultEncoding()}) should be
+     *            {link Configuration#getEncoding(Locale)} (or {link Configuration#getDefaultEncoding()}) should be
      *            used here.
      * 
      * @param parseAsFTL
-     *            See identical parameter of {@link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
+     *            See identical parameter of {link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
      * 
      * @param ignoreMissing
-     *            See identical parameter of {@link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
+     *            See identical parameter of {link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
      * 
-     * @return Same as {@link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
+     * @return Same as {link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
      * @throws IOException
      *             Same as exceptions thrown by
-     *             {@link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
+     *             {link Configuration#getTemplate(String, Locale, String, boolean, boolean)}
      * 
      * @since 2.3.21
      */
@@ -2564,7 +2562,7 @@ public final class Environment extends Configurable {
      *
      * @param includedTemplate
      *            the template to process. Note that it does <em>not</em> need to be a template returned by
-     *            {@link #getTemplateForInclusion(String name, String encoding, boolean parse)}.
+     *            {link #getTemplateForInclusion(String name, String encoding, boolean parse)}.
      */
     public void include(Template includedTemplate)
             throws TemplateException, IOException {
@@ -2598,15 +2596,15 @@ public final class Environment extends Configurable {
      * more intelligent error handling.
      * 
      * <p>
-     * If it will be a lazy or an eager import is decided by the value of {@link #getLazyImports()}. You
-     * can also directly control that aspect by using {@link #importLib(String, String, boolean)} instead.
+     * If it will be a lazy or an eager import is decided by the value of {link #getLazyImports()}. You
+     * can also directly control that aspect by using {link #importLib(String, String, boolean)} instead.
      *
      * @return Not {@code null}. This is possibly a lazily self-initializing namespace, which means that it will only
      *         try to get and process the imported template when you access its content.
      *
-     * @see #getTemplateForImporting(String templateName)
-     * @see #importLib(Template includedTemplate, String namespaceVarName)
-     * @see #importLib(String, String, boolean)
+     * see #getTemplateForImporting(String templateName)
+     * see #importLib(Template includedTemplate, String namespaceVarName)
+     * see #importLib(String, String, boolean)
      */
     public Namespace importLib(String templateName, String targetNsVarName)
             throws IOException, TemplateException {
@@ -2618,15 +2616,15 @@ public final class Environment extends Configurable {
      *
      * @param loadedTemplate
      *            The template to import. Note that it does <em>not</em> need to be a template returned by
-     *            {@link #getTemplateForImporting(String name)}. Not {@code null}.
+     *            {link #getTemplateForImporting(String name)}. Not {@code null}.
      * @param targetNsVarName
      *            The name of the FTL variable that will store the namespace. If {@code null}, the namespace
      *            won't be stored in a variable (but it's still returned).
      *            
      * @return The namespace of the imported template, already initialized. 
      *            
-     * @see #getTemplateForImporting(String name)
-     * @see #importLib(Template includedTemplate, String namespaceVarName)
+     * see #getTemplateForImporting(String name)
+     * see #importLib(Template includedTemplate, String namespaceVarName)
      */
     public Namespace importLib(Template loadedTemplate, String targetNsVarName)
             throws IOException, TemplateException {
@@ -2634,8 +2632,8 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * Like {@link #importLib(String, String)}, but you can specify if you want a
-     * {@linkplain #setLazyImports(boolean) lazy import} or not.
+     * Like {link #importLib(String, String)}, but you can specify if you want a
+     * {linkplain #setLazyImports(boolean) lazy import} or not.
      * 
      * @return Not {@code null}. This is possibly a lazily self-initializing namespace, which mean that it will only try
      *         to get and process the imported template when you access its content.
@@ -2650,14 +2648,14 @@ public final class Environment extends Configurable {
     }
     
     /**
-     * Gets a template for importing; used with {@link #importLib(Template importedTemplate, String namespace)}. The
+     * Gets a template for importing; used with {link #importLib(Template importedTemplate, String namespace)}. The
      * advantage over simply using <code>config.getTemplate(...)</code> is that it chooses the encoding as the
      * <code>import</code> directive does.
      *
      * @param name
      *            the name of the template, relatively to the template root directory (not the to the directory of the
      *            currently executing template file!). (Note that you can use
-     *            {@link freemarker.cache.TemplateCache#getFullTemplatePath} to convert paths to template root relative
+     *            {link freemarker.cache.TemplateCache#getFullTemplatePath} to convert paths to template root relative
      *            paths.)
      */
     public Template getTemplateForImporting(String name) throws IOException {
@@ -2740,25 +2738,25 @@ public final class Environment extends Configurable {
     /**
      * Resolves a reference to a template (like the one used in {@code #include} or {@code #import}), assuming a base
      * name. This gives a root based, even if non-normalized and possibly non-absolute (but then relative to the root)
-     * template name, that could be used for {@link Configuration#getTemplate(String)}. This is mostly used when a
+     * template name, that could be used for {link Configuration#getTemplate(String)}. This is mostly used when a
      * template refers to another template.
      * <p>
      * If you need to guarantee that the result is also an absolute path, then apply
-     * {@link #rootBasedToAbsoluteTemplateName(String)} on it.
+     * {link #rootBasedToAbsoluteTemplateName(String)} on it.
      * 
      * @param baseName
      *            The name to which relative {@code targetName}-s are relative to. Maybe {@code null} (happens when
      *            resolving names in nameless templates), which means that the base is the root "directory", and so the
-     *            {@code targetName} is returned without change. Assuming {@link TemplateNameFormat#DEFAULT_2_3_0} or
-     *            {@link TemplateNameFormat#DEFAULT_2_4_0}, the rules are as follows. If you want to specify a base
+     *            {@code targetName} is returned without change. Assuming {link TemplateNameFormat#DEFAULT_2_3_0} or
+     *            {link TemplateNameFormat#DEFAULT_2_4_0}, the rules are as follows. If you want to specify a base
      *            directory here, it must end with {@code "/"}. If it doesn't end with {@code "/"}, it's parent
      *            directory will be used as the base path. Might starts with a scheme part (like {@code "foo://"}, or
-     *            with {@link TemplateNameFormat#DEFAULT_2_4_0} even just with {@code "foo:"}).
+     *            with {link TemplateNameFormat#DEFAULT_2_4_0} even just with {@code "foo:"}).
      * @param targetName
      *            The name of the template, which is either a relative or absolute name. Assuming
-     *            {@link TemplateNameFormat#DEFAULT_2_3_0} or {@link TemplateNameFormat#DEFAULT_2_4_0}, the rules are as
+     *            {link TemplateNameFormat#DEFAULT_2_3_0} or {link TemplateNameFormat#DEFAULT_2_4_0}, the rules are as
      *            follows. If it starts with {@code "/"} or contains a scheme part separator ({@code "://"}, also, with
-     *            {@link TemplateNameFormat#DEFAULT_2_4_0} a {@code ":"} with no {@code "/"} anywhere before it) then
+     *            {link TemplateNameFormat#DEFAULT_2_4_0} a {@code ":"} with no {@code "/"} anywhere before it) then
      *            it's an absolute name, otherwise it's a relative path. Relative paths are interpreted relatively to
      *            the {@code baseName}. Absolute names are simply returned as is, ignoring the {@code baseName}, except,
      *            when the {@code baseName} has scheme part while the {@code targetName} doesn't have, then the schema
@@ -2777,10 +2775,10 @@ public final class Environment extends Configurable {
 
     /**
      * Converts a root based name (a name that's either relative to the root, or is absolute), which are typically used
-     * by the API (such as for {@link Configuration#getTemplate(String)}), to an absolute name, which can be safely
+     * by the API (such as for {link Configuration#getTemplate(String)}), to an absolute name, which can be safely
      * passed to {@code <#include path>} and such, as it won't be misinterpreted to be relative to the directory of the
      * template. For example, {@code "foo/bar.ftl"} is converted to {@code "/foo/bar.ftl"}, while {@code "/foo/bar"} or
-     * {@code "foo://bar/baz"} remains as is, as they are already absolute names (see {@link TemplateNameFormat} for
+     * {@code "foo://bar/baz"} remains as is, as they are already absolute names (see {link TemplateNameFormat} for
      * more about the format of names).
      * 
      * <p>
@@ -2849,7 +2847,7 @@ public final class Environment extends Configurable {
 
     /**
      * Returns the value of a custom state variable, or {@code null} if it's missing; see
-     * {@link #setCustomState(Object, Object)} for more.
+     * {link #setCustomState(Object, Object)} for more.
      * 
      * @since 2.3.24
      */
@@ -2862,11 +2860,11 @@ public final class Environment extends Configurable {
 
     /**
      * Sets the value of a custom state variable. Custom state variables meant to be used by
-     * {@link TemplateNumberFormatFactory}-es, {@link TemplateDateFormatFactory}-es, and similar user-implementable,
-     * pluggable objects, which want to maintain an {@link Environment}-scoped state (such as a cache).
+     * {link TemplateNumberFormatFactory}-es, {link TemplateDateFormatFactory}-es, and similar user-implementable,
+     * pluggable objects, which want to maintain an {link Environment}-scoped state (such as a cache).
      * 
      * @param identityKey
-     *            The key that identifies the variable, by its object identity (not by {@link Object#equals(Object)}).
+     *            The key that identifies the variable, by its object identity (not by {link Object#equals(Object)}).
      *            This should be something like a {@code private static final Object CUSTOM_STATE_KEY = new Object();}
      *            in the class that needs this state variable.
      * @param value
@@ -3129,15 +3127,15 @@ public final class Environment extends Configurable {
     }
 
     /**
-     * See {@link #setFastInvalidReferenceExceptions(boolean)}.
+     * See {link #setFastInvalidReferenceExceptions(boolean)}.
      */
     boolean getFastInvalidReferenceExceptions() {
         return fastInvalidReferenceExceptions;
     }
 
     /**
-     * Sets if for invalid references {@link InvalidReferenceException#FAST_INSTANCE} should be thrown, or a new
-     * {@link InvalidReferenceException}. The "fast" instance is used if we know that the error will be handled so that
+     * Sets if for invalid references {link InvalidReferenceException#FAST_INSTANCE} should be thrown, or a new
+     * {link InvalidReferenceException}. The "fast" instance is used if we know that the error will be handled so that
      * its message will not be logged or shown anywhere.
      */
     boolean setFastInvalidReferenceExceptions(boolean b) {

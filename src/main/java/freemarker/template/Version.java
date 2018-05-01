@@ -29,7 +29,7 @@ import java.util.Date;
  * mostly used for representing a FreeMarker version number, but should also be able
  * to parse the version strings of 3rd party libraries.
  * 
- * @see Configuration#getVersion()
+ * see Configuration#getVersion()
  * 
  * @since 2.3.20
  */
@@ -129,7 +129,7 @@ public final class Version implements Serializable {
     }
 
     /**
-     * Creates an object based on the {@code int} value that uses the same kind of encoding as {@link #intValue()}.
+     * Creates an object based on the {@code int} value that uses the same kind of encoding as {link #intValue()}.
      * 
      * @since 2.3.24
      */
@@ -286,12 +286,9 @@ public final class Version implements Serializable {
         }
         
         if (gaeCompliant == null) {
-            if (other.gaeCompliant != null) return false;
-        } else if (!gaeCompliant.equals(other.gaeCompliant)) {
-            return false;
-        }
-        
-        return true;
+            return other.gaeCompliant == null;
+        } else return gaeCompliant.equals(other.gaeCompliant);
+
     }
     
 }

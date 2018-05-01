@@ -25,8 +25,8 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateNumberModel;
 
 /**
- * Wraps arbitrary subclass of {@link java.lang.Number} into a reflective model.
- * Beside acting as a {@link TemplateNumberModel}, you can call all Java methods on
+ * Wraps arbitrary subclass of {link java.lang.Number} into a reflective model.
+ * Beside acting as a {link TemplateNumberModel}, you can call all Java methods on
  * these objects as well.
  */
 public class NumberModel
@@ -44,8 +44,8 @@ implements
     /**
      * Creates a new model that wraps the specified number object.
      * @param number the number object to wrap into a model.
-     * @param wrapper the {@link BeansWrapper} associated with this model.
-     * Every model has to have an associated {@link BeansWrapper} instance. The
+     * @param wrapper the {link BeansWrapper} associated with this model.
+     * Every model has to have an associated {link BeansWrapper} instance. The
      * model gains many attributes from its wrapper, including the caching 
      * behavior, method exposure level, method-over-item shadowing policy etc.
      */

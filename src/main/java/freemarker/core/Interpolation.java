@@ -36,7 +36,7 @@ abstract class Interpolation extends TemplateElement {
     /**
      * Returns the already type-converted value that this interpolation will insert into the output.
      * 
-     * @return A {@link String} or {@link TemplateMarkupOutputModel}. Not {@code null}.
+     * @return A {link String} or {link TemplateMarkupOutputModel}. Not {@code null}.
      */
     protected abstract Object calculateInterpolatedStringOrMarkup(Environment env) throws TemplateException;
 

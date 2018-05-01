@@ -22,7 +22,7 @@ import freemarker.core.Environment;
 import freemarker.log.Logger;
 
 /**
- * Default {@link AttemptExceptionReporter} implementation, factored out from {@link AttemptExceptionReporter} so that
+ * Default {link AttemptExceptionReporter} implementation, factored out from {link AttemptExceptionReporter} so that
  * we can have static field.
  */
 class LoggingAttemptExceptionReporter implements AttemptExceptionReporter {

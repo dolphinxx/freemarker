@@ -41,7 +41,7 @@ import java.util.Set;
  * <p>A hash model that wraps a resource bundle. Makes it convenient to store
  * localized content in the data model. It also acts as a method model that will
  * take a resource key and arbitrary number of arguments and will apply
- * {@link MessageFormat} with arguments on the string represented by the key.</p>
+ * {link MessageFormat} with arguments on the string represented by the key.</p>
  *
  * <p>Typical usages:</p>
  * <ul>

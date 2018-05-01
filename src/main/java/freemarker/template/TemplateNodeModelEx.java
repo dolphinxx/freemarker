@@ -20,7 +20,7 @@
 package freemarker.template;
 
 /**
- * A {@link TemplateNodeModel} that supports navigating to the previous and next sibling nodes.
+ * A {link TemplateNodeModel} that supports navigating to the previous and next sibling nodes.
  * 
  * @since 2.3.26
  */

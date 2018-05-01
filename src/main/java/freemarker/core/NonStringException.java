@@ -26,7 +26,7 @@ import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 
 /**
- * Indicates that a {@link TemplateScalarModel} value was expected (or maybe something that can be automatically coerced
+ * Indicates that a {link TemplateScalarModel} value was expected (or maybe something that can be automatically coerced
  * to that), but the value had a different type.
  */
 public class NonStringException extends UnexpectedTypeException {

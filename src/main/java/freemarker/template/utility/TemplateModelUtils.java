@@ -19,17 +19,18 @@
 package freemarker.template.utility;
 
 import freemarker.core._MessageUtil;
+import freemarker.template.KeyValuePair;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateHashModelEx2;
-import freemarker.template.TemplateHashModelEx2.KeyValuePair;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateScalarModel;
 
 /**
- * Static utility method related to {@link TemplateModel}-s that didn't fit elsewhere.
- * 
+ * Static utility method related to {link TemplateModel}-s that didn't fit elsewhere.
+ *
  * @since 2.3.28
  */
 public final class TemplateModelUtils {
@@ -40,19 +41,19 @@ public final class TemplateModelUtils {
     }
 
     /**
-     * {@link TemplateHashModelExKeyValuePairIterator} that even works for a non-{@link TemplateHashModelEx2}
-     * {@link TemplateHashModelEx}. This is used to simplify code that needs to iterate through the key-value pairs of
-     * {@link TemplateHashModelEx}-s, as with this you don't have to handle non-{@link TemplateHashModelEx2}-s
-     * separately. For non-{@link TemplateHashModelEx2} values the iteration will throw {@link TemplateModelException}
-     * if it reaches a key that's not a string ({@link TemplateScalarModel}).
+     * {link TemplateHashModelExKeyValuePairIterator} that even works for a non-{link TemplateHashModelEx2}
+     * {link TemplateHashModelEx}. This is used to simplify code that needs to iterate through the key-value pairs of
+     * {link TemplateHashModelEx}-s, as with this you don't have to handle non-{link TemplateHashModelEx2}-s
+     * separately. For non-{link TemplateHashModelEx2} values the iteration will throw {link TemplateModelException}
+     * if it reaches a key that's not a string ({link TemplateScalarModel}).
      */
-    public static final TemplateHashModelEx2.KeyValuePairIterator getKeyValuePairIterator(TemplateHashModelEx hash)
+    public static final KeyValuePairIterator getKeyValuePairIterator(TemplateHashModelEx hash)
             throws TemplateModelException {
         return hash instanceof TemplateHashModelEx2 ? ((TemplateHashModelEx2) hash).keyValuePairIterator()
                 : new TemplateHashModelExKeyValuePairIterator(hash);
     }
 
-    private static class TemplateHashModelExKeyValuePairIterator implements TemplateHashModelEx2.KeyValuePairIterator {
+    private static class TemplateHashModelExKeyValuePairIterator implements KeyValuePairIterator {
 
         private final TemplateHashModelEx hash;
         private final TemplateModelIterator keyIter;
@@ -74,7 +75,7 @@ public final class TemplateModelUtils {
 
             return new KeyValuePair() {
 
-                public TemplateModel getKey() throws TemplateModelException {
+                public TemplateModel getKey() {
                     return key;
                 }
 

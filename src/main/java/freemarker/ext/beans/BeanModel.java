@@ -51,12 +51,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A class that will wrap an arbitrary object into {@link freemarker.template.TemplateHashModel}
+ * A class that will wrap an arbitrary object into {link freemarker.template.TemplateHashModel}
  * interface allowing calls to arbitrary property getters and invocation of
  * accessible methods on the object from a template using the
  * <tt>object.foo</tt> to access properties and <tt>object.bar(arg1, arg2)</tt> to
  * invoke methods on it. You can also use the <tt>object.foo[index]</tt> syntax to
- * access indexed properties. It uses Beans {@link java.beans.Introspector}
+ * access indexed properties. It uses Beans {link java.beans.Introspector}
  * to dynamically discover the properties and methods. 
  */
 
@@ -87,10 +87,10 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
      * enumeration, iterators, and maps. Note also that the superclass can be
      * used to wrap String objects if only scalar functionality is needed. You
      * can also choose to delegate the choice over which model class is used for
-     * wrapping to {@link BeansWrapper#wrap(Object)}.
+     * wrapping to {link BeansWrapper#wrap(Object)}.
      * @param object the object to wrap into a model.
-     * @param wrapper the {@link BeansWrapper} associated with this model.
-     * Every model has to have an associated {@link BeansWrapper} instance. The
+     * @param wrapper the {link BeansWrapper} associated with this model.
+     * Every model has to have an associated {link BeansWrapper} instance. The
      * model gains many attributes from its wrapper, including the caching 
      * behavior, method exposure level, method-over-item shadowing policy etc.
      */
@@ -114,7 +114,7 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
     /**
      * Uses Beans introspection to locate a property or method with name
      * matching the key name. If a method or property is found, it's wrapped
-     * into {@link freemarker.template.TemplateMethodModelEx} (for a method or
+     * into {link freemarker.template.TemplateMethodModelEx} (for a method or
      * indexed property), or evaluated on-the-fly and the return value wrapped
      * into appropriate model (for a non-indexed property) Models for various
      * properties and methods are cached on a per-class basis, so the costly
@@ -303,8 +303,8 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
     }
     
     /**
-     * Returns the same as {@link #getWrappedObject()}; to ensure that, this method will be final starting from 2.4.
-     * This behavior of {@link BeanModel} is assumed by some FreeMarker code. 
+     * Returns the same as {link #getWrappedObject()}; to ensure that, this method will be final starting from 2.4.
+     * This behavior of {link BeanModel} is assumed by some FreeMarker code.
      */
     public Object getAdaptedObject(Class<?> hint) {
         return object;  // return getWrappedObject(); starting from 2.4
@@ -334,8 +334,8 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
     
     /**
      * Used for {@code classic_compatbile} mode; don't use it for anything else.
-     * In FreeMarker 1.7 (and also at least in 2.1) {@link BeanModel} was a {@link TemplateScalarModel}. Some internal
-     * FreeMarker code tries to emulate FreeMarker classic by calling this method when a {@link TemplateScalarModel} is
+     * In FreeMarker 1.7 (and also at least in 2.1) {link BeanModel} was a {link TemplateScalarModel}. Some internal
+     * FreeMarker code tries to emulate FreeMarker classic by calling this method when a {link TemplateScalarModel} is
      * expected.
      * 
      * @return Never {@code null}

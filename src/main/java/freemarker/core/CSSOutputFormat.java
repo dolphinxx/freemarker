@@ -26,7 +26,7 @@ package freemarker.core;
 public class CSSOutputFormat extends OutputFormat {
 
     /**
-     * The only instance (singleton) of this {@link OutputFormat}.
+     * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final CSSOutputFormat INSTANCE = new CSSOutputFormat();
     

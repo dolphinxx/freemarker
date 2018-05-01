@@ -22,7 +22,7 @@ package freemarker.core;
 import freemarker.template.TemplateModel;
 
 /**
- * Indicates that a {@link TemplateMarkupOutputModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateMarkupOutputModel} value was expected, but the value had a different type.
  * 
  * @since 2.3.24
  */

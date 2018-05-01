@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A {@link TemplateClassResolver} that resolves only the classes whose name 
+ * A {link TemplateClassResolver} that resolves only the classes whose name
  * was specified in the constructor.
  */
 public class OptInTemplateClassResolver implements TemplateClassResolver {
@@ -44,14 +44,14 @@ public class OptInTemplateClassResolver implements TemplateClassResolver {
     /**
      * Creates a new instance. 
      *
-     * @param allowedClasses the {@link Set} of {@link String}-s that contains
+     * @param allowedClasses the {link Set} of {link String}-s that contains
      *     the full-qualified names of the allowed classes.
      *     Can be <code>null</code> (means not class is allowed).
-     * @param trustedTemplates the {@link List} of {@link String}-s that contains
+     * @param trustedTemplates the {link List} of {link String}-s that contains
      *     template names (i.e., template root directory relative paths)
      *     and prefix patterns (like <code>"include/*"</code>) of templates
-     *     for which {@link TemplateClassResolver#SAFER_RESOLVER} will be 
-     *     used (which is not as safe as {@link OptInTemplateClassResolver}).
+     *     for which {link TemplateClassResolver#SAFER_RESOLVER} will be
+     *     used (which is not as safe as {link OptInTemplateClassResolver}).
      *     The list items need not start with <code>"/"</code> (if they are, it
      *     will be removed). List items ending with <code>"*"</code> are treated
      *     as prefixes (i.e. <code>"foo*"</code> matches <code>"foobar"</code>,

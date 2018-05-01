@@ -30,8 +30,8 @@ import freemarker.template.TemplateSequenceModel;
 import java.lang.reflect.Array;
 
 /**
- * <p>A class that will wrap an arbitrary array into {@link TemplateCollectionModel}
- * and {@link TemplateSequenceModel} interfaces. It supports element retrieval through the <tt>array[index]</tt>
+ * <p>A class that will wrap an arbitrary array into {link TemplateCollectionModel}
+ * and {link TemplateSequenceModel} interfaces. It supports element retrieval through the <tt>array[index]</tt>
  * syntax and can be iterated as a list.
  */
 public class ArrayModel
@@ -54,8 +54,8 @@ implements
     /**
      * Creates a new model that wraps the specified array object.
      * @param array the array object to wrap into a model.
-     * @param wrapper the {@link BeansWrapper} associated with this model.
-     * Every model has to have an associated {@link BeansWrapper} instance. The
+     * @param wrapper the {link BeansWrapper} associated with this model.
+     * Every model has to have an associated {link BeansWrapper} instance. The
      * model gains many attributes from its wrapper, including the caching 
      * behavior, method exposure level, method-over-item shadowing policy etc.
      * @throws IllegalArgumentException if the passed object is not a Java array.

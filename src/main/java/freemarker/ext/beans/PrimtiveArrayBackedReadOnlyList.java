@@ -23,7 +23,7 @@ import java.lang.reflect.Array;
 import java.util.AbstractList;
 
 /**
- * Similar to {@link NonPrimitiveArrayBackedReadOnlyList}, but uses reflection so that it works with primitive arrays
+ * Similar to {link NonPrimitiveArrayBackedReadOnlyList}, but uses reflection so that it works with primitive arrays
  * too. 
  */
 class PrimtiveArrayBackedReadOnlyList extends AbstractList {

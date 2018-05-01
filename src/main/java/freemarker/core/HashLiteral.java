@@ -19,6 +19,8 @@
 
 package freemarker.core;
 
+import freemarker.template.KeyValuePair;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.SimpleSequence;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateException;
@@ -35,7 +37,8 @@ import java.util.ListIterator;
 
 final class HashLiteral extends Expression {
 
-    private final ArrayList keys, values;
+    private final ArrayList keys;
+    private final ArrayList values;
     private final int size;
 
     HashLiteral(ArrayList/*<Expression>*/ keys, ArrayList/*<Expression>*/ values) {
@@ -108,7 +111,8 @@ final class HashLiteral extends Expression {
     private class SequenceHash implements TemplateHashModelEx2 {
 
         private HashMap map; // maps keys to integer offset
-        private TemplateCollectionModel keyCollection, valueCollection; // ordered lists of keys and values
+        private TemplateCollectionModel keyCollection;
+        private TemplateCollectionModel valueCollection; // ordered lists of keys and values
 
         SequenceHash(Environment env) throws TemplateException {
             if (_TemplateAPI.getTemplateLanguageVersionAsInt(HashLiteral.this) >= _TemplateAPI.VERSION_INT_2_3_21) {
@@ -193,11 +197,11 @@ final class HashLiteral extends Expression {
                         private final TemplateModel key = keyIterator.next();
                         private final TemplateModel value = valueIterator.next();
 
-                        public TemplateModel getKey() throws TemplateModelException {
+                        public TemplateModel getKey() {
                             return key;
                         }
 
-                        public TemplateModel getValue() throws TemplateModelException {
+                        public TemplateModel getValue() {
                             return value;
                         }
                         

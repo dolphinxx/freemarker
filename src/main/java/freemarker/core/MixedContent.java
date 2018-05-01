@@ -31,7 +31,7 @@ final class MixedContent extends TemplateElement {
     MixedContent() { }
     
     /**
-     * @deprecated Use {@link #addChild(TemplateElement)} instead.
+     * @deprecated Use {link #addChild(TemplateElement)} instead.
      */
     @Deprecated
     void addElement(TemplateElement element) {
@@ -39,7 +39,7 @@ final class MixedContent extends TemplateElement {
     }
 
     /**
-     * @deprecated Use {@link #addChild(int, TemplateElement)} instead.
+     * @deprecated Use {link #addChild(int, TemplateElement)} instead.
      */
     @Deprecated
     void addElement(int index, TemplateElement element) {
@@ -58,8 +58,7 @@ final class MixedContent extends TemplateElement {
      * and outputs the resulting text.
      */
     @Override
-    TemplateElement[] accept(Environment env)
-        throws TemplateException, IOException {
+    TemplateElement[] accept(Environment env) {
         return getChildBuffer();
     }
 

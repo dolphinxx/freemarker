@@ -21,7 +21,7 @@ package freemarker.core;
 
 // Change this to an Enum in Java 5
 /**
- * @see TemplateObject#getParameterRole(int)
+ * see TemplateObject#getParameterRole(int)
  */
 final class ParameterRole {
     

@@ -20,7 +20,6 @@
 package freemarker.cache;
 
 import freemarker.log.Logger;
-import freemarker.template.Configuration;
 import freemarker.template.utility.SecurityUtilities;
 import freemarker.template.utility.StringUtil;
 
@@ -36,10 +35,10 @@ import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 
 /**
- * A {@link TemplateLoader} that uses files inside a specified directory as the source of templates. By default it does
+ * A {link TemplateLoader} that uses files inside a specified directory as the source of templates. By default it does
  * security checks on the <em>canonical</em> path that will prevent it serving templates outside that specified
  * directory. If you want symbolic links that point outside the template directory to work, you need to disable this
- * feature by using {@link #FileTemplateLoader(File, boolean)} with {@code true} second argument, but before that, check
+ * feature by using {link #FileTemplateLoader(File, boolean)} with {@code true} second argument, but before that, check
  * the security implications there!
  */
 public class FileTemplateLoader implements TemplateLoader {
@@ -80,7 +79,7 @@ public class FileTemplateLoader implements TemplateLoader {
      * that are accessible through symlinks that point outside the base directory.
      * 
      * @deprecated Relying on what the current directory is is a bad practice; use
-     *             {@link FileTemplateLoader#FileTemplateLoader(File)} instead.
+     *             {link FileTemplateLoader#FileTemplateLoader(File)} instead.
      */
     @Deprecated
     public FileTemplateLoader() throws IOException {
@@ -108,7 +107,7 @@ public class FileTemplateLoader implements TemplateLoader {
      * @param disableCanonicalPathCheck
      *            If {@code true}, it will not check if the file to be loaded is inside the {@code baseDir} or not,
      *            according the <em>canonical</em> paths of the {@code baseDir} and the file to load. Note that
-     *            {@link Configuration#getTemplate(String)} and (its overloads) already prevents backing out from the
+     *            {link Configuration#getTemplate(String)} and (its overloads) already prevents backing out from the
      *            template directory with paths like {@code /../../../etc/password}, however, that can be circumvented
      *            with symbolic links or other file system features. If you really want to use symbolic links that point
      *            outside the {@code baseDir}, set this parameter to {@code true}, but then be very careful with
@@ -116,7 +115,7 @@ public class FileTemplateLoader implements TemplateLoader {
      */
     public FileTemplateLoader(final File baseDir, final boolean disableCanonicalPathCheck) throws IOException {
         try {
-            Object[] retval = (Object[]) AccessController.doPrivileged(new PrivilegedExceptionAction<Object[]>() {
+            Object[] retval = AccessController.doPrivileged(new PrivilegedExceptionAction<Object[]>() {
                 public Object[] run() throws IOException {
                     if (!baseDir.exists()) {
                         throw new FileNotFoundException(baseDir + " does not exist.");
@@ -184,11 +183,11 @@ public class FileTemplateLoader implements TemplateLoader {
     }
     
     public long getLastModified(final Object templateSource) {
-        return (AccessController.doPrivileged(new PrivilegedAction<Long>() {
+        return AccessController.doPrivileged(new PrivilegedAction<Long>() {
             public Long run() {
-                return Long.valueOf(((File) templateSource).lastModified());
+                return ((File) templateSource).lastModified();
             }
-        })).longValue();
+        });
     }
     
     public Reader getReader(final Object templateSource, final String encoding) throws IOException {
@@ -209,9 +208,9 @@ public class FileTemplateLoader implements TemplateLoader {
     }
     
     /**
-     * Called by {@link #findTemplateSource(String)} when {@link #getEmulateCaseSensitiveFileSystem()} is {@code true}.
+     * Called by {link #findTemplateSource(String)} when {link #getEmulateCaseSensitiveFileSystem()} is {@code true}.
      */
-    private boolean isNameCaseCorrect(File source) throws IOException {
+    private boolean isNameCaseCorrect(File source) {
         final String sourcePath = source.getPath();
         synchronized (correctCasePaths) {
             if (correctCasePaths.get(sourcePath) != null) {
@@ -277,11 +276,11 @@ public class FileTemplateLoader implements TemplateLoader {
      * actual file name, and if it doesn't, it emulates a file-not-found even if the file system is case insensitive.
      * This is useful when developing application on Windows, which will be later installed on Linux, OS X, etc. This
      * check can be resource intensive, as to check the file name the directories involved, up to the
-     * {@link #getBaseDirectory()} directory, must be listed. Positive results (matching case) will be cached without
+     * {link #getBaseDirectory()} directory, must be listed. Positive results (matching case) will be cached without
      * expiration time.
      * 
-     * <p>The default in {@link FileTemplateLoader} is {@code false}, but subclasses may change they by overriding
-     * {@link #getEmulateCaseSensitiveFileSystemDefault()}.
+     * <p>The default in {link FileTemplateLoader} is {@code false}, but subclasses may change they by overriding
+     * {link #getEmulateCaseSensitiveFileSystemDefault()}.
      * 
      * @since 2.3.23
      */
@@ -299,7 +298,7 @@ public class FileTemplateLoader implements TemplateLoader {
     }
 
     /**
-     * Getter pair of {@link #setEmulateCaseSensitiveFileSystem(boolean)}.
+     * Getter pair of {link #setEmulateCaseSensitiveFileSystem(boolean)}.
      * 
      * @since 2.3.23
      */
@@ -308,8 +307,8 @@ public class FileTemplateLoader implements TemplateLoader {
     }
 
     /**
-     * Returns the default of {@link #getEmulateCaseSensitiveFileSystem()}. In {@link FileTemplateLoader} it's
-     * {@code false}, unless the {@link #SYSTEM_PROPERTY_NAME_EMULATE_CASE_SENSITIVE_FILE_SYSTEM} system property was
+     * Returns the default of {link #getEmulateCaseSensitiveFileSystem()}. In {link FileTemplateLoader} it's
+     * {@code false}, unless the {link #SYSTEM_PROPERTY_NAME_EMULATE_CASE_SENSITIVE_FILE_SYSTEM} system property was
      * set to {@code true}, but this can be overridden here in custom subclasses. For example, if your environment
      * defines something like developer mode, you may want to override this to return {@code true} on Windows.
      * 

@@ -22,11 +22,11 @@ package freemarker.core;
 import freemarker.template.Template;
 
 /**
- * <b>Internal API - subject to change:</b> Represent a node in the parsed template (either a {@link Expression} or a
- * {@link TemplateElement}).
+ * <b>Internal API - subject to change:</b> Represent a node in the parsed template (either a {link Expression} or a
+ * {link TemplateElement}).
  * 
- * @see TemplateElement
- * @see Expression
+ * see TemplateElement
+ * see Expression
  * 
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
  *             it.
@@ -35,7 +35,10 @@ import freemarker.template.Template;
 public abstract class TemplateObject {
     
     private Template template;
-    int beginColumn, beginLine, endColumn, endLine;
+    int beginColumn;
+    int beginLine;
+    int endColumn;
+    int endLine;
     
     /** This is needed for an ?eval hack; the expression AST nodes will be the descendants of the template, however,
      *  we can't give their position in the template, only in the dynamic string that's evaluated. That's signaled
@@ -102,7 +105,7 @@ public abstract class TemplateObject {
     }
 
     /**
-     * As of 2.3.20. the same as {@link #getStartLocation}. Meant to be used where there's a risk of XSS
+     * As of 2.3.20. the same as {link #getStartLocation}. Meant to be used where there's a risk of XSS
      * when viewing error messages.
      */
     public String getStartLocationQuoted() {
@@ -114,7 +117,7 @@ public abstract class TemplateObject {
     }
 
     /**
-     * As of 2.3.20. the same as {@link #getEndLocation}. Meant to be used where there's a risk of XSS
+     * As of 2.3.20. the same as {link #getEndLocation}. Meant to be used where there's a risk of XSS
      * when viewing error messages.
      */
     public String getEndLocationQuoted() {
@@ -158,9 +161,7 @@ public abstract class TemplateObject {
             }
         }
         if (line == endLine) {
-            if (column > endColumn) {
-                return false;
-            }
+            return column <= endColumn;
         }
         return true;
     }
@@ -182,8 +183,8 @@ public abstract class TemplateObject {
      * FTL generated from the AST of the node, which must be parseable to an AST that does the same as the original
      * source, assuming we turn off automatic white-space removal when parsing the canonical form.
      * 
-     * @see TemplateElement#getDescription()
-     * @see #getNodeTypeSymbol()
+     * see TemplateElement#getDescription()
+     * see #getNodeTypeSymbol()
      */
     abstract public String getCanonicalForm();
     
@@ -194,13 +195,13 @@ public abstract class TemplateObject {
      * that is equivalent with the original could be reconstructed from the tree view. Thus, for literal values that are
      * leaf nodes the symbols should be the canonical form of value.
      * 
-     * @see #getCanonicalForm()
-     * @see TemplateElement#getDescription()
+     * see #getCanonicalForm()
+     * see TemplateElement#getDescription()
      */
     abstract String getNodeTypeSymbol();
     
     /**
-     * Returns highest valid parameter index + 1. So one should scan indexes with {@link #getParameterValue(int)}
+     * Returns highest valid parameter index + 1. So one should scan indexes with {link #getParameterValue(int)}
      * starting from 0 up until but excluding this. For example, for the binary "+" operator this will give 2, so the
      * legal indexes are 0 and 1. Note that if a parameter is optional in a template-object-type and happens to be
      * omitted in an instance, this will still return the same value and the value of that parameter will be
@@ -210,30 +211,30 @@ public abstract class TemplateObject {
     
     /**
      * Returns the value of the parameter identified by the index. For example, the binary "+" operator will have an
-     * LHO {@link Expression} at index 0, and and RHO {@link Expression} at index 1. Or, the binary "." operator will
-     * have an LHO {@link Expression} at index 0, and an RHO {@link String}(!) at index 1. Or, the {@code #include}
-     * directive will have a path {@link Expression} at index 0, a "parse" {@link Expression} at index 1, etc.
+     * LHO {link Expression} at index 0, and and RHO {link Expression} at index 1. Or, the binary "." operator will
+     * have an LHO {link Expression} at index 0, and an RHO {link String}(!) at index 1. Or, the {@code #include}
+     * directive will have a path {link Expression} at index 0, a "parse" {link Expression} at index 1, etc.
      * 
      * <p>The index value doesn't correspond to the source-code location in general. It's an arbitrary identifier
      * that corresponds to the role of the parameter instead. This also means that when a parameter is omitted, the
      * index of the other parameters won't shift.
      *
-     *  @return {@code null} or any kind of {@link Object}, very often an {@link Expression}. However, if there's
-     *      a {@link TemplateObject} stored inside the returned value, it must itself be be a {@link TemplateObject}
-     *      too, otherwise the AST couldn't be (easily) fully traversed. That is, non-{@link TemplateObject} values
+     *  @return {@code null} or any kind of {link Object}, very often an {link Expression}. However, if there's
+     *      a {link TemplateObject} stored inside the returned value, it must itself be be a {link TemplateObject}
+     *      too, otherwise the AST couldn't be (easily) fully traversed. That is, non-{link TemplateObject} values
      *      can only be used for leafs. 
      *  
-     *  @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {@link #getParameterCount()}. 
+     *  @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {link #getParameterCount()}.
      */
     abstract Object getParameterValue(int idx);
 
     /**
-     *  Returns the role of the parameter at the given index, like {@link ParameterRole#LEFT_HAND_OPERAND}.
+     *  Returns the role of the parameter at the given index, like {link ParameterRole#LEFT_HAND_OPERAND}.
      *  
-     *  As of this writing (2013-06-17), for directive parameters it will always give {@link ParameterRole#UNKNOWN},
+     *  As of this writing (2013-06-17), for directive parameters it will always give {link ParameterRole#UNKNOWN},
      *  because there was no need to be more specific so far. This should be improved as need.
      *  
-     *  @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {@link #getParameterCount()}. 
+     *  @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {link #getParameterCount()}.
      */
     abstract ParameterRole getParameterRole(int idx);
     

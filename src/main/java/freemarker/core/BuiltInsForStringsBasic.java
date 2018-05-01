@@ -605,9 +605,9 @@ class BuiltInsForStringsBasic {
                         }
                         if (beginIdx > endIdx) {
                             throw _MessageUtil.newMethodArgsInvalidValueException("?" + key,
-                                    "The begin index argument, ", Integer.valueOf(beginIdx),
+                                    "The begin index argument, ", beginIdx,
                                     ", shouldn't be greater than the end index argument, ",
-                                    Integer.valueOf(endIdx), ".");
+                                    endIdx, ".");
                         }
                         return new SimpleScalar(s.substring(beginIdx, endIdx));
                     } else {
@@ -616,19 +616,19 @@ class BuiltInsForStringsBasic {
                 }
     
                 private TemplateModelException newIndexGreaterThanLengthException(
-                        int argIdx, int idx, final int len) throws TemplateModelException {
+                        int argIdx, int idx, final int len) {
                     return _MessageUtil.newMethodArgInvalidValueException(
                             "?" + key, argIdx,
                             "The index mustn't be greater than the length of the string, ",
-                            Integer.valueOf(len),
-                            ", but it was ", Integer.valueOf(idx), ".");
+                            len,
+                            ", but it was ", idx, ".");
                 }
     
                 private TemplateModelException newIndexLessThan0Exception(
-                        int argIdx, int idx) throws TemplateModelException {
+                        int argIdx, int idx) {
                     return _MessageUtil.newMethodArgInvalidValueException(
                             "?" + key, argIdx,
-                            "The index must be at least 0, but was ", Integer.valueOf(idx), ".");
+                            "The index must be at least 0, but was ", idx, ".");
                 }
                 
             };

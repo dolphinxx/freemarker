@@ -27,8 +27,8 @@ import freemarker.template.TemplateModel;
 import java.util.Date;
 
 /**
- * Wraps arbitrary subclass of {@link java.util.Date} into a reflective model.
- * Beside acting as a {@link TemplateDateModel}, you can call all Java methods
+ * Wraps arbitrary subclass of {link java.util.Date} into a reflective model.
+ * Beside acting as a {link TemplateDateModel}, you can call all Java methods
  * on these objects as well.
  */
 public class DateModel
@@ -49,8 +49,8 @@ implements
     /**
      * Creates a new model that wraps the specified date object.
      * @param date the date object to wrap into a model.
-     * @param wrapper the {@link BeansWrapper} associated with this model.
-     * Every model has to have an associated {@link BeansWrapper} instance. The
+     * @param wrapper the {link BeansWrapper} associated with this model.
+     * Every model has to have an associated {link BeansWrapper} instance. The
      * model gains many attributes from its wrapper, including the caching 
      * behavior, method exposure level, method-over-item shadowing policy etc.
      */

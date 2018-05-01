@@ -26,7 +26,7 @@ package freemarker.core;
 public class JSONOutputFormat extends OutputFormat {
 
     /**
-     * The only instance (singleton) of this {@link OutputFormat}.
+     * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final JSONOutputFormat INSTANCE = new JSONOutputFormat();
     

@@ -23,7 +23,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.ClassUtil;
@@ -124,10 +123,10 @@ public class _CoreAPI {
      * Returns the names of the currently supported "built-ins" ({@code expr?builtin_name}-like things).
      * 
      * @param namingConvention
-     *            One of {@link Configuration#AUTO_DETECT_NAMING_CONVENTION},
-     *            {@link Configuration#LEGACY_NAMING_CONVENTION}, and
-     *            {@link Configuration#CAMEL_CASE_NAMING_CONVENTION}. If it's
-     *            {@link Configuration#AUTO_DETECT_NAMING_CONVENTION} then the union of the names in all the naming
+     *            One of {link Configuration#AUTO_DETECT_NAMING_CONVENTION},
+     *            {link Configuration#LEGACY_NAMING_CONVENTION}, and
+     *            {link Configuration#CAMEL_CASE_NAMING_CONVENTION}. If it's
+     *            {link Configuration#AUTO_DETECT_NAMING_CONVENTION} then the union of the names in all the naming
      *            conventions is returned.
      */
     public static Set<String> getSupportedBuiltInNames(int namingConvention) {
@@ -195,8 +194,8 @@ public class _CoreAPI {
     }
     
     /**
-     * The work around the problematic cases where we should throw a {@link TemplateException}, but we are inside
-     * a {@link TemplateModel} method and so we can only throw {@link TemplateModelException}-s.  
+     * The work around the problematic cases where we should throw a {link TemplateException}, but we are inside
+     * a {link TemplateModel} method and so we can only throw {link TemplateModelException}-s.
      */
     public static TemplateModelException ensureIsTemplateModelException(String modelOpMsg, TemplateException e) {
         if (e instanceof TemplateModelException) {

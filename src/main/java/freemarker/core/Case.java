@@ -69,7 +69,7 @@ final class Case extends TemplateElement {
     Object getParameterValue(int idx) {
         switch (idx) {
         case 0: return condition;
-        case 1: return Integer.valueOf(condition != null ? TYPE_CASE : TYPE_DEFAULT);
+        case 1: return condition != null ? TYPE_CASE : TYPE_DEFAULT;
         default: throw new IndexOutOfBoundsException();
         }
     }

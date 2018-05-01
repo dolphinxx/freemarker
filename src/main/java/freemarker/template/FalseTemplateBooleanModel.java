@@ -20,7 +20,7 @@
 package freemarker.template;
 
 /**
- * Used for the {@link TemplateBooleanModel#TRUE} singleton. 
+ * Used for the {link TemplateBooleanModel#TRUE} singleton.
  */
 final class FalseTemplateBooleanModel implements SerializableTemplateBooleanModel {
     

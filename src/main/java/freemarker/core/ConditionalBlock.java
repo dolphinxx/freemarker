@@ -25,7 +25,7 @@ import java.io.IOException;
 
 /**
  * An element that represents a conditionally executed block: #if, #elseif or #elseif. Note that when an #if has
- * related #elseif-s or #else, an {@link IfBlock} parent must be used. For a lonely #if, no such parent is needed. 
+ * related #elseif-s or #else, an {link IfBlock} parent must be used. For a lonely #if, no such parent is needed.
  */
 
 final class ConditionalBlock extends TemplateElement {
@@ -44,7 +44,7 @@ final class ConditionalBlock extends TemplateElement {
     }
 
     @Override
-    TemplateElement[] accept(Environment env) throws TemplateException, IOException {
+    TemplateElement[] accept(Environment env) throws TemplateException {
         if (condition == null || condition.evalToBoolean(env)) {
             return getChildBuffer();
         }
@@ -92,7 +92,7 @@ final class ConditionalBlock extends TemplateElement {
     Object getParameterValue(int idx) {
         switch (idx) {
         case 0: return condition;
-        case 1: return Integer.valueOf(type);
+        case 1: return type;
         default: throw new IndexOutOfBoundsException();
         }
     }

@@ -19,14 +19,12 @@
 
 package freemarker.template;
 
-import freemarker.core.TemplateMarkupOutputModel;
-
 /**
  * "string" template language data-type; like in Java, an unmodifiable UNICODE character sequence.
  * (The name of this interface should be {@code TemplateStringModel}. The misnomer is inherited from the
  * old times, when this was the only single-value type in FreeMarker.)
  * When a template has to print a value of this class, it will assume that it stores plain text (not HTML, XML, etc.),
- * and thus it will be possibly auto-escaped. To avoid that, use the appropriate {@link TemplateMarkupOutputModel}
+ * and thus it will be possibly auto-escaped. To avoid that, use the appropriate {link TemplateMarkupOutputModel}
  * instead.
  */
 public interface TemplateScalarModel extends TemplateModel {
@@ -34,13 +32,13 @@ public interface TemplateScalarModel extends TemplateModel {
     /**
      * A constant value to use as the empty string.
      */
-    public TemplateModel EMPTY_STRING = new SimpleScalar("");
+    TemplateModel EMPTY_STRING = new SimpleScalar("");
 
     /**
-     * Returns the {@link String} representation of this model. Returning {@code null} is illegal, and may cause
+     * Returns the {link String} representation of this model. Returning {@code null} is illegal, and may cause
      * exception in the calling code. (Except, in classic-compatible mode the engine will convert {@code null} into
      * empty string.)
      */
-    public String getAsString() throws TemplateModelException;
+    String getAsString() throws TemplateModelException;
 
 }

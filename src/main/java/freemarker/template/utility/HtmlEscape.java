@@ -50,7 +50,7 @@ import java.util.Map;
  * ...
  * </pre>
  *
- * @see freemarker.template.utility.XmlEscape
+ * see freemarker.template.utility.XmlEscape
  */
 public class HtmlEscape implements TemplateTransformModel {
 

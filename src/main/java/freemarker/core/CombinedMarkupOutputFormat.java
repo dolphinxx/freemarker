@@ -36,7 +36,7 @@ public final class CombinedMarkupOutputFormat extends CommonMarkupOutputFormat<T
     private final MarkupOutputFormat inner;
 
     /**
-     * Same as {@link #CombinedMarkupOutputFormat(String, MarkupOutputFormat, MarkupOutputFormat)} with {@code null} as
+     * Same as {link #CombinedMarkupOutputFormat(String, MarkupOutputFormat, MarkupOutputFormat)} with {@code null} as
      * the {@code name} parameter.
      */
     public CombinedMarkupOutputFormat(MarkupOutputFormat outer, MarkupOutputFormat inner) {

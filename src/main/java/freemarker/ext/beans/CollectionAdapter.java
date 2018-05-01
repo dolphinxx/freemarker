@@ -27,11 +27,10 @@ import freemarker.template.TemplateModelIterator;
 import freemarker.template.utility.UndeclaredThrowableException;
 
 import java.util.AbstractCollection;
-import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * Adapts a {@link TemplateCollectionModel} to  {@link Collection}.
+ * Adapts a {link TemplateCollectionModel} to  {link Collection}.
  */
 class CollectionAdapter extends AbstractCollection implements TemplateModelAdapter {
     private final BeansWrapper wrapper;

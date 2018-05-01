@@ -18,7 +18,6 @@
  */
 package freemarker.core;
 
-import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
@@ -26,7 +25,7 @@ import freemarker.template.TemplateNumberModel;
 import java.util.Date;
 
 /**
- * Utility classes for implementing {@link TemplateValueFormat}-s.
+ * Utility classes for implementing {link TemplateValueFormat}-s.
  * 
  * @since 2.3.24 
  */
@@ -45,13 +44,13 @@ public final class TemplateFormatUtil {
     }
 
     /**
-     * Utility method to extract the {@link Number} from an {@link TemplateNumberModel}, and throws
-     * {@link TemplateModelException} with a standard error message if that's {@code null}. {@link TemplateNumberModel}
+     * Utility method to extract the {link Number} from an {link TemplateNumberModel}, and throws
+     * {link TemplateModelException} with a standard error message if that's {@code null}. {link TemplateNumberModel}
      * that store {@code null} are in principle not allowed, and so are considered to be bugs in the
-     * {@link ObjectWrapper} or {@link TemplateNumberModel} implementation.
+     * {link ObjectWrapper} or {link TemplateNumberModel} implementation.
      */
     public static Number getNonNullNumber(TemplateNumberModel numberModel)
-            throws TemplateModelException, UnformattableValueException {
+            throws TemplateModelException {
         Number number = numberModel.getAsNumber();
         if (number == null) {
             throw EvalUtil.newModelHasStoredNullException(Number.class, numberModel, null);
@@ -60,10 +59,10 @@ public final class TemplateFormatUtil {
     }
 
     /**
-     * Utility method to extract the {@link Date} from an {@link TemplateDateModel}, and throw
-     * {@link TemplateModelException} with a standard error message if that's {@code null}. {@link TemplateDateModel}
+     * Utility method to extract the {link Date} from an {link TemplateDateModel}, and throw
+     * {link TemplateModelException} with a standard error message if that's {@code null}. {link TemplateDateModel}
      * that store {@code null} are in principle not allowed, and so are considered to be bugs in the
-     * {@link ObjectWrapper} or {@link TemplateNumberModel} implementation.
+     * {link ObjectWrapper} or {link TemplateNumberModel} implementation.
      */
     public static Date getNonNullDate(TemplateDateModel dateModel) throws TemplateModelException {
         Date date = dateModel.getAsDate();

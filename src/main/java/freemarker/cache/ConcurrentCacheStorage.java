@@ -31,5 +31,5 @@ public interface ConcurrentCacheStorage extends CacheStorage {
      * @return true if this instance of cache storage is concurrently 
      * accessible from multiple threads without synchronization.
      */
-    public boolean isConcurrent();
+    boolean isConcurrent();
 }

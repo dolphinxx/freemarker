@@ -22,7 +22,7 @@ package freemarker.core;
 import freemarker.template.TemplateException;
 
 /**
- * A subclass of {@link TemplateException} that says that an FTL expression has evaluated to {@code null} or it refers
+ * A subclass of {link TemplateException} that says that an FTL expression has evaluated to {@code null} or it refers
  * to something that doesn't exist. At least in FreeMarker 2.3.x these two cases aren't distinguished.
  */
 public class InvalidReferenceException extends TemplateException {
@@ -99,7 +99,7 @@ public class InvalidReferenceException extends TemplateException {
     }
 
     /**
-     * Use this whenever possible, as it returns {@link #FAST_INSTANCE} instead of creating a new instance, when
+     * Use this whenever possible, as it returns {link #FAST_INSTANCE} instead of creating a new instance, when
      * appropriate.
      */
     static InvalidReferenceException getInstance(Expression blamed, Environment env) {

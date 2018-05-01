@@ -99,7 +99,7 @@ class EvalUtil {
      * Compares two expressions according the rules of the FTL comparator operators.
      * 
      * @param leftExp not {@code null}
-     * @param operator one of the {@code COMP_OP_...} constants, like {@link #CMP_OP_EQUALS}.
+     * @param operator one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
      * @param operatorString can be null {@code null}; the actual operator used, used for more accurate error message.
      * @param rightExp not {@code null}
      * @param env {@code null} is tolerated, but should be avoided
@@ -122,13 +122,13 @@ class EvalUtil {
     }
     
     /**
-     * Compares values according the rules of the FTL comparator operators; if the {@link Expression}-s are
-     * accessible, use {@link #compare(Expression, int, String, Expression, Expression, Environment)} instead, as
+     * Compares values according the rules of the FTL comparator operators; if the {link Expression}-s are
+     * accessible, use {link #compare(Expression, int, String, Expression, Expression, Environment)} instead, as
      * that gives better error messages.
      * 
-     * @param leftValue maybe {@code null}, which will usually cause the appropriate {@link TemplateException}. 
-     * @param operator one of the {@code COMP_OP_...} constants, like {@link #CMP_OP_EQUALS}.
-     * @param rightValue maybe {@code null}, which will usually cause the appropriate {@link TemplateException}.
+     * @param leftValue maybe {@code null}, which will usually cause the appropriate {link TemplateException}.
+     * @param operator one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
+     * @param rightValue maybe {@code null}, which will usually cause the appropriate {link TemplateException}.
      * @param env {@code null} is tolerated, but should be avoided
      */
     static boolean compare(
@@ -144,7 +144,7 @@ class EvalUtil {
     }
 
     /**
-     * Same as {@link #compare(TemplateModel, int, TemplateModel, Environment)}, but if the two types are incompatible,
+     * Same as {link #compare(TemplateModel, int, TemplateModel, Environment)}, but if the two types are incompatible,
      *     they are treated as non-equal instead of throwing an exception. Comparing dates of different types will
      *     still throw an exception, however.
      */
@@ -167,7 +167,7 @@ class EvalUtil {
     
     /**
      * @param leftExp {@code null} is allowed, but may results in less helpful error messages
-     * @param operator one of the {@code COMP_OP_...} constants, like {@link #CMP_OP_EQUALS}.
+     * @param operator one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
      * @param operatorString can be null {@code null}; the actual operator used, used for more accurate error message.
      * @param rightExp {@code null} is allowed, but may results in less helpful error messages
      * @param defaultBlamed {@code null} allowed; the expression to which the error will point to if something goes
@@ -234,8 +234,7 @@ class EvalUtil {
             try {
                 cmpResult = ae.compareNumbers(leftNum, rightNum);
             } catch (RuntimeException e) {
-                throw new _MiscTemplateException(defaultBlamed, e, env, new Object[]
-                        { "Unexpected error while comparing two numbers: ", e });
+                throw new _MiscTemplateException(defaultBlamed, e, env, "Unexpected error while comparing two numbers: ", e);
             }
         } else if (leftValue instanceof TemplateDateModel && rightValue instanceof TemplateDateModel) {
             TemplateDateModel leftDateModel = (TemplateDateModel) leftValue;
@@ -260,7 +259,6 @@ class EvalUtil {
             }
             
             if (leftDateType != rightDateType) {
-                ;
                 throw new _MiscTemplateException(defaultBlamed, env,
                         "Can't compare dates of different types. Left date type is ",
                         TemplateDateModel.TYPE_NAMES.get(leftDateType), ", right date type is ",
@@ -306,12 +304,12 @@ class EvalUtil {
                     "Left hand operand ",
                     (quoteOperandsInErrors && leftExp != null
                             ? new Object[] { "(", new _DelayedGetCanonicalForm(leftExp), ") value " }
-                            : (Object) ""),
+                            : ""),
                     "is ", new _DelayedAOrAn(new _DelayedFTLTypeDescription(leftValue)), ".\n",
                     "Right hand operand ",
                     (quoteOperandsInErrors && rightExp != null
                             ? new Object[] { "(", new _DelayedGetCanonicalForm(rightExp), ") value " }
-                            : (Object) ""),
+                            : ""),
                     "is ", new _DelayedAOrAn(new _DelayedFTLTypeDescription(rightValue)),
                     ".");
         }
@@ -344,8 +342,8 @@ class EvalUtil {
     }
 
     /**
-     * Converts a value to plain text {@link String}, or a {@link TemplateMarkupOutputModel} if that's what the
-     * {@link TemplateValueFormat} involved produces.
+     * Converts a value to plain text {link String}, or a {link TemplateMarkupOutputModel} if that's what the
+     * {link TemplateValueFormat} involved produces.
      * 
      * @param seqTip
      *            Tip to display if the value type is not coercable, but it's sequence or collection.
@@ -362,7 +360,7 @@ class EvalUtil {
      * @return {@code null} if the {@code returnNullOnNonCoercableType} parameter is {@code true}, and the coercion is
      *         not possible, because of the type is not right for it.
      * 
-     * @see #coerceModelToStringOrMarkup(TemplateModel, Expression, String, Environment)
+     * see #coerceModelToStringOrMarkup(TemplateModel, Expression, String, Environment)
      */
     static Object coerceModelToStringOrMarkup(
             TemplateModel tm, Expression exp, boolean returnNullOnNonCoercableType, String seqTip, Environment env)
@@ -391,7 +389,7 @@ class EvalUtil {
     }
 
     /**
-     * Like {@link #coerceModelToStringOrMarkup(TemplateModel, Expression, String, Environment)}, but gives error
+     * Like {link #coerceModelToStringOrMarkup(TemplateModel, Expression, String, Environment)}, but gives error
      * if the result is markup. This is what you normally use where markup results can't be used.
      *
      * @param seqTip
@@ -424,7 +422,7 @@ class EvalUtil {
     }
 
     /**
-     * Converts a value to plain text {@link String}, even if the {@link TemplateValueFormat} involved normally produces
+     * Converts a value to plain text {link String}, even if the {link TemplateValueFormat} involved normally produces
      * markup. This should be used rarely, where the user clearly intend to use the plain text variant of the format.
      * 
      * @param seqTip
@@ -448,15 +446,14 @@ class EvalUtil {
      *            If {@code null} that's an exception, unless we are in classic compatible mode.
      * 
      * @param supportsTOM
-     *            Whether the caller {@code coerceModelTo...} method could handle a {@link TemplateMarkupOutputModel}.
+     *            Whether the caller {@code coerceModelTo...} method could handle a {link TemplateMarkupOutputModel}.
      *            
      * @return Never {@code null}
      */
     private static String coerceModelToTextualCommon(
             TemplateModel tm, Expression exp, String seqHint, boolean supportsTOM, boolean returnNullOnNonCoercableType,
             Environment env)
-            throws TemplateModelException, InvalidReferenceException, TemplateException,
-                    NonStringOrTemplateOutputException, NonStringException {
+            throws TemplateException {
         if (tm instanceof TemplateScalarModel) {
             return modelToString((TemplateScalarModel) tm, exp, env);
         } else if (tm == null) {
@@ -574,7 +571,7 @@ class EvalUtil {
     }
 
     /**
-     * Returns an {@link ArithmeticEngine} even if {@code env} is {@code null}, because we are in parsing phase.
+     * Returns an {link ArithmeticEngine} even if {@code env} is {@code null}, because we are in parsing phase.
      */
     static ArithmeticEngine getArithmeticEngine(Environment env, TemplateObject tObj) {
         return env != null

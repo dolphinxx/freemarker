@@ -23,7 +23,7 @@ import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModel;
 
 /**
- * Indicates that a {@link TemplateDateModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateDateModel} value was expected, but the value had a different type.
  */
 public class NonDateException extends UnexpectedTypeException {
 

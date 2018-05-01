@@ -23,7 +23,7 @@ import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateModel;
 
 /**
- * Indicates that a {@link TemplateBooleanModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateBooleanModel} value was expected, but the value had a different type.
  */
 public class NonBooleanException extends UnexpectedTypeException {
     

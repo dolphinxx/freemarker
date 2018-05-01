@@ -127,9 +127,9 @@ public class DateUtil {
     
     /**
      * Returns the time zone object for the name (or ID). This differs from
-     * {@link TimeZone#getTimeZone(String)} in that the latest returns GMT
+     * {link TimeZone#getTimeZone(String)} in that the latest returns GMT
      * if it doesn't recognize the name, while this throws an
-     * {@link UnrecognizedTimeZoneException}.
+     * {link UnrecognizedTimeZoneException}.
      * 
      * @throws UnrecognizedTimeZoneException If the time zone name wasn't understood
      */
@@ -223,14 +223,14 @@ public class DateUtil {
      *        patterns.
      * @param accuracy tells which parts of the date/time to drop. The
      *        {@code datePart} and {@code timePart} parameters are stronger than
-     *        this. Note that when {@link #ACCURACY_MILLISECONDS} is specified,
+     *        this. Note that when {link #ACCURACY_MILLISECONDS} is specified,
      *        the milliseconds part will be displayed as fraction seconds
      *        (like {@code "15:30.00.25"}) with the minimum number of
      *        digits needed to show the milliseconds without precision lose.
      *        Thus, if the milliseconds happen to be exactly 0, no fraction
      *        seconds will be shown at all.
      * @param timeZone the time zone in which the date/time will be shown. (You
-     *        may find {@link DateUtil#UTC} handy here.) Note
+     *        may find {link DateUtil#UTC} handy here.) Note
      *        that although date-only formats has no time zone offset part,
      *        the result still depends on the time zone, as days start and end
      *        at different points on the time line in different zones.      
@@ -250,7 +250,7 @@ public class DateUtil {
     }
 
     /**
-     * Same as {@link #dateToISO8601String}, but gives XML Schema compliant format.
+     * Same as {link #dateToISO8601String}, but gives XML Schema compliant format.
      */
     public static String dateToXSString(
             Date date,
@@ -422,7 +422,7 @@ public class DateUtil {
      *     time zone offset explicitly. Can't be {@code null}.
      * @param calToDateConverter Used internally to calculate the result from the calendar field values.
      *     If you don't have a such object around, you can just use
-     *     {@code new }{@link TrivialCalendarFieldsToDateConverter}{@code ()}. 
+     *     {@code new }{link TrivialCalendarFieldsToDateConverter}{@code ()}.
      * 
      * @throws DateParseException if the date is malformed, or if the time
      *     zone offset is unspecified and the {@code defaultTimeZone} is
@@ -441,7 +441,7 @@ public class DateUtil {
     }
 
     /**
-     * Same as {@link #parseXSDate(String, TimeZone, CalendarFieldsToDateConverter)}, but for ISO 8601 dates.
+     * Same as {link #parseXSDate(String, TimeZone, CalendarFieldsToDateConverter)}, but for ISO 8601 dates.
      */
     public static Date parseISO8601Date(
             String dateStr, TimeZone defaultTimeZone,
@@ -514,7 +514,7 @@ public class DateUtil {
     }
 
     /**
-     * Same as {@link #parseXSTime(String, TimeZone, CalendarFieldsToDateConverter)} but for ISO 8601 times.
+     * Same as {link #parseXSTime(String, TimeZone, CalendarFieldsToDateConverter)} but for ISO 8601 times.
      */
     public static Date parseISO8601Time(
             String timeStr, TimeZone defaultTZ, CalendarFieldsToDateConverter calToDateConverter) 
@@ -608,7 +608,7 @@ public class DateUtil {
     }
 
     /**
-     * Same as {@link #parseXSDateTime(String, TimeZone, CalendarFieldsToDateConverter)} but for ISO 8601 format. 
+     * Same as {link #parseXSDateTime(String, TimeZone, CalendarFieldsToDateConverter)} but for ISO 8601 format.
      */
     public static Date parseISO8601DateTime(
             String dateTimeStr, TimeZone defaultTZ, CalendarFieldsToDateConverter calToDateConverter) 
@@ -805,13 +805,13 @@ public class DateUtil {
     }
     
     /**
-     * Used internally by {@link DateUtil}; don't use its implementations for
+     * Used internally by {link DateUtil}; don't use its implementations for
      * anything else.
      */
     public interface DateToISO8601CalendarFactory {
         
         /**
-         * Returns a {@link GregorianCalendar} with the desired time zone and
+         * Returns a {link GregorianCalendar} with the desired time zone and
          * time and US locale. The returned calendar is used as read-only.
          * It must be guaranteed that within a thread the instance returned last time
          * is not in use anymore when this method is called again.
@@ -821,12 +821,12 @@ public class DateUtil {
     }
 
     /**
-     * Used internally by {@link DateUtil}; don't use its implementations for anything else.
+     * Used internally by {link DateUtil}; don't use its implementations for anything else.
      */
     public interface CalendarFieldsToDateConverter {
 
         /**
-         * Calculates the {@link Date} from the specified calendar fields.
+         * Calculates the {link Date} from the specified calendar fields.
          */
         Date calculate(int era, int year, int month, int day, int hours, int minutes, int secs, int millisecs,
                 boolean addOneDay,

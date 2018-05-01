@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A {@link TemplateLoader} that uses a {@link Map} with {@link String}-s as its source of 
+ * A {link TemplateLoader} that uses a {link Map} with {link String}-s as its source of
  * templates.
  *
  * <p>In most case the regular way of loading templates from files will be fine.
@@ -57,7 +57,7 @@ import java.util.Map;
  * </pre>
  * <p>After that you should be able to use the templates as usual. Often you will
  * want to combine a <tt>StringTemplateLoader</tt> with another loader. You can
- * do so using a {@link freemarker.cache.MultiTemplateLoader}.
+ * do so using a {link freemarker.cache.MultiTemplateLoader}.
  */
 public class StringTemplateLoader implements TemplateLoader {
     
@@ -65,7 +65,7 @@ public class StringTemplateLoader implements TemplateLoader {
     
     /**
      * Puts a template into the loader. A call to this method is identical to 
-     * the call to the three-arg {@link #putTemplate(String, String, long)} 
+     * the call to the three-arg {link #putTemplate(String, String, long)}
      * passing <tt>System.currentTimeMillis()</tt> as the third argument.
      * 
      * <p>Note that this method is not thread safe! Don't call it after FreeMarker has started using this template
@@ -170,11 +170,8 @@ public class StringTemplateLoader implements TemplateLoader {
                 return false;
             StringTemplateSource other = (StringTemplateSource) obj;
             if (name == null) {
-                if (other.name != null)
-                    return false;
-            } else if (!name.equals(other.name))
-                return false;
-            return true;
+                return other.name == null;
+            } else return name.equals(other.name);
         }
 
 

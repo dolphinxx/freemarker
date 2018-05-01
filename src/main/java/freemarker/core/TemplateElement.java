@@ -31,7 +31,7 @@ import java.util.Enumeration;
 /**
  * <b>Internal API - subject to change:</b> Represent directive call, interpolation, text block, or other such
  * non-expression node in the parsed template. Some information that can be found here can be accessed through the
- * {@link Environment#getCurrentDirectiveCallPlace()}, which a published API, and thus promises backward compatibility.
+ * {link Environment#getCurrentDirectiveCallPlace()}, which a published API, and thus promises backward compatibility.
  * 
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
  *             it.
@@ -50,21 +50,21 @@ abstract public class TemplateElement extends TemplateObject {
     private TemplateElement[] childBuffer;
 
     /**
-     * Contains the number of elements in the {@link #childBuffer}, not counting the trailing {@code null}-s. If this is
-     * 0, then and only then {@link #childBuffer} must be {@code null}.
+     * Contains the number of elements in the {link #childBuffer}, not counting the trailing {@code null}-s. If this is
+     * 0, then and only then {link #childBuffer} must be {@code null}.
      */
     private int childCount;
 
     /**
-     * The index of the element in the parent's {@link #childBuffer} array.
+     * The index of the element in the parent's {link #childBuffer} array.
      * 
      * @since 2.3.23
      */
     private int index;
 
     /**
-     * Executes this {@link TemplateElement}. Usually should not be called directly, but through
-     * {@link Environment#visit(TemplateElement)} or a similar {@link Environment} method.
+     * Executes this {link TemplateElement}. Usually should not be called directly, but through
+     * {link Environment#visit(TemplateElement)} or a similar {link Environment} method.
      *
      * @param env
      *            The runtime environment
@@ -78,23 +78,23 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * One-line description of the element, that contains all the information that is used in
-     * {@link #getCanonicalForm()}, except the nested content (elements) of the element. The expressions inside the
+     * {link #getCanonicalForm()}, except the nested content (elements) of the element. The expressions inside the
      * element (the parameters) has to be shown. Meant to be used for stack traces, also for tree views that don't go
      * down to the expression-level. There are no backward-compatibility guarantees regarding the format used ATM, but
      * it must be regular enough to be machine-parseable, and it must contain all information necessary for restoring an
      * AST equivalent to the original.
      * 
-     * This final implementation calls {@link #dump(boolean) dump(false)}.
+     * This final implementation calls {link #dump(boolean) dump(false)}.
      * 
-     * @see #getCanonicalForm()
-     * @see #getNodeTypeSymbol()
+     * see #getCanonicalForm()
+     * see #getNodeTypeSymbol()
      */
     public final String getDescription() {
         return dump(false);
     }
 
     /**
-     * This final implementation calls {@link #dump(boolean) dump(false)}.
+     * This final implementation calls {link #dump(boolean) dump(false)}.
      */
     @Override
     public final String getCanonicalForm() {
@@ -129,19 +129,19 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * Tells if this element possibly executes its nested content for many times. This flag is useful when a template
-     * AST is modified for running time limiting (see {@link ThreadInterruptionSupportTemplatePostProcessor}). Elements
-     * that use {@link #childBuffer} should not need this, as the insertion of the timeout checks is impossible there,
+     * AST is modified for running time limiting (see {link ThreadInterruptionSupportTemplatePostProcessor}). Elements
+     * that use {link #childBuffer} should not need this, as the insertion of the timeout checks is impossible there,
      * given their rigid nested element schema.
      */
     abstract boolean isNestedBlockRepeater();
 
     /**
-     * Brings the implementation of {@link #getCanonicalForm()} and {@link #getDescription()} to a single place. Don't
+     * Brings the implementation of {link #getCanonicalForm()} and {link #getDescription()} to a single place. Don't
      * call those methods in method on {@code this}, because that will result in infinite recursion!
      * 
      * @param canonical
-     *            if {@code true}, it calculates the return value of {@link #getCanonicalForm()}, otherwise of
-     *            {@link #getDescription()}.
+     *            if {@code true}, it calculates the return value of {link #getCanonicalForm()}, otherwise of
+     *            {link #getDescription()}.
      */
     abstract protected String dump(boolean canonical);
 
@@ -207,7 +207,7 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * Note: For element with {@code #nestedBlock}, this will hide the {@code #nestedBlock} when that's a
-     * {@link MixedContent}.
+     * {link MixedContent}.
      */
     public Enumeration children() {
         return childBuffer != null
@@ -216,7 +216,7 @@ abstract public class TemplateElement extends TemplateObject {
     }
 
     /**
-     * @deprecated Internal API - even internally, use {@link #getChild(int)} instead.
+     * @deprecated Internal API - even internally, use {link #getChild(int)} instead.
      */
     @Deprecated
     public TemplateElement getChildAt(int index) {
@@ -244,7 +244,7 @@ abstract public class TemplateElement extends TemplateObject {
     /**
      * The element whose child this element is, or {@code null} if this is the root node.
      * 
-     * @deprecated Don't use in internal code either; use {@link #getParentElement()} there.
+     * @deprecated Don't use in internal code either; use {link #getParentElement()} there.
      */
     @Deprecated
     public TemplateElement getParent() {
@@ -351,7 +351,7 @@ abstract public class TemplateElement extends TemplateObject {
      *            whether to remove superfluous whitespace
      * 
      * @return The element this element should be replaced with in the parent. If it's the same as this element, no
-     *         actual replacement will happen. Note that adjusting the {@link #parent} and {@link #index} of the result
+     *         actual replacement will happen. Note that adjusting the {link #parent} and {link #index} of the result
      *         is the duty of the caller, not of this method.
      */
     TemplateElement postParseCleanup(boolean stripWhitespace) throws ParseException {

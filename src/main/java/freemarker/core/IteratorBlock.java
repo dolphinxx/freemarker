@@ -19,16 +19,15 @@
 
 package freemarker.core;
 
+import freemarker.template.KeyValuePair;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateHashModelEx2;
-import freemarker.template.TemplateHashModelEx2.KeyValuePair;
-import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
 import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
@@ -40,7 +39,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A #list (or #foreach) element, or pre-#else section of it inside a {@link ListElseContainer}.
+ * A #list (or #foreach) element, or pre-#else section of it inside a {link ListElseContainer}.
  */
 final class IteratorBlock extends TemplateElement {
 
@@ -113,8 +112,7 @@ final class IteratorBlock extends TemplateElement {
      *            the innermost context.
      * @return The matching context or {@code null} if no such context exists.
      */
-    static IterationContext findEnclosingIterationContext(Environment env, String loopVariableName)
-            throws _MiscTemplateException {
+    static IterationContext findEnclosingIterationContext(Environment env, String loopVariableName) {
         LocalContextStack ctxStack = env.getLocalContextStack();
         if (ctxStack != null) {
             for (int i = ctxStack.size() - 1; i >= 0; i--) {
@@ -243,8 +241,8 @@ final class IteratorBlock extends TemplateElement {
         }
 
         void loopForItemsElement(Environment env, TemplateElement[] childBuffer, String loopVarName, String loopVar2Name)
-                    throws NonSequenceOrCollectionException, TemplateModelException, InvalidReferenceException,
-                    TemplateException, IOException {
+                    throws
+                TemplateException, IOException {
             try {
                 if (alreadyEntered) {
                     throw new _MiscTemplateException(env,
@@ -261,20 +259,18 @@ final class IteratorBlock extends TemplateElement {
         }
 
         /**
-         * Executes the given block for the {@link #listedValue}: if {@link #loopVarName} is non-{@code null}, then for
-         * each list item once, otherwise once if {@link #listedValue} isn't empty.
+         * Executes the given block for the {link #listedValue}: if {link #loopVarName} is non-{@code null}, then for
+         * each list item once, otherwise once if {link #listedValue} isn't empty.
          */
         private boolean executeNestedContent(Environment env, TemplateElement[] childBuffer)
-                throws TemplateModelException, TemplateException, IOException, NonSequenceOrCollectionException,
-                InvalidReferenceException {
+                throws TemplateException, IOException {
             return !hashListing
                     ? executedNestedContentForCollOrSeqListing(env, childBuffer)
                     : executedNestedContentForHashListing(env, childBuffer);
         }
 
         private boolean executedNestedContentForCollOrSeqListing(Environment env, TemplateElement[] childBuffer)
-                throws TemplateModelException, IOException, TemplateException,
-                NonSequenceOrCollectionException, InvalidReferenceException {
+                throws IOException, TemplateException {
             final boolean listNotEmpty;
             if (listedValue instanceof TemplateCollectionModel) {
                 final TemplateCollectionModel collModel = (TemplateCollectionModel) listedValue;
@@ -352,7 +348,7 @@ final class IteratorBlock extends TemplateElement {
         }
 
         private boolean executedNestedContentForHashListing(Environment env, TemplateElement[] childBuffer)
-                throws TemplateModelException, IOException, TemplateException {
+                throws IOException, TemplateException {
             final boolean hashNotEmpty;
             if (listedValue instanceof TemplateHashModelEx) {
                 TemplateHashModelEx listedHash = (TemplateHashModelEx) listedValue; 

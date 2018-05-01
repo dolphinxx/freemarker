@@ -150,14 +150,12 @@ class ExtendedDecimalFormatParser {
             }
         });
         m.put(PARAM_INFINITY, new ParameterHandler() {
-            public void handle(ExtendedDecimalFormatParser parser, String value)
-                    throws InvalidParameterValueException {
+            public void handle(ExtendedDecimalFormatParser parser, String value) {
                 parser.symbols.setInfinity(value);
             }
         });
         m.put(PARAM_NAN, new ParameterHandler() {
-            public void handle(ExtendedDecimalFormatParser parser, String value)
-                    throws InvalidParameterValueException {
+            public void handle(ExtendedDecimalFormatParser parser, String value) {
                 parser.symbols.setNaN(value);
             }
         });
@@ -245,7 +243,7 @@ class ExtendedDecimalFormatParser {
         }
 
         if (multipier != null) {
-            decimalFormat.setMultiplier(multipier.intValue());
+            decimalFormat.setMultiplier(multipier);
         }
 
         return decimalFormat;
@@ -325,13 +323,13 @@ class ExtendedDecimalFormatParser {
                 valuePos);
     }
 
-    private ParseException newUnknownParameterException(String name, int namePos) throws ParseException {
+    private ParseException newUnknownParameterException(String name, int namePos) {
         StringBuilder sb = new StringBuilder(128);
         sb.append("Unsupported parameter name, ").append(StringUtil.jQuote(name));
         sb.append(". The supported names are: ");
         Set<String> legalNames = PARAM_HANDLERS.keySet();
         String[] legalNameArr = legalNames.toArray(new String[legalNames.size()]);
-        Arrays.sort(legalNameArr);
+//        Arrays.sort(legalNameArr);
         for (int i = 0; i < legalNameArr.length; i++) {
             if (i != 0) {
                 sb.append(", ");
@@ -361,7 +359,7 @@ class ExtendedDecimalFormatParser {
         return c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\u00A0';
     }
 
-    private String fetchName() throws ParseException {
+    private String fetchName() {
         int ln = src.length();
         int startPos = pos;
         boolean firstChar = true;

@@ -18,26 +18,23 @@
  */
 package freemarker.template;
 
-import freemarker.template.TemplateHashModelEx2.KeyValuePair;
-import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- *  Implementation of {@link KeyValuePairIterator} for a {@link TemplateHashModelEx2} that wraps or otherwise uses a
- *  {@link Map} internally.
+ * Implementation of {link KeyValuePairIterator} for a {link TemplateHashModelEx2} that wraps or otherwise uses a
+ * {link Map} internally.
  *
- *  @since 2.3.25
+ * @since 2.3.25
  */
 public class MapKeyValuePairIterator implements KeyValuePairIterator {
 
     private final Iterator<Entry<?, ?>> entrySetIterator;
-    
+
     private final ObjectWrapper objectWrapper;
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public <K, V> MapKeyValuePairIterator(Map<?, ?> map, ObjectWrapper objectWrapper) {
         entrySetIterator = ((Map) map).entrySet().iterator();
         this.objectWrapper = objectWrapper;
@@ -58,10 +55,10 @@ public class MapKeyValuePairIterator implements KeyValuePairIterator {
             public TemplateModel getValue() throws TemplateModelException {
                 return wrap(entry.getValue());
             }
-            
+
         };
     }
-    
+
     private TemplateModel wrap(Object obj) throws TemplateModelException {
         return (obj instanceof TemplateModel) ? (TemplateModel) obj : objectWrapper.wrap(obj);
     }

@@ -31,18 +31,18 @@ import java.util.Map;
  * second level cache, where they are softly referenced, up to another 
  * specified maximum. When the second level maximum is also exceeded, the least 
  * recently used item is discarded altogether. This cache storage is a 
- * generalization of both {@link StrongCacheStorage} and 
- * {@link SoftCacheStorage} - the effect of both of them can be achieved by 
+ * generalization of both {link StrongCacheStorage} and
+ * {link SoftCacheStorage} - the effect of both of them can be achieved by
  * setting one maximum to zero and the other to the largest positive integer. 
  * On the other hand, if you wish to use this storage in a strong-only mode, or
- * in a soft-only mode, you might consider using {@link StrongCacheStorage} or
- * {@link SoftCacheStorage} instead, as they can be used by 
- * {@link TemplateCache} concurrently without any synchronization on a 5.0 or 
+ * in a soft-only mode, you might consider using {link StrongCacheStorage} or
+ * {link SoftCacheStorage} instead, as they can be used by
+ * {link TemplateCache} concurrently without any synchronization on a 5.0 or
  * later JRE.
  *  
  * <p>This class is <em>NOT</em> thread-safe. If it's accessed from multiple
  * threads concurrently, proper synchronization must be provided by the callers.
- * Note that {@link TemplateCache}, the natural user of this class provides the
+ * Note that {link TemplateCache}, the natural user of this class provides the
  * necessary synchronizations when it uses the class.
  * Also you might consider whether you need this sort of a mixed storage at all
  * in your solution, as in most cases SoftCacheStorage can also be sufficient. 
@@ -50,9 +50,9 @@ import java.util.Map;
  * timestamps internally to bias the garbage collector against clearing 
  * recently used references, so you can get reasonably good (and 
  * memory-sensitive) most-recently-used caching through 
- * {@link SoftCacheStorage} as well.
+ * {link SoftCacheStorage} as well.
  *
- * @see freemarker.template.Configuration#setCacheStorage(CacheStorage)
+ * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
  */
 public class MruCacheStorage implements CacheStorageWithGetSize {
     private final MruEntry strongHead = new MruEntry();
@@ -69,7 +69,7 @@ public class MruCacheStorage implements CacheStorageWithGetSize {
     
     /**
      * Creates a new MRU cache storage with specified maximum cache sizes. Each
-     * cache size can vary between 0 and {@link Integer#MAX_VALUE}.
+     * cache size can vary between 0 and {link Integer#MAX_VALUE}.
      * @param strongSizeLimit the maximum number of strongly referenced templates; when exceeded, the entry used
      *          the least recently will be moved into the soft cache.
      * @param softSizeLimit the maximum number of softly referenced templates; when exceeded, the entry used
@@ -222,7 +222,7 @@ public class MruCacheStorage implements CacheStorageWithGetSize {
     /**
      * Returns the <em>current</em> number of strong cache entries.
      *  
-     * @see #getStrongSizeLimit()
+     * see #getStrongSizeLimit()
      * @since 2.3.21
      */
     public int getStrongSize() {
@@ -232,7 +232,7 @@ public class MruCacheStorage implements CacheStorageWithGetSize {
     /**
      * Returns a close approximation of the <em>current</em> number of soft cache entries.
      * 
-     * @see #getSoftSizeLimit()
+     * see #getSoftSizeLimit()
      * @since 2.3.21
      */
     public int getSoftSize() {
@@ -243,8 +243,8 @@ public class MruCacheStorage implements CacheStorageWithGetSize {
     /**
      * Returns a close approximation of the current number of cache entries.
      * 
-     * @see #getStrongSize()
-     * @see #getSoftSize()
+     * see #getStrongSize()
+     * see #getSoftSize()
      * @since 2.3.21
      */
     public int getSize() {

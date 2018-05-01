@@ -20,7 +20,7 @@
 package freemarker.core;
 
 /**
- * Thrown by {@link DirectiveCallPlace#getOrCreateCustomData(Object, freemarker.template.utility.ObjectFactory)}
+ * Thrown by {link DirectiveCallPlace#getOrCreateCustomData(Object, freemarker.template.utility.ObjectFactory)}
  * 
  * @since 2.3.22
  */

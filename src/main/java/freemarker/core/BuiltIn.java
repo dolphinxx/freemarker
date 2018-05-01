@@ -418,7 +418,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
     }
 
     /**
-     * Same as {@link #getStringMethodArg}, but checks if {@code args} is big enough, and returns {@code null} if it
+     * Same as {link #getStringMethodArg}, but checks if {@code args} is big enough, and returns {@code null} if it
      * isn't.
      */
     protected final String getOptStringMethodArg(List args, int argIdx)

@@ -20,7 +20,7 @@
 package freemarker.template.utility;
 
 /**
- * Thrown when FreeMarker runs into a {@link Number} subclass that it doesn't yet support.  
+ * Thrown when FreeMarker runs into a {link Number} subclass that it doesn't yet support.
  */
 public class UnsupportedNumberClassException extends RuntimeException {
 

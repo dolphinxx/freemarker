@@ -22,9 +22,9 @@ package freemarker.template;
 import java.util.List;
 
 /**
- * A sequence that wraps a {@link List} of {@link TemplateModel}-s. It does not copy the original
- * list. It's mostly useful when implementing {@link TemplateMethodModelEx}-es that collect items from other
- * {@link TemplateModel}-s.
+ * A sequence that wraps a {link List} of {link TemplateModel}-s. It does not copy the original
+ * list. It's mostly useful when implementing {link TemplateMethodModelEx}-es that collect items from other
+ * {link TemplateModel}-s.
  */
 public class TemplateModelListSequence implements TemplateSequenceModel {
     
@@ -43,7 +43,7 @@ public class TemplateModelListSequence implements TemplateSequenceModel {
     }
 
     /**
-     * Returns the original {@link List} of {@link TemplateModel}-s, so it's not a fully unwrapped value.
+     * Returns the original {link List} of {link TemplateModel}-s, so it's not a fully unwrapped value.
      */
     public Object getWrappedObject() {
         return list;

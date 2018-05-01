@@ -30,7 +30,8 @@ final class TrimInstruction extends TemplateElement {
     static final int TYPE_RT = 2;  
     static final int TYPE_NT = 3;  
 
-    final boolean left, right;
+    final boolean left;
+    final boolean right;
 
     TrimInstruction(boolean left, boolean right) {
         this.left = left;
@@ -88,7 +89,7 @@ final class TrimInstruction extends TemplateElement {
         } else {
             type = TYPE_NT;
         }
-        return Integer.valueOf(type);
+        return type;
     }
 
     @Override

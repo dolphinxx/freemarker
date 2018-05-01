@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * This class is used for as a base for non-overloaded method models and for constructors.
- * (For overloaded methods and constructors see {@link OverloadedMethods}.)
+ * (For overloaded methods and constructors see {link OverloadedMethods}.)
  */
 class SimpleMethod {
     
@@ -62,15 +62,15 @@ class SimpleMethod {
             if (typesLen - 1 > arguments.size()) {
                 throw new _TemplateModelException(
                         _MethodUtil.invocationErrorMessageStart(member),
-                        " takes at least ", Integer.valueOf(typesLen - 1),
+                        " takes at least ", typesLen - 1,
                         typesLen - 1 == 1 ? " argument" : " arguments", ", but ",
-                        Integer.valueOf(arguments.size()), " was given.");
+                        arguments.size(), " was given.");
             }
         } else if (typesLen != arguments.size()) {
             throw new _TemplateModelException(
                     _MethodUtil.invocationErrorMessageStart(member), 
-                    " takes ", Integer.valueOf(typesLen), typesLen == 1 ? " argument" : " arguments", ", but ",
-                    Integer.valueOf(arguments.size()), " was given.");
+                    " takes ", typesLen, typesLen == 1 ? " argument" : " arguments", ", but ",
+                    arguments.size(), " was given.");
         }
          
         Object[] args = unwrapArguments(arguments, argTypes, isVarArg, wrapper);
@@ -152,7 +152,7 @@ class SimpleMethod {
             int argIdx, TemplateModel argVal, Class targetType) {
         _ErrorDescriptionBuilder desc = new _ErrorDescriptionBuilder(
                 _MethodUtil.invocationErrorMessageStart(member), " couldn't be called: Can't convert the ",
-                new _DelayedOrdinal(Integer.valueOf(argIdx + 1)),
+                new _DelayedOrdinal(argIdx + 1),
                 " argument's value to the target Java type, ", ClassUtil.getShortClassName(targetType),
                 ". The type of the actual value was: ", new _DelayedFTLTypeDescription(argVal));
         if (argVal instanceof TemplateMarkupOutputModel && (targetType.isAssignableFrom(String.class))) {
@@ -164,7 +164,7 @@ class SimpleMethod {
     private TemplateModelException createNullToPrimitiveArgumentException(int argIdx, Class targetType) {
         return new _TemplateModelException(
                 _MethodUtil.invocationErrorMessageStart(member), " couldn't be called: The value of the ",
-                new _DelayedOrdinal(Integer.valueOf(argIdx + 1)),
+                new _DelayedOrdinal(argIdx + 1),
                 " argument was null, but the target Java parameter type (", ClassUtil.getShortClassName(targetType),
                 ") is primitive and so can't store null.");
     }

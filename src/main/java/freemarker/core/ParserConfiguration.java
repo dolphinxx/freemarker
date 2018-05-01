@@ -18,7 +18,6 @@
  */
 package freemarker.core;
 
-import freemarker.template.Configuration;
 import freemarker.template.Version;
 
 /**
@@ -31,59 +30,59 @@ import freemarker.template.Version;
 public interface ParserConfiguration {
 
     /**
-     * See {@link Configuration#getTagSyntax()}.
+     * See {link Configuration#getTagSyntax()}.
      */
     int getTagSyntax();
 
     /**
-     * See {@link Configuration#getInterpolationSyntax()}.
+     * See {link Configuration#getInterpolationSyntax()}.
      *
      * @since 2.3.28
      */
     int getInterpolationSyntax();
     
     /**
-     * See {@link Configuration#getNamingConvention()}.
+     * See {link Configuration#getNamingConvention()}.
      */
     int getNamingConvention();
 
     /**
-     * See {@link Configuration#getWhitespaceStripping()}.
+     * See {link Configuration#getWhitespaceStripping()}.
      */
     boolean getWhitespaceStripping();
 
     /**
-     * Overlaps with {@link Configurable#getArithmeticEngine()}; the parser needs this for creating numerical literals.
+     * Overlaps with {link Configurable#getArithmeticEngine()}; the parser needs this for creating numerical literals.
      */
     ArithmeticEngine getArithmeticEngine();
     
     /**
-     * See {@link Configuration#getStrictSyntaxMode()}.
+     * See {link Configuration#getStrictSyntaxMode()}.
      */
     boolean getStrictSyntaxMode();
     
     /**
-     * See {@link Configuration#getAutoEscapingPolicy()}.
+     * See {link Configuration#getAutoEscapingPolicy()}.
      */
     int getAutoEscapingPolicy();
     
     /**
-     * See {@link Configuration#getOutputEncoding()}.
+     * See {link Configuration#getOutputEncoding()}.
      */
     OutputFormat getOutputFormat();
     
     /**
-     * See {@link Configuration#getRecognizeStandardFileExtensions()}.
+     * See {link Configuration#getRecognizeStandardFileExtensions()}.
      */
     boolean getRecognizeStandardFileExtensions();
     
     /**
-     * See {@link Configuration#getIncompatibleImprovements()}.
+     * See {link Configuration#getIncompatibleImprovements()}.
      */
     Version getIncompatibleImprovements();
     
     /**
-     * See {@link Configuration#getTabSize()}.
+     * See {link Configuration#getTabSize()}.
      * 
      * @since 2.3.25
      */

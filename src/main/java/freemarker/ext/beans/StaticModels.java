@@ -23,7 +23,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
- * Utility class for instantiating {@link StaticModel} instances from
+ * Utility class for instantiating {link StaticModel} instances from
  * templates. If your template's data model contains an instance of
  * StaticModels (named, say <tt>StaticModels</tt>), then you can
  * instantiate an arbitrary StaticModel using get syntax (i.e.

@@ -20,7 +20,7 @@
 package freemarker.template;
 
 /**
- * Convenience base-class for containers that wrap their contained arbitrary Java objects into {@link TemplateModel}
+ * Convenience base-class for containers that wrap their contained arbitrary Java objects into {link TemplateModel}
  * instances.
  */
 abstract public class WrappingTemplateModel {
@@ -34,11 +34,11 @@ abstract public class WrappingTemplateModel {
     /**
      * Sets the default object wrapper that is used when a wrapping template
      * model is constructed without being passed an explicit object wrapper.
-     * The default value is {@link ObjectWrapper#SIMPLE_WRAPPER}.
-     * Note that {@link Configuration#setSharedVariable(String, Object)} and
-     * {@link Template#process(Object, java.io.Writer)} don't use this setting,
+     * The default value is {link ObjectWrapper#SIMPLE_WRAPPER}.
+     * Note that {link Configuration#setSharedVariable(String, Object)} and
+     * {link Template#process(Object, java.io.Writer)} don't use this setting,
      * they rather use whatever object wrapper their 
-     * {@link Configuration#getObjectWrapper()} method returns.
+     * {link Configuration#getObjectWrapper()} method returns.
      * 
      * @deprecated This method has VM-wide effect, which makes it unsuitable for application where multiple components
      *      might use FreeMarker internally.
@@ -51,10 +51,10 @@ abstract public class WrappingTemplateModel {
     /**
      * Returns the default object wrapper that is used when a wrapping template
      * model is constructed without being passed an explicit object wrapper.
-     * Note that {@link Configuration#setSharedVariable(String, Object)} and
-     * {@link Template#process(Object, java.io.Writer)} don't use this setting,
+     * Note that {link Configuration#setSharedVariable(String, Object)} and
+     * {link Template#process(Object, java.io.Writer)} don't use this setting,
      * they rather use whatever object wrapper their 
-     * {@link Configuration#getObjectWrapper()} method returns.
+     * {link Configuration#getObjectWrapper()} method returns.
      * 
      * @deprecated Don't depend on this object, as it can be replace by anybody in the same JVM.
      */
@@ -67,7 +67,7 @@ abstract public class WrappingTemplateModel {
      * Protected constructor that creates a new wrapping template model using
      * the default object wrapper.
      * 
-     * @deprecated Use {@link #WrappingTemplateModel(ObjectWrapper)} instead; this method uses the deprecated.
+     * @deprecated Use {link #WrappingTemplateModel(ObjectWrapper)} instead; this method uses the deprecated.
      */
     @Deprecated
     protected WrappingTemplateModel() {

@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * An instruction that reduces all sequences of whitespace to a single
  * space or newline. In addition, leading and trailing whitespace is removed.
- * @see freemarker.template.utility.StandardCompress
+ * see freemarker.template.utility.StandardCompress
  */
 final class CompressedBlock extends TemplateElement {
 

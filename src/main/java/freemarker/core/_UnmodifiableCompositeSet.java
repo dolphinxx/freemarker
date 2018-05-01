@@ -25,7 +25,8 @@ import java.util.Set;
 /** Don't use this; used internally by FreeMarker, might changes without notice. */
 public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
     
-    private final Set<E> set1, set2;
+    private final Set<E> set1;
+    private final Set<E> set2;
     
     public _UnmodifiableCompositeSet(Set<E> set1, Set<E> set2) {
         this.set1 = set1;
@@ -49,7 +50,8 @@ public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
     
     private class CompositeIterator implements Iterator<E> {
 
-        private Iterator<E> it1, it2;
+        private Iterator<E> it1;
+        private Iterator<E> it2;
         private boolean it1Deplected;
         
         public boolean hasNext() {

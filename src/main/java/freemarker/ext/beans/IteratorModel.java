@@ -28,16 +28,16 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * <p>A class that adds {@link TemplateModelIterator} functionality to the
- * {@link Iterator} interface implementers. 
+ * <p>A class that adds {link TemplateModelIterator} functionality to the
+ * {link Iterator} interface implementers.
  * </p>
- * <p>It differs from the {@link freemarker.template.SimpleCollection} in that 
- * it inherits from {@link BeanModel}, and therefore you can call methods on 
+ * <p>It differs from the {link freemarker.template.SimpleCollection} in that
+ * it inherits from {link BeanModel}, and therefore you can call methods on
  * it directly, even to the effect of calling <tt>iterator.remove()</tt> in 
  * the template.</p> <p>Using the model as a collection model is NOT 
  * thread-safe, as iterators are inherently not thread-safe.
  * Further, you can iterate over it only once. Attempts to call the
- * {@link #iterator()} method after it was already driven to the end once will 
+ * {link #iterator()} method after it was already driven to the end once will
  * throw an exception.</p>
  */
 
@@ -52,8 +52,8 @@ implements
     /**
      * Creates a new model that wraps the specified iterator object.
      * @param iterator the iterator object to wrap into a model.
-     * @param wrapper the {@link BeansWrapper} associated with this model.
-     * Every model has to have an associated {@link BeansWrapper} instance. The
+     * @param wrapper the {link BeansWrapper} associated with this model.
+     * Every model has to have an associated {link BeansWrapper} instance. The
      * model gains many attributes from its wrapper, including the caching 
      * behavior, method exposure level, method-over-item shadowing policy etc.
      */
@@ -78,7 +78,7 @@ implements
     }
     
     /**
-     * Calls underlying {@link Iterator#hasNext()}.
+     * Calls underlying {link Iterator#hasNext()}.
      */
     public boolean hasNext() {
         return ((Iterator) object).hasNext();
@@ -86,7 +86,7 @@ implements
 
 
     /**
-     * Calls underlying {@link Iterator#next()} and wraps the result.
+     * Calls underlying {link Iterator#next()} and wraps the result.
      */
     public TemplateModel next()
     throws TemplateModelException {
@@ -99,7 +99,7 @@ implements
     }
 
     /**
-     * Returns {@link Iterator#hasNext()}. Therefore, an
+     * Returns {link Iterator#hasNext()}. Therefore, an
      * iterator that has no more element evaluates to false, and an 
      * iterator that has further elements evaluates to true.
      */

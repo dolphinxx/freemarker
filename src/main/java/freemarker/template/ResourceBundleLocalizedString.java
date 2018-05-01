@@ -24,13 +24,14 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * A concrete implementation of {@link LocalizedString} that gets 
- * a localized string from a {@link java.util.ResourceBundle}  
+ * A concrete implementation of {link LocalizedString} that gets
+ * a localized string from a {link java.util.ResourceBundle}
  */
 
 public class ResourceBundleLocalizedString extends LocalizedString {
 	
-	private String resourceKey, resourceBundleLookupKey;
+	private String resourceKey;
+    private String resourceBundleLookupKey;
 	
 	/**
 	 * @param resourceBundleLookupKey The lookup key for the resource bundle

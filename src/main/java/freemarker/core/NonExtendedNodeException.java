@@ -23,7 +23,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateNodeModelEx;
 
 /**
- * Indicates that a {@link TemplateNodeModelEx} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateNodeModelEx} value was expected, but the value had a different type.
  * 
  * @since 2.3.26
  */

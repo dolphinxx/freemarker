@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Common superclass for implementing {@link MarkupOutputFormat}-s that use a {@link CommonTemplateMarkupOutputModel}
+ * Common superclass for implementing {link MarkupOutputFormat}-s that use a {link CommonTemplateMarkupOutputModel}
  * subclass.
  * 
  * @since 2.3.24
@@ -60,7 +60,7 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
     public abstract void output(String textToEsc, Writer out) throws IOException, TemplateModelException;
     
     @Override
-    public final String getSourcePlainText(MO mo) throws TemplateModelException {
+    public final String getSourcePlainText(MO mo) {
         return mo.getPlainTextContent();
     }
 
@@ -97,7 +97,7 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
     }
     
     @Override
-    public boolean isEmpty(MO mo) throws TemplateModelException {
+    public boolean isEmpty(MO mo) {
         String s = mo.getPlainTextContent();
         if (s != null) {
             return s.length() == 0;
@@ -116,7 +116,7 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
     }
 
     /**
-     * Creates a new {@link CommonTemplateMarkupOutputModel} that's bound to this {@link OutputFormat} instance.
+     * Creates a new {link CommonTemplateMarkupOutputModel} that's bound to this {link OutputFormat} instance.
      */
     protected abstract MO newTemplateMarkupOutputModel(String plainTextContent, String markupContent)
             throws TemplateModelException;

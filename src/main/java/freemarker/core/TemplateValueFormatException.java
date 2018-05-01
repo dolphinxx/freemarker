@@ -19,8 +19,8 @@
 package freemarker.core;
 
 /**
- * Error while getting, creating or applying {@link TemplateValueFormat}-s (including its subclasses, like
- * {@link TemplateNumberFormat}).
+ * Error while getting, creating or applying {link TemplateValueFormat}-s (including its subclasses, like
+ * {link TemplateNumberFormat}).
  * 
  * @since 2.3.24
  */

@@ -21,7 +21,7 @@ package freemarker.core;
 import freemarker.template.Version;
 
 /**
- * Used to work around that {@link FMParser} has constructors that have separate parameters for individual settings.
+ * Used to work around that {link FMParser} has constructors that have separate parameters for individual settings.
  * 
  * @since 2.3.24
  */
@@ -98,12 +98,12 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
         if (autoEscapingPolicy == null) {
             throw new IllegalStateException();
         }
-        return autoEscapingPolicy.intValue();
+        return autoEscapingPolicy;
     }
     
     void setAutoEscapingPolicyIfNotSet(int autoEscapingPolicy) {
         if (this.autoEscapingPolicy == null) {
-            this.autoEscapingPolicy = Integer.valueOf(autoEscapingPolicy);
+            this.autoEscapingPolicy = autoEscapingPolicy;
         }
     }
 
@@ -124,12 +124,12 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
         if (recognizeStandardFileExtensions == null) {
             throw new IllegalStateException();
         }
-        return recognizeStandardFileExtensions.booleanValue();
+        return recognizeStandardFileExtensions;
     }
     
     void setRecognizeStandardFileExtensionsIfNotSet(boolean recognizeStandardFileExtensions) {
         if (this.recognizeStandardFileExtensions == null) {
-            this.recognizeStandardFileExtensions = Boolean.valueOf(recognizeStandardFileExtensions);
+            this.recognizeStandardFileExtensions = recognizeStandardFileExtensions;
         }
     }
 
@@ -137,12 +137,12 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
         if (tabSize == null) {
             throw new IllegalStateException();
         }
-        return tabSize.intValue();
+        return tabSize;
     }
     
     void setTabSizeIfNotSet(int tabSize) {
         if (this.tabSize == null) {
-            this.tabSize = Integer.valueOf(tabSize);
+            this.tabSize = tabSize;
         }
     }
     

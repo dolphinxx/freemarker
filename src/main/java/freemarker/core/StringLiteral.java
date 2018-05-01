@@ -34,7 +34,7 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
     
     private final String value;
     
-    /** {@link List} of {@link String}-s and {@link Interpolation}-s. */
+    /** {link List} of {link String}-s and {link Interpolation}-s. */
     private List<Object> dynamicValue;
     
     StringLiteral(String value) {

@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Stores the varargs methods for a {@link OverloadedMethods} object.
+ * Stores the varargs methods for a {link OverloadedMethods} object.
  */
 class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
 
@@ -189,7 +189,7 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
             if (argsOrErrorIdx instanceof Object[]) {
                 pojoArgsWithArray = (Object[]) argsOrErrorIdx;
             } else {
-                return EmptyMemberAndArguments.noCompatibleOverload(((Integer) argsOrErrorIdx).intValue());
+                return EmptyMemberAndArguments.noCompatibleOverload((Integer) argsOrErrorIdx);
             }
             if (bugfixed) {
                 if (typesFlags != null) {
@@ -230,7 +230,7 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
             for (int i = fixArgCount; i < totalArgCount; ++i) {
                 Object val = unwrapper.tryUnwrapTo((TemplateModel) modelArgs.get(i), varArgsCompType);
                 if (val == ObjectWrapperAndUnwrapper.CANT_UNWRAP_TO_TARGET_CLASS) {
-                    return Integer.valueOf(i + 1);
+                    return i + 1;
                 }
                 Array.set(varargs, i - fixArgCount, val);
             }
@@ -239,7 +239,7 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
         } else {
             Object val = unwrapper.tryUnwrapTo((TemplateModel) modelArgs.get(fixArgCount), varArgsCompType);
             if (val == ObjectWrapperAndUnwrapper.CANT_UNWRAP_TO_TARGET_CLASS) {
-                return Integer.valueOf(fixArgCount + 1);
+                return fixArgCount + 1;
             }
             Object array = Array.newInstance(varArgsCompType, 1);
             Array.set(array, 0, val);

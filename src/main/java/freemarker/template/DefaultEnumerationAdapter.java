@@ -18,18 +18,16 @@
  */
 package freemarker.template;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
 
 import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.Iterator;
 
 /**
- * Adapts an {@link Enumeration} to the corresponding {@link TemplateModel} interface(s), most importantly to
- * {@link TemplateCollectionModel}. Putting aside that it wraps an {@link Enumeration} instead of an {@link Iterator},
- * this is identical to {@link DefaultIteratorAdapter}, so see further details there.
+ * Adapts an {link Enumeration} to the corresponding {link TemplateModel} interface(s), most importantly to
+ * {link TemplateCollectionModel}. Putting aside that it wraps an {link Enumeration} instead of an {link Iterator},
+ * this is identical to {link DefaultIteratorAdapter}, so see further details there.
  * 
  * @since 2.3.26
  */
@@ -37,7 +35,6 @@ import java.util.Iterator;
 public class DefaultEnumerationAdapter extends WrappingTemplateModel implements TemplateCollectionModel,
         AdapterTemplateModel, WrapperTemplateModel, TemplateModelWithAPISupport, Serializable {
 
-    @SuppressFBWarnings(value="SE_BAD_FIELD", justification="We hope it's Seralizable")
     private final Enumeration<?> enumeration;
     private boolean enumerationOwnedBySomeone;
 
@@ -64,7 +61,7 @@ public class DefaultEnumerationAdapter extends WrappingTemplateModel implements 
         return getWrappedObject();
     }
 
-    public TemplateModelIterator iterator() throws TemplateModelException {
+    public TemplateModelIterator iterator() {
         return new SimpleTemplateModelIterator();
     }
 

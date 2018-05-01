@@ -21,10 +21,7 @@ package freemarker.template;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperConfiguration;
-import freemarker.ext.beans.EnumerationModel;
-import freemarker.ext.dom.NodeModel;
 import freemarker.log.Logger;
-import org.w3c.dom.Node;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -33,32 +30,31 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * The default implementation of the {@link ObjectWrapper} interface. Usually, you don't need to create instances of
+ * The default implementation of the {link ObjectWrapper} interface. Usually, you don't need to create instances of
  * this, as an instance of this is already the default value of the
- * {@link Configuration#setObjectWrapper(ObjectWrapper) object_wrapper setting}. Then the
- * {@link #DefaultObjectWrapper(Version) incompatibleImprovements} of the {@link DefaultObjectWrapper} will be the same
- * that you have set for the {@link Configuration} itself. As of this writing, it's highly recommended to use
- * {@link Configuration#Configuration(Version) incompatibleImprovements} 2.3.22 (or higher).
+ * {link Configuration#setObjectWrapper(ObjectWrapper) object_wrapper setting}. Then the
+ * {link #DefaultObjectWrapper(Version) incompatibleImprovements} of the {link DefaultObjectWrapper} will be the same
+ * that you have set for the {link Configuration} itself. As of this writing, it's highly recommended to use
+ * {link Configuration#Configuration(Version) incompatibleImprovements} 2.3.22 (or higher).
  * 
  * <p>
- * If you still need to create an instance, that should be done with an {@link DefaultObjectWrapperBuilder} (or
- * with {@link Configuration#setSetting(String, String)} with {@code "object_wrapper"} key), not with
+ * If you still need to create an instance, that should be done with an {link DefaultObjectWrapperBuilder} (or
+ * with {link Configuration#setSetting(String, String)} with {@code "object_wrapper"} key), not with
  * its constructor, as that allows FreeMarker to reuse singletons. For new projects, it's recommended to set
- * {@link DefaultObjectWrapperBuilder#setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} to
- * {@code false}, and {@link DefaultObjectWrapperBuilder#setIterableSupport(boolean) iterableSupport} to {@code true};
+ * {link DefaultObjectWrapperBuilder#setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} to
+ * {@code false}, and {link DefaultObjectWrapperBuilder#setIterableSupport(boolean) iterableSupport} to {@code true};
  * setting {@code incompatibleImprovements} to 2.3.22 won't do these, as they could break legacy templates too easily.
  *
  * <p>
  * This class is only thread-safe after you have finished calling its setter methods, and then safely published it (see
- * JSR 133 and related literature). When used as part of {@link Configuration}, of course it's enough if that was safely
+ * JSR 133 and related literature). When used as part of {link Configuration}, of course it's enough if that was safely
  * published and then left unmodified.
  */
 public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     
-    /** @deprecated Use {@link DefaultObjectWrapperBuilder} instead, but mind its performance */
+    /** @deprecated Use {link DefaultObjectWrapperBuilder} instead, but mind its performance */
     @Deprecated
     static final DefaultObjectWrapper instance = new DefaultObjectWrapper();
     
@@ -73,10 +69,10 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     
     /**
      * Creates a new instance with the incompatible-improvements-version specified in
-     * {@link Configuration#DEFAULT_INCOMPATIBLE_IMPROVEMENTS}.
+     * {link Configuration#DEFAULT_INCOMPATIBLE_IMPROVEMENTS}.
      * 
-     * @deprecated Use {@link DefaultObjectWrapperBuilder}, or in rare cases,
-     *          {@link #DefaultObjectWrapper(Version)} instead.
+     * @deprecated Use {link DefaultObjectWrapperBuilder}, or in rare cases,
+     *          {link #DefaultObjectWrapper(Version)} instead.
      */
     @Deprecated
     public DefaultObjectWrapper() {
@@ -84,25 +80,25 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
     
     /**
-     * Use {@link DefaultObjectWrapperBuilder} instead if possible. Instances created with this constructor won't share
-     * the class introspection caches with other instances. See {@link BeansWrapper#BeansWrapper(Version)} (the
+     * Use {link DefaultObjectWrapperBuilder} instead if possible. Instances created with this constructor won't share
+     * the class introspection caches with other instances. See {link BeansWrapper#BeansWrapper(Version)} (the
      * superclass constructor) for more details.
      * 
      * @param incompatibleImprovements
-     *            It's the same as in {@link BeansWrapper#BeansWrapper(Version)}, plus these  changes:
+     *            It's the same as in {link BeansWrapper#BeansWrapper(Version)}, plus these  changes:
      *            <ul>
      *              <li>2.3.22 (or higher): The default value of
-     *                  {@link #setUseAdaptersForContainers(boolean) useAdaptersForContainers} changes to
+     *                  {link #setUseAdaptersForContainers(boolean) useAdaptersForContainers} changes to
      *                  {@code true}.</li>
-     *              <li>2.3.24 (or higher): When wrapping an {@link Iterator}, operations on it that only check if the
+     *              <li>2.3.24 (or higher): When wrapping an {link Iterator}, operations on it that only check if the
      *                  collection is empty without reading an element from it, such as {@code ?has_content},
      *                  won't cause the a later iteration (or further emptiness check) to fail anymore. Earlier, in
      *                  certain situations, the second operation has failed saying that the iterator "can be listed only
      *                  once".  
-     *              <li>2.3.26 (or higher): {@link Enumeration}-s are wrapped into {@link DefaultEnumerationAdapter}
-     *                  instead of into {@link EnumerationModel} (as far as
-     *                  {@link #setUseAdaptersForContainers(boolean) useAdaptersForContainers} is {@code true}, which is
-     *                  the default). This adapter is cleaner than {@link EnumerationModel} as it only implements the
+     *              <li>2.3.26 (or higher): {link Enumeration}-s are wrapped into {link DefaultEnumerationAdapter}
+     *                  instead of into {link EnumerationModel} (as far as
+     *                  {link #setUseAdaptersForContainers(boolean) useAdaptersForContainers} is {@code true}, which is
+     *                  the default). This adapter is cleaner than {link EnumerationModel} as it only implements the
      *                  minimally required FTL type, which avoids some ambiguous situations. (Note that Java API methods
      *                  aren't exposed anymore as subvariables; if you really need them, you can use {@code ?api}). 
      *                  </li>
@@ -115,8 +111,8 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Use {@link #DefaultObjectWrapper(DefaultObjectWrapperConfiguration, boolean)} instead if possible;
-     * it does the same, except that it tolerates a non-{@link DefaultObjectWrapperConfiguration} configuration too.
+     * Use {link #DefaultObjectWrapper(DefaultObjectWrapperConfiguration, boolean)} instead if possible;
+     * it does the same, except that it tolerates a non-{link DefaultObjectWrapperConfiguration} configuration too.
      * 
      * @since 2.3.21
      */
@@ -134,8 +130,8 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Calls {@link BeansWrapper#BeansWrapper(BeansWrapperConfiguration, boolean)} and sets up
-     * {@link DefaultObjectWrapper}-specific fields.
+     * Calls {link BeansWrapper#BeansWrapper(BeansWrapperConfiguration, boolean)} and sets up
+     * {link DefaultObjectWrapper}-specific fields.
      * 
      * @since 2.3.22
      */
@@ -168,13 +164,13 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Wraps the parameter object to {@link TemplateModel} interface(s). Simple types like numbers, strings, booleans
-     * and dates will be wrapped into the corresponding {@code SimpleXxx} classes (like {@link SimpleNumber}).
-     * {@link Map}-s, {@link List}-s, other {@link Collection}-s, arrays and {@link Iterator}-s will be wrapped into the
-     * corresponding {@code SimpleXxx} or {@code DefaultXxxAdapter} classes (like {@link SimpleHash} or
-     * {@link DefaultMapAdapter}), depending on {@link #getUseAdaptersForContainers()} and
-     * {@link #getForceLegacyNonListCollections()}. After that, the wrapping is handled by
-     * {@link #handleUnknownType(Object)}, so see more there.
+     * Wraps the parameter object to {link TemplateModel} interface(s). Simple types like numbers, strings, booleans
+     * and dates will be wrapped into the corresponding {@code SimpleXxx} classes (like {link SimpleNumber}).
+     * {link Map}-s, {link List}-s, other {link Collection}-s, arrays and {link Iterator}-s will be wrapped into the
+     * corresponding {@code SimpleXxx} or {@code DefaultXxxAdapter} classes (like {link SimpleHash} or
+     * {link DefaultMapAdapter}), depending on {link #getUseAdaptersForContainers()} and
+     * {link #getForceLegacyNonListCollections()}. After that, the wrapping is handled by
+     * {link #handleUnknownType(Object)}, so see more there.
      */
     @Override
     public TemplateModel wrap(Object obj) throws TemplateModelException {
@@ -217,8 +213,8 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
                     return DefaultListAdapter.adapt((List<?>) obj, this);
                 } else {
                     return forceLegacyNonListCollections
-                            ? (TemplateModel) new SimpleSequence((Collection<?>) obj, this)
-                            : (TemplateModel) DefaultNonListCollectionAdapter.adapt((Collection<?>) obj, this);
+                            ? new SimpleSequence((Collection<?>) obj, this)
+                            : DefaultNonListCollectionAdapter.adapt((Collection<?>) obj, this);
                 }
             } else {
                 return new SimpleSequence((Collection<?>) obj, this);
@@ -226,16 +222,16 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
         }
         if (obj instanceof Map) {
             return useAdaptersForContainers
-                    ? (TemplateModel) DefaultMapAdapter.adapt((Map<?, ?>) obj, this)
-                    : (TemplateModel) new SimpleHash((Map<?, ?>) obj, this);
+                    ? DefaultMapAdapter.adapt((Map<?, ?>) obj, this)
+                    : new SimpleHash((Map<?, ?>) obj, this);
         }
         if (obj instanceof Boolean) {
             return obj.equals(Boolean.TRUE) ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
         if (obj instanceof Iterator) {
             return useAdaptersForContainers
-                    ? (TemplateModel) DefaultIteratorAdapter.adapt((Iterator<?>) obj, this)
-                    : (TemplateModel) new SimpleCollection((Iterator<?>) obj, this);
+                    ? DefaultIteratorAdapter.adapt((Iterator<?>) obj, this)
+                    : new SimpleCollection((Iterator<?>) obj, this);
         }
         if (useAdapterForEnumerations && obj instanceof Enumeration) {
             return DefaultEnumerationAdapter.adapt((Enumeration<?>) obj, this);
@@ -249,9 +245,9 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     
     /**
      * Called for an object that isn't considered to be of a "basic" Java type, like for an application specific type,
-     * or for a W3C DOM node. In its default implementation, W3C {@link Node}-s will be wrapped as {@link NodeModel}-s
+     * or for a W3C DOM node. In its default implementation, W3C {link Node}-s will be wrapped as {link NodeModel}-s
      * (allows DOM tree traversal), Jython objects will be delegated to the {@code JythonWrapper}, others will be
-     * wrapped using {@link BeansWrapper#wrap(Object)}.
+     * wrapped using {link BeansWrapper#wrap(Object)}.
      * 
      * <p>
      * When you override this method, you should first decide if you want to wrap the object in a custom way (and if so
@@ -259,18 +255,18 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
      * behavior is fine with you).
      */
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
-        if (obj instanceof Node) {
-            return wrapDomNode(obj);
-        }
-        if (JYTHON_WRAPPER != null  && JYTHON_OBJ_CLASS.isInstance(obj)) {
-            return JYTHON_WRAPPER.wrap(obj);
-        }
+//        if (obj instanceof Node) {
+//            return wrapDomNode(obj);
+//        }
+//        if (JYTHON_WRAPPER != null  && JYTHON_OBJ_CLASS.isInstance(obj)) {
+//            return JYTHON_WRAPPER.wrap(obj);
+//        }
         return super.wrap(obj); 
     }
     
-    public TemplateModel wrapDomNode(Object obj) {
-        return NodeModel.wrap((Node) obj);
-    }
+//    public TemplateModel wrapDomNode(Object obj) {
+//        return NodeModel.wrap((Node) obj);
+//    }
 
     /**
      * Converts an array to a java.util.List.
@@ -286,7 +282,7 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * The getter pair of {@link #setUseAdaptersForContainers(boolean)}.
+     * The getter pair of {link #setUseAdaptersForContainers(boolean)}.
      * 
      * @since 2.3.22
      */
@@ -295,14 +291,14 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Sets if to wrap container objects ({@link Map}-s, {@link List}-s, arrays and such) the legacy copying approach or
+     * Sets if to wrap container objects ({link Map}-s, {link List}-s, arrays and such) the legacy copying approach or
      * the newer adapter approach should be used. {@code true} is recommended, which is also the default when the
-     * {@code incompatible_improvements} of this instance was set to {@link Configuration#VERSION_2_3_22} or higher. To
+     * {@code incompatible_improvements} of this instance was set to {link Configuration#VERSION_2_3_22} or higher. To
      * understand the difference, check some of the classes that implement the two approaches:
      * <ul>
-     * <li>Copying approach: {@link SimpleHash}, {@link SimpleSequence}</li>
-     * <li>Adapter approach: {@link DefaultMapAdapter}, {@link DefaultListAdapter}, {@link DefaultArrayAdapter},
-     * {@link DefaultIteratorAdapter}</li>
+     * <li>Copying approach: {link SimpleHash}, {link SimpleSequence}</li>
+     * <li>Adapter approach: {link DefaultMapAdapter}, {link DefaultListAdapter}, {link DefaultArrayAdapter},
+     * {link DefaultIteratorAdapter}</li>
      * </ul>
      * 
      * <p>
@@ -310,13 +306,13 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
      * the consequences.
      * 
      * <p>
-     * <b>Attention:</b> For backward compatibility, currently, non-{@link List} collections (like {@link Set}-s) will
-     * only be wrapped with adapter approach (with {@link DefaultNonListCollectionAdapter}) if
-     * {@link #setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} was set to {@code false}.
+     * <b>Attention:</b> For backward compatibility, currently, non-{link List} collections (like {link Set}-s) will
+     * only be wrapped with adapter approach (with {link DefaultNonListCollectionAdapter}) if
+     * {link #setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} was set to {@code false}.
      * Currently the default is {@code true}, but in new projects you should set it to {@code false}. See
-     * {@link #setForceLegacyNonListCollections(boolean)} for more.
+     * {link #setForceLegacyNonListCollections(boolean)} for more.
      * 
-     * @see #setForceLegacyNonListCollections(boolean)
+     * see #setForceLegacyNonListCollections(boolean)
      * 
      * @since 2.3.22
      */
@@ -326,7 +322,7 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
     
     /**
-     * Getter pair of {@link #setForceLegacyNonListCollections(boolean)}; see there.
+     * Getter pair of {link #setForceLegacyNonListCollections(boolean)}; see there.
      * 
      * @since 2.3.22
      */
@@ -335,16 +331,16 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Specifies whether non-{@link List} {@link Collection}-s (like {@link Set}-s) must be wrapped by pre-fetching into
-     * a {@link SimpleSequence}. The modern approach is wrapping into a {@link DefaultNonListCollectionAdapter}. This
-     * setting only has effect when {@link #getUseAdaptersForContainers()} is also {@code true}, as otherwise
-     * {@link SimpleSequence} will be used regardless of this. In new projects you should set this to {@code false}. At
+     * Specifies whether non-{link List} {link Collection}-s (like {link Set}-s) must be wrapped by pre-fetching into
+     * a {link SimpleSequence}. The modern approach is wrapping into a {link DefaultNonListCollectionAdapter}. This
+     * setting only has effect when {link #getUseAdaptersForContainers()} is also {@code true}, as otherwise
+     * {link SimpleSequence} will be used regardless of this. In new projects you should set this to {@code false}. At
      * least before {@code incompatible_improvements} 2.4.0 it defaults to {@code true}, because of backward
-     * compatibility concerns: with {@link TemplateSequenceModel} templates could access the items by index if they
+     * compatibility concerns: with {link TemplateSequenceModel} templates could access the items by index if they
      * wanted to (the index values were defined by the iteration order). This was not very useful, or was even
      * confusing, and it conflicts with the adapter approach.
      * 
-     * @see #setUseAdaptersForContainers(boolean)
+     * see #setUseAdaptersForContainers(boolean)
      * 
      * @since 2.3.22
      */
@@ -354,7 +350,7 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Getter pair of {@link #setIterableSupport(boolean)}; see there.
+     * Getter pair of {link #setIterableSupport(boolean)}; see there.
      * 
      * @since 2.3.25
      */
@@ -363,12 +359,12 @@ public class DefaultObjectWrapper extends freemarker.ext.beans.BeansWrapper {
     }
 
     /**
-     * Specifies whether {@link Iterable}-s (not to be confused with {@link Iterator}-s) that don't implement any other
-     * recognized Java interfaces (most notably {@link Collection}) will be recognized as listable objects
-     * ({@link TemplateCollectionModel}-s), or they will be just seen as generic objects (JavaBean-s). Defaults to
+     * Specifies whether {link Iterable}-s (not to be confused with {link Iterator}-s) that don't implement any other
+     * recognized Java interfaces (most notably {link Collection}) will be recognized as listable objects
+     * ({link TemplateCollectionModel}-s), or they will be just seen as generic objects (JavaBean-s). Defaults to
      * {@code false} for backward compatibility, but in new projects you should set this to {@code true}. Before setting
      * this to {@code true} in older projects, check if you have called {@code myIterable.iterator()} directly from any
-     * templates, because the Java API is only exposed to the templates if the {@link Iterable} is wrapped as generic
+     * templates, because the Java API is only exposed to the templates if the {link Iterable} is wrapped as generic
      * object.
      * 
      * @since 2.3.25

@@ -25,8 +25,8 @@ import java.io.IOException;
 
 /**
  * An instruction that does multiple assignments, like [#local x=1 x=2].
- * Each assignment is represented by a {@link Assignment} child element.
- * If there's only one assignment, its usually just a {@link Assignment} without parent {@link AssignmentInstruction}.
+ * Each assignment is represented by a {link Assignment} child element.
+ * If there's only one assignment, its usually just a {link Assignment} without parent {link AssignmentInstruction}.
  */
 final class AssignmentInstruction extends TemplateElement {
 
@@ -51,7 +51,7 @@ final class AssignmentInstruction extends TemplateElement {
     }
 
     @Override
-    TemplateElement[] accept(Environment env) throws TemplateException, IOException {
+    TemplateElement[] accept(Environment env) {
         return getChildBuffer();
     }
 
@@ -89,7 +89,7 @@ final class AssignmentInstruction extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return Integer.valueOf(scope);
+        case 0: return scope;
         case 1: return namespaceExp;
         default: return null;
         }

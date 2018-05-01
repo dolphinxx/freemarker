@@ -173,7 +173,7 @@ final class BuiltinVariable extends Expression {
             throw new ParseException(sb.toString(), null, nameTk);
         }
         
-        this.name = name.intern();
+        this.name = name;
     }
 
     @Override

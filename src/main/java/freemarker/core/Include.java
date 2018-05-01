@@ -35,7 +35,10 @@ import java.io.IOException;
  */
 final class Include extends TemplateElement {
 
-    private final Expression includedTemplateNameExp, encodingExp, parseExp, ignoreMissingExp;
+    private final Expression includedTemplateNameExp;
+    private final Expression encodingExp;
+    private final Expression parseExp;
+    private final Expression ignoreMissingExp;
     private final String encoding;
     private final Boolean parse;
     private final Boolean ignoreMissingExpPrecalcedValue;
@@ -80,10 +83,10 @@ final class Include extends TemplateElement {
                 try {
                     if (parseExp instanceof StringLiteral) {
                         // Legacy
-                        parse = Boolean.valueOf(StringUtil.getYesNo(parseExp.evalAndCoerceToPlainText(null)));
+                        parse = StringUtil.getYesNo(parseExp.evalAndCoerceToPlainText(null));
                     } else {
                         try {
-                            parse = Boolean.valueOf(parseExp.evalToBoolean(template.getConfiguration()));
+                            parse = parseExp.evalToBoolean(template.getConfiguration());
                         } catch (NonBooleanException e) {
                             throw new ParseException("Expected a boolean or string as the value of the parse attribute",
                                     parseExp, e);
@@ -102,8 +105,7 @@ final class Include extends TemplateElement {
         if (ignoreMissingExp != null && ignoreMissingExp.isLiteral()) {
             try {
                 try {
-                    ignoreMissingExpPrecalcedValue = Boolean.valueOf(
-                            ignoreMissingExp.evalToBoolean(template.getConfiguration()));
+                    ignoreMissingExpPrecalcedValue = ignoreMissingExp.evalToBoolean(template.getConfiguration());
                 } catch (NonBooleanException e) {
                     throw new ParseException("Expected a boolean as the value of the \"ignore_missing\" attribute",
                             ignoreMissingExp, e);
@@ -137,7 +139,7 @@ final class Include extends TemplateElement {
         
         final boolean parse;
         if (this.parse != null) {
-            parse = this.parse.booleanValue();
+            parse = this.parse;
         } else {
             TemplateModel tm = parseExp.eval(env);
             if (tm instanceof TemplateScalarModel) {
@@ -150,7 +152,7 @@ final class Include extends TemplateElement {
         
         final boolean ignoreMissing;
         if (this.ignoreMissingExpPrecalcedValue != null) {
-            ignoreMissing = this.ignoreMissingExpPrecalcedValue.booleanValue();
+            ignoreMissing = this.ignoreMissingExpPrecalcedValue;
         } else if (ignoreMissingExp != null) {
             ignoreMissing = ignoreMissingExp.evalToBoolean(env);
         } else {

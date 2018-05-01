@@ -27,48 +27,48 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A simple implementation of the {@link TemplateSequenceModel} interface, using its own underlying {@link List} for
- * storing the list items. If you are wrapping an already existing {@link List} or {@code array}, you should certainly
- * use {@link DefaultMapAdapter} or {@link DefaultArrayAdapter} (see comparison below).
+ * A simple implementation of the {link TemplateSequenceModel} interface, using its own underlying {link List} for
+ * storing the list items. If you are wrapping an already existing {link List} or {@code array}, you should certainly
+ * use {link DefaultMapAdapter} or {link DefaultArrayAdapter} (see comparison below).
  * 
  * <p>
- * This class is thread-safe if you don't call modifying methods (like {@link #add(Object)}) after you have made the
+ * This class is thread-safe if you don't call modifying methods (like {link #add(Object)}) after you have made the
  * object available for multiple threads (assuming you have published it safely to the other threads; see JSR-133 Java
  * Memory Model). These methods aren't called by FreeMarker, so it's usually not a concern.
  * 
  * <p>
- * <b>{@link SimpleSequence} VS {@link DefaultListAdapter}/{@link DefaultArrayAdapter} - Which to use when?</b>
+ * <b>{link SimpleSequence} VS {link DefaultListAdapter}/{link DefaultArrayAdapter} - Which to use when?</b>
  * </p>
  * 
  * <p>
- * For a {@link List} or {@code array} that exists regardless of FreeMarker, only you need to access it from templates,
- * {@link DefaultMapAdapter} should be the default choice, as it can be unwrapped to the originally wrapped object
+ * For a {link List} or {@code array} that exists regardless of FreeMarker, only you need to access it from templates,
+ * {link DefaultMapAdapter} should be the default choice, as it can be unwrapped to the originally wrapped object
  * (important when passing it to Java methods from the template). It also has more predictable performance (no spikes).
  * 
  * <p>
- * For a sequence that's made specifically to be used from templates, creating an empty {@link SimpleSequence} then
- * filling it with {@link SimpleSequence#add(Object)} is usually the way to go, as the resulting sequence is
- * significantly faster to read from templates than a {@link DefaultListAdapter} (though it's somewhat slower to read
- * from a plain Java method to which it had to be passed adapted to a {@link List}).
+ * For a sequence that's made specifically to be used from templates, creating an empty {link SimpleSequence} then
+ * filling it with {link SimpleSequence#add(Object)} is usually the way to go, as the resulting sequence is
+ * significantly faster to read from templates than a {link DefaultListAdapter} (though it's somewhat slower to read
+ * from a plain Java method to which it had to be passed adapted to a {link List}).
  * 
  * <p>
- * It also matters if for how many times will the <em>same</em> {@link List} entry be read from the template(s) later,
- * on average. If, on average, you read each entry for more than 4 times, {@link SimpleSequence} will be most
- * certainly faster, but if for 2 times or less (and especially if not at all) then {@link DefaultMapAdapter} will
+ * It also matters if for how many times will the <em>same</em> {link List} entry be read from the template(s) later,
+ * on average. If, on average, you read each entry for more than 4 times, {link SimpleSequence} will be most
+ * certainly faster, but if for 2 times or less (and especially if not at all) then {link DefaultMapAdapter} will
  * be faster. Before choosing based on performance though, pay attention to the behavioral differences;
- * {@link SimpleSequence} will shallow-copy the original {@link List} at construction time, so it won't reflect
- * {@link List} content changes after the {@link SimpleSequence} construction, also {@link SimpleSequence} can't be
+ * {link SimpleSequence} will shallow-copy the original {link List} at construction time, so it won't reflect
+ * {link List} content changes after the {link SimpleSequence} construction, also {link SimpleSequence} can't be
  * unwrapped to the original wrapped instance.
  *
- * @see DefaultListAdapter
- * @see DefaultArrayAdapter
- * @see TemplateSequenceModel
+ * see DefaultListAdapter
+ * see DefaultArrayAdapter
+ * see TemplateSequenceModel
  */
 public class SimpleSequence extends WrappingTemplateModel implements TemplateSequenceModel, Serializable {
 
     /**
-     * The {@link List} that stored the elements of this sequence. It migth contains both {@link TemplateModel} elements
-     * and non-{@link TemplateModel} elements.
+     * The {link List} that stored the elements of this sequence. It migth contains both {link TemplateModel} elements
+     * and non-{link TemplateModel} elements.
      */
     protected final List list;
     
@@ -77,9 +77,9 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     /**
      * Constructs an empty simple sequence that will use the the default object 
      * wrapper set in 
-     * {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
+     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
      * 
-     * @deprecated Use {@link #SimpleSequence(ObjectWrapper)} instead.
+     * @deprecated Use {link #SimpleSequence(ObjectWrapper)} instead.
      */
     @Deprecated
     public SimpleSequence() {
@@ -89,9 +89,9 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     /**
      * Constructs an empty simple sequence with preallocated capacity and using
      * the default object wrapper set in 
-     * {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
+     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
      * 
-     * @deprecated Use {@link #SimpleSequence(Collection, ObjectWrapper)}.
+     * @deprecated Use {link #SimpleSequence(Collection, ObjectWrapper)}.
      */
     @Deprecated
     public SimpleSequence(int capacity) {
@@ -100,13 +100,13 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     
     /**
      * Constructs a simple sequence that will contain the elements
-     * from the specified {@link Collection} and will use the the default 
+     * from the specified {link Collection} and will use the the default
      * object wrapper set in 
-     * {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
+     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
      * @param collection the collection containing initial values. Note that a
      * copy of the collection is made for internal use.
      * 
-     * @deprecated Use {@link #SimpleSequence(Collection, ObjectWrapper)}.
+     * @deprecated Use {link #SimpleSequence(Collection, ObjectWrapper)}.
      */
     @Deprecated
     public SimpleSequence(Collection collection) {
@@ -116,8 +116,8 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     /**
      * Constructs a simple sequence from the passed collection model, which shouldn't be added to later. The internal
      * list will be build immediately (not lazily). The resulting sequence shouldn't be extended with
-     * {@link #add(Object)}, because the appropriate {@link ObjectWrapper} won't be available; use
-     * {@link #SimpleSequence(Collection, ObjectWrapper)} instead, if you need that.
+     * {link #add(Object)}, because the appropriate {link ObjectWrapper} won't be available; use
+     * {link #SimpleSequence(Collection, ObjectWrapper)} instead, if you need that.
      */
     public SimpleSequence(TemplateCollectionModel tcm) throws TemplateModelException {
         ArrayList alist = new ArrayList();
@@ -132,9 +132,9 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
      * Constructs an empty sequence using the specified object wrapper.
      * 
      * @param wrapper
-     *            The object wrapper to use to wrap the list items into {@link TemplateModel} instances. {@code null} is
+     *            The object wrapper to use to wrap the list items into {link TemplateModel} instances. {@code null} is
      *            allowed, but deprecated, and will cause the deprecated default object wrapper (set in
-     *            {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}) to be used.
+     *            {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}) to be used.
      */
     public SimpleSequence(ObjectWrapper wrapper) {
         super(wrapper);
@@ -145,7 +145,7 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
      * Constructs an empty simple sequence with preallocated capacity.
      * 
      * @param wrapper
-     *            See the similar parameter of {@link SimpleSequence#SimpleSequence(ObjectWrapper)}.
+     *            See the similar parameter of {link SimpleSequence#SimpleSequence(ObjectWrapper)}.
      * 
      * @since 2.3.21
      */
@@ -155,16 +155,16 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     }    
     
     /**
-     * Constructs a simple sequence that will contain the elements from the specified {@link Collection}; consider
-     * using {@link DefaultListAdapter} instead.
+     * Constructs a simple sequence that will contain the elements from the specified {link Collection}; consider
+     * using {link DefaultListAdapter} instead.
      * 
      * @param collection
      *            The collection containing the initial items of the sequence. A shallow copy of this collection is made
      *            immediately for internal use (thus, later modification on the parameter collection won't be visible in
-     *            the resulting sequence). The items however, will be only wrapped with the {@link ObjectWrapper}
+     *            the resulting sequence). The items however, will be only wrapped with the {link ObjectWrapper}
      *            lazily, when first needed.
      * @param wrapper
-     *            See the similar parameter of {@link SimpleSequence#SimpleSequence(ObjectWrapper)}.
+     *            See the similar parameter of {link SimpleSequence#SimpleSequence(ObjectWrapper)}.
      */
     public SimpleSequence(Collection collection, ObjectWrapper wrapper) {
         super(wrapper);
@@ -173,7 +173,7 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
 
     /**
      * Adds an arbitrary object to the end of this sequence. If the newly added object does not implement the
-     * {@link TemplateModel} interface, it will be wrapped into the appropriate {@link TemplateModel} interface when
+     * {link TemplateModel} interface, it will be wrapped into the appropriate {link TemplateModel} interface when
      * it's first read (lazily).
      *
      * @param obj
@@ -186,12 +186,12 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
 
     /**
      * Adds a boolean value to the end of this sequence. The newly added boolean will be immediately converted into
-     * {@link TemplateBooleanModel#TRUE} or {@link TemplateBooleanModel#FALSE}, without using the {@link ObjectWrapper}.
+     * {link TemplateBooleanModel#TRUE} or {link TemplateBooleanModel#FALSE}, without using the {link ObjectWrapper}.
      *
      * @param b
      *            The boolean value to be added.
      * 
-     * @deprecated Use {@link #add(Object)} instead, as this bypasses the {@link ObjectWrapper}.
+     * @deprecated Use {link #add(Object)} instead, as this bypasses the {link ObjectWrapper}.
      */
     @Deprecated
     public void add(boolean b) {
@@ -200,7 +200,7 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     
     /**
      * Builds a deep-copy of the underlying list, unwrapping any values that were already converted to
-     * {@link TemplateModel}-s. When called for the second time (or later), it just reuses the first result, unless the
+     * {link TemplateModel}-s. When called for the second time (or later), it just reuses the first result, unless the
      * sequence was modified since then.
      * 
      * @deprecated No replacement exists; not a reliable way of getting back the original list elemnts.
@@ -230,7 +230,7 @@ public class SimpleSequence extends WrappingTemplateModel implements TemplateSeq
     }
     
     /**
-     * Returns the item at the specified index of the list. If the item isn't yet an {@link TemplateModel}, it will wrap
+     * Returns the item at the specified index of the list. If the item isn't yet an {link TemplateModel}, it will wrap
      * it to one now, and writes it back into the backing list.
      */
     public TemplateModel get(int index) throws TemplateModelException {

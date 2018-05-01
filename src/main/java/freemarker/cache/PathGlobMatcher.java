@@ -25,11 +25,11 @@ import java.util.regex.Pattern;
 
 /**
  * Matches the whole template source name (also known as template source path) with the given glob.
- * Note that the template source name is relative to the template storage root defined by the {@link TemplateLoader};
+ * Note that the template source name is relative to the template storage root defined by the {link TemplateLoader};
  * it's not the full path of a file on the file system.
  * 
  * <p>This glob implementation recognizes {@code **} (Ant-style directory wildcard) among others. For more details see
- * {@link StringUtil#globToRegularExpression(String, boolean)}.
+ * {link StringUtil#globToRegularExpression(String, boolean)}.
  * 
  * <p>About the usage of {@code /} (slash):
  * <ul>
@@ -40,8 +40,8 @@ import java.util.regex.Pattern;
  *       {@code foo/bar/} refers to the {bar} directory.
  * </ul>
  * 
- * <p>By default the glob is case sensitive, but this can be changed with {@link #setCaseInsensitive(boolean)} (or
- * {@link #caseInsensitive(boolean)}).
+ * <p>By default the glob is case sensitive, but this can be changed with {link #setCaseInsensitive(boolean)} (or
+ * {link #caseInsensitive(boolean)}).
  * 
  * @since 2.3.24
  */
@@ -54,7 +54,7 @@ public class PathGlobMatcher extends TemplateSourceMatcher {
     
     /**
      * @param glob
-     *            Glob with the syntax defined by {@link StringUtil#globToRegularExpression(String, boolean)}. Must not
+     *            Glob with the syntax defined by {link StringUtil#globToRegularExpression(String, boolean)}. Must not
      *            start with {@code /}.
      */
     public PathGlobMatcher(String glob) {
@@ -70,7 +70,7 @@ public class PathGlobMatcher extends TemplateSourceMatcher {
     }
     
     @Override
-    public boolean matches(String sourceName, Object templateSource) throws IOException {
+    public boolean matches(String sourceName, Object templateSource) {
         return pattern.matcher(sourceName).matches();
     }
     
@@ -90,7 +90,7 @@ public class PathGlobMatcher extends TemplateSourceMatcher {
     }
     
     /**
-     * Fluid API variation of {@link #setCaseInsensitive(boolean)}
+     * Fluid API variation of {link #setCaseInsensitive(boolean)}
      */
     public PathGlobMatcher caseInsensitive(boolean caseInsensitive) {
         setCaseInsensitive(caseInsensitive);

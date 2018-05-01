@@ -38,11 +38,11 @@ final class ListableRightUnboundedRangeModel extends RightUnboundedRangeModel im
         super(begin);
     }
 
-    public int size() throws TemplateModelException {
+    public int size() {
         return Integer.MAX_VALUE;
     }
 
-    public TemplateModelIterator iterator() throws TemplateModelException {
+    public TemplateModelIterator iterator() {
         return new TemplateModelIterator() {
             boolean needInc;
             int nextType = 1;
@@ -50,7 +50,7 @@ final class ListableRightUnboundedRangeModel extends RightUnboundedRangeModel im
             long nextLong;
             BigInteger nextBigInteger;
 
-            public TemplateModel next() throws TemplateModelException {
+            public TemplateModel next() {
                 if (needInc) {
                     switch (nextType) {
                     case 1:
@@ -82,7 +82,7 @@ final class ListableRightUnboundedRangeModel extends RightUnboundedRangeModel im
                         : new SimpleNumber(nextBigInteger)); 
             }
 
-            public boolean hasNext() throws TemplateModelException {
+            public boolean hasNext() {
                 return true;
             }
             

@@ -100,16 +100,14 @@ final class ClassIntrospectorBuilder implements Cloneable {
         if (treatDefaultMethodsAsBeanMembers != other.treatDefaultMethodsAsBeanMembers) return false;
         if (exposureLevel != other.exposureLevel) return false;
         if (methodAppearanceFineTuner != other.methodAppearanceFineTuner) return false;
-        if (methodSorter != other.methodSorter) return false;
-        
-        return true;
+        return methodSorter == other.methodSorter;
     }
     
     public int getExposureLevel() {
         return exposureLevel;
     }
 
-    /** See {@link BeansWrapper#setExposureLevel(int)}. */
+    /** See {link BeansWrapper#setExposureLevel(int)}. */
     public void setExposureLevel(int exposureLevel) {
         if (exposureLevel < BeansWrapper.EXPOSE_ALL || exposureLevel > BeansWrapper.EXPOSE_NOTHING) {
             throw new IllegalArgumentException("Illegal exposure level: " + exposureLevel);
@@ -122,7 +120,7 @@ final class ClassIntrospectorBuilder implements Cloneable {
         return exposeFields;
     }
 
-    /** See {@link BeansWrapper#setExposeFields(boolean)}. */
+    /** See {link BeansWrapper#setExposeFields(boolean)}. */
     public void setExposeFields(boolean exposeFields) {
         this.exposeFields = exposeFields;
     }

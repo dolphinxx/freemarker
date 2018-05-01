@@ -19,7 +19,6 @@
 
 package freemarker.core;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.template.EmptyMap;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
@@ -43,7 +42,8 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
 
     private Expression nameExp;
     private Map namedArgs;
-    private List positionalArgs, bodyParameterNames;
+    private List positionalArgs;
+    private List bodyParameterNames;
     boolean legacySyntax;
     private transient volatile SoftReference/*List<Map.Entry<String,Expression>>*/ sortedNamedArgsCache;
     private CustomDataHolder customDataHolder;
@@ -249,7 +249,6 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
         return res;
     }
 
-    @SuppressFBWarnings(value={ "IS2_INCONSISTENT_SYNC", "DC_DOUBLECHECK" }, justification="Performance tricks")
     public Object getOrCreateCustomData(Object providerIdentity, ObjectFactory objectFactory)
             throws CallPlaceCustomDataInitializationException {
         // We are using double-checked locking, utilizing Java memory model "final" trick.
@@ -315,7 +314,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
     
     /**
      * Used for implementing double check locking in implementing the
-     * {@link DirectiveCallPlace#getOrCreateCustomData(Object, ObjectFactory)}.
+     * {link DirectiveCallPlace#getOrCreateCustomData(Object, ObjectFactory)}.
      */
     private static class CustomDataHolder {
         

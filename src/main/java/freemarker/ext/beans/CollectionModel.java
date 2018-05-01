@@ -31,8 +31,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * <p>A special case of {@link BeanModel} that can wrap Java collections
- * and that implements the {@link TemplateCollectionModel} in order to be usable 
+ * <p>A special case of {link BeanModel} that can wrap Java collections
+ * and that implements the {link TemplateCollectionModel} in order to be usable
  * in a <tt>&lt;#list&gt;</tt> block.</p>
  */
 public class CollectionModel
@@ -53,8 +53,8 @@ implements
     /**
      * Creates a new model that wraps the specified collection object.
      * @param collection the collection object to wrap into a model.
-     * @param wrapper the {@link BeansWrapper} associated with this model.
-     * Every model has to have an associated {@link BeansWrapper} instance. The
+     * @param wrapper the {link BeansWrapper} associated with this model.
+     * Every model has to have an associated {link BeansWrapper} instance. The
      * model gains many attributes from its wrapper, including the caching 
      * behavior, method exposure level, method-over-item shadowing policy etc.
      */
@@ -83,10 +83,10 @@ implements
     }
     
     /**
-     * Tells if {@link #get(int)} will always fail for this object.
-     * As this object implements {@link TemplateSequenceModel},
-     * {@link #get(int)} should always work, but due to a design flaw, for
-     * non-{@link List} wrapped objects {@link #get(int)} will always fail.
+     * Tells if {link #get(int)} will always fail for this object.
+     * As this object implements {link TemplateSequenceModel},
+     * {link #get(int)} should always work, but due to a design flaw, for
+     * non-{link List} wrapped objects {link #get(int)} will always fail.
      * This method exists to ease working this problem around.
      * 
      * @since 2.3.17 

@@ -23,7 +23,7 @@ package freemarker.cache;
  * A cache storage that doesn't store anything. Use this if you
  * don't want caching.
  *
- * @see freemarker.template.Configuration#setCacheStorage(CacheStorage)
+ * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
  * 
  * @since 2.3.17
  */

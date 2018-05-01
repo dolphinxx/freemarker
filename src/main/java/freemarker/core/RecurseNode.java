@@ -35,7 +35,8 @@ import java.io.IOException;
  */
 final class RecurseNode extends TemplateElement {
     
-    Expression targetNode, namespaces;
+    Expression targetNode;
+    Expression namespaces;
     
     RecurseNode(Expression targetNode, Expression namespaces) {
         this.targetNode = targetNode;

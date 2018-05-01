@@ -19,11 +19,10 @@
 
 package freemarker.template.utility;
 
-import freemarker.template.ObjectWrapper;
 import freemarker.template.ObjectWrapperAndUnwrapper;
 
 /**
- * <b>Experimental - subject to change:</b> Union of the interfaces that a typical feature rich {@link ObjectWrapper} is
+ * <b>Experimental - subject to change:</b> Union of the interfaces that a typical feature rich {link ObjectWrapper} is
  * expected to implement.
  * 
  * <p>

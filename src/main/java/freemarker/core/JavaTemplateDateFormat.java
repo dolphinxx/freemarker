@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Java {@link DateFormat}-based format.
+ * Java {link DateFormat}-based format.
  */
 class JavaTemplateDateFormat extends TemplateDateFormat {
     

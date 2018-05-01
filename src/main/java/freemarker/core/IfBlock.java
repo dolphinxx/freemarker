@@ -25,8 +25,8 @@ import java.io.IOException;
 
 /**
  * Container for a group of related #if, #elseif and #else elements.
- * Each such block is a nested {@link ConditionalBlock}. Note that if an #if has no #else or #elseif,
- * {@link ConditionalBlock} doesn't need this parent element. 
+ * Each such block is a nested {link ConditionalBlock}. Note that if an #if has no #else or #elseif,
+ * {link ConditionalBlock} doesn't need this parent element.
  */
 final class IfBlock extends TemplateElement {
 
@@ -40,7 +40,7 @@ final class IfBlock extends TemplateElement {
     }
 
     @Override
-    TemplateElement[] accept(Environment env) throws TemplateException, IOException {
+    TemplateElement[] accept(Environment env) throws TemplateException {
         int ln  = getChildCount();
         for (int i = 0; i < ln; i++) {
             ConditionalBlock cblock = (ConditionalBlock) getChild(i);

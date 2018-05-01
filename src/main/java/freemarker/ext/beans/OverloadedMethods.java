@@ -34,10 +34,10 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Used instead of {@link java.lang.reflect.Method} or {@link java.lang.reflect.Constructor} for overloaded methods and
+ * Used instead of {link java.lang.reflect.Method} or {link java.lang.reflect.Constructor} for overloaded methods and
  * constructors.
  * 
- * <p>After the initialization with the {@link #addMethod(Method)} and {@link #addConstructor(Constructor)} calls are
+ * <p>After the initialization with the {link #addMethod(Method)} and {link #addConstructor(Constructor)} calls are
  * done, the instance must be thread-safe. Before that, it's the responsibility of the caller of those methods to
  * ensure that the object is properly publishing to other threads.
  */
@@ -135,12 +135,12 @@ final class OverloadedMethods {
                 tmArgs != null
                         ? new Object[] {
                                 "\nThe FTL type of the argument values were: ", getTMActualParameterTypes(tmArgs), "." }
-                        : (Object) "",
+                        : "",
                 unwrappedArgs != null
                         ? new Object[] {
                                 "\nThe Java type of the argument values were: ",
                                 getUnwrappedActualParameterTypes(unwrappedArgs) + "." }
-                        : (Object) ""};
+                        : ""};
     }
 
     private _DelayedConversionToString memberListToString() {
@@ -182,7 +182,7 @@ final class OverloadedMethods {
     }
     
     /**
-     * Adds tip to the error message if converting a {@link TemplateMarkupOutputModel} argument to {@link String} might
+     * Adds tip to the error message if converting a {link TemplateMarkupOutputModel} argument to {link String} might
      * allows finding a matching overload. 
      */
     private void addMarkupBITipAfterNoNoMarchIfApplicable(_ErrorDescriptionBuilder edb,

@@ -26,22 +26,21 @@ import freemarker.template.utility.ObjectWrapperWithAPISupport;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 
 /**
- * Adapts a non-{@link List} Java {@link Collection} to the corresponding {@link TemplateModel} interface(s), most
- * importantly to {@link TemplateCollectionModelEx}. For {@link List}-s, use {@link DefaultListAdapter}, or else you
+ * Adapts a non-{link List} Java {link Collection} to the corresponding {link TemplateModel} interface(s), most
+ * importantly to {link TemplateCollectionModelEx}. For {link List}-s, use {link DefaultListAdapter}, or else you
  * lose indexed element access.
  * 
  * <p>
- * Thread safety: A {@link DefaultNonListCollectionAdapter} is as thread-safe as the {@link Collection} that it wraps
+ * Thread safety: A {link DefaultNonListCollectionAdapter} is as thread-safe as the {link Collection} that it wraps
  * is. Normally you only have to consider read-only access, as the FreeMarker template language doesn't allow writing
  * these collections (though of course, Java methods called from the template can violate this rule).
  * 
  * <p>
- * This adapter is used by {@link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
+ * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher, and its
- * {@link DefaultObjectWrapper#setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} property is
+ * {link DefaultObjectWrapper#setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} property is
  * {@code false}, which is still not the default as of 2.3.22 (so you have to set it explicitly).
  * 
  * @since 2.3.22
@@ -57,8 +56,8 @@ public class DefaultNonListCollectionAdapter extends WrappingTemplateModel imple
      * @param collection
      *            The collection to adapt; can't be {@code null}.
      * @param wrapper
-     *            The {@link ObjectWrapper} used to wrap the items in the collection. Has to be
-     *            {@link ObjectWrapperAndUnwrapper} because of planned future features.
+     *            The {link ObjectWrapper} used to wrap the items in the collection. Has to be
+     *            {link ObjectWrapperAndUnwrapper} because of planned future features.
      */
     public static DefaultNonListCollectionAdapter adapt(Collection collection, ObjectWrapperWithAPISupport wrapper) {
         return new DefaultNonListCollectionAdapter(collection, wrapper);
@@ -69,7 +68,7 @@ public class DefaultNonListCollectionAdapter extends WrappingTemplateModel imple
         this.collection = collection;
     }
 
-    public TemplateModelIterator iterator() throws TemplateModelException {
+    public TemplateModelIterator iterator() {
         return new IteratorToTemplateModelIteratorAdapter(collection.iterator(), getObjectWrapper());
     }
 
@@ -96,7 +95,7 @@ public class DefaultNonListCollectionAdapter extends WrappingTemplateModel imple
         } catch (ClassCastException e) {
             throw new _TemplateModelException(e,
                     "Failed to check if the collection contains the item. Probably the item's Java type, ",
-                    itemPojo != null ? new _DelayedShortClassName(itemPojo.getClass()) : (Object) "Null",
+                    itemPojo != null ? new _DelayedShortClassName(itemPojo.getClass()) : "Null",
                     ", doesn't match the type of (some of) the collection items; see cause exception.");
         }
     }

@@ -34,11 +34,11 @@ import java.util.Map;
 
 /**
  * Wraps the static fields and methods of a class in a
- * {@link freemarker.template.TemplateHashModel}.
- * Fields are wrapped using {@link BeansWrapper#wrap(Object)}, and
- * methods are wrapped into an appropriate {@link freemarker.template.TemplateMethodModelEx} instance.
+ * {link freemarker.template.TemplateHashModel}.
+ * Fields are wrapped using {link BeansWrapper#wrap(Object)}, and
+ * methods are wrapped into an appropriate {link freemarker.template.TemplateMethodModelEx} instance.
  * Unfortunately, there is currently no support for bean property-style
- * calls of static methods, similar to that in {@link BeanModel}.
+ * calls of static methods, similar to that in {link BeanModel}.
  */
 final class StaticModel implements TemplateHashModelEx {
     private static final Logger LOG = Logger.getLogger("freemarker.beans");

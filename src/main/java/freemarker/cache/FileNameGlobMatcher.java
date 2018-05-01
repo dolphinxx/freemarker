@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
- * As opposed to {@link PathGlobMatcher}, it only compares the "file name" part (the part after the last {@code /}) of
+ * As opposed to {link PathGlobMatcher}, it only compares the "file name" part (the part after the last {@code /}) of
  * the source name with the given glob. For example, the file name glob {@code *.ftlh} matches both {@code foo.ftlh} and
  * {@code foo/bar.ftlh}. With other words, that file name glob is equivalent with the {@code **}{@code /*.ftlh})
- * <em>path</em> glob ( {@link PathGlobMatcher}).
+ * <em>path</em> glob ( {link PathGlobMatcher}).
  * 
  * @since 2.3.24
  */
@@ -40,7 +40,7 @@ public class FileNameGlobMatcher extends TemplateSourceMatcher {
     
     /**
      * @param glob
-     *            Glob with the syntax defined by {@link StringUtil#globToRegularExpression(String, boolean)}. Must not
+     *            Glob with the syntax defined by {link StringUtil#globToRegularExpression(String, boolean)}. Must not
      *            start with {@code /}.
      */
     public FileNameGlobMatcher(String glob) {
@@ -56,7 +56,7 @@ public class FileNameGlobMatcher extends TemplateSourceMatcher {
     }
 
     @Override
-    public boolean matches(String sourceName, Object templateSource) throws IOException {
+    public boolean matches(String sourceName, Object templateSource) {
         return pattern.matcher(sourceName).matches();
     }
     
@@ -76,7 +76,7 @@ public class FileNameGlobMatcher extends TemplateSourceMatcher {
     }
     
     /**
-     * Fluid API variation of {@link #setCaseInsensitive(boolean)}
+     * Fluid API variation of {link #setCaseInsensitive(boolean)}
      */
     public FileNameGlobMatcher caseInsensitive(boolean caseInsensitive) {
         setCaseInsensitive(caseInsensitive);

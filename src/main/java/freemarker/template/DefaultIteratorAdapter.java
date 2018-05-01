@@ -19,7 +19,6 @@
 
 package freemarker.template;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
 
@@ -27,18 +26,18 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 /**
- * Adapts an {@link Iterator} to the corresponding {@link TemplateModel} interface(s), most importantly to
- * {@link TemplateCollectionModel}. The resulting {@link TemplateCollectionModel} can only be listed (iterated) once.
+ * Adapts an {link Iterator} to the corresponding {link TemplateModel} interface(s), most importantly to
+ * {link TemplateCollectionModel}. The resulting {link TemplateCollectionModel} can only be listed (iterated) once.
  * If the user tries list the variable for a second time, an exception will be thrown instead of silently gettig an
  * empty (or partial) listing.
  * 
  * <p>
- * Thread safety: A {@link DefaultListAdapter} is as thread-safe as the array that it wraps is. Normally you only
+ * Thread safety: A {link DefaultListAdapter} is as thread-safe as the array that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these sequences (though
  * of course, Java methods called from the template can violate this rule).
  * 
  * <p>
- * This adapter is used by {@link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
+ * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
  * 
  * @since 2.3.22
@@ -46,7 +45,6 @@ import java.util.Iterator;
 public class DefaultIteratorAdapter extends WrappingTemplateModel implements TemplateCollectionModel,
         AdapterTemplateModel, WrapperTemplateModel, TemplateModelWithAPISupport, Serializable {
 
-    @SuppressFBWarnings(value="SE_BAD_FIELD", justification="We hope it's Seralizable")
     private final Iterator iterator;
     private boolean iteratorOwnedBySomeone;
 
@@ -73,7 +71,7 @@ public class DefaultIteratorAdapter extends WrappingTemplateModel implements Tem
         return getWrappedObject();
     }
 
-    public TemplateModelIterator iterator() throws TemplateModelException {
+    public TemplateModelIterator iterator() {
         return new SimpleTemplateModelIterator();
     }
 

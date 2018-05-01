@@ -54,7 +54,7 @@ class BuiltInsForNumbers {
             }
             if (n <= 0) {
                 throw new _TemplateModelException(target,
-                        "The left side operand of to ?", key, " must be at least 1, but was ", Integer.valueOf(n), ".");
+                        "The left side operand of to ?", key, " must be at least 1, but was ", n, ".");
             }
             return new SimpleScalar(toABC(n));
         }
@@ -85,7 +85,7 @@ class BuiltInsForNumbers {
         @Override
         TemplateModel calculateResult(Number num, TemplateModel model) throws TemplateModelException {
             if (num instanceof Integer) {
-                int n = ((Integer) num).intValue();
+                int n = num.intValue();
                 if (n < 0) {
                     return new SimpleNumber(-n);
                 } else {
@@ -99,35 +99,35 @@ class BuiltInsForNumbers {
                     return model;
                 }
             } else if (num instanceof Double) {
-                double n = ((Double) num).doubleValue();
+                double n = num.doubleValue();
                 if (n < 0) {
                     return new SimpleNumber(-n);
                 } else {
                     return model;
                 }
             } else if (num instanceof Float) {
-                float n = ((Float) num).floatValue();
+                float n = num.floatValue();
                 if (n < 0) {
                     return new SimpleNumber(-n);
                 } else {
                     return model;
                 }
             } else if (num instanceof Long) {
-                long n = ((Long) num).longValue();
+                long n = num.longValue();
                 if (n < 0) {
                     return new SimpleNumber(-n);
                 } else {
                     return model;
                 }
             } else if (num instanceof Short) {
-                short n = ((Short) num).shortValue();
+                short n = num.shortValue();
                 if (n < 0) {
                     return new SimpleNumber(-n);
                 } else {
                     return model;
                 }
             } else if (num instanceof Byte) {
-                byte n = ((Byte) num).byteValue();
+                byte n = num.byteValue();
                 if (n < 0) {
                     return new SimpleNumber(-n);
                 } else {
@@ -270,18 +270,18 @@ class BuiltInsForNumbers {
 
     private static final long safeToLong(Number num) throws TemplateModelException {
         if (num instanceof Double) {
-            double d = Math.round(((Double) num).doubleValue());
+            double d = Math.round(num.doubleValue());
             if (d > Long.MAX_VALUE || d < Long.MIN_VALUE) {
                 throw new _TemplateModelException(
-                        "Number doesn't fit into a 64 bit signed integer (long): ", Double.valueOf(d));
+                        "Number doesn't fit into a 64 bit signed integer (long): ", d);
             } else {
                 return (long) d;
             }
         } else if (num instanceof Float) {
-            float f = Math.round(((Float) num).floatValue());
+            float f = Math.round(num.floatValue());
             if (f > Long.MAX_VALUE || f < Long.MIN_VALUE) {
                 throw new _TemplateModelException(
-                        "Number doesn't fit into a 64 bit signed integer (long): ", Float.valueOf(f));
+                        "Number doesn't fit into a 64 bit signed integer (long): ", f);
             } else {
                 return (long) f;
             }

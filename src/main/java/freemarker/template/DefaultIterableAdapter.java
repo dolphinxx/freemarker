@@ -23,21 +23,19 @@ import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
- * Adapts an {@link Iterable} to the corresponding {@link TemplateModel} interface(s), most importantly to
- * {@link TemplateCollectionModel}. This should only be used if {@link Collection} is not implemented by the adapted
- * object, because then {@link DefaultListAdapter} and {@link DefaultNonListCollectionAdapter} gives more functionality.
+ * Adapts an {link Iterable} to the corresponding {link TemplateModel} interface(s), most importantly to
+ * {link TemplateCollectionModel}. This should only be used if {link Collection} is not implemented by the adapted
+ * object, because then {link DefaultListAdapter} and {link DefaultNonListCollectionAdapter} gives more functionality.
  * 
  * <p>
- * Thread safety: A {@link DefaultIterableAdapter} is as thread-safe as the {@link Iterable} that it wraps is. Normally
+ * Thread safety: A {link DefaultIterableAdapter} is as thread-safe as the {link Iterable} that it wraps is. Normally
  * you only have to consider read-only access, as the FreeMarker template language doesn't provide means to call
- * {@link Iterator} modifier methods (though of course, Java methods called from the template can violate this rule).
+ * {link Iterator} modifier methods (though of course, Java methods called from the template can violate this rule).
  * 
  * <p>
- * This adapter is used by {@link DefaultObjectWrapper} if its {@link DefaultObjectWrapper#setIterableSupport(boolean)
+ * This adapter is used by {link DefaultObjectWrapper} if its {link DefaultObjectWrapper#setIterableSupport(boolean)
  * iterableSupport} property is {@code true}, which is not the default for backward compatibility (so you have to set it
  * explicitly).
  * 
@@ -55,8 +53,8 @@ public class DefaultIterableAdapter extends WrappingTemplateModel implements Tem
      * @param iterable
      *            The collection to adapt; can't be {@code null}.
      * @param wrapper
-     *            The {@link ObjectWrapper} used to wrap the items in the array. Has to be
-     *            {@link ObjectWrapperAndUnwrapper} because of planned future features.
+     *            The {link ObjectWrapper} used to wrap the items in the array. Has to be
+     *            {link ObjectWrapperAndUnwrapper} because of planned future features.
      */
     public static DefaultIterableAdapter adapt(Iterable<?> iterable, ObjectWrapperWithAPISupport wrapper) {
         return new DefaultIterableAdapter(iterable, wrapper);
@@ -67,7 +65,7 @@ public class DefaultIterableAdapter extends WrappingTemplateModel implements Tem
         this.iterable = iterable;
     }
 
-    public TemplateModelIterator iterator() throws TemplateModelException {
+    public TemplateModelIterator iterator() {
         return new IteratorToTemplateModelIteratorAdapter(iterable.iterator(), getObjectWrapper());
     }
 

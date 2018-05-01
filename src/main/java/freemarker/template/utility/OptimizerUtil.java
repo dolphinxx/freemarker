@@ -77,7 +77,7 @@ public class OptimizerUtil {
                 double d = bd.doubleValue();
                 if (d != Double.POSITIVE_INFINITY && d != Double.NEGATIVE_INFINITY) {
                     // BigDecimal -> Double
-                    return Double.valueOf(d);
+                    return d;
                 }
             }
         }
@@ -85,11 +85,11 @@ public class OptimizerUtil {
             BigInteger bi = (BigInteger) number;
             if (bi.compareTo(INTEGER_MAX) <= 0 && bi.compareTo(INTEGER_MIN) >= 0) {
                 // BigInteger -> Integer
-                return Integer.valueOf(bi.intValue());
+                return bi.intValue();
             }
             if (bi.compareTo(LONG_MAX) <= 0 && bi.compareTo(LONG_MIN) >= 0) {
                 // BigInteger -> Long
-                return Long.valueOf(bi.longValue());
+                return bi.longValue();
             }
         }
         return number;

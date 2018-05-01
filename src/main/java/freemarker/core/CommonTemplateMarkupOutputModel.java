@@ -19,8 +19,8 @@
 package freemarker.core;
 
 /**
- * Common superclass for implementing {@link TemplateMarkupOutputModel}-s that belong to a
- * {@link CommonMarkupOutputFormat} subclass format.
+ * Common superclass for implementing {link TemplateMarkupOutputModel}-s that belong to a
+ * {link CommonMarkupOutputFormat} subclass format.
  * 
  * <p>
  * Thread-safe after proper publishing. Calculated fields (typically, the markup calculated from plain text) might will
@@ -45,18 +45,18 @@ public abstract class CommonTemplateMarkupOutputModel<MO extends CommonTemplateM
 
     public abstract CommonMarkupOutputFormat<MO> getOutputFormat();
 
-    /** Maybe {@code null}, but then {@link #getMarkupContent()} isn't {@code null}. */
+    /** Maybe {@code null}, but then {link #getMarkupContent()} isn't {@code null}. */
     final String getPlainTextContent() {
         return plainTextContent;
     }
 
-    /** Maybe {@code null}, but then {@link #getPlainTextContent()} isn't {@code null}. */
+    /** Maybe {@code null}, but then {link #getPlainTextContent()} isn't {@code null}. */
     final String getMarkupContent() {
         return markupContet;
     }
 
     /**
-     * Use only to set the value calculated from {@link #getPlainTextContent()}, when {@link #getMarkupContent()} was
+     * Use only to set the value calculated from {link #getPlainTextContent()}, when {link #getMarkupContent()} was
      * still {@code null}!
      */
     final void setMarkupContet(String markupContet) {

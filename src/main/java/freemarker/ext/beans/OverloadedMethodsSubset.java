@@ -18,7 +18,6 @@
  */
 package freemarker.ext.beans;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.NullArgumentException;
@@ -54,7 +53,7 @@ abstract class OverloadedMethodsSubset {
     private Class[/*number of args*/][/*arg index*/] unwrappingHintsByParamCount;
     
     /**
-     * Tells what types occur at a given parameter position with a bit field. See {@link TypeFlags}.
+     * Tells what types occur at a given parameter position with a bit field. See {link TypeFlags}.
      */
     private int[/*number of args*/][/*arg index*/] typeFlagsByParamCount;
     
@@ -65,7 +64,7 @@ abstract class OverloadedMethodsSubset {
     
     private final List/*<ReflectionCallableMemberDescriptor>*/ memberDescs = new LinkedList();
     
-    /** Enables 2.3.21 {@link BeansWrapper} incompatibleImprovements */
+    /** Enables 2.3.21 {link BeansWrapper} incompatibleImprovements */
     protected final boolean bugfixed;
     
     OverloadedMethodsSubset(boolean bugfixed) {
@@ -133,8 +132,6 @@ abstract class OverloadedMethodsSubset {
         return unwrappingHintsByParamCount;
     }
     
-    @SuppressFBWarnings(value="JLM_JSR166_UTILCONCURRENT_MONITORENTER",
-            justification="Locks for member descriptor creation only")
     final MaybeEmptyCallableMemberDescriptor getMemberDescriptorForArgs(Object[] args, boolean varArg) {
         ArgumentTypes argTypes = new ArgumentTypes(args, bugfixed);
         MaybeEmptyCallableMemberDescriptor memberDesc
@@ -167,7 +164,7 @@ abstract class OverloadedMethodsSubset {
      * This is trickier than finding the most specific overlapping superclass of two classes, because:
      * <ul>
      *   <li>It considers primitive classes as the subclasses of the boxing classes.</li>
-     *   <li>If the only common class is {@link Object}, it will try to find a common interface. If there are more
+     *   <li>If the only common class is {link Object}, it will try to find a common interface. If there are more
      *       of them, it will start removing those that are known to be uninteresting as unwrapping hints.</li>
      * </ul>
      * 
@@ -306,8 +303,8 @@ abstract class OverloadedMethodsSubset {
     
     /**
      * Gets the "type flags" of each parameter positions, or {@code null} if there's no method with this parameter
-     * count or if we are in pre-2.3.21 mode, or {@link #ALL_ZEROS_ARRAY} if there were no parameters that turned
-     * on a flag. The returned {@code int}-s are one or more {@link TypeFlags} constants binary "or"-ed together.  
+     * count or if we are in pre-2.3.21 mode, or {link #ALL_ZEROS_ARRAY} if there were no parameters that turned
+     * on a flag. The returned {@code int}-s are one or more {link TypeFlags} constants binary "or"-ed together.
      */
     final protected int[] getTypeFlags(int paramCount) {
         return typeFlagsByParamCount != null && typeFlagsByParamCount.length > paramCount
@@ -316,13 +313,13 @@ abstract class OverloadedMethodsSubset {
     }
 
     /**
-     * Updates the content of the {@link #typeFlagsByParamCount} field with the parameter type flags of a method.
-     * Don't call this when {@link #bugfixed} is {@code false}! 
+     * Updates the content of the {link #typeFlagsByParamCount} field with the parameter type flags of a method.
+     * Don't call this when {link #bugfixed} is {@code false}!
      * 
      * @param dstParamCount The parameter count for which we want to merge in the type flags 
      * @param srcTypeFlagsByParamIdx If shorter than {@code dstParamCount}, its last item will be repeated until
      *        dstParamCount length is reached. If longer, the excessive items will be ignored.
-     *        Maybe {@link #ALL_ZEROS_ARRAY}. Maybe a 0-length array. Can't be {@code null}.
+     *        Maybe {link #ALL_ZEROS_ARRAY}. Maybe a 0-length array. Can't be {@code null}.
      */
     final protected void mergeInTypesFlags(int dstParamCount, int[] srcTypeFlagsByParamIdx) {
         NullArgumentException.check("srcTypesFlagsByParamIdx", srcTypeFlagsByParamIdx);

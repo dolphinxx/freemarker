@@ -19,22 +19,21 @@
 
 package freemarker.ext.beans;
 
-import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.Version;
 import freemarker.template._TemplateAPI;
 
 /**
- * Holds {@link BeansWrapper} configuration settings and defines their defaults.
- * You will not use this abstract class directly, but concrete subclasses like {@link BeansWrapperBuilder} and
- * {@link DefaultObjectWrapperBuilder}. Unless, you are developing a builder for a custom {@link BeansWrapper} subclass.
+ * Holds {link BeansWrapper} configuration settings and defines their defaults.
+ * You will not use this abstract class directly, but concrete subclasses like {link BeansWrapperBuilder} and
+ * {link DefaultObjectWrapperBuilder}. Unless, you are developing a builder for a custom {link BeansWrapper} subclass.
  * 
  * <p>This class is designed so that its instances can be used as lookup keys in a singleton cache. This is also why
- * this class defines the configuration setting defaults for {@link BeansWrapper}, instead of leaving that to
- * {@link BeansWrapper} itself. (Because, the default values influence the lookup key, and the singleton needs to be
- * looked up without creating a {@link BeansWrapper} instance.) However, because instances are mutable, you should
- * deep-clone it with {@link #clone(boolean)} before using it as cache key.
+ * this class defines the configuration setting defaults for {link BeansWrapper}, instead of leaving that to
+ * {link BeansWrapper} itself. (Because, the default values influence the lookup key, and the singleton needs to be
+ * looked up without creating a {link BeansWrapper} instance.) However, because instances are mutable, you should
+ * deep-clone it with {link #clone(boolean)} before using it as cache key.
  * 
  * @since 2.3.21
  */
@@ -59,18 +58,18 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     
     /**
      * @param incompatibleImprovements
-     *            See the corresponding parameter of {@link BeansWrapper#BeansWrapper(Version)}. Not {@code null}. Note
+     *            See the corresponding parameter of {link BeansWrapper#BeansWrapper(Version)}. Not {@code null}. Note
      *            that the version will be normalized to the lowest version where the same incompatible
-     *            {@link BeansWrapper} improvements were already present, so for the returned instance
-     *            {@link #getIncompatibleImprovements()} might returns a lower version than what you have specified
+     *            {link BeansWrapper} improvements were already present, so for the returned instance
+     *            {link #getIncompatibleImprovements()} might returns a lower version than what you have specified
      *            here.
      * @param isIncompImprsAlreadyNormalized
      *            Tells if the {@code incompatibleImprovements} parameter contains an <em>already normalized</em> value.
-     *            This parameter meant to be {@code true} when the class that extends {@link BeansWrapper} needs to add
-     *            additional breaking versions over those of {@link BeansWrapper}. Thus, if this parameter is
-     *            {@code true}, the versions where {@link BeansWrapper} had breaking changes must be already factored
+     *            This parameter meant to be {@code true} when the class that extends {link BeansWrapper} needs to add
+     *            additional breaking versions over those of {link BeansWrapper}. Thus, if this parameter is
+     *            {@code true}, the versions where {link BeansWrapper} had breaking changes must be already factored
      *            into the {@code incompatibleImprovements} parameter value, as no more normalization will happen. (You
-     *            can use {@link BeansWrapper#normalizeIncompatibleImprovementsVersion(Version)} to discover those.)
+     *            can use {link BeansWrapper#normalizeIncompatibleImprovementsVersion(Version)} to discover those.)
      * 
      * @since 2.3.22
      */
@@ -88,7 +87,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     }
     
     /**
-     * Same as {@link #BeansWrapperConfiguration(Version, boolean) BeansWrapperConfiguration(Version, false)}.
+     * Same as {link #BeansWrapperConfiguration(Version, boolean) BeansWrapperConfiguration(Version, false)}.
      */
     protected BeansWrapperConfiguration(Version incompatibleImprovements) {
         this(incompatibleImprovements, false);
@@ -110,7 +109,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     }
 
     /**
-     * Two {@link BeansWrapperConfiguration}-s are equal exactly if their classes are identical ({@code ==}), and their
+     * Two {link BeansWrapperConfiguration}-s are equal exactly if their classes are identical ({@code ==}), and their
      * field values are equal.
      */
     @Override
@@ -127,9 +126,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         if (outerIdentity != other.outerIdentity) return false;
         if (strict != other.strict) return false;
         if (useModelCache != other.useModelCache) return false;
-        if (!classIntrospectorBuilder.equals(other.classIntrospectorBuilder)) return false;
-        
-        return true;
+        return classIntrospectorBuilder.equals(other.classIntrospectorBuilder);
     }
     
     protected Object clone(boolean deepCloneKey) {
@@ -149,7 +146,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return simpleMapWrapper;
     }
 
-    /** See {@link BeansWrapper#setSimpleMapWrapper(boolean)}. */
+    /** See {link BeansWrapper#setSimpleMapWrapper(boolean)}. */
     public void setSimpleMapWrapper(boolean simpleMapWrapper) {
         this.simpleMapWrapper = simpleMapWrapper;
     }
@@ -159,7 +156,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return preferIndexedReadMethod;
     }
 
-    /** See {@link BeansWrapper#setPreferIndexedReadMethod(boolean)}. @since 2.3.27 */
+    /** See {link BeansWrapper#setPreferIndexedReadMethod(boolean)}. @since 2.3.27 */
     public void setPreferIndexedReadMethod(boolean preferIndexedReadMethod) {
         this.preferIndexedReadMethod = preferIndexedReadMethod;
     }
@@ -168,7 +165,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return defaultDateType;
     }
 
-    /** See {@link BeansWrapper#setDefaultDateType(int)}. */
+    /** See {link BeansWrapper#setDefaultDateType(int)}. */
     public void setDefaultDateType(int defaultDateType) {
         this.defaultDateType = defaultDateType;
     }
@@ -178,8 +175,8 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     }
 
     /**
-     * See {@link BeansWrapper#setOuterIdentity(ObjectWrapper)}, except here the default is {@code null} that means
-     * the {@link ObjectWrapper} that you will set up with this {@link BeansWrapperBuilder} object.
+     * See {link BeansWrapper#setOuterIdentity(ObjectWrapper)}, except here the default is {@code null} that means
+     * the {link ObjectWrapper} that you will set up with this {link BeansWrapperBuilder} object.
      */
     public void setOuterIdentity(ObjectWrapper outerIdentity) {
         this.outerIdentity = outerIdentity;
@@ -189,7 +186,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return strict;
     }
 
-    /** See {@link BeansWrapper#setStrict(boolean)}. */
+    /** See {link BeansWrapper#setStrict(boolean)}. */
     public void setStrict(boolean strict) {
         this.strict = strict;
     }
@@ -198,7 +195,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return useModelCache;
     }
 
-    /** See {@link BeansWrapper#setUseCache(boolean)} (it means the same). */
+    /** See {link BeansWrapper#setUseCache(boolean)} (it means the same). */
     public void setUseModelCache(boolean useModelCache) {
         this.useModelCache = useModelCache;
     }
@@ -211,7 +208,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return classIntrospectorBuilder.getExposureLevel();
     }
 
-    /** See {@link BeansWrapper#setExposureLevel(int)}. */
+    /** See {link BeansWrapper#setExposureLevel(int)}. */
     public void setExposureLevel(int exposureLevel) {
         classIntrospectorBuilder.setExposureLevel(exposureLevel);
     }
@@ -220,7 +217,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return classIntrospectorBuilder.getExposeFields();
     }
 
-    /** See {@link BeansWrapper#setExposeFields(boolean)}. */
+    /** See {link BeansWrapper#setExposeFields(boolean)}. */
     public void setExposeFields(boolean exposeFields) {
         classIntrospectorBuilder.setExposeFields(exposeFields);
     }
@@ -229,7 +226,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return classIntrospectorBuilder.getTreatDefaultMethodsAsBeanMembers();
     }
     
-    /** See {@link BeansWrapper#setTreatDefaultMethodsAsBeanMembers(boolean)} */
+    /** See {link BeansWrapper#setTreatDefaultMethodsAsBeanMembers(boolean)} */
     public void setTreatDefaultMethodsAsBeanMembers(boolean treatDefaultMethodsAsBeanMembers) {
         classIntrospectorBuilder.setTreatDefaultMethodsAsBeanMembers(treatDefaultMethodsAsBeanMembers);
     }
@@ -239,9 +236,9 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     }
 
     /**
-     * See {@link BeansWrapper#setMethodAppearanceFineTuner(MethodAppearanceFineTuner)}; additionally,
+     * See {link BeansWrapper#setMethodAppearanceFineTuner(MethodAppearanceFineTuner)}; additionally,
      * note that currently setting this to non-{@code null} will disable class introspection cache sharing, unless
-     * the value implements {@link SingletonCustomizer}.
+     * the value implements {link SingletonCustomizer}.
      */
     public void setMethodAppearanceFineTuner(MethodAppearanceFineTuner methodAppearanceFineTuner) {
         classIntrospectorBuilder.setMethodAppearanceFineTuner(methodAppearanceFineTuner);

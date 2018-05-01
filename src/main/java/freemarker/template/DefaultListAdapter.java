@@ -28,22 +28,22 @@ import java.util.AbstractSequentialList;
 import java.util.List;
 
 /**
- * Adapts a {@link List} to the corresponding {@link TemplateModel} interface(s), most importantly to
- * {@link TemplateSequenceModel}. If you aren't wrapping an already existing {@link List}, but build a sequence
- * specifically to be used from a template, also consider using {@link SimpleSequence} (see comparison there).
+ * Adapts a {link List} to the corresponding {link TemplateModel} interface(s), most importantly to
+ * {link TemplateSequenceModel}. If you aren't wrapping an already existing {link List}, but build a sequence
+ * specifically to be used from a template, also consider using {link SimpleSequence} (see comparison there).
  * 
  * <p>
- * Thread safety: A {@link DefaultListAdapter} is as thread-safe as the {@link List} that it wraps is. Normally you only
+ * Thread safety: A {link DefaultListAdapter} is as thread-safe as the {link List} that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these sequences (though
  * of course, Java methods called from the template can violate this rule).
  * 
  * <p>
- * This adapter is used by {@link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
+ * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
  * 
- * @see SimpleSequence
- * @see DefaultArrayAdapter
- * @see TemplateSequenceModel
+ * see SimpleSequence
+ * see DefaultArrayAdapter
+ * see TemplateSequenceModel
  * 
  * @since 2.3.22
  */
@@ -58,7 +58,7 @@ public class DefaultListAdapter extends WrappingTemplateModel implements Templat
      * @param list
      *            The list to adapt; can't be {@code null}.
      * @param wrapper
-     *            The {@link ObjectWrapper} used to wrap the items in the array.
+     *            The {link ObjectWrapper} used to wrap the items in the array.
      */
     public static DefaultListAdapter adapt(List list, RichObjectWrapper wrapper) {
         // [2.4] DefaultListAdapter should implement TemplateCollectionModelEx, so this choice becomes unnecessary
@@ -95,7 +95,7 @@ public class DefaultListAdapter extends WrappingTemplateModel implements Templat
             super(list, wrapper);
         }
 
-        public TemplateModelIterator iterator() throws TemplateModelException {
+        public TemplateModelIterator iterator() {
             return new IteratorToTemplateModelIteratorAdapter(list.iterator(), getObjectWrapper());
         }
 

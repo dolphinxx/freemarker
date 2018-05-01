@@ -18,14 +18,12 @@
  */
 package freemarker.cache;
 
-import freemarker.template.utility.StringUtil;
-
 import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
  * Matches the whole template source name (also known as template source path) with the given regular expression.
- * Note that the template source name is relative to the template storage root defined by the {@link TemplateLoader};
+ * Note that the template source name is relative to the template storage root defined by the {link TemplateLoader};
  * it's not the full path of a file on the file system.
  * 
  * @since 2.3.24
@@ -36,7 +34,7 @@ public class PathRegexMatcher extends TemplateSourceMatcher {
     
     /**
      * @param regex
-     *            Glob with the syntax defined by {@link StringUtil#globToRegularExpression(String)}. Must not
+     *            Glob with the syntax defined by {link StringUtil#globToRegularExpression(String)}. Must not
      *            start with {@code /}.
      */
     public PathRegexMatcher(String regex) {
@@ -47,7 +45,7 @@ public class PathRegexMatcher extends TemplateSourceMatcher {
     }
 
     @Override
-    public boolean matches(String sourceName, Object templateSource) throws IOException {
+    public boolean matches(String sourceName, Object templateSource) {
         return pattern.matcher(sourceName).matches();
     }
 

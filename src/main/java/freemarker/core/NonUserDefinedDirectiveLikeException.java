@@ -24,7 +24,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateTransformModel;
 
 /**
- * Indicates that a {@link TemplateDirectiveModel} or {@link TemplateTransformModel} or {@link Macro} value was
+ * Indicates that a {link TemplateDirectiveModel} or {link TemplateTransformModel} or {link Macro} value was
  * expected, but the value had a different type.
  * 
  * @since 2.3.21

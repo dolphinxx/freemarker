@@ -23,10 +23,10 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 /**
- * A class that allows one to associate custom data with a {@link Configuration}, a {@link Template}, or
- * {@link Environment}.
+ * A class that allows one to associate custom data with a {link Configuration}, a {link Template}, or
+ * {link Environment}.
  * 
- * <p>This API has similar approach to that of {@link ThreadLocal} (which allows one to associate
+ * <p>This API has similar approach to that of {link ThreadLocal} (which allows one to associate
  * custom data with a thread). With an example:</p>
  * 
  * <pre>
@@ -44,17 +44,17 @@ import freemarker.template.Template;
 public class CustomAttribute {
     
     /**
-     * Constant used in the constructor specifying that this attribute is {@link Environment}-scoped.
+     * Constant used in the constructor specifying that this attribute is {link Environment}-scoped.
      */
     public static final int SCOPE_ENVIRONMENT = 0;
         
     /**
-     * Constant used in the constructor specifying that this attribute is {@link Template}-scoped.
+     * Constant used in the constructor specifying that this attribute is {link Template}-scoped.
      */
     public static final int SCOPE_TEMPLATE = 1;
         
     /**
-     * Constant used in the constructor specifying that this attribute is {@link Configuration}-scoped.
+     * Constant used in the constructor specifying that this attribute is {link Configuration}-scoped.
      */
     public static final int SCOPE_CONFIGURATION = 2;
 
@@ -78,8 +78,8 @@ public class CustomAttribute {
     }
     
     /**
-     * This method is invoked when {@link #get()} is invoked without 
-     * {@link #set(Object)} being invoked before it to define the value in the 
+     * This method is invoked when {link #get()} is invoked without
+     * {link #set(Object)} being invoked before it to define the value in the
      * current scope. Override it to create the attribute value on-demand.  
      * @return the initial value for the custom attribute. By default returns null.
      */
@@ -88,11 +88,11 @@ public class CustomAttribute {
     }
     
     /**
-     * Gets the attribute from the appropriate scope that's accessible through the specified {@link Environment}. If
-     * the attribute has {@link #SCOPE_ENVIRONMENT} scope, it will be get from the given {@link Environment} directly.
-     * If the attribute has {@link #SCOPE_TEMPLATE} scope, it will be get from the parent of the given
-     * {@link Environment} (that is, in {@link Environment#getParent()}) directly). If the attribute has
-     * {@link #SCOPE_CONFIGURATION} scope, it will be get from {@link Environment#getConfiguration()}.
+     * Gets the attribute from the appropriate scope that's accessible through the specified {link Environment}. If
+     * the attribute has {link #SCOPE_ENVIRONMENT} scope, it will be get from the given {link Environment} directly.
+     * If the attribute has {link #SCOPE_TEMPLATE} scope, it will be get from the parent of the given
+     * {link Environment} (that is, in {link Environment#getParent()}) directly). If the attribute has
+     * {link #SCOPE_CONFIGURATION} scope, it will be get from {link Environment#getConfiguration()}.
      * 
      * @throws NullPointerException
      *             If {@code env} is null
@@ -106,10 +106,10 @@ public class CustomAttribute {
     }
 
     /**
-     * Same as {@link #get(Environment)}, but uses {@link Environment#getCurrentEnvironment()} to fill the 2nd argument.
+     * Same as {link #get(Environment)}, but uses {link Environment#getCurrentEnvironment()} to fill the 2nd argument.
      * 
      * @throws IllegalStateException
-     *             If there is no current {@link Environment}, which is usually the case when the current thread isn't
+     *             If there is no current {link Environment}, which is usually the case when the current thread isn't
      *             processing a template.
      */
     public final Object get() {
@@ -117,10 +117,10 @@ public class CustomAttribute {
     }
     
     /**
-     * Gets the value of a {@link Template}-scope attribute from the given {@link Template}.
+     * Gets the value of a {link Template}-scope attribute from the given {link Template}.
      * 
      * @throws UnsupportedOperationException
-     *             If this custom attribute has different scope than {@link #SCOPE_TEMPLATE}.
+     *             If this custom attribute has different scope than {link #SCOPE_TEMPLATE}.
      * @throws NullPointerException
      *             If {@code template} is null
      */
@@ -132,7 +132,7 @@ public class CustomAttribute {
     }
     
     /**
-     * Same as {@link #get(Template)}, but applies to a {@link TemplateConfiguration}.  
+     * Same as {link #get(Template)}, but applies to a {link TemplateConfiguration}.
      * 
      * @since 2.3.24
      */
@@ -144,10 +144,10 @@ public class CustomAttribute {
     }
     
     /**
-     * Gets the value of a {@link Configuration}-scope attribute from the given {@link Configuration}.
+     * Gets the value of a {link Configuration}-scope attribute from the given {link Configuration}.
      * 
      * @throws UnsupportedOperationException
-     *             If this custom attribute has different scope than {@link #SCOPE_CONFIGURATION}.
+     *             If this custom attribute has different scope than {link #SCOPE_CONFIGURATION}.
      * @throws NullPointerException
      *             If {@code cfg} is null
      * 
@@ -161,11 +161,11 @@ public class CustomAttribute {
     }
     
     /**
-     * Sets the attribute inside the appropriate scope that's accessible through the specified {@link Environment}. If
-     * the attribute has {@link #SCOPE_ENVIRONMENT} scope, it will be set in the given {@link Environment} directly. If
-     * the attribute has {@link #SCOPE_TEMPLATE} scope, it will be set in the parent of the given {@link Environment}
-     * (that is, in {@link Environment#getParent()}) directly). If the attribute has {@link #SCOPE_CONFIGURATION} scope,
-     * it will be set in {@link Environment#getConfiguration()}.
+     * Sets the attribute inside the appropriate scope that's accessible through the specified {link Environment}. If
+     * the attribute has {link #SCOPE_ENVIRONMENT} scope, it will be set in the given {link Environment} directly. If
+     * the attribute has {link #SCOPE_TEMPLATE} scope, it will be set in the parent of the given {link Environment}
+     * (that is, in {link Environment#getParent()}) directly). If the attribute has {link #SCOPE_CONFIGURATION} scope,
+     * it will be set in {link Environment#getConfiguration()}.
      * 
      * @param value
      *            The new value of the attribute. Can be {@code null}.
@@ -180,11 +180,11 @@ public class CustomAttribute {
     }
 
     /**
-     * Same as {@link #set(Object, Environment)}, but uses {@link Environment#getCurrentEnvironment()} to fill the 2nd
+     * Same as {link #set(Object, Environment)}, but uses {link Environment#getCurrentEnvironment()} to fill the 2nd
      * argument.
      * 
      * @throws IllegalStateException
-     *             If there is no current {@link Environment}, which is usually the case when the current thread isn't
+     *             If there is no current {link Environment}, which is usually the case when the current thread isn't
      *             processing a template.
      */
     public final void set(Object value) {
@@ -192,13 +192,13 @@ public class CustomAttribute {
     }
 
     /**
-     * Sets the value of a {@link Template}-scope attribute in the given {@link Template}.
+     * Sets the value of a {link Template}-scope attribute in the given {link Template}.
      * 
      * @param value
      *            The new value of the attribute. Can be {@code null}.
      * 
      * @throws UnsupportedOperationException
-     *             If this custom attribute has different scope than {@link #SCOPE_TEMPLATE}.
+     *             If this custom attribute has different scope than {link #SCOPE_TEMPLATE}.
      * @throws NullPointerException
      *             If {@code template} is null
      */
@@ -210,7 +210,7 @@ public class CustomAttribute {
     }
 
     /**
-     * Same as {@link #set(Object, Template)}, but applicable to a {@link TemplateConfiguration}. 
+     * Same as {link #set(Object, Template)}, but applicable to a {link TemplateConfiguration}.
      * 
      * @since 2.3.24
      */
@@ -222,13 +222,13 @@ public class CustomAttribute {
     }
     
     /**
-     * Sets the value of a {@link Configuration}-scope attribute in the given {@link Configuration}.
+     * Sets the value of a {link Configuration}-scope attribute in the given {link Configuration}.
      * 
      * @param value
      *            The new value of the attribute. Can be {@code null}.
      * 
      * @throws UnsupportedOperationException
-     *             If this custom attribute has different scope than {@link #SCOPE_CONFIGURATION}.
+     *             If this custom attribute has different scope than {link #SCOPE_CONFIGURATION}.
      * @throws NullPointerException
      *             If {@code cfg} is null
      * 

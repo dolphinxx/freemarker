@@ -28,8 +28,8 @@ import java.io.Serializable;
  *
  * <p>This class is thread-safe.
  *
- * @see SimpleSequence
- * @see SimpleHash
+ * see SimpleSequence
+ * see SimpleHash
  */
 public final class SimpleScalar 
 implements TemplateScalarModel, Serializable {

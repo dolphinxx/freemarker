@@ -54,7 +54,7 @@ public class CommandLine {
         
         if (ver.isGAECompliant() != null) {
             System.out.print("Google App Engine complian variant: ");
-            System.out.println(ver.isGAECompliant().booleanValue() ? "Yes" : "No");
+            System.out.println(ver.isGAECompliant() ? "Yes" : "No");
         }
     }
 }

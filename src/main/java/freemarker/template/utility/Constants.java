@@ -19,12 +19,13 @@
 
 package freemarker.template.utility;
 
+import freemarker.template.KeyValuePair;
+import freemarker.template.KeyValuePairIterator;
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateHashModelEx2;
-import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
@@ -36,12 +37,12 @@ import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 /**
- * Frequently used constant {@link TemplateModel} values.
+ * Frequently used constant {link TemplateModel} values.
  * 
- * <p>These constants should be stored in the {@link TemplateModel}
+ * <p>These constants should be stored in the {link TemplateModel}
  * sub-interfaces, but for backward compatibility they are stored here instead.
  * Starting from FreeMarker 2.4 they should be copied (not moved!) into the
- * {@link TemplateModel} sub-interfaces, and this class should be marked as
+ * {link TemplateModel} sub-interfaces, and this class should be marked as
  * deprecated.</p>
  */
 public class Constants {
@@ -66,7 +67,7 @@ public class Constants {
             throw new TemplateModelException("The collection has no more elements.");
         }
 
-        public boolean hasNext() throws TemplateModelException {
+        public boolean hasNext() {
             return false;
         }
         
@@ -76,7 +77,7 @@ public class Constants {
     
     private static class EmptyCollectionModel implements TemplateCollectionModel, Serializable {
 
-        public TemplateModelIterator iterator() throws TemplateModelException {
+        public TemplateModelIterator iterator() {
             return EMPTY_ITERATOR;
         }
         
@@ -99,8 +100,8 @@ public class Constants {
     public static final TemplateHashModelEx EMPTY_HASH = new EmptyHashModel();
     
     /**
-     * An empty hash. Since 2.3.27, it implements {@link TemplateHashModelEx2}, before that it was only
-     * {@link TemplateHashModelEx}.
+     * An empty hash. Since 2.3.27, it implements {link TemplateHashModelEx2}, before that it was only
+     * {link TemplateHashModelEx}.
      */
     private static class EmptyHashModel implements TemplateHashModelEx2, Serializable {
         
@@ -108,11 +109,11 @@ public class Constants {
             return 0;
         }
 
-        public TemplateCollectionModel keys() throws TemplateModelException {
+        public TemplateCollectionModel keys() {
             return EMPTY_COLLECTION;
         }
 
-        public TemplateCollectionModel values() throws TemplateModelException {
+        public TemplateCollectionModel values() {
             return EMPTY_COLLECTION;
         }
 
@@ -120,11 +121,11 @@ public class Constants {
             return null;
         }
 
-        public boolean isEmpty() throws TemplateModelException {
+        public boolean isEmpty() {
             return true;
         }
 
-        public KeyValuePairIterator keyValuePairIterator() throws TemplateModelException {
+        public KeyValuePairIterator keyValuePairIterator() {
             return EMPTY_KEY_VALUE_PAIR_ITERATOR;
         }
         
@@ -135,16 +136,16 @@ public class Constants {
      */
     public static final KeyValuePairIterator EMPTY_KEY_VALUE_PAIR_ITERATOR = new EmptyKeyValuePairIterator();
     
-    private static class EmptyKeyValuePairIterator implements TemplateHashModelEx2.KeyValuePairIterator {
+    private static class EmptyKeyValuePairIterator implements KeyValuePairIterator {
         private EmptyKeyValuePairIterator() {
             //
         }
 
-        public boolean hasNext() throws TemplateModelException {
+        public boolean hasNext() {
             return false;
         }
 
-        public TemplateHashModelEx2.KeyValuePair next() throws TemplateModelException {
+        public KeyValuePair next() {
             throw new NoSuchElementException("Can't retrieve element from empty key-value pair iterator.");
         }
 

@@ -220,13 +220,9 @@ abstract public class Expression extends TemplateObject {
             return !((TemplateCollectionModel) model).iterator().hasNext();
         } else if (model instanceof TemplateHashModel) {
             return ((TemplateHashModel) model).isEmpty();
-        } else if (model instanceof TemplateNumberModel
-                || model instanceof TemplateDateModel
-                || model instanceof TemplateBooleanModel) {
-            return false;
-        } else {
-            return true;
-        }
+        } else return !(model instanceof TemplateNumberModel)
+                && !(model instanceof TemplateDateModel)
+                && !(model instanceof TemplateBooleanModel);
     }
     
     void assertNonNull(TemplateModel model, Environment env) throws InvalidReferenceException {

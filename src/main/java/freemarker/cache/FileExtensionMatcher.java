@@ -53,7 +53,7 @@ public class FileExtensionMatcher extends TemplateSourceMatcher {
     }
 
     @Override
-    public boolean matches(String sourceName, Object templateSource) throws IOException {
+    public boolean matches(String sourceName, Object templateSource) {
         int ln = sourceName.length();
         int extLn = extension.length();
         if (ln < extLn + 1 || sourceName.charAt(ln - extLn - 1) != '.') {
@@ -75,7 +75,7 @@ public class FileExtensionMatcher extends TemplateSourceMatcher {
     }
     
     /**
-     * Fluid API variation of {@link #setCaseInsensitive(boolean)}
+     * Fluid API variation of {link #setCaseInsensitive(boolean)}
      */
     public FileExtensionMatcher caseInsensitive(boolean caseInsensitive) {
         setCaseInsensitive(caseInsensitive);

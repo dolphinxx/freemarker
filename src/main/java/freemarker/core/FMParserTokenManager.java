@@ -37,11 +37,11 @@ import static freemarker.template.Configuration.SQUARE_BRACKET_INTERPOLATION_SYN
     private int parenthesisNesting;
     private int bracketNesting;
     private boolean inFTLHeader;
-    boolean strictSyntaxMode,
-            squBracTagSyntax,
-            autodetectTagSyntax,
-            tagSyntaxEstablished,
-            inInvocation;
+    boolean strictSyntaxMode;
+    boolean squBracTagSyntax;
+    boolean autodetectTagSyntax;
+    boolean tagSyntaxEstablished;
+    boolean inInvocation;
     int interpolationSyntax;
     int initialNamingConvention;
     int namingConvention;
@@ -7875,9 +7875,7 @@ private static final boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, lo
       case 0:
          return ((jjbitVec2[i2] & l2) != 0L);
       default :
-         if ((jjbitVec0[i1] & l1) != 0L)
-            return true;
-         return false;
+          return (jjbitVec0[i1] & l1) != 0L;
    }
 }
 private static final boolean jjCanMove_1(int hiByte, int i1, int i2, long l1, long l2)
@@ -7929,9 +7927,7 @@ private static final boolean jjCanMove_1(int hiByte, int i1, int i2, long l1, lo
       case 255:
          return ((jjbitVec25[i2] & l2) != 0L);
       default :
-         if ((jjbitVec3[i1] & l1) != 0L)
-            return true;
-         return false;
+          return (jjbitVec3[i1] & l1) != 0L;
    }
 }
 
@@ -8094,7 +8090,7 @@ public Token getNextToken()
         input_stream.backup(1);
         error_after = curPos <= 1 ? "" : input_stream.GetImage();
      }
-     throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+     throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, (char)curChar, TokenMgrError.LEXICAL_ERROR);
   }
 }
 

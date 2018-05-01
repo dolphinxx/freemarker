@@ -57,7 +57,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Returns information about a {@link Class} that's useful for FreeMarker. Encapsulates a cache for this. Thread-safe,
+ * Returns information about a {link Class} that's useful for FreeMarker. Encapsulates a cache for this. Thread-safe,
  * doesn't even require "proper publishing" starting from 2.3.24 or Java 5. Immutable, with the exception of the
  * internal caches.
  * 
@@ -73,53 +73,12 @@ class ClassIntrospector {
 
     private static final Logger LOG = Logger.getLogger("freemarker.beans");
 
-    private static final String JREBEL_SDK_CLASS_NAME = "org.zeroturnaround.javarebel.ClassEventListener";
-    private static final String JREBEL_INTEGRATION_ERROR_MSG
-            = "Error initializing JRebel integration. JRebel integration disabled.";
-
     /**
      * When this property is true, some things are stricter. This is mostly to catch suspicious things in development
      * that can otherwise be valid situations.
      */
     static final boolean DEVELOPMENT_MODE = "true".equals(SecurityUtilities.getSystemProperty("freemarker.development",
             "false"));
-
-    private static final ClassChangeNotifier CLASS_CHANGE_NOTIFIER;
-    static {
-        boolean jRebelAvailable;
-        try {
-            Class.forName(JREBEL_SDK_CLASS_NAME);
-            jRebelAvailable = true;
-        } catch (Throwable e) {
-            jRebelAvailable = false;
-            try {
-                if (!(e instanceof ClassNotFoundException)) {
-                    LOG.error(JREBEL_INTEGRATION_ERROR_MSG, e);
-                }
-            } catch (Throwable loggingE) {
-                // ignore
-            }
-        }
-
-        ClassChangeNotifier classChangeNotifier;
-        if (jRebelAvailable) {
-            try {
-                classChangeNotifier = (ClassChangeNotifier)
-                        Class.forName("freemarker.ext.beans.JRebelClassChangeNotifier").newInstance();
-            } catch (Throwable e) {
-                classChangeNotifier = null;
-                try {
-                    LOG.error(JREBEL_INTEGRATION_ERROR_MSG, e);
-                } catch (Throwable loggingE) {
-                    // ignore
-                }
-            }
-        } else {
-            classChangeNotifier = null;
-        }
-
-        CLASS_CHANGE_NOTIFIER = classChangeNotifier;
-    }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Introspection info Map keys:
@@ -143,10 +102,10 @@ class ClassIntrospector {
     final boolean treatDefaultMethodsAsBeanMembers;
     final boolean bugfixed;
 
-    /** See {@link #getHasSharedInstanceRestrictons()} */
+    /** See {link #getHasSharedInstanceRestrictons()} */
     final private boolean hasSharedInstanceRestrictons;
 
-    /** See {@link #isShared()} */
+    /** See {link #isShared()} */
     final private boolean shared;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -179,7 +138,7 @@ class ClassIntrospector {
 
     /**
      * @param hasSharedInstanceRestrictons
-     *            {@code true} exactly if we are creating a new instance with {@link ClassIntrospectorBuilder}. Then
+     *            {@code true} exactly if we are creating a new instance with {link ClassIntrospectorBuilder}. Then
      *            it's {@code true} even if it won't put the instance into the cache.
      */
     ClassIntrospector(ClassIntrospectorBuilder builder, Object sharedLock,
@@ -197,15 +156,11 @@ class ClassIntrospector {
 
         this.hasSharedInstanceRestrictons = hasSharedInstanceRestrictons;
         this.shared = shared;
-
-        if (CLASS_CHANGE_NOTIFIER != null) {
-            CLASS_CHANGE_NOTIFIER.subscribe(this);
-        }
     }
 
     /**
-     * Returns a {@link ClassIntrospectorBuilder}-s that could be used to create an identical {@link #ClassIntrospector}
-     * . The returned {@link ClassIntrospectorBuilder} can be modified without interfering with anything.
+     * Returns a {link ClassIntrospectorBuilder}-s that could be used to create an identical {link #ClassIntrospector}
+     * . The returned {link ClassIntrospectorBuilder} can be modified without interfering with anything.
      */
     ClassIntrospectorBuilder createBuilder() {
         return new ClassIntrospectorBuilder(this);
@@ -215,11 +170,11 @@ class ClassIntrospector {
     // Introspection:
 
     /**
-     * Gets the class introspection data from {@link #cache}, automatically creating the cache entry if it's missing.
+     * Gets the class introspection data from {link #cache}, automatically creating the cache entry if it's missing.
      * 
-     * @return A {@link Map} where each key is a property/method/field name (or a special {@link Object} key like
-     *         {@link #CONSTRUCTORS_KEY}), each value is a {@link FastPropertyDescriptor} or {@link Method} or
-     *         {@link OverloadedMethods} or {@link Field} (but better check the source code...).
+     * @return A {link Map} where each key is a property/method/field name (or a special {link Object} key like
+     *         {link #CONSTRUCTORS_KEY}), each value is a {link FastPropertyDescriptor} or {link Method} or
+     *         {link OverloadedMethods} or {link Field} (but better check the source code...).
      */
     Map<Object, Object> get(Class<?> clazz) {
         {
@@ -269,7 +224,7 @@ class ClassIntrospector {
     }
 
     /**
-     * Creates a {@link Map} with the content as described for the return value of {@link #get(Class)}.
+     * Creates a {link Map} with the content as described for the return value of {link #get(Class)}.
      */
     private Map<Object, Object> createClassIntrospectionData(Class<?> clazz) {
         final Map<Object, Object> introspData = new HashMap<Object, Object>();
@@ -393,12 +348,12 @@ class ClassIntrospector {
     }
 
     /**
-     * Very similar to {@link BeanInfo#getPropertyDescriptors()}, but can deal with Java 8 default methods too.
+     * Very similar to {link BeanInfo#getPropertyDescriptors()}, but can deal with Java 8 default methods too.
      */
     private List<PropertyDescriptor> getPropertyDescriptors(BeanInfo beanInfo, Class<?> clazz) {
         PropertyDescriptor[] introspectorPDsArray = beanInfo.getPropertyDescriptors();
         List<PropertyDescriptor> introspectorPDs = introspectorPDsArray != null ? Arrays.asList(introspectorPDsArray)
-                : Collections.<PropertyDescriptor>emptyList();
+                : Collections.emptyList();
         
         if (!treatDefaultMethodsAsBeanMembers || _JavaVersions.JAVA_8 == null) {
             // java.beans.Introspector was good enough then.
@@ -587,12 +542,12 @@ class ClassIntrospector {
     }
     
     /**
-     * Very similar to {@link BeanInfo#getMethodDescriptors()}, but can deal with Java 8 default methods too.
+     * Very similar to {link BeanInfo#getMethodDescriptors()}, but can deal with Java 8 default methods too.
      */
     private List<MethodDescriptor> getMethodDescriptors(BeanInfo beanInfo, Class<?> clazz) {
         MethodDescriptor[] introspectorMDArray = beanInfo.getMethodDescriptors();
         List<MethodDescriptor> introspectionMDs = introspectorMDArray != null && introspectorMDArray.length != 0
-                ? Arrays.asList(introspectorMDArray) : Collections.<MethodDescriptor>emptyList();
+                ? Arrays.asList(introspectorMDArray) : Collections.emptyList();
 
         if (!treatDefaultMethodsAsBeanMembers || _JavaVersions.JAVA_8 == null) {
             // java.beans.Introspector was good enough then.
@@ -720,7 +675,7 @@ class ClassIntrospector {
     }
 
     /**
-     * Retrieves mapping of {@link MethodSignature}-s to a {@link List} of accessible methods for a class. In case the
+     * Retrieves mapping of {link MethodSignature}-s to a {link List} of accessible methods for a class. In case the
      * class is not public, retrieves methods with same signature as its public methods from public superclasses and
      * interfaces. Basically upcasts every method to the nearest accessible method.
      */
@@ -860,7 +815,7 @@ class ClassIntrospector {
     // Cache management:
 
     /**
-     * Corresponds to {@link BeansWrapper#clearClassIntrospecitonCache()}.
+     * Corresponds to {link BeansWrapper#clearClassIntrospecitonCache()}.
      * 
      * @since 2.3.20
      */
@@ -897,7 +852,7 @@ class ClassIntrospector {
     }
 
     /**
-     * Corresponds to {@link BeansWrapper#removeFromClassIntrospectionCache(Class)}.
+     * Corresponds to {link BeansWrapper#removeFromClassIntrospectionCache(Class)}.
      * 
      * @since 2.3.20
      */
@@ -1058,7 +1013,7 @@ class ClassIntrospector {
     }
 
     /**
-     * Returns {@code true} if this instance was created with {@link ClassIntrospectorBuilder}, even if it wasn't
+     * Returns {@code true} if this instance was created with {link ClassIntrospectorBuilder}, even if it wasn't
      * actually put into the cache (as we reserve the right to do so in later versions).
      */
     boolean getHasSharedInstanceRestrictons() {
@@ -1066,17 +1021,17 @@ class ClassIntrospector {
     }
 
     /**
-     * Tells if this instance is (potentially) shared among {@link BeansWrapper} instances.
+     * Tells if this instance is (potentially) shared among {link BeansWrapper} instances.
      * 
-     * @see #getHasSharedInstanceRestrictons()
+     * see #getHasSharedInstanceRestrictons()
      */
     boolean isShared() {
         return shared;
     }
 
     /**
-     * Almost always, you want to use {@link BeansWrapper#getSharedIntrospectionLock()}, not this! The only exception is
-     * when you get this to set the field returned by {@link BeansWrapper#getSharedIntrospectionLock()}.
+     * Almost always, you want to use {link BeansWrapper#getSharedIntrospectionLock()}, not this! The only exception is
+     * when you get this to set the field returned by {link BeansWrapper#getSharedIntrospectionLock()}.
      */
     Object getSharedLock() {
         return sharedLock;

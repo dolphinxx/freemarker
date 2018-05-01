@@ -41,7 +41,7 @@ public abstract class ModelCache {
     
     /**
      * Sets whether this wrapper caches model instances. Default is false.
-     * When set to true, calling {@link #getInstance(Object)} 
+     * When set to true, calling {link #getInstance(Object)}
      * multiple times for the same object will return the same model.
      */
     public synchronized void setUseCache(boolean useCache) {
@@ -136,7 +136,7 @@ public abstract class ModelCache {
         }
 
         TemplateModel getModel() {
-            return (TemplateModel) this.get();
+            return this.get();
         }
     }
 

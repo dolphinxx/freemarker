@@ -21,7 +21,7 @@ package freemarker.core;
 import freemarker.template.utility.CollectionUtils;
 
 /**
- * Holds an buffer (array) of {@link TemplateElement}-s with the count of the utilized items in it. The un-utilized tail
+ * Holds an buffer (array) of {link TemplateElement}-s with the count of the utilized items in it. The un-utilized tail
  * of the array must only contain {@code null}-s.
  * 
  * @since 2.3.24

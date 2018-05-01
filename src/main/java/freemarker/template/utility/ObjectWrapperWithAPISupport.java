@@ -21,11 +21,10 @@ package freemarker.template.utility;
 
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 /**
- * <b>Experimental - subject to change:</b> Implemented by {@link ObjectWrapper}-s to help {@link TemplateModel}-s to
+ * <b>Experimental - subject to change:</b> Implemented by {link ObjectWrapper}-s to help {link TemplateModel}-s to
  * implement the {@code someValue?api} operation.
  * 
  * <p>
@@ -37,12 +36,12 @@ import freemarker.template.TemplateModelException;
 public interface ObjectWrapperWithAPISupport extends ObjectWrapper {
 
     /**
-     * Wraps an object to a {@link TemplateModel} that exposes the object's "native" (usually, Java) API.
+     * Wraps an object to a {link TemplateModel} that exposes the object's "native" (usually, Java) API.
      * 
      * @param obj
      *            The object for which the API model has to be returned. Shouldn't be {@code null}.
      * 
-     * @return The {@link TemplateModel} through which the API of the object can be accessed. Can't be {@code null}.
+     * @return The {link TemplateModel} through which the API of the object can be accessed. Can't be {@code null}.
      * 
      * @since 2.3.22
      */

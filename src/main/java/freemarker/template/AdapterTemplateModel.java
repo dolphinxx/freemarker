@@ -20,13 +20,13 @@
 package freemarker.template;
 
 /**
- * A {@link TemplateModel} that can be unwrapped and then it considers a provided desired (hint) class. This is
+ * A {link TemplateModel} that can be unwrapped and then it considers a provided desired (hint) class. This is
  * useful when multiple languages has to communicate with each other through FreeMarker. For example, if we have a
  * model that wraps a Jython object, then we have to unwrap that differently when we pass it to plain Java method and
  * when we pass it to a Jython method.
  * 
  * <p>This is rarely implemented by applications. It is typically implemented by the model classes belonging to
- * {@link ObjectWrapper}-s.
+ * {link ObjectWrapper}-s.
  */
 public interface AdapterTemplateModel extends TemplateModel {
     /**
@@ -45,5 +45,5 @@ public interface AdapterTemplateModel extends TemplateModel {
      * @return the underlying object, or its value accommodated for the hint
      * class.
      */
-    public Object getAdaptedObject(Class<?> hint);
+    Object getAdaptedObject(Class<?> hint);
 }

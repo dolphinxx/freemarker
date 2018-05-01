@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.io.Writer;
 
 /**
- * Represents the nested content of a directive ({@link TemplateDirectiveModel}) invocation. An implementation of this 
- * class is passed to {@link TemplateDirectiveModel#execute(freemarker.core.Environment, 
+ * Represents the nested content of a directive ({link TemplateDirectiveModel}) invocation. An implementation of this
+ * class is passed to {link TemplateDirectiveModel#execute(freemarker.core.Environment,
  * java.util.Map, TemplateModel[], TemplateDirectiveBody)}. The implementation of the method is 
  * free to invoke it for any number of times, with any writer.
  *
@@ -39,5 +39,5 @@ public interface TemplateDirectiveBody {
      * might be after multiple renderings).
      * @param out the writer to write the output to.
      */
-    public void render(Writer out) throws TemplateException, IOException;
+    void render(Writer out) throws TemplateException, IOException;
 }

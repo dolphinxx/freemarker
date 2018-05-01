@@ -23,7 +23,7 @@ import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateModel;
 
 /**
- * Interface used to create various wrapper models in the {@link ModelCache}.
+ * Interface used to create various wrapper models in the {link ModelCache}.
  */
 public interface ModelFactory {
     /**

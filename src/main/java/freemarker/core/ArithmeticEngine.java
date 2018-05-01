@@ -32,13 +32,13 @@ import java.util.Map;
 /**
  * Used for implementing the arithmetic operations and number comparisons in the template language. The concrete
  * implementation is plugged into the configuration with the {@code arithmetical_engine} setting. 
- * (See {@link Configurable#setArithmeticEngine(ArithmeticEngine)}.)
+ * (See {link Configurable#setArithmeticEngine(ArithmeticEngine)}.)
  */
 public abstract class ArithmeticEngine {
 
     /**
-     * Arithmetic engine that converts all numbers to {@link BigDecimal} and
-     * then operates on them, and also keeps the result as a {@link BigDecimal}. This is FreeMarker's default arithmetic
+     * Arithmetic engine that converts all numbers to {link BigDecimal} and
+     * then operates on them, and also keeps the result as a {link BigDecimal}. This is FreeMarker's default arithmetic
      * engine.
      */
     public static final BigDecimalEngine BIGDECIMAL_ENGINE = new BigDecimalEngine();
@@ -108,8 +108,8 @@ public abstract class ArithmeticEngine {
 
     /**
      * This is the default arithmetic engine in FreeMarker. It converts every
-     * number it receives into {@link BigDecimal}, then operates on these
-     * converted {@link BigDecimal}s.
+     * number it receives into {link BigDecimal}, then operates on these
+     * converted {link BigDecimal}s.
      */
     public static class BigDecimalEngine extends ArithmeticEngine {
         
@@ -241,7 +241,7 @@ public abstract class ArithmeticEngine {
         public Number modulus(Number first, Number second) {
             long left = first.longValue();
             long right = second.longValue();
-            return Long.valueOf(left % right);
+            return left % right;
         }
     
         @Override
@@ -347,10 +347,10 @@ public abstract class ArithmeticEngine {
                         : Long.valueOf(n);
                 }
                 case FLOAT: {
-                    return Float.valueOf(first.floatValue() + second.floatValue());
+                    return first.floatValue() + second.floatValue();
                 }
                 case DOUBLE: {
-                    return Double.valueOf(first.doubleValue() + second.doubleValue());
+                    return first.doubleValue() + second.doubleValue();
                 }
                 case BIGINTEGER: {
                     BigInteger n1 = toBigInteger(first);
@@ -377,8 +377,8 @@ public abstract class ArithmeticEngine {
                     int n = n1 - n2;
                     return
                         ((n ^ n1) < 0 && (n ^ ~n2) < 0) // overflow check
-                        ? (Number) Long.valueOf(((long) n1) - n2)
-                        : (Number) Integer.valueOf(n);
+                        ? Long.valueOf(((long) n1) - n2)
+                        : Integer.valueOf(n);
                 }
                 case LONG: {
                     long n1 = first.longValue();
@@ -386,14 +386,14 @@ public abstract class ArithmeticEngine {
                     long n = n1 - n2;
                     return
                         ((n ^ n1) < 0 && (n ^ ~n2) < 0) // overflow check
-                        ? (Number) toBigInteger(first).subtract(toBigInteger(second))
-                        : (Number) Long.valueOf(n);
+                        ? toBigInteger(first).subtract(toBigInteger(second))
+                        : Long.valueOf(n);
                 }
                 case FLOAT: {
-                    return Float.valueOf(first.floatValue() - second.floatValue());
+                    return first.floatValue() - second.floatValue();
                 }
                 case DOUBLE: {
-                    return Double.valueOf(first.doubleValue() - second.doubleValue());
+                    return first.doubleValue() - second.doubleValue();
                 }
                 case BIGINTEGER: {
                     BigInteger n1 = toBigInteger(first);
@@ -420,8 +420,8 @@ public abstract class ArithmeticEngine {
                     int n = n1 * n2;
                     return
                         n1 == 0 || n / n1 == n2 // overflow check
-                        ? (Number) Integer.valueOf(n)
-                        : (Number) Long.valueOf(((long) n1) * n2);
+                        ? Integer.valueOf(n)
+                        : Long.valueOf(((long) n1) * n2);
                 }
                 case LONG: {
                     long n1 = first.longValue();
@@ -429,14 +429,14 @@ public abstract class ArithmeticEngine {
                     long n = n1 * n2;
                     return
                         n1 == 0L || n / n1 == n2 // overflow check
-                        ? (Number) Long.valueOf(n)
-                        : (Number) toBigInteger(first).multiply(toBigInteger(second));
+                        ? Long.valueOf(n)
+                        : toBigInteger(first).multiply(toBigInteger(second));
                 }
                 case FLOAT: {
-                    return Float.valueOf(first.floatValue() * second.floatValue());
+                    return first.floatValue() * second.floatValue();
                 }
                 case DOUBLE: {
-                    return Double.valueOf(first.doubleValue() * second.doubleValue());
+                    return first.doubleValue() * second.doubleValue();
                 }
                 case BIGINTEGER: {
                     BigInteger n1 = toBigInteger(first);
@@ -462,23 +462,23 @@ public abstract class ArithmeticEngine {
                     int n1 = first.intValue();
                     int n2 = second.intValue();
                     if (n1 % n2 == 0) {
-                        return Integer.valueOf(n1 / n2);
+                        return n1 / n2;
                     }
-                    return Double.valueOf(((double) n1) / n2);
+                    return ((double) n1) / n2;
                 }
                 case LONG: {
                     long n1 = first.longValue();
                     long n2 = second.longValue();
                     if (n1 % n2 == 0) {
-                        return Long.valueOf(n1 / n2);
+                        return n1 / n2;
                     }
-                    return Double.valueOf(((double) n1) / n2);
+                    return ((double) n1) / n2;
                 }
                 case FLOAT: {
-                    return Float.valueOf(first.floatValue() / second.floatValue());
+                    return first.floatValue() / second.floatValue();
                 }
                 case DOUBLE: {
-                    return Double.valueOf(first.doubleValue() / second.doubleValue());
+                    return first.doubleValue() / second.doubleValue();
                 }
                 case BIGINTEGER: {
                     BigInteger n1 = toBigInteger(first);
@@ -511,16 +511,16 @@ public abstract class ArithmeticEngine {
         public Number modulus(Number first, Number second) throws TemplateException {
             switch(getCommonClassCode(first, second)) {
                 case INTEGER: {
-                    return Integer.valueOf(first.intValue() % second.intValue());
+                    return first.intValue() % second.intValue();
                 }
                 case LONG: {
-                    return Long.valueOf(first.longValue() % second.longValue());
+                    return first.longValue() % second.longValue();
                 }
                 case FLOAT: {
-                    return Float.valueOf(first.floatValue() % second.floatValue());
+                    return first.floatValue() % second.floatValue();
                 }
                 case DOUBLE: {
-                    return Double.valueOf(first.doubleValue() % second.doubleValue());
+                    return first.doubleValue() % second.doubleValue();
                 }
                 case BIGINTEGER: {
                     BigInteger n1 = toBigInteger(first);
@@ -544,21 +544,21 @@ public abstract class ArithmeticEngine {
         
         private static Map createClassCodesMap() {
             Map map = new HashMap(17);
-            Integer intcode = Integer.valueOf(INTEGER);
+            Integer intcode = INTEGER;
             map.put(Byte.class, intcode);
             map.put(Short.class, intcode);
             map.put(Integer.class, intcode);
-            map.put(Long.class, Integer.valueOf(LONG));
-            map.put(Float.class, Integer.valueOf(FLOAT));
-            map.put(Double.class, Integer.valueOf(DOUBLE));
-            map.put(BigInteger.class, Integer.valueOf(BIGINTEGER));
-            map.put(BigDecimal.class, Integer.valueOf(BIGDECIMAL));
+            map.put(Long.class, LONG);
+            map.put(Float.class, FLOAT);
+            map.put(Double.class, DOUBLE);
+            map.put(BigInteger.class, BIGINTEGER);
+            map.put(BigDecimal.class, BIGDECIMAL);
             return map;
         }
         
         private static int getClassCode(Number num) throws TemplateException {
             try {
-                return ((Integer) classCodes.get(num.getClass())).intValue();
+                return (Integer) classCodes.get(num.getClass());
             } catch (NullPointerException e) {
                 if (num == null) {
                     throw new _MiscTemplateException("The Number object was null.");
@@ -600,10 +600,10 @@ public abstract class ArithmeticEngine {
     }
 
     /**
-     * Convert a {@code Number} to {@link BigDecimal}.
+     * Convert a {@code Number} to {link BigDecimal}.
      * 
      * @throws NumberFormatException
-     *             If the conversion is not possible, e.g. Infinite and NaN can't be converted to {@link BigDecimal}.
+     *             If the conversion is not possible, e.g. Infinite and NaN can't be converted to {link BigDecimal}.
      */
     private static BigDecimal toBigDecimal(Number num) {
         if (num instanceof BigDecimal) {
@@ -635,11 +635,11 @@ public abstract class ArithmeticEngine {
         if (s.length() > 2) {
             char c = s.charAt(0);
             if (c == 'I' && (s.equals("INF") || s.equals("Infinity"))) {
-                return Double.valueOf(Double.POSITIVE_INFINITY);
+                return Double.POSITIVE_INFINITY;
             } else if (c == 'N' && s.equals("NaN")) {
-                return Double.valueOf(Double.NaN);
+                return Double.NaN;
             } else if (c == '-' && s.charAt(1) == 'I' && (s.equals("-INF") || s.equals("-Infinity"))) {
-                return Double.valueOf(Double.NEGATIVE_INFINITY);
+                return Double.NEGATIVE_INFINITY;
             }
         }
         return new BigDecimal(s);

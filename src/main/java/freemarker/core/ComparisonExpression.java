@@ -34,7 +34,6 @@ final class ComparisonExpression extends BooleanExpression {
     ComparisonExpression(Expression left, Expression right, String opString) {
         this.left = left;
         this.right = right;
-        opString = opString.intern();
         this.opString = opString;
         if (opString == "==" || opString == "=") {
             operation = EvalUtil.CMP_OP_EQUALS;

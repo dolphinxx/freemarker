@@ -71,8 +71,8 @@ public final class _CoreStringUtils {
     }
 
     /**
-     * @return {@link Configuration#CAMEL_CASE_NAMING_CONVENTION}, or {@link Configuration#LEGACY_NAMING_CONVENTION}
-     *         or, {@link Configuration#AUTO_DETECT_NAMING_CONVENTION} when undecidable.
+     * @return {link Configuration#CAMEL_CASE_NAMING_CONVENTION}, or {link Configuration#LEGACY_NAMING_CONVENTION}
+     *         or, {link Configuration#AUTO_DETECT_NAMING_CONVENTION} when undecidable.
      */
     public static int getIdentifierNamingConvention(String name) {
         final int ln = name.length();
@@ -104,7 +104,7 @@ public final class _CoreStringUtils {
         }
         
         StringBuilder sb = new StringBuilder();
-        sb.append(camelCaseName.substring(0, i));
+        sb.append(camelCaseName, 0, i);
         while (i < camelCaseName.length()) {
             final char c = camelCaseName.charAt(i);
             if (isUpperUSASCII(c)) {

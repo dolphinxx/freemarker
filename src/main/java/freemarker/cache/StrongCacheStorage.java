@@ -23,11 +23,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Strong cache storage is a cache storage that simply wraps a {@link Map}. It holds a strong reference to all objects
+ * Strong cache storage is a cache storage that simply wraps a {link Map}. It holds a strong reference to all objects
  * it was passed, therefore prevents the cache from being purged during garbage collection. This class is always
  * thread-safe since 2.3.24, before that if we are running on Java 5 or later.
  *
- * @see freemarker.template.Configuration#setCacheStorage(CacheStorage)
+ * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
  */
 public class StrongCacheStorage implements ConcurrentCacheStorage, CacheStorageWithGetSize {
     

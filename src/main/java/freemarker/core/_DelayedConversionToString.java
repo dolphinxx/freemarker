@@ -22,7 +22,7 @@ package freemarker.core;
 /** Don't use this; used internally by FreeMarker, might changes without notice. */
 public abstract class _DelayedConversionToString {
 
-    private static final String NOT_SET = new String();
+    private static final String NOT_SET = "";
 
     private Object object;
     private volatile String stringValue = NOT_SET;

@@ -19,11 +19,9 @@
 
 package freemarker.template;
 
-import java.util.Collection;
-
 /**
  * "collection" template language data type: Adds size/emptiness querybility to
- * {@link TemplateCollectionModel}. The added extra operations are provided by all Java {@link Collection}-s, and this
+ * {link TemplateCollectionModel}. The added extra operations are provided by all Java {link Collection}-s, and this
  * interface was added to make that accessible for templates too.
  * 
  * @since 2.3.22
@@ -31,8 +29,8 @@ import java.util.Collection;
 public interface TemplateCollectionModelEx extends TemplateCollectionModel {
 
     /**
-     * Returns the number items in this collection, or {@link Integer#MAX_VALUE}, if there are more than
-     * {@link Integer#MAX_VALUE} items.
+     * Returns the number items in this collection, or {link Integer#MAX_VALUE}, if there are more than
+     * {link Integer#MAX_VALUE} items.
      */
     int size() throws TemplateModelException;
 

@@ -19,13 +19,12 @@
 
 package freemarker.cache;
 
-import freemarker.template.Template;
 import freemarker.template.utility.NullArgumentException;
 
 /**
- * The return value of {@link TemplateLookupStrategy#lookup(TemplateLookupContext)} and similar lookup methods. You
- * usually get one from {@link TemplateLookupContext#lookupWithAcquisitionStrategy(String)} or
- * {@link TemplateLookupContext#createNegativeLookupResult()}; you can't create instances of this directly.
+ * The return value of {link TemplateLookupStrategy#lookup(TemplateLookupContext)} and similar lookup methods. You
+ * usually get one from {link TemplateLookupContext#lookupWithAcquisitionStrategy(String)} or
+ * {link TemplateLookupContext#createNegativeLookupResult()}; you can't create instances of this directly.
  * 
  * @since 2.3.22
  */
@@ -48,8 +47,8 @@ public abstract class TemplateLookupResult {
     }
     
     /**
-     * The source name of the template found (see {@link Template#getSourceName()}), or {@code null} if
-     * {@link #isPositive()} is {@code false}.
+     * The source name of the template found (see {link Template#getSourceName()}), or {@code null} if
+     * {link #isPositive()} is {@code false}.
      */
     public abstract String getTemplateSourceName();
 
@@ -59,8 +58,8 @@ public abstract class TemplateLookupResult {
     public abstract boolean isPositive();
 
     /**
-     * Used internally to extract the {@link TemplateLoader} source; {@code null} if
-     * {@link #isPositive()} is {@code false}.
+     * Used internally to extract the {link TemplateLoader} source; {@code null} if
+     * {link #isPositive()} is {@code false}.
      */
     abstract Object getTemplateSource();
 
@@ -78,7 +77,7 @@ public abstract class TemplateLookupResult {
          *            {@code null}.
          * 
          * @param templateSource
-         *            See {@link TemplateLoader#findTemplateSource(String)} to understand what that means. Not
+         *            See {link TemplateLoader#findTemplateSource(String)} to understand what that means. Not
          *            {@code null}.
          */
         private PositiveTemplateLookupResult(String templateSourceName, Object templateSource) {

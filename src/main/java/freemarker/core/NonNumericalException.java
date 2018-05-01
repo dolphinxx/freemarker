@@ -23,7 +23,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateNumberModel;
 
 /**
- * Indicates that a {@link TemplateNumberModel} value was expected, but the value had a different type.
+ * Indicates that a {link TemplateNumberModel} value was expected, but the value had a different type.
  */
 public class NonNumericalException extends UnexpectedTypeException {
 

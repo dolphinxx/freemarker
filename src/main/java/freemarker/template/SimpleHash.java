@@ -32,42 +32,42 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * A simple implementation of the {@link TemplateHashModelEx} interface, using its own underlying {@link Map} or
- * {@link SortedMap} for storing the hash entries. If you are wrapping an already existing {@link Map}, you should
- * certainly use {@link DefaultMapAdapter} instead (see comparison below).
+ * A simple implementation of the {link TemplateHashModelEx} interface, using its own underlying {link Map} or
+ * {link SortedMap} for storing the hash entries. If you are wrapping an already existing {link Map}, you should
+ * certainly use {link DefaultMapAdapter} instead (see comparison below).
  *
  * <p>
- * This class is thread-safe if you don't call modifying methods (like {@link #put(String, Object)},
- * {@link #remove(String)}, etc.) after you have made the object available for multiple threads (assuming you have
+ * This class is thread-safe if you don't call modifying methods (like {link #put(String, Object)},
+ * {link #remove(String)}, etc.) after you have made the object available for multiple threads (assuming you have
  * published it safely to the other threads; see JSR-133 Java Memory Model). These methods aren't called by FreeMarker,
  * so it's usually not a concern.
  * 
  * <p>
- * <b>{@link SimpleHash} VS {@link DefaultMapAdapter} - Which to use when?</b>
+ * <b>{link SimpleHash} VS {link DefaultMapAdapter} - Which to use when?</b>
  * 
  * <p>
- * For a {@link Map} that exists regardless of FreeMarker, only you need to access it from templates,
- * {@link DefaultMapAdapter} should be the default choice, as it reflects the exact behavior of the underlying
- * {@link Map} (no surprises), can be unwrapped to the originally wrapped object (important when passing it to Java
+ * For a {link Map} that exists regardless of FreeMarker, only you need to access it from templates,
+ * {link DefaultMapAdapter} should be the default choice, as it reflects the exact behavior of the underlying
+ * {link Map} (no surprises), can be unwrapped to the originally wrapped object (important when passing it to Java
  * methods from the template), and has more predictable performance (no spikes).
  * 
  * <p>
- * For a hash that's made specifically to be used from templates, creating an empty {@link SimpleHash} then filling it
- * with {@link SimpleHash#put(String, Object)} is usually the way to go, as the resulting hash is significantly faster
- * to read from templates than a {@link DefaultMapAdapter} (though it's somewhat slower to read from a plain Java method
- * to which it had to be passed adapted to a {@link Map}).
+ * For a hash that's made specifically to be used from templates, creating an empty {link SimpleHash} then filling it
+ * with {link SimpleHash#put(String, Object)} is usually the way to go, as the resulting hash is significantly faster
+ * to read from templates than a {link DefaultMapAdapter} (though it's somewhat slower to read from a plain Java method
+ * to which it had to be passed adapted to a {link Map}).
  * 
  * <p>
- * It also matters if for how many times will the <em>same</em> {@link Map} entry be read from the template(s) later, on
- * average. If, on average, you read each entry for more than 4 times, {@link SimpleHash} will be most certainly faster,
- * but if for 2 times or less (and especially if not at all) then {@link DefaultMapAdapter} will be faster. Before 
- * choosing based on performance though, pay attention to the behavioral differences; {@link SimpleHash} will 
- * shallow-copy the original {@link Map} at construction time, so key order will be lost in some cases, and it won't 
- * reflect {@link Map} content changes after the {@link SimpleHash} construction, also {@link SimpleHash} can't be 
- * unwrapped to the original {@link Map} instance.
+ * It also matters if for how many times will the <em>same</em> {link Map} entry be read from the template(s) later, on
+ * average. If, on average, you read each entry for more than 4 times, {link SimpleHash} will be most certainly faster,
+ * but if for 2 times or less (and especially if not at all) then {link DefaultMapAdapter} will be faster. Before
+ * choosing based on performance though, pay attention to the behavioral differences; {link SimpleHash} will
+ * shallow-copy the original {link Map} at construction time, so key order will be lost in some cases, and it won't
+ * reflect {link Map} content changes after the {link SimpleHash} construction, also {link SimpleHash} can't be
+ * unwrapped to the original {link Map} instance.
  *
- * @see DefaultMapAdapter
- * @see TemplateHashModelEx
+ * see DefaultMapAdapter
+ * see TemplateHashModelEx
  */
 public class SimpleHash extends WrappingTemplateModel implements TemplateHashModelEx2, Serializable {
 
@@ -77,9 +77,9 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
 
     /**
      * Constructs an empty hash that uses the default wrapper set in
-     * {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
+     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
      * 
-     * @deprecated Use {@link #SimpleHash(ObjectWrapper)}
+     * @deprecated Use {link #SimpleHash(ObjectWrapper)}
      */
     @Deprecated
     public SimpleHash() {
@@ -89,13 +89,13 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
     /**
      * Creates a new simple hash with the copy of the underlying map and the
      * default wrapper set in 
-     * {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
+     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
      * @param map The Map to use for the key/value pairs. It makes a copy for 
-     * internal use. If the map implements the {@link SortedMap} interface, the
-     * internal copy will be a {@link TreeMap}, otherwise it will be a 
-     * {@link HashMap}.
+     * internal use. If the map implements the {link SortedMap} interface, the
+     * internal copy will be a {link TreeMap}, otherwise it will be a
+     * {link HashMap}.
      * 
-     * @deprecated Use {@link #SimpleHash(Map, ObjectWrapper)}
+     * @deprecated Use {link #SimpleHash(Map, ObjectWrapper)}
      */
     @Deprecated
     public SimpleHash(Map map) {
@@ -105,8 +105,8 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
     /**
      * Creates an empty simple hash using the specified object wrapper.
      * @param wrapper The object wrapper to use to wrap objects into
-     * {@link TemplateModel} instances. If null, the default wrapper set in 
-     * {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is
+     * {link TemplateModel} instances. If null, the default wrapper set in
+     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is
      * used.
      */
     public SimpleHash(ObjectWrapper wrapper) {
@@ -116,15 +116,15 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
 
     /**
      * Creates a new hash by shallow-coping (possibly cloning) the underlying map; in many applications you should use
-     * {@link DefaultMapAdapter} instead.
+     * {link DefaultMapAdapter} instead.
      *
      * @param map
      *            The Map to use for the key/value pairs. It makes a copy for internal use. If the map implements the
-     *            {@link SortedMap} interface, the internal copy will be a {@link TreeMap}, otherwise it will be a
+     *            {link SortedMap} interface, the internal copy will be a {link TreeMap}, otherwise it will be a
      * @param wrapper
-     *            The object wrapper to use to wrap contained objects into {@link TemplateModel} instances. Using
+     *            The object wrapper to use to wrap contained objects into {link TemplateModel} instances. Using
      *            {@code null} is deprecated but allowed, in which case the deprecated default wrapper set in
-     *            {@link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is used.
+     *            {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is used.
      */
     public SimpleHash(Map map, ObjectWrapper wrapper) {
         super(wrapper);
@@ -168,7 +168,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
      * @param key
      *            The name by which the object is identified in the template.
      * @param value
-     *            The value to which the name will be associated. This will only be wrapped to {@link TemplateModel}
+     *            The value to which the name will be associated. This will only be wrapped to {link TemplateModel}
      *            lazily when it's first read.
      */
     public void put(String key, Object value) {
@@ -210,7 +210,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
             // Check for Character key if this is a single-character string.
             // In SortedMap-s, however, we can't do that safely, as it can cause ClassCastException.
             if (key.length() == 1 && !(map instanceof SortedMap)) {
-                Character charKey = Character.valueOf(key.charAt(0));
+                Character charKey = key.charAt(0);
                 try {
                     result = map.get(charKey);
                     if (result != null || map.containsKey(charKey)) {
@@ -316,7 +316,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
     }
 
     /**
-     * Returns the {@code toString()} of the underlying {@link Map}.
+     * Returns the {@code toString()} of the underlying {link Map}.
      */
     @Override
     public String toString() {

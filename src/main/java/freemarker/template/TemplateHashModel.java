@@ -21,7 +21,7 @@ package freemarker.template;
 
 /**
  * "hash" template language data type: an object that contains other objects accessible through string keys
- * (sub-variable names). It, in itself, doesn't support listing the keys or values ({@link TemplateHashModelEx} does).
+ * (sub-variable names). It, in itself, doesn't support listing the keys or values ({link TemplateHashModelEx} does).
  * 
  * <p>In templates they are used like {@code myHash.myKey} or {@code myHash[myDynamicKey]}.
  */
