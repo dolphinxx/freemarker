@@ -19,6 +19,9 @@
 
 package freemarker.debug;
 
+import freemarker.debug.impl.RmiDebuggerListenerImpl;
+import freemarker.template.utility.UndeclaredThrowableException;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -29,9 +32,6 @@ import java.rmi.server.RemoteObject;
 import java.security.MessageDigest;
 import java.util.Collection;
 import java.util.List;
-
-import freemarker.debug.impl.RmiDebuggerListenerImpl;
-import freemarker.template.utility.UndeclaredThrowableException;
 
 /**
  * A utility class that allows you to connect to the FreeMarker debugger service

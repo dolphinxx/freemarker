@@ -18,13 +18,13 @@
  */
 package freemarker.ext.beans;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import freemarker.template.ObjectWrapperAndUnwrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Stores the non-varargs methods for a {@link OverloadedMethods} object.

@@ -19,15 +19,6 @@
 
 package freemarker.ext.xml;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import freemarker.log.Logger;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateMethodModel;
@@ -37,6 +28,15 @@ import freemarker.template.TemplateNodeModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.utility.ClassUtil;
+
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>A data model adapter for three widespread XML document object model

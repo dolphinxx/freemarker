@@ -19,8 +19,9 @@
 
 package freemarker.ext.jsp;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import freemarker.log.Logger;
+import freemarker.template.TemplateModelException;
+import freemarker.template.utility.ClassUtil;
 
 import javax.el.ELContext;
 import javax.servlet.jsp.JspApplicationContext;
@@ -30,10 +31,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ELException;
 import javax.servlet.jsp.el.ExpressionEvaluator;
 import javax.servlet.jsp.el.VariableResolver;
-
-import freemarker.log.Logger;
-import freemarker.template.TemplateModelException;
-import freemarker.template.utility.ClassUtil;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 /**
  * Don't use this class; it's only public to work around Google App Engine Java

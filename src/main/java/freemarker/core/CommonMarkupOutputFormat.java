@@ -18,10 +18,10 @@
  */
 package freemarker.core;
 
+import freemarker.template.TemplateModelException;
+
 import java.io.IOException;
 import java.io.Writer;
-
-import freemarker.template.TemplateModelException;
 
 /**
  * Common superclass for implementing {@link MarkupOutputFormat}-s that use a {@link CommonTemplateMarkupOutputModel}

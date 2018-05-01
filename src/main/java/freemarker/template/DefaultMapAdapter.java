@@ -19,14 +19,14 @@
 
 package freemarker.template;
 
-import java.io.Serializable;
-import java.util.Map;
-import java.util.SortedMap;
-
 import freemarker.core._DelayedJQuote;
 import freemarker.core._TemplateModelException;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
+
+import java.io.Serializable;
+import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * Adapts a {@link Map} to the corresponding {@link TemplateModel} interface(s), most importantly to

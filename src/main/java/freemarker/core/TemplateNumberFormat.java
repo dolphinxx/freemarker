@@ -18,11 +18,11 @@
  */
 package freemarker.core;
 
-import java.text.NumberFormat;
-
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
+
+import java.text.NumberFormat;
 
 /**
  * Represents a number format; used in templates for formatting and parsing with that format. This is similar to Java's

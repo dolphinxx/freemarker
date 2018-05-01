@@ -19,10 +19,10 @@
 
 package freemarker.template;
 
+import freemarker.ext.util.WrapperTemplateModel;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
-
-import freemarker.ext.util.WrapperTemplateModel;
 
 /**
  * Adapts an {@code array} of a non-primitive elements to the corresponding {@link TemplateModel} interface(s), most

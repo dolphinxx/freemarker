@@ -19,11 +19,11 @@
 
 package freemarker.core;
 
-import java.util.Date;
-
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+
+import java.util.Date;
 
 abstract class BuiltInForDate extends BuiltIn {
     @Override

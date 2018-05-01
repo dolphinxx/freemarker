@@ -19,12 +19,12 @@
 
 package freemarker.template;
 
+import freemarker.ext.util.WrapperTemplateModel;
+import freemarker.template.utility.ObjectWrapperWithAPISupport;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
-
-import freemarker.ext.util.WrapperTemplateModel;
-import freemarker.template.utility.ObjectWrapperWithAPISupport;
 
 /**
  * Adapts an {@link Iterable} to the corresponding {@link TemplateModel} interface(s), most importantly to

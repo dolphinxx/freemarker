@@ -19,6 +19,10 @@
 
 package freemarker.ext.dom;
 
+import freemarker.core.Environment;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,10 +31,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Locale;
 import java.util.StringTokenizer;
-
-import freemarker.core.Environment;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * A class that contains a main() method for command-line invocation of a FreeMarker XML transformation.

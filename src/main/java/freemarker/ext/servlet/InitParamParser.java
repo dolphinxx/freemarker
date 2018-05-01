@@ -18,15 +18,6 @@
  */
 package freemarker.ext.servlet;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletContext;
-
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
@@ -38,6 +29,14 @@ import freemarker.log.Logger;
 import freemarker.template.Configuration;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.StringUtil;
+
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 
 final class InitParamParser {

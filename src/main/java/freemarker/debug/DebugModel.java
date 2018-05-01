@@ -19,11 +19,11 @@
 
 package freemarker.debug;
 
+import freemarker.template.TemplateModelException;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Date;
-
-import freemarker.template.TemplateModelException;
 
 /**
  * Represents the debugger-side mirror of a TemplateModel object, a Template

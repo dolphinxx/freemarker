@@ -19,11 +19,11 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * <b>Internal API - subject to change:</b> Represents an import via {@code #import}.

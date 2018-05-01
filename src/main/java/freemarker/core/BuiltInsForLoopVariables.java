@@ -18,8 +18,6 @@
  */
 package freemarker.core;
 
-import java.util.List;
-
 import freemarker.core.IteratorBlock.IterationContext;
 import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;
@@ -28,6 +26,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.util.List;
 
 
 class BuiltInsForLoopVariables {

@@ -17,15 +17,14 @@
  * under the License.
  */
  
-package freemarker.ext.dom; 
- 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+package freemarker.ext.dom;
 
 import freemarker.core.Environment;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  * A class that wraps the root node of a parsed XML document, using

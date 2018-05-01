@@ -19,11 +19,11 @@
 
 package freemarker.template.utility;
 
+import freemarker.log.Logger;
+
 import java.security.AccessControlException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-
-import freemarker.log.Logger;
 
 /**
  */

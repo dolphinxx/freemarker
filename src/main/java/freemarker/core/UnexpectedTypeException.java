@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
-import java.util.Arrays;
-
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateCollectionModelEx;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateSequenceModel;
+
+import java.util.Arrays;
 
 /**
  * The type of a value differs from what was expected.

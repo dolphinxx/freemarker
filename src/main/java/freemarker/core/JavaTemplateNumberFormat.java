@@ -18,10 +18,10 @@
  */
 package freemarker.core;
 
-import java.text.NumberFormat;
-
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
+
+import java.text.NumberFormat;
 
 final class JavaTemplateNumberFormat extends BackwardCompatibleTemplateNumberFormat {
     

@@ -19,17 +19,6 @@
 
 package freemarker.ext.beans;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import freemarker.core.CollectionAndSequence;
 import freemarker.core._DelayedFTLTypeDescription;
 import freemarker.core._DelayedJQuote;
@@ -49,6 +38,17 @@ import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateModelWithAPISupport;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.utility.StringUtil;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A class that will wrap an arbitrary object into {@link freemarker.template.TemplateHashModel}

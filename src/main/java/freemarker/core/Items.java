@@ -18,10 +18,10 @@
  */
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.core.IteratorBlock.IterationContext;
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * An #items element.

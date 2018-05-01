@@ -19,14 +19,14 @@
 
 package freemarker.debug.impl;
 
+import freemarker.debug.Breakpoint;
+import freemarker.debug.Debugger;
+import freemarker.debug.DebuggerListener;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Collection;
 import java.util.List;
-
-import freemarker.debug.Breakpoint;
-import freemarker.debug.Debugger;
-import freemarker.debug.DebuggerListener;
 
 /**
  */

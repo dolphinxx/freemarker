@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import freemarker.template.SimpleScalar;
 import freemarker.template.SimpleSequence;
 import freemarker.template.TemplateException;
@@ -32,6 +29,9 @@ import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.Constants;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * {@code target[keyExpression]}, where, in FM 2.3, {@code keyExpression} can be string, a number or a range,

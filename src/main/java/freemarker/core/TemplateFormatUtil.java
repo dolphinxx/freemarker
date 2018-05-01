@@ -18,12 +18,12 @@
  */
 package freemarker.core;
 
-import java.util.Date;
-
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
+
+import java.util.Date;
 
 /**
  * Utility classes for implementing {@link TemplateValueFormat}-s.

@@ -19,13 +19,10 @@
 
 package freemarker.ext.jsp;
 
-import java.beans.IntrospectionException;
-import java.io.CharArrayReader;
-import java.io.CharArrayWriter;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.Map;
+import freemarker.log.Logger;
+import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateTransformModel;
+import freemarker.template.TransformControl;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -35,11 +32,13 @@ import javax.servlet.jsp.tagext.IterationTag;
 import javax.servlet.jsp.tagext.SimpleTag;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TryCatchFinally;
-
-import freemarker.log.Logger;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateTransformModel;
-import freemarker.template.TransformControl;
+import java.beans.IntrospectionException;
+import java.io.CharArrayReader;
+import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.Map;
 
 /**
  * Adapts a {@link Tag}-based custom JSP tag to be a value that's callable in templates as an user-defined directive.

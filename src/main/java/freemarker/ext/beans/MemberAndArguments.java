@@ -19,10 +19,10 @@
 
 package freemarker.ext.beans;
 
-import java.lang.reflect.InvocationTargetException;
-
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  */

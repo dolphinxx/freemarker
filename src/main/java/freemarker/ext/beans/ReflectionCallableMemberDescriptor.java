@@ -19,14 +19,14 @@
 
 package freemarker.ext.beans;
 
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
 
 /**
  * The most commonly used {@link CallableMemberDescriptor} implementation. 

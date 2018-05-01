@@ -19,6 +19,10 @@
 
 package freemarker.template;
 
+import freemarker.core._DelayedJQuote;
+import freemarker.core._TemplateModelException;
+import freemarker.ext.beans.BeansWrapper;
+
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -26,10 +30,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import freemarker.core._DelayedJQuote;
-import freemarker.core._TemplateModelException;
-import freemarker.ext.beans.BeansWrapper;
 
 /**
  * A simple implementation of the {@link TemplateHashModelEx} interface, using its own underlying {@link Map} or

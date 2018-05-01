@@ -19,6 +19,8 @@
 
 package freemarker.ext.beans;
 
+import freemarker.template.utility.ClassUtil;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,8 +28,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
-
-import freemarker.template.utility.ClassUtil;
 
 class UnsafeMethods {
 

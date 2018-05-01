@@ -19,11 +19,11 @@
 
 package freemarker.template.utility;
 
+import freemarker.template.TemplateTransformModel;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
-
-import freemarker.template.TemplateTransformModel;
 
 /**
  * Performs an HTML escape of a given template fragment. Specifically,

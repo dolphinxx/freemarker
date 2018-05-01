@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * Like [#local x]...[/#local].

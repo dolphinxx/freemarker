@@ -19,16 +19,16 @@
 
 package freemarker.ext.beans;
 
-import java.util.AbstractCollection;
-import java.util.Collection;
-import java.util.Iterator;
-
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelAdapter;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.utility.UndeclaredThrowableException;
+
+import java.util.AbstractCollection;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Adapts a {@link TemplateCollectionModel} to  {@link Collection}.

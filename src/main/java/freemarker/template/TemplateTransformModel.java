@@ -19,12 +19,12 @@
 
 package freemarker.template;
 
+import freemarker.template.utility.DeepUnwrap;
+
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
-
-import freemarker.template.utility.DeepUnwrap;
 
 /**
  * "transform" template language data type: user-defined directives 

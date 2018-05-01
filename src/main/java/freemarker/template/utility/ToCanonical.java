@@ -19,12 +19,12 @@
 
 package freemarker.template.utility;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * Read in a template and convert it to a canonical format.

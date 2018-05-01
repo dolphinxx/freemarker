@@ -19,12 +19,12 @@
 
 package freemarker.ext.beans;
 
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
 
 /**
  * Packs a {@link Method} or {@link Constructor} together with its parameter types. The actual

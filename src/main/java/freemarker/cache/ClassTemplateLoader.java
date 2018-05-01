@@ -19,10 +19,10 @@
 
 package freemarker.cache;
 
-import java.net.URL;
-
 import freemarker.template.utility.NullArgumentException;
 import freemarker.template.utility.StringUtil;
+
+import java.net.URL;
 
 /**
  * A {@link TemplateLoader} that can load templates from the "classpath". Naturally, it can load from jar files, or from

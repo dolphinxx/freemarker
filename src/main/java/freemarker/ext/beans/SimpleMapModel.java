@@ -19,9 +19,6 @@
 
 package freemarker.ext.beans;
 
-import java.util.List;
-import java.util.Map;
-
 import freemarker.core.CollectionAndSequence;
 import freemarker.ext.util.ModelFactory;
 import freemarker.ext.util.WrapperTemplateModel;
@@ -37,6 +34,9 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelWithAPISupport;
 import freemarker.template.WrappingTemplateModel;
 import freemarker.template.utility.RichObjectWrapper;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Model used by {@link BeansWrapper} when <tt>simpleMapWrapper</tt>

@@ -19,13 +19,13 @@
 
 package freemarker.ext.beans;
 
-import java.util.AbstractList;
-
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelAdapter;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.utility.UndeclaredThrowableException;
+
+import java.util.AbstractList;
 
 /**
  */

@@ -18,11 +18,11 @@
  */
 package freemarker.cache;
 
-import java.io.IOException;
-
 import freemarker.core.TemplateConfiguration;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import java.io.IOException;
 
 /**
  * Creates (or returns) {@link TemplateConfiguration}-s for template sources.

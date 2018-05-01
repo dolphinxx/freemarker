@@ -19,10 +19,10 @@
 
 package freemarker.ext.ant;
 
+import org.apache.tools.ant.BuildException;
+
 import java.io.File;
 import java.util.Map;
-
-import org.apache.tools.ant.BuildException;
 
 /**
  * This is an interface to do Jython operations, which has no dependecy on

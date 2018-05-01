@@ -19,12 +19,6 @@
 
 package freemarker.ext.beans;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-
 import freemarker.core.TemplateMarkupOutputModel;
 import freemarker.core._DelayedConversionToString;
 import freemarker.core._ErrorDescriptionBuilder;
@@ -32,6 +26,12 @@ import freemarker.core._TemplateModelException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.ClassUtil;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Used instead of {@link java.lang.reflect.Method} or {@link java.lang.reflect.Constructor} for overloaded methods and

@@ -19,6 +19,8 @@
 
 package freemarker.template.utility;
 
+import freemarker.template.TemplateTransformModel;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,8 +29,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
-
-import freemarker.template.TemplateTransformModel;
 
 /**
  * <p>Transformer that supports FreeMarker legacy behavior: all newlines appearing

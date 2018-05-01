@@ -18,18 +18,18 @@
  */
 package freemarker.ext.beans;
 
+import freemarker.core.BugException;
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
+import freemarker.template.Version;
+import freemarker.template.utility.ClassUtil;
+
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import freemarker.core.BugException;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.Version;
-import freemarker.template.utility.ClassUtil;
 
 /**
  * The argument types of a method call; usable as cache key.

@@ -19,17 +19,16 @@
 
 package freemarker.ext.rhino;
 
-import java.util.List;
-
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.TemplateMethodModelEx;
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
+import java.util.List;
 
 /**
  */

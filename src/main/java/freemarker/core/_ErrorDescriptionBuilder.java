@@ -19,16 +19,16 @@
 
 package freemarker.core;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-
 import freemarker.ext.beans._MethodUtil;
 import freemarker.log.Logger;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.StringUtil;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 
 /**
  * Used internally only, might changes without notice!

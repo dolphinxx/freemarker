@@ -19,13 +19,13 @@
 
 package freemarker.ext.util;
 
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelAdapter;
+
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.IdentityHashMap;
 import java.util.Map;
-
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelAdapter;
 
 /**
  * Internally used by various wrapper implementations to implement model

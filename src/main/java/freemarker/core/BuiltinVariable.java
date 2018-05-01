@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import freemarker.core.Macro.Context;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleDate;
@@ -34,6 +31,9 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.StringUtil;
+
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * A reference to a built-in identifier, such as .root

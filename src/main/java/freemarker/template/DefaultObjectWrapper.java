@@ -19,6 +19,13 @@
 
 package freemarker.template;
 
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.ext.beans.BeansWrapperConfiguration;
+import freemarker.ext.beans.EnumerationModel;
+import freemarker.ext.dom.NodeModel;
+import freemarker.log.Logger;
+import org.w3c.dom.Node;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,14 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.w3c.dom.Node;
-
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.ext.beans.BeansWrapperConfiguration;
-import freemarker.ext.beans.EnumerationModel;
-import freemarker.ext.dom.NodeModel;
-import freemarker.log.Logger;
 
 /**
  * The default implementation of the {@link ObjectWrapper} interface. Usually, you don't need to create instances of

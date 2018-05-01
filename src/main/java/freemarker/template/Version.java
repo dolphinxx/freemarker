@@ -19,10 +19,10 @@
 
 package freemarker.template;
 
+import freemarker.template.utility.StringUtil;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * Represents a version number plus the further qualifiers and build info. This is

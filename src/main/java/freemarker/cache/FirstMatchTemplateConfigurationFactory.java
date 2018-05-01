@@ -18,11 +18,11 @@
  */
 package freemarker.cache;
 
-import java.io.IOException;
-
 import freemarker.core.TemplateConfiguration;
 import freemarker.template.Configuration;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
 
 /**
  * Returns the first non-{@code null} result of the child factories, ignoring all further child factories. The child

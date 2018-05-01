@@ -19,13 +19,13 @@
 
 package freemarker.template;
 
-import java.util.Map;
-import java.util.ResourceBundle;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.beans.BeansWrapperBuilder;
 import freemarker.ext.util.WrapperTemplateModel;
+
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * Maps Java objects to the type-system of FreeMarker Template Language (see the {@link TemplateModel}

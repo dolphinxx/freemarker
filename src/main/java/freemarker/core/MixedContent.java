@@ -19,9 +19,9 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * Encapsulates an array of <tt>TemplateElement</tt> objects. 

@@ -18,10 +18,10 @@
  */
 package freemarker.core;
 
+import freemarker.template.TemplateModelException;
+
 import java.io.IOException;
 import java.io.Writer;
-
-import freemarker.template.TemplateModelException;
 
 /**
  * Represents two markup formats nested into each other. For example, markdown nested into HTML.

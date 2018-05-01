@@ -19,13 +19,13 @@
 
 package freemarker.template;
 
-import java.io.Serializable;
-import java.util.AbstractSequentialList;
-import java.util.List;
-
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
 import freemarker.template.utility.RichObjectWrapper;
+
+import java.io.Serializable;
+import java.util.AbstractSequentialList;
+import java.util.List;
 
 /**
  * Adapts a {@link List} to the corresponding {@link TemplateModel} interface(s), most importantly to

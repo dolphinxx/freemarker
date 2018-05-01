@@ -19,10 +19,9 @@
  
 package freemarker.ext.dom;
 
+import freemarker.template.TemplateScalarModel;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
-
-import freemarker.template.TemplateScalarModel;
 
 class CharacterDataNodeModel extends NodeModel implements TemplateScalarModel {
     

@@ -19,9 +19,6 @@
 
 package freemarker.ext.jython;
 
-import org.python.core.PyException;
-import org.python.core.PyObject;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateCollectionModel;
@@ -29,6 +26,8 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateSequenceModel;
+import org.python.core.PyException;
+import org.python.core.PyObject;
 
 /**
  * Model for Jython sequence objects ({@link org.python.core.PySequence} descendants).

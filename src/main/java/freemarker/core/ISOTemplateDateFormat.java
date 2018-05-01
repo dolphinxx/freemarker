@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
-import java.util.Date;
-import java.util.TimeZone;
-
 import freemarker.template.utility.DateUtil;
 import freemarker.template.utility.DateUtil.CalendarFieldsToDateConverter;
 import freemarker.template.utility.DateUtil.DateParseException;
 import freemarker.template.utility.DateUtil.DateToISO8601CalendarFactory;
+
+import java.util.Date;
+import java.util.TimeZone;
 
 final class ISOTemplateDateFormat extends ISOLikeTemplateDateFormat {
 

@@ -19,15 +19,15 @@
 
 package freemarker.ext.beans;
 
+import freemarker.template.Version;
+import freemarker.template._TemplateAPI;
+
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import freemarker.template.Version;
-import freemarker.template._TemplateAPI;
 
 final class ClassIntrospectorBuilder implements Cloneable {
     

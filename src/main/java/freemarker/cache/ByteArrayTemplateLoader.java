@@ -19,14 +19,14 @@
 
 package freemarker.cache;
 
+import freemarker.template.utility.StringUtil;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * A {@link TemplateLoader} that uses a {@link Map} with {@code byte[]} as its source of templates. This is similar to

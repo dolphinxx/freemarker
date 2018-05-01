@@ -18,6 +18,11 @@
  */
 package freemarker.ext.beans;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import freemarker.template.TemplateModelException;
+import freemarker.template.utility.ClassUtil;
+import freemarker.template.utility.NullArgumentException;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,11 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import freemarker.template.TemplateModelException;
-import freemarker.template.utility.ClassUtil;
-import freemarker.template.utility.NullArgumentException;
 
 /**
  * Encapsulates the rules and data structures (including cache) for choosing of the best matching callable member for

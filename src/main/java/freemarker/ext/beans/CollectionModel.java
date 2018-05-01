@@ -19,9 +19,6 @@
 
 package freemarker.ext.beans;
 
-import java.util.Collection;
-import java.util.List;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateCollectionModel;
@@ -29,6 +26,9 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateSequenceModel;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>A special case of {@link BeanModel} that can wrap Java collections

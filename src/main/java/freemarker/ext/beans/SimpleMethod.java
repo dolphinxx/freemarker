@@ -18,12 +18,6 @@
  */
 package freemarker.ext.beans;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Member;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import freemarker.core.TemplateMarkupOutputModel;
 import freemarker.core._DelayedFTLTypeDescription;
 import freemarker.core._DelayedOrdinal;
@@ -33,6 +27,12 @@ import freemarker.template.ObjectWrapperAndUnwrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.ClassUtil;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Member;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class is used for as a base for non-overloaded method models and for constructors.

@@ -18,11 +18,11 @@
  */
 package freemarker.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 final class BuiltInsWithParseTimeParameters {

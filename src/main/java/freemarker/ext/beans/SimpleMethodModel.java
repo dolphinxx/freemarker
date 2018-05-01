@@ -19,11 +19,6 @@
 
 package freemarker.ext.beans;
 
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
-
 import freemarker.core._DelayedFTLTypeDescription;
 import freemarker.core._DelayedToString;
 import freemarker.core._ErrorDescriptionBuilder;
@@ -34,6 +29,11 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateSequenceModel;
+
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A class that will wrap a reflected method call into a

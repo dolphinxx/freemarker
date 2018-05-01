@@ -19,12 +19,12 @@
 
 package freemarker.ext.beans;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.NumberUtil;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Everything related to coercion to ambiguous numerical types.  

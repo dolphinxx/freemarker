@@ -18,10 +18,10 @@
  */
 package freemarker.cache;
 
-import java.io.IOException;
-
 import freemarker.core.TemplateConfiguration;
 import freemarker.template.Configuration;
+
+import java.io.IOException;
 
 /**
  * Returns the merged results of all the child factories. The factories are merged in the order as they were added.

@@ -19,15 +19,15 @@
 
 package freemarker.ext.beans;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>A special case of {@link BeanModel} that adds implementation

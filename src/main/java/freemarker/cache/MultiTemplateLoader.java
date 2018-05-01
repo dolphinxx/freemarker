@@ -19,12 +19,12 @@
 
 package freemarker.cache;
 
+import freemarker.template.utility.NullArgumentException;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import freemarker.template.utility.NullArgumentException;
 
 /**
  * A {@link TemplateLoader} that uses a set of other loaders to load the templates. On every request, loaders are

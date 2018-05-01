@@ -19,6 +19,11 @@
 
 package freemarker.debug.impl;
 
+import freemarker.debug.Debugger;
+import freemarker.log.Logger;
+import freemarker.template.utility.SecurityUtilities;
+import freemarker.template.utility.UndeclaredThrowableException;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -30,11 +35,6 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
-
-import freemarker.debug.Debugger;
-import freemarker.log.Logger;
-import freemarker.template.utility.SecurityUtilities;
-import freemarker.template.utility.UndeclaredThrowableException;
 
 /**
  */

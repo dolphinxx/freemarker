@@ -19,9 +19,6 @@
 
 package freemarker.template.utility;
 
-import java.io.Serializable;
-import java.util.NoSuchElementException;
-
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateCollectionModel;
@@ -34,6 +31,9 @@ import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
+
+import java.io.Serializable;
+import java.util.NoSuchElementException;
 
 /**
  * Frequently used constant {@link TemplateModel} values.

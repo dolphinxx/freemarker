@@ -19,10 +19,10 @@
 
 package freemarker.template;
 
-import java.io.IOException;
-
 import freemarker.cache.TemplateNameFormat;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
 
 /**
  * Indicates that the template name given was malformed according the {@link TemplateNameFormat} in use. Note that for

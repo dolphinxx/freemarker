@@ -19,15 +19,15 @@
 
 package freemarker.core;
 
+import freemarker.log.Logger;
+import freemarker.template.TemplateDateModel;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
-
-import freemarker.log.Logger;
-import freemarker.template.TemplateDateModel;
 
 class JavaTemplateDateFormatFactory extends TemplateDateFormatFactory {
     

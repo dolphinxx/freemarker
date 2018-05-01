@@ -18,11 +18,11 @@
  */
 package freemarker.core;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Superclass of {@link OutputFormat}-s that represent a "markup" format, which is any format where certain character

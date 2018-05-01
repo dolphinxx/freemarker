@@ -19,10 +19,9 @@
  
 package freemarker.ext.dom;
 
-import org.w3c.dom.Attr;
-
 import freemarker.core.Environment;
 import freemarker.template.TemplateScalarModel;
+import org.w3c.dom.Attr;
 
 class AttributeNodeModel extends NodeModel implements TemplateScalarModel {
     

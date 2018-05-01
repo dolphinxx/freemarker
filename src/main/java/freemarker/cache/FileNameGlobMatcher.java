@@ -18,10 +18,10 @@
  */
 package freemarker.cache;
 
+import freemarker.template.utility.StringUtil;
+
 import java.io.IOException;
 import java.util.regex.Pattern;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * As opposed to {@link PathGlobMatcher}, it only compares the "file name" part (the part after the last {@code /}) of

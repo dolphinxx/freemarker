@@ -19,10 +19,10 @@
 
 package freemarker.ext.beans;
 
+import freemarker.template.TemplateModel;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import freemarker.template.TemplateModel;
 
 /**
  * Don't use this class; it's only public to work around Google App Engine Java

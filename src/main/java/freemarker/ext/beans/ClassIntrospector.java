@@ -19,6 +19,15 @@
 
 package freemarker.ext.beans;
 
+import freemarker.core.BugException;
+import freemarker.core._JavaVersions;
+import freemarker.ext.beans.BeansWrapper.MethodAppearanceDecision;
+import freemarker.ext.beans.BeansWrapper.MethodAppearanceDecisionInput;
+import freemarker.ext.util.ModelCache;
+import freemarker.log.Logger;
+import freemarker.template.utility.NullArgumentException;
+import freemarker.template.utility.SecurityUtilities;
+
 import java.beans.BeanInfo;
 import java.beans.IndexedPropertyDescriptor;
 import java.beans.IntrospectionException;
@@ -46,15 +55,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import freemarker.core.BugException;
-import freemarker.core._JavaVersions;
-import freemarker.ext.beans.BeansWrapper.MethodAppearanceDecision;
-import freemarker.ext.beans.BeansWrapper.MethodAppearanceDecisionInput;
-import freemarker.ext.util.ModelCache;
-import freemarker.log.Logger;
-import freemarker.template.utility.NullArgumentException;
-import freemarker.template.utility.SecurityUtilities;
 
 /**
  * Returns information about a {@link Class} that's useful for FreeMarker. Encapsulates a cache for this. Thread-safe,

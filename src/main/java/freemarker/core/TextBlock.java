@@ -19,10 +19,10 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.utility.CollectionUtils;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
 
 /**
  * A TemplateElement representing a block of plain text.

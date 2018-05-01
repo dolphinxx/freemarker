@@ -19,6 +19,11 @@
 
 package freemarker.template.utility;
 
+import freemarker.core.Environment;
+import freemarker.core.ParseException;
+import freemarker.ext.dom._ExtDomApi;
+import freemarker.template.Version;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -27,11 +32,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
-
-import freemarker.core.Environment;
-import freemarker.core.ParseException;
-import freemarker.ext.dom._ExtDomApi;
-import freemarker.template.Version;
 
 /**
  *  Some text related utilities.

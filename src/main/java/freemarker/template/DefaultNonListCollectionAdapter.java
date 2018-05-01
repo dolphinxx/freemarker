@@ -19,14 +19,14 @@
 
 package freemarker.template;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
 import freemarker.core._DelayedShortClassName;
 import freemarker.core._TemplateModelException;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Adapts a non-{@link List} Java {@link Collection} to the corresponding {@link TemplateModel} interface(s), most

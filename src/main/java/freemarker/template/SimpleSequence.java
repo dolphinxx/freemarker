@@ -19,12 +19,12 @@
 
 package freemarker.template;
 
+import freemarker.ext.beans.BeansWrapper;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import freemarker.ext.beans.BeansWrapper;
 
 /**
  * A simple implementation of the {@link TemplateSequenceModel} interface, using its own underlying {@link List} for

@@ -19,6 +19,11 @@
 
 package freemarker.cache;
 
+import freemarker.log.Logger;
+import freemarker.template.Configuration;
+import freemarker.template.utility.SecurityUtilities;
+import freemarker.template.utility.StringUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,11 +34,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-
-import freemarker.log.Logger;
-import freemarker.template.Configuration;
-import freemarker.template.utility.SecurityUtilities;
-import freemarker.template.utility.StringUtil;
 
 /**
  * A {@link TemplateLoader} that uses files inside a specified directory as the source of templates. By default it does

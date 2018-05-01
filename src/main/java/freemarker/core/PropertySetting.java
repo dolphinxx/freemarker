@@ -19,8 +19,6 @@
 
 package freemarker.core;
 
-import java.util.Arrays;
-
 import freemarker.template.Configuration;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateException;
@@ -29,6 +27,8 @@ import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.StringUtil;
+
+import java.util.Arrays;
 
 /**
  * An instruction that sets a property of the template rendering

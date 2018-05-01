@@ -19,11 +19,11 @@
 
 package freemarker.template;
 
-import java.io.IOException;
-import java.util.Map;
-
 import freemarker.core.Environment;
 import freemarker.template.utility.DeepUnwrap;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * "directive" template language data type: used as user-defined directives 

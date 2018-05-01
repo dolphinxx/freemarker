@@ -19,14 +19,6 @@
 
 package freemarker.core;
 
-import java.io.Serializable;
-import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
 import freemarker.ext.beans.CollectionModel;
 import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;
@@ -47,6 +39,14 @@ import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.utility.Constants;
 import freemarker.template.utility.StringUtil;
+
+import java.io.Serializable;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A holder for builtins that operate exclusively on sequence or collection left-hand value.

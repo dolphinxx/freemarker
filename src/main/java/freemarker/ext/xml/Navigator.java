@@ -19,15 +19,14 @@
 
 package freemarker.ext.xml;
 
+import freemarker.template.TemplateModelException;
+import org.jaxen.NamespaceContext;
+
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
-
-import org.jaxen.NamespaceContext;
-
-import freemarker.template.TemplateModelException;
 
 /**
  */

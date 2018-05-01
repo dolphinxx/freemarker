@@ -19,9 +19,8 @@
 
 package freemarker.ext.jython;
 
-import org.python.core.PySystemState;
-
 import freemarker.template.utility.StringUtil;
+import org.python.core.PySystemState;
 
 /**
  * Holds the {@link JythonVersionAdapter} so that it's only initialized when this class is accessed.

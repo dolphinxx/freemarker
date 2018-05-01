@@ -18,15 +18,15 @@
  */
 package freemarker.ext.beans;
 
-import java.lang.reflect.Array;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import freemarker.core.BugException;
 import freemarker.template.ObjectWrapperAndUnwrapper;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.lang.reflect.Array;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Stores the varargs methods for a {@link OverloadedMethods} object.

@@ -19,9 +19,9 @@
 
 package freemarker.ext.beans;
 
-import java.util.Set;
-
 import freemarker.template.TemplateCollectionModel;
+
+import java.util.Set;
 
 /**
  */

@@ -19,8 +19,6 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.SimpleSequence;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModel;
@@ -28,6 +26,8 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateNodeModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
+
+import java.io.IOException;
 
 
 /**

@@ -19,10 +19,10 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.core.Expression.ReplacemenetState;
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * Representation of the compile-time #escape directive.

@@ -18,13 +18,13 @@
  */
 package freemarker.core;
 
+import freemarker.template.Configuration;
+import freemarker.template.TemplateDateModel;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import freemarker.template.Configuration;
-import freemarker.template.TemplateDateModel;
 
 /**
  * Factory for a certain kind of date/time/dateTime formatting ({@link TemplateDateFormat}). Usually a singleton

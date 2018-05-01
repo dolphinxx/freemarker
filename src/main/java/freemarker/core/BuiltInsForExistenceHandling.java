@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
-import java.util.List;
-
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.util.List;
 
 /**
  * A holder for builtins that deal with null left-hand values.

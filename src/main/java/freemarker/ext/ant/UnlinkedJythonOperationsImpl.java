@@ -19,13 +19,13 @@
 
 package freemarker.ext.ant;
 
+import org.apache.tools.ant.BuildException;
+import org.python.util.PythonInterpreter;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
-
-import org.apache.tools.ant.BuildException;
-import org.python.util.PythonInterpreter;
 
 /**
  * Used internally, public for technical reasons only. 

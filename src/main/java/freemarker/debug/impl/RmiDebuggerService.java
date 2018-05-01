@@ -19,6 +19,17 @@
 
 package freemarker.debug.impl;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import freemarker.core.DebugBreak;
+import freemarker.core.Environment;
+import freemarker.core.TemplateElement;
+import freemarker.core._CoreAPI;
+import freemarker.debug.Breakpoint;
+import freemarker.debug.DebuggerListener;
+import freemarker.debug.EnvironmentSuspendedEvent;
+import freemarker.template.Template;
+import freemarker.template.utility.UndeclaredThrowableException;
+
 import java.io.Serializable;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -34,17 +45,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import freemarker.core.DebugBreak;
-import freemarker.core.Environment;
-import freemarker.core.TemplateElement;
-import freemarker.core._CoreAPI;
-import freemarker.debug.Breakpoint;
-import freemarker.debug.DebuggerListener;
-import freemarker.debug.EnvironmentSuspendedEvent;
-import freemarker.template.Template;
-import freemarker.template.utility.UndeclaredThrowableException;
 
 /**
  * @version $Id

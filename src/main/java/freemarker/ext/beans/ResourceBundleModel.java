@@ -19,6 +19,14 @@
 
 package freemarker.ext.beans;
 
+import freemarker.core._DelayedJQuote;
+import freemarker.core._TemplateModelException;
+import freemarker.ext.util.ModelFactory;
+import freemarker.template.ObjectWrapper;
+import freemarker.template.TemplateMethodModelEx;
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
+
 import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -28,14 +36,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import freemarker.core._DelayedJQuote;
-import freemarker.core._TemplateModelException;
-import freemarker.ext.util.ModelFactory;
-import freemarker.template.ObjectWrapper;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
 
 /**
  * <p>A hash model that wraps a resource bundle. Makes it convenient to store

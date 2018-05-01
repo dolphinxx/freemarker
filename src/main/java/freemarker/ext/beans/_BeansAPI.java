@@ -19,6 +19,11 @@
 
 package freemarker.ext.beans;
 
+import freemarker.core.BugException;
+import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.TemplateModelException;
+import freemarker.template.utility.CollectionUtils;
+
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
@@ -30,11 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import freemarker.core.BugException;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.TemplateModelException;
-import freemarker.template.utility.CollectionUtils;
 
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!

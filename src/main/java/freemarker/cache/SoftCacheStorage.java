@@ -19,6 +19,8 @@
 
 package freemarker.cache;
 
+import freemarker.template.utility.UndeclaredThrowableException;
+
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
@@ -27,8 +29,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
-import freemarker.template.utility.UndeclaredThrowableException;
 
 /**
  * Soft cache storage is a cache storage that uses {@link SoftReference} objects to hold the objects it was passed,

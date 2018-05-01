@@ -19,13 +19,6 @@
  
 package freemarker.ext.dom;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import freemarker.core.Environment;
 import freemarker.core._UnexpectedTypeErrorExplainerTemplateModel;
 import freemarker.template.Configuration;
@@ -41,6 +34,12 @@ import freemarker.template.TemplateNodeModel;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Used when the result set contains 0 or multiple nodes; shouldn't be used when you have exactly 1 node. For exactly 1

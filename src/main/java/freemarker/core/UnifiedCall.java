@@ -19,14 +19,6 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.template.EmptyMap;
 import freemarker.template.TemplateDirectiveModel;
@@ -35,6 +27,14 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateTransformModel;
 import freemarker.template.utility.ObjectFactory;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An element for the unified macro/transform syntax. 

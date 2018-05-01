@@ -19,8 +19,6 @@
 
 package freemarker.ext.beans;
 
-import java.lang.reflect.Array;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateCollectionModel;
@@ -28,6 +26,8 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateSequenceModel;
+
+import java.lang.reflect.Array;
 
 /**
  * <p>A class that will wrap an arbitrary array into {@link TemplateCollectionModel}

@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
+import freemarker.template.TemplateException;
+import freemarker.template.utility.StringUtil;
+
 import java.io.IOException;
 import java.io.Writer;
 import java.text.NumberFormat;
 import java.util.Locale;
-
-import freemarker.template.TemplateException;
-import freemarker.template.utility.StringUtil;
 
 /**
  * An interpolation like <code>#{numericalExp; format}</code>; it's deprecated, but still supported. The class name is

@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import freemarker.cache.MruCacheStorage;
 import freemarker.log.Logger;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.StringUtil;
+
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Helper for language features (like built-ins) that use regular expressions. 

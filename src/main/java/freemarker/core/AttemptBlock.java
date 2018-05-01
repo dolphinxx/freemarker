@@ -19,9 +19,9 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * Holder for the attempted section of the #attempt element and of the nested #recover element ({@link RecoveryBlock}).

@@ -19,10 +19,10 @@
 
 package freemarker.template;
 
-import java.util.List;
-
 import freemarker.core.Environment;
 import freemarker.template.utility.DeepUnwrap;
+
+import java.util.List;
 
 /**
  * "extended method" template language data type: Objects that act like functions. Their main application is calling

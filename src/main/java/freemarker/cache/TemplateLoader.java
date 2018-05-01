@@ -19,11 +19,11 @@
 
 package freemarker.cache;
 
-import java.io.IOException;
-import java.io.Reader;
-
 import freemarker.template.Configuration;
 import freemarker.template.TemplateNotFoundException;
+
+import java.io.IOException;
+import java.io.Reader;
 
 /**
  * FreeMarker loads template "files" through objects that implement this interface,

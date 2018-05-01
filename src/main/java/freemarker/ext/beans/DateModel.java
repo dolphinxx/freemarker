@@ -19,12 +19,12 @@
 
 package freemarker.ext.beans;
 
-import java.util.Date;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModel;
+
+import java.util.Date;
 
 /**
  * Wraps arbitrary subclass of {@link java.util.Date} into a reflective model.

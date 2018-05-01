@@ -19,9 +19,8 @@
  
 package freemarker.ext.dom;
 
-import org.w3c.dom.ProcessingInstruction;
-
 import freemarker.template.TemplateScalarModel;
+import org.w3c.dom.ProcessingInstruction;
 
 class PINodeModel extends NodeModel implements TemplateScalarModel {
     

@@ -19,8 +19,6 @@
 
 package freemarker.core;
 
-import java.util.List;
-
 import freemarker.ext.beans.BeanModel;
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.ObjectWrapper;
@@ -29,6 +27,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import java.util.List;
 
 /**
  * A built-in that allows us to instantiate an instance of a java class.

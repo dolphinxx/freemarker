@@ -19,8 +19,6 @@
 
 package freemarker.core;
 
-import java.util.ArrayList;
-
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateHashModelEx;
@@ -28,6 +26,8 @@ import freemarker.template.TemplateHashModelEx2;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.StringUtil;
+
+import java.util.ArrayList;
 
 /**
  * Used internally only, might changes without notice!

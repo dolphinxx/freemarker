@@ -19,10 +19,6 @@
 
 package freemarker.core;
 
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
 import freemarker.template.AdapterTemplateModel;
 import freemarker.template.SimpleDate;
 import freemarker.template.SimpleScalar;
@@ -35,6 +31,10 @@ import freemarker.template.TemplateScalarModel;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.DateUtil;
 import freemarker.template.utility.UnrecognizedTimeZoneException;
+
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * A holder for built-ins that operate exclusively on date left-hand values.

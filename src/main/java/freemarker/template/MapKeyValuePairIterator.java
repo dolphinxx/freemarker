@@ -18,12 +18,12 @@
  */
 package freemarker.template;
 
+import freemarker.template.TemplateHashModelEx2.KeyValuePair;
+import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import freemarker.template.TemplateHashModelEx2.KeyValuePair;
-import freemarker.template.TemplateHashModelEx2.KeyValuePairIterator;
 
 /**
  *  Implementation of {@link KeyValuePairIterator} for a {@link TemplateHashModelEx2} that wraps or otherwise uses a

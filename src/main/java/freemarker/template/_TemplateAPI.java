@@ -19,10 +19,6 @@
 
 package freemarker.template;
 
-import java.util.Locale;
-import java.util.Set;
-import java.util.TimeZone;
-
 import freemarker.cache.CacheStorage;
 import freemarker.cache.TemplateLoader;
 import freemarker.cache.TemplateLookupStrategy;
@@ -31,6 +27,10 @@ import freemarker.core.Expression;
 import freemarker.core.OutputFormat;
 import freemarker.core.TemplateObject;
 import freemarker.template.utility.NullArgumentException;
+
+import java.util.Locale;
+import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!

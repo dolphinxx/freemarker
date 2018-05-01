@@ -19,9 +19,9 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * An element that represents a conditionally executed block: #if, #elseif or #elseif. Note that when an #if has

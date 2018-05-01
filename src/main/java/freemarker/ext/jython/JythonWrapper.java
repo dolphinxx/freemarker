@@ -19,21 +19,6 @@
 
 package freemarker.ext.jython;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.python.core.Py;
-import org.python.core.PyDictionary;
-import org.python.core.PyFloat;
-import org.python.core.PyInteger;
-import org.python.core.PyLong;
-import org.python.core.PyObject;
-import org.python.core.PySequence;
-import org.python.core.PyString;
-import org.python.core.PyStringMap;
-
 import freemarker.ext.util.ModelCache;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.AdapterTemplateModel;
@@ -50,6 +35,20 @@ import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.utility.OptimizerUtil;
+import org.python.core.Py;
+import org.python.core.PyDictionary;
+import org.python.core.PyFloat;
+import org.python.core.PyInteger;
+import org.python.core.PyLong;
+import org.python.core.PyObject;
+import org.python.core.PySequence;
+import org.python.core.PyString;
+import org.python.core.PyStringMap;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An object wrapper that wraps Jython objects into FreeMarker template models

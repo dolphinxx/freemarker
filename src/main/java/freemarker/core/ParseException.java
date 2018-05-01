@@ -19,15 +19,15 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.utility.SecurityUtilities;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Parsing-time exception in a template (as opposed to a runtime exception, a {@link TemplateException}). This usually

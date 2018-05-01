@@ -19,11 +19,11 @@
 
 package freemarker.template.utility;
 
+import freemarker.template.EmptyMap;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import freemarker.template.EmptyMap;
 
 /**
  * Implementation of missing JDK 1.3 collection features for JDK 1.2

@@ -18,9 +18,9 @@
  */
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 class ListElseContainer extends TemplateElement {
 

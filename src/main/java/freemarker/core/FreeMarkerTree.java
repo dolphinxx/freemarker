@@ -19,15 +19,14 @@
 
 package freemarker.core;
 
+import freemarker.template.Template;
+
+import javax.swing.*;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-
-import freemarker.template.Template;
 
 /**
  * Allows exposure of a FreeMarker template's AST as a Swing tree.

@@ -19,9 +19,8 @@
 
 package freemarker.ext.xml;
 
-import java.io.StringWriter;
-import java.util.List;
-
+import freemarker.template.TemplateModelException;
+import freemarker.template.utility.StringUtil;
 import org.jaxen.Context;
 import org.jaxen.NamespaceContext;
 import org.jaxen.dom.DOMXPath;
@@ -35,8 +34,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 
-import freemarker.template.TemplateModelException;
-import freemarker.template.utility.StringUtil;
+import java.io.StringWriter;
+import java.util.List;
 
 /**
  * Don't use this class; it's only public to work around Google App Engine Java

@@ -19,11 +19,11 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.Template;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * Not yet public; subject to change.

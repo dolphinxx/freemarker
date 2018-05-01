@@ -19,11 +19,11 @@
 
 package freemarker.cache;
 
-import java.io.IOException;
-import java.util.Locale;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Finds the {@link TemplateLoader}-level (storage-level) template source for the template name with which the template

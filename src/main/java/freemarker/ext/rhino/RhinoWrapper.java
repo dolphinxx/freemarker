@@ -19,19 +19,18 @@
 
 package freemarker.ext.rhino;
 
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.Undefined;
-import org.mozilla.javascript.UniqueTag;
-import org.mozilla.javascript.Wrapper;
-
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.UndeclaredThrowableException;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
+import org.mozilla.javascript.UniqueTag;
+import org.mozilla.javascript.Wrapper;
+
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 
 /**
  */

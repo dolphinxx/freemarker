@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
-import java.math.BigInteger;
-
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
+
+import java.math.BigInteger;
 
 /**
  * This is the model used for right-unbounded ranges since Incompatible Improvements 2.3.21.

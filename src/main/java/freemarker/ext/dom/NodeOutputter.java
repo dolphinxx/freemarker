@@ -19,9 +19,10 @@
  
 package freemarker.ext.dom;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-
+import freemarker.core.BugException;
+import freemarker.core.Environment;
+import freemarker.template.Template;
+import freemarker.template.utility.StringUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -30,10 +31,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import freemarker.core.BugException;
-import freemarker.core.Environment;
-import freemarker.template.Template;
-import freemarker.template.utility.StringUtil;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 class NodeOutputter {
     

@@ -18,6 +18,8 @@
  */
 package freemarker.core;
 
+import freemarker.template.utility.StringUtil;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -27,8 +29,6 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
-
-import freemarker.template.utility.StringUtil;
 
 class ExtendedDecimalFormatParser {
     

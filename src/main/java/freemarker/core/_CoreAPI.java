@@ -19,12 +19,6 @@
 
 package freemarker.core;
 
-import java.io.Writer;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
@@ -33,6 +27,12 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.ClassUtil;
+
+import java.io.Writer;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**

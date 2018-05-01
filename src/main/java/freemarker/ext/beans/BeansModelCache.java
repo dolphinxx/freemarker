@@ -19,15 +19,15 @@
 
 package freemarker.ext.beans;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.ext.util.ModelCache;
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.TemplateModel;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BeansModelCache extends ModelCache {
     private final Map classToFactory = new ConcurrentHashMap();

@@ -19,13 +19,6 @@
 
 package freemarker.template.utility;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-
 import freemarker.core.Environment;
 import freemarker.core.Macro;
 import freemarker.core.TemplateMarkupOutputModel;
@@ -59,6 +52,13 @@ import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.TemplateTransformModel;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 /**
  */

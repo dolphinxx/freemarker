@@ -19,7 +19,8 @@
 
 package freemarker.ext.jsp;
 
-import java.io.IOException;
+import freemarker.template.SimpleHash;
+import freemarker.template.Template;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
@@ -27,9 +28,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
-
-import freemarker.template.SimpleHash;
-import freemarker.template.Template;
+import java.io.IOException;
 
 /**
  * Simple implementation of JSP tag to allow use of FreeMarker templates in

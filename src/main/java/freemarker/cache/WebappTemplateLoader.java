@@ -19,6 +19,13 @@
 
 package freemarker.cache;
 
+import freemarker.log.Logger;
+import freemarker.template.Configuration;
+import freemarker.template.utility.CollectionUtils;
+import freemarker.template.utility.NullArgumentException;
+import freemarker.template.utility.StringUtil;
+
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,14 +34,6 @@ import java.io.Reader;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.servlet.ServletContext;
-
-import freemarker.log.Logger;
-import freemarker.template.Configuration;
-import freemarker.template.utility.CollectionUtils;
-import freemarker.template.utility.NullArgumentException;
-import freemarker.template.utility.StringUtil;
 
 /**
  * A {@link TemplateLoader} that uses streams reachable through {@link ServletContext#getResource(String)} as its source

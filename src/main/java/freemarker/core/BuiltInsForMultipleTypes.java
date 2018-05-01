@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.util.Date;
-import java.util.List;
-
 import freemarker.ext.beans.BeanModel;
 import freemarker.ext.beans.OverloadedMethodsModel;
 import freemarker.ext.beans.SimpleMethodModel;
@@ -47,6 +44,9 @@ import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.TemplateTransformModel;
 import freemarker.template._TemplateAPI;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * A holder for builtins that didn't fit into any other category.

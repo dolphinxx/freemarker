@@ -19,11 +19,11 @@
 
 package freemarker.ext.beans;
 
-import java.beans.IndexedPropertyDescriptor;
-import java.beans.PropertyDescriptor;
-
 import freemarker.ext.beans.BeansWrapper.MethodAppearanceDecision;
 import freemarker.ext.beans.BeansWrapper.MethodAppearanceDecisionInput;
+
+import java.beans.IndexedPropertyDescriptor;
+import java.beans.PropertyDescriptor;
 
 /**
  * Used for customizing how the methods are visible from templates, via

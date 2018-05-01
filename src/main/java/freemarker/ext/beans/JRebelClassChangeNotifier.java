@@ -19,10 +19,10 @@
 
 package freemarker.ext.beans;
 
-import java.lang.ref.WeakReference;
-
 import org.zeroturnaround.javarebel.ClassEventListener;
 import org.zeroturnaround.javarebel.ReloaderFactory;
+
+import java.lang.ref.WeakReference;
 
 class JRebelClassChangeNotifier implements ClassChangeNotifier {
 

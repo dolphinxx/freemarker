@@ -19,11 +19,11 @@
 
 package freemarker.core;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModelException;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Represents a date/time/dateTime format; used in templates for formatting and parsing with that format. This is

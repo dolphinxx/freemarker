@@ -19,14 +19,14 @@
 
 package freemarker.template.utility;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
-
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateTransformModel;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
 
 /**
  * <p>A filter that compresses each sequence of consecutive whitespace

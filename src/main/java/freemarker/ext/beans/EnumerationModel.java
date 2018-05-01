@@ -19,13 +19,13 @@
 
 package freemarker.ext.beans;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
+
+import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
 /**
  * <p>A class that adds {@link TemplateModelIterator} functionality to the

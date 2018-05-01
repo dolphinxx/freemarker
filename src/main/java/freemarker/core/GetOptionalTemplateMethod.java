@@ -19,10 +19,6 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.SimpleHash;
 import freemarker.template.Template;
@@ -38,6 +34,10 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.utility.TemplateModelUtils;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implements {@code .get_optional_template(name, options)}.

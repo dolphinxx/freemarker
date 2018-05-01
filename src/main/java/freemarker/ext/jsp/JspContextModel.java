@@ -19,12 +19,12 @@
 
 package freemarker.ext.jsp;
 
-import javax.servlet.jsp.PageContext;
-
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+
+import javax.servlet.jsp.PageContext;
 
 class JspContextModel
 implements

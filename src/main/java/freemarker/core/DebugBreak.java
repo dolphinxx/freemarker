@@ -19,10 +19,10 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.debug.impl.DebuggerService;
 import freemarker.template.TemplateException;
+
+import java.io.IOException;
 
 /**
  * <b>Internal API - subject to change: A debug breakpoint inserted into the template</b> 

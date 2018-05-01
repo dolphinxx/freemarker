@@ -20,14 +20,14 @@
 package freemarker.ext.beans;
 
 
-import java.util.Collections;
-import java.util.List;
-
 import freemarker.template.SimpleNumber;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateSequenceModel;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Wraps a set of same-name overloaded methods behind {@link freemarker.template.TemplateMethodModel} interface,

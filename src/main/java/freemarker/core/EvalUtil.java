@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-
 import freemarker.ext.beans.BeanModel;
 import freemarker.ext.beans._BeansAPI;
 import freemarker.template.TemplateBooleanModel;
@@ -34,6 +31,9 @@ import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template._TemplateAPI;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 
 /**
  * Internally used static utilities for evaluation expressions.

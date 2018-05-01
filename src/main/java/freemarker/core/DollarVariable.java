@@ -19,12 +19,12 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * An interpolation like <code>${exp}</code> or {@code [=exp]}. The class name is the remnant of old times, but as

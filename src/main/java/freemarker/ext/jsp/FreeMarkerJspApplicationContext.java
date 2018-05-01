@@ -19,8 +19,8 @@
 
 package freemarker.ext.jsp;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import freemarker.log.Logger;
+import freemarker.template.utility.ClassUtil;
 
 import javax.el.ArrayELResolver;
 import javax.el.BeanELResolver;
@@ -39,9 +39,8 @@ import javax.el.VariableMapper;
 import javax.servlet.jsp.JspApplicationContext;
 import javax.servlet.jsp.el.ImplicitObjectELResolver;
 import javax.servlet.jsp.el.ScopedAttributeELResolver;
-
-import freemarker.log.Logger;
-import freemarker.template.utility.ClassUtil;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  */

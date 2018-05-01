@@ -19,11 +19,6 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.Writer;
-import java.util.Map;
-
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -32,6 +27,11 @@ import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.TemplateTransformModel;
 import freemarker.template._TemplateAPI;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.Writer;
+import java.util.Map;
 
 
 /**

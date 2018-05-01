@@ -19,10 +19,7 @@
 
 package freemarker.ext.jsp;
 
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.Iterator;
-import java.util.List;
+import freemarker.log.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextAttributeEvent;
@@ -33,8 +30,10 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-
-import freemarker.log.Logger;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An instance of this class should be registered as a <tt>&lt;listener&gt;</tt> in

@@ -18,10 +18,10 @@
  */
 package freemarker.core;
 
+import freemarker.template.utility.StringUtil;
+
 import java.util.Locale;
 import java.util.Map;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * Creates an alias to another format, so that the format can be referred to with a simple name in the template, rather

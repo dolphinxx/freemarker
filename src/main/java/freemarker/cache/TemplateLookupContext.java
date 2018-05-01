@@ -19,10 +19,10 @@
 
 package freemarker.cache;
 
+import freemarker.template.Configuration;
+
 import java.io.IOException;
 import java.util.Locale;
-
-import freemarker.template.Configuration;
 
 /**
  * Used as the parameter of {@link TemplateLookupStrategy#lookup(TemplateLookupContext)}.

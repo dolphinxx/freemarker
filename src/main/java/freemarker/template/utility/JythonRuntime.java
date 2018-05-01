@@ -19,15 +19,14 @@
 
 package freemarker.template.utility;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Map;
-
+import freemarker.core.Environment;
+import freemarker.template.TemplateTransformModel;
 import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 
-import freemarker.core.Environment;
-import freemarker.template.TemplateTransformModel;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
 
 /**
  * A crude first pass at an embeddable Jython interpreter

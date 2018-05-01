@@ -19,10 +19,10 @@
 
 package freemarker.core;
 
-import java.util.Properties;
-
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;
+
+import java.util.Properties;
 
 /**
  * Don't use this; used internally by FreeMarker, might changes without notice.

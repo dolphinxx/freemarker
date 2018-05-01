@@ -20,13 +20,13 @@
 
 package freemarker.cache;
 
+import freemarker.template.Configuration;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
-
-import freemarker.template.Configuration;
 
 /**
  * This is an abstract template loader that can load templates whose location can be described by an URL. This

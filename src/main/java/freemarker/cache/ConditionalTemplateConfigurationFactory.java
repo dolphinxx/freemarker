@@ -18,10 +18,10 @@
  */
 package freemarker.cache;
 
-import java.io.IOException;
-
 import freemarker.core.TemplateConfiguration;
 import freemarker.template.Configuration;
+
+import java.io.IOException;
 
 /**
  * Returns the given {@link TemplateConfiguration} directly, or another {@link TemplateConfigurationFactory}'s result, when

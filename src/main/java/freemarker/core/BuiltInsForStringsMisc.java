@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.io.StringReader;
-import java.util.List;
-
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.SimpleNumber;
 import freemarker.template.Template;
@@ -31,6 +28,9 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+
+import java.io.StringReader;
+import java.util.List;
 
 class BuiltInsForStringsMisc {
 

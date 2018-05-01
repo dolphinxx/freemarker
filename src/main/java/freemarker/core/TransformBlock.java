@@ -19,6 +19,11 @@
 
 package freemarker.core;
 
+import freemarker.template.EmptyMap;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateTransformModel;
+
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
@@ -26,11 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import freemarker.template.EmptyMap;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateTransformModel;
 
 /**
  * A template element that contains a nested block

@@ -19,12 +19,12 @@
 
 package freemarker.cache;
 
+import freemarker.template.utility.StringUtil;
+
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * A {@link TemplateLoader} that uses a {@link Map} with {@link String}-s as its source of 

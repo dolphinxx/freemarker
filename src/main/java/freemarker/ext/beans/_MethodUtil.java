@@ -18,6 +18,13 @@
  */
 package freemarker.ext.beans;
 
+import freemarker.core.BugException;
+import freemarker.core._DelayedConversionToString;
+import freemarker.core._DelayedJQuote;
+import freemarker.core._TemplateModelException;
+import freemarker.template.TemplateModelException;
+import freemarker.template.utility.ClassUtil;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -25,13 +32,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.Set;
-
-import freemarker.core.BugException;
-import freemarker.core._DelayedConversionToString;
-import freemarker.core._DelayedJQuote;
-import freemarker.core._TemplateModelException;
-import freemarker.template.TemplateModelException;
-import freemarker.template.utility.ClassUtil;
 
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!

@@ -18,13 +18,13 @@
  */
 package freemarker.template;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Iterator;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.utility.ObjectWrapperWithAPISupport;
+
+import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * Adapts an {@link Enumeration} to the corresponding {@link TemplateModel} interface(s), most importantly to

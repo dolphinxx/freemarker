@@ -19,14 +19,14 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
-
 import freemarker.template.SimpleSequence;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNodeModel;
 import freemarker.template.TemplateSequenceModel;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Enumeration;
 
 /**
  * <b>Internal API - subject to change:</b> Represent directive call, interpolation, text block, or other such

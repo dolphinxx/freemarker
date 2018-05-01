@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;
 import freemarker.template.SimpleSequence;
@@ -35,6 +32,9 @@ import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.TemplateSequenceModel;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * An operator for the + operator. Note that this is treated

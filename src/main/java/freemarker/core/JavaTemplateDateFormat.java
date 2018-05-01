@@ -19,13 +19,13 @@
 
 package freemarker.core;
 
+import freemarker.template.TemplateDateModel;
+import freemarker.template.TemplateModelException;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import freemarker.template.TemplateDateModel;
-import freemarker.template.TemplateModelException;
 
 /**
  * Java {@link DateFormat}-based format.

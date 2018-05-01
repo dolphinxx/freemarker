@@ -19,14 +19,14 @@
 
 package freemarker.core;
 
-import java.io.IOException;
-
 import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
 
 
 /**

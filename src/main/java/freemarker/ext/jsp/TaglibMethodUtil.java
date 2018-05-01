@@ -19,12 +19,12 @@
 
 package freemarker.ext.jsp;
 
+import freemarker.template.utility.ClassUtil;
+import freemarker.template.utility.StringUtil;
+
 import java.lang.reflect.Method;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import freemarker.template.utility.ClassUtil;
-import freemarker.template.utility.StringUtil;
 
 final class TaglibMethodUtil {
 

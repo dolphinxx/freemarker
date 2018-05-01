@@ -19,10 +19,13 @@
  
 package freemarker.ext.dom;
 
-import java.util.List;
-
-import javax.xml.transform.TransformerException;
-
+import freemarker.core.Environment;
+import freemarker.template.SimpleNumber;
+import freemarker.template.SimpleScalar;
+import freemarker.template.Template;
+import freemarker.template.TemplateBooleanModel;
+import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
 import org.apache.xml.utils.PrefixResolver;
 import org.apache.xpath.XPath;
 import org.apache.xpath.XPathContext;
@@ -35,13 +38,8 @@ import org.apache.xpath.objects.XString;
 import org.w3c.dom.Node;
 import org.w3c.dom.traversal.NodeIterator;
 
-import freemarker.core.Environment;
-import freemarker.template.SimpleNumber;
-import freemarker.template.SimpleScalar;
-import freemarker.template.Template;
-import freemarker.template.TemplateBooleanModel;
-import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
+import javax.xml.transform.TransformerException;
+import java.util.List;
 
 /**
  * Some glue code that bridges the Xalan XPath stuff (that is built into the JDK 1.4.x)

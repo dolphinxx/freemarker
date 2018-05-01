@@ -18,11 +18,6 @@
  */
 package freemarker.ext.jsp;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
-import java.util.Map;
-
 import freemarker.core.BugException;
 import freemarker.core.Environment;
 import freemarker.core._UnexpectedTypeErrorExplainerTemplateModel;
@@ -36,6 +31,11 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateSequenceModel;
 import freemarker.template.TemplateTransformModel;
 import freemarker.template.utility.ClassUtil;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Used when a custom JSP tag and an EL function uses the same name in a tag library, to create a single FTL value from

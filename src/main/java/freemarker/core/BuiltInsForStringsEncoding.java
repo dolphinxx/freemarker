@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import freemarker.template.Configuration;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateMethodModel;
@@ -30,6 +27,9 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.StringUtil;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 class BuiltInsForStringsEncoding {
 

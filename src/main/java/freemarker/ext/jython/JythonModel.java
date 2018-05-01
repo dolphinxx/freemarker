@@ -19,13 +19,6 @@
 
 package freemarker.ext.jython;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.python.core.Py;
-import org.python.core.PyException;
-import org.python.core.PyObject;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.ext.util.WrapperTemplateModel;
 import freemarker.template.AdapterTemplateModel;
@@ -36,6 +29,12 @@ import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import org.python.core.Py;
+import org.python.core.PyException;
+import org.python.core.PyObject;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Generic model for arbitrary Jython objects.

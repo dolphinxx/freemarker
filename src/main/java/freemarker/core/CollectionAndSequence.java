@@ -19,15 +19,15 @@
 
 package freemarker.core;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateCollectionModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateModelIterator;
 import freemarker.template.TemplateSequenceModel;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Add sequence capabilities to an existing collection, or

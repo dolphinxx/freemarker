@@ -19,15 +19,15 @@
 
 package freemarker.debug.impl;
 
-import java.rmi.NoSuchObjectException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.rmi.server.Unreferenced;
-
 import freemarker.debug.DebuggerClient;
 import freemarker.debug.DebuggerListener;
 import freemarker.debug.EnvironmentSuspendedEvent;
 import freemarker.log.Logger;
+
+import java.rmi.NoSuchObjectException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.server.Unreferenced;
 
 /**
  * Used by the {@link DebuggerClient} to create local 

@@ -19,10 +19,6 @@
 
 package freemarker.core;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Date;
-
 import freemarker.template.SimpleDate;
 import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;
@@ -34,6 +30,10 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.utility.NumberUtil;
 import freemarker.template.utility.StringUtil;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Date;
 
 /**
  * A holder for builtins that operate exclusively on number left-hand value.

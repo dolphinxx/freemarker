@@ -19,17 +19,17 @@
 
 package freemarker.core;
 
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.utility.ClassUtil;
+import freemarker.template.utility.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.utility.ClassUtil;
-import freemarker.template.utility.StringUtil;
 
 /**
  * A {@link TemplateClassResolver} that resolves only the classes whose name 

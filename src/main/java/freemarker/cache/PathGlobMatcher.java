@@ -18,10 +18,10 @@
  */
 package freemarker.cache;
 
+import freemarker.template.utility.StringUtil;
+
 import java.io.IOException;
 import java.util.regex.Pattern;
-
-import freemarker.template.utility.StringUtil;
 
 /**
  * Matches the whole template source name (also known as template source path) with the given glob.

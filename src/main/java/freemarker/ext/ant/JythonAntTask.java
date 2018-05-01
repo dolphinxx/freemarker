@@ -19,14 +19,13 @@
 
 package freemarker.ext.ant;
 
-import java.io.File;
-import java.util.Map;
-
+import freemarker.template.utility.ClassUtil;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.ProjectHelper;
 import org.apache.tools.ant.Task;
 
-import freemarker.template.utility.ClassUtil;
+import java.io.File;
+import java.util.Map;
 
 /**
  * Used internally, public for technical reasons only.

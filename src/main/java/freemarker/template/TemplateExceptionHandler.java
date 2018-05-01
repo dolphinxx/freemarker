@@ -19,14 +19,14 @@
 
 package freemarker.template;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import freemarker.core.Configurable;
 import freemarker.core.Environment;
 import freemarker.core.StopException;
 import freemarker.template.utility.StringUtil;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * Used for the {@link Configurable#setTemplateExceptionHandler(TemplateExceptionHandler) template_exception_handler}

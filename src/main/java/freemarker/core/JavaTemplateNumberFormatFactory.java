@@ -18,12 +18,12 @@
  */
 package freemarker.core;
 
+import freemarker.log.Logger;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
-
-import freemarker.log.Logger;
 
 /**
  * Deals with {@link TemplateNumberFormat}-s that just wrap a Java {@link NumberFormat}.

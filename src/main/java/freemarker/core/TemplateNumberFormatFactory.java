@@ -18,9 +18,9 @@
  */
 package freemarker.core;
 
-import java.util.Locale;
-
 import freemarker.template.Configuration;
+
+import java.util.Locale;
 
 /**
  * Factory for a certain kind of number formatting ({@link TemplateNumberFormat}). Usually a singleton (one-per-VM or

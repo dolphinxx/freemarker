@@ -19,12 +19,11 @@
  
 package freemarker.ext.dom;
 
-import org.w3c.dom.DocumentType;
-import org.w3c.dom.ProcessingInstruction;
-
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateSequenceModel;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.ProcessingInstruction;
 
 class DocumentTypeModel extends NodeModel {
     

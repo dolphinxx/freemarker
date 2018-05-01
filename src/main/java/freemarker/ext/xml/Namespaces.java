@@ -18,12 +18,13 @@
  */
 
 package freemarker.ext.xml;
-import java.util.HashMap;
-import java.util.List;
 
 import freemarker.template.TemplateMethodModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  */

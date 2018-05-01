@@ -19,15 +19,14 @@
 
 package freemarker.ext.jython;
 
-import org.python.core.PyException;
-import org.python.core.PyObject;
-
 import freemarker.ext.util.ModelFactory;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.TemplateCollectionModel;
 import freemarker.template.TemplateHashModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+import org.python.core.PyException;
+import org.python.core.PyObject;
 
 /**
  * Model for Jython dictionaries ({@link org.python.core.PyDictionary}

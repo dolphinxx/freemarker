@@ -19,14 +19,6 @@
 
 package freemarker.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import freemarker.core.BuiltInsForDates.iso_BI;
 import freemarker.core.BuiltInsForDates.iso_utc_or_local_BI;
 import freemarker.core.BuiltInsForMarkupOutputs.markup_stringBI;
@@ -73,6 +65,14 @@ import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 import freemarker.template.utility.DateUtil;
 import freemarker.template.utility.StringUtil;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * The {@code ?} operator used for things like {@code foo?upper_case}.

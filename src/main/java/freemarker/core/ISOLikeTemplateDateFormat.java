@@ -19,9 +19,6 @@
 
 package freemarker.core;
 
-import java.util.Date;
-import java.util.TimeZone;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateModelException;
@@ -30,6 +27,9 @@ import freemarker.template.utility.DateUtil.CalendarFieldsToDateConverter;
 import freemarker.template.utility.DateUtil.DateParseException;
 import freemarker.template.utility.DateUtil.DateToISO8601CalendarFactory;
 import freemarker.template.utility.StringUtil;
+
+import java.util.Date;
+import java.util.TimeZone;
 
 abstract class ISOLikeTemplateDateFormat  extends TemplateDateFormat {
     

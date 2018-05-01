@@ -18,11 +18,11 @@
  */
 package freemarker.core;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import freemarker.template.TemplateModelException;
 import freemarker.template.utility.StringUtil;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Represents the HTML output format (MIME type "text/html", name "HTML"). This format escapes by default (via

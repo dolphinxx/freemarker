@@ -19,13 +19,13 @@
 
 package freemarker.template;
 
+import freemarker.ext.beans.BeansWrapperBuilder;
+import freemarker.ext.beans._BeansAPI;
+
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.WeakHashMap;
-
-import freemarker.ext.beans.BeansWrapperBuilder;
-import freemarker.ext.beans._BeansAPI;
 
 /**
  * Gets/creates a {@link DefaultObjectWrapper} singleton instance that's already configured as specified in the
