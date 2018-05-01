@@ -27,7 +27,7 @@ import java.util.TimeZone;
 /**
  * Creates an alias to another format, so that the format can be referred to with a simple name in the template, rather
  * than as a concrete pattern or other kind of format string.
- * 
+ *
  * @since 2.3.24
  */
 public final class AliasTemplateDateFormatFactory extends TemplateDateFormatFactory {
@@ -36,8 +36,7 @@ public final class AliasTemplateDateFormatFactory extends TemplateDateFormatFact
     private final Map<Locale, String> localizedTargetFormatStrings;
 
     /**
-     * @param targetFormatString
-     *            The format string this format will be an alias to.
+     * @param targetFormatString The format string this format will be an alias to.
      */
     public AliasTemplateDateFormatFactory(String targetFormatString) {
         this.defaultTargetFormatString = targetFormatString;
@@ -45,26 +44,24 @@ public final class AliasTemplateDateFormatFactory extends TemplateDateFormatFact
     }
 
     /**
-     * @param defaultTargetFormatString
-     *            The format string this format will be an alias to if there's no locale-specific format string for the
-     *            requested locale in {@code localizedTargetFormatStrings}
-     * @param localizedTargetFormatStrings
-     *            Maps {link Locale}-s to format strings. If the desired locale doesn't occur in the map, a less
-     *            specific locale is tried, repeatedly until only the language part remains. For example, if locale is
-     *            {@code new Locale("en", "US", "Linux")}, then these keys will be attempted untol a match is found, in
-     *            this order: {@code new Locale("en", "US", "Linux")}, {@code new Locale("en", "US")},
-     *            {@code new Locale("en")}. If there's still no matching key, the value of the
-     *            {@code targetFormatString} will be used.
+     * @param defaultTargetFormatString    The format string this format will be an alias to if there's no locale-specific format string for the
+     *                                     requested locale in {@code localizedTargetFormatStrings}
+     * @param localizedTargetFormatStrings Maps {link Locale}-s to format strings. If the desired locale doesn't occur in the map, a less
+     *                                     specific locale is tried, repeatedly until only the language part remains. For example, if locale is
+     *                                     {@code new Locale("en", "US", "Linux")}, then these keys will be attempted untol a match is found, in
+     *                                     this order: {@code new Locale("en", "US", "Linux")}, {@code new Locale("en", "US")},
+     *                                     {@code new Locale("en")}. If there's still no matching key, the value of the
+     *                                     {@code targetFormatString} will be used.
      */
     public AliasTemplateDateFormatFactory(
             String defaultTargetFormatString, Map<Locale, String> localizedTargetFormatStrings) {
         this.defaultTargetFormatString = defaultTargetFormatString;
         this.localizedTargetFormatStrings = localizedTargetFormatStrings;
     }
-    
+
     @Override
     public TemplateDateFormat get(String params, int dateType, Locale locale, TimeZone timeZone, boolean zonelessInput,
-            Environment env) throws TemplateValueFormatException {
+                                  Environment env) throws TemplateValueFormatException {
         TemplateFormatUtil.checkHasNoParameters(params);
         try {
             String targetFormatString;

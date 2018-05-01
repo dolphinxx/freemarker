@@ -54,7 +54,7 @@ import java.util.List;
 class BuiltInsForMultipleTypes {
 
     static class cBI extends AbstractCBI implements ICIChainMember {
-        
+
         static class BIBeforeICE2d3d21 extends AbstractCBI {
 
             @Override
@@ -67,9 +67,9 @@ class BuiltInsForMultipleTypes {
                     return new SimpleScalar(env.getCNumberFormat().format(num));
                 }
             }
-            
+
         }
-        
+
         private final BIBeforeICE2d3d21 prevICIObj = new BIBeforeICE2d3d21();
 
         @Override
@@ -83,7 +83,7 @@ class BuiltInsForMultipleTypes {
             } else {
                 throw new UnexpectedTypeException(
                         target, model,
-                        "number or boolean", new Class[] { TemplateNumberModel.class, TemplateBooleanModel.class },
+                        "number or boolean", new Class[]{TemplateNumberModel.class, TemplateBooleanModel.class},
                         env);
             }
         }
@@ -119,50 +119,50 @@ class BuiltInsForMultipleTypes {
                 }
                 // Deliberately falls through
             }
-        
+
             return new SimpleScalar(env.getCNumberFormat().format(num));
         }
 
         public int getMinimumICIVersion() {
             return _TemplateAPI.VERSION_INT_2_3_21;
         }
-        
+
         public Object getPreviousICIChainMember() {
             return prevICIObj;
         }
-        
+
     }
 
     static class dateBI extends BuiltIn {
         private class DateParser
-        implements
-            TemplateDateModel,
-            TemplateMethodModel,
-            TemplateHashModel {
+                implements
+                TemplateDateModel,
+                TemplateMethodModel,
+                TemplateHashModel {
             private final String text;
             private final Environment env;
             private final TemplateDateFormat defaultFormat;
             private TemplateDateModel cachedValue;
-            
+
             DateParser(String text, Environment env)
-            throws TemplateException {
+                    throws TemplateException {
                 this.text = text;
                 this.env = env;
                 this.defaultFormat = env.getTemplateDateFormat(dateType, Date.class, target, false);
             }
-            
+
             public Object exec(List args) throws TemplateModelException {
                 checkMethodArgCount(args, 0, 1);
                 return args.size() == 0 ? getAsDateModel() : get((String) args.get(0));
             }
-            
+
             public TemplateModel get(String pattern) throws TemplateModelException {
                 TemplateDateFormat format;
                 try {
                     format = env.getTemplateDateFormat(pattern, dateType, Date.class, target, dateBI.this, true);
                 } catch (TemplateException e) {
                     // `e` should always be a TemplateModelException here, but to be sure: 
-                    throw _CoreAPI.ensureIsTemplateModelException("Failed to get format", e); 
+                    throw _CoreAPI.ensureIsTemplateModelException("Failed to get format", e);
                 }
                 return toTemplateDateModel(parse(format));
             }
@@ -185,41 +185,41 @@ class BuiltInsForMultipleTypes {
                 }
                 return cachedValue;
             }
-            
+
             public Date getAsDate() throws TemplateModelException {
                 return getAsDateModel().getAsDate();
             }
-    
+
             public int getDateType() {
                 return dateType;
             }
-    
+
             public boolean isEmpty() {
                 return false;
             }
-    
+
             private Object parse(TemplateDateFormat df)
-            throws TemplateModelException {
+                    throws TemplateModelException {
                 try {
                     return df.parse(text, dateType);
                 } catch (TemplateValueFormatException e) {
                     throw new _TemplateModelException(e,
                             "The string doesn't match the expected date/time/date-time format. "
-                            + "The string to parse was: ", new _DelayedJQuote(text), ". ",
+                                    + "The string to parse was: ", new _DelayedJQuote(text), ". ",
                             "The expected format was: ", new _DelayedJQuote(df.getDescription()), ".",
                             e.getMessage() != null ? "\nThe nested reason given follows:\n" : "",
                             e.getMessage() != null ? e.getMessage() : "");
                 }
             }
-            
+
         }
-        
+
         private final int dateType;
-        
+
         dateBI(int dateType) {
             this.dateType = dateType;
         }
-        
+
         @Override
         TemplateModel _eval(Environment env)
                 throws TemplateException {
@@ -236,8 +236,8 @@ class BuiltInsForMultipleTypes {
                     return new SimpleDate(dmodel.getAsDate(), dateType);
                 }
                 throw new _MiscTemplateException(this,
-                            "Cannot convert ", TemplateDateModel.TYPE_NAMES.get(dtype),
-                            " to ", TemplateDateModel.TYPE_NAMES.get(dateType));
+                        "Cannot convert ", TemplateDateModel.TYPE_NAMES.get(dtype),
+                        " to ", TemplateDateModel.TYPE_NAMES.get(dateType));
             }
             // Otherwise, interpret as a string and attempt 
             // to parse it into a date.
@@ -254,7 +254,7 @@ class BuiltInsForMultipleTypes {
                 throw new _MiscTemplateException(this,
                         "Can't use ?api, because the \"", Configurable.API_BUILTIN_ENABLED_KEY,
                         "\" configuration setting is false. Think twice before you set it to true though. Especially, "
-                        + "it shouldn't abused for modifying Map-s and Collection-s.");
+                                + "it shouldn't abused for modifying Map-s and Collection-s.");
             }
             final TemplateModel tm = target.eval(env);
             if (!(tm instanceof TemplateModelWithAPISupport)) {
@@ -273,14 +273,14 @@ class BuiltInsForMultipleTypes {
             return tm instanceof TemplateModelWithAPISupport ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
-    
+
     static class is_booleanBI extends BuiltIn {
         @Override
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateBooleanModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateBooleanModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -307,15 +307,15 @@ class BuiltInsForMultipleTypes {
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateDateModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateDateModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
     static class is_dateOfTypeBI extends BuiltIn {
-        
+
         private final int dateType;
-        
+
         is_dateOfTypeBI(int dateType) {
             this.dateType = dateType;
         }
@@ -325,7 +325,7 @@ class BuiltInsForMultipleTypes {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
             return (tm instanceof TemplateDateModel) && ((TemplateDateModel) tm).getDateType() == dateType
-                ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+                    ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -336,7 +336,7 @@ class BuiltInsForMultipleTypes {
             target.assertNonNull(tm, env);
             // WRONG: it also had to check Macro.isFunction()
             return (tm instanceof TemplateTransformModel || tm instanceof Macro || tm instanceof TemplateDirectiveModel) ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -347,8 +347,8 @@ class BuiltInsForMultipleTypes {
             target.assertNonNull(tm, env);
             return (tm instanceof TemplateSequenceModel || tm instanceof TemplateCollectionModel)
                     && (_TemplateAPI.getTemplateLanguageVersionAsInt(this) < _TemplateAPI.VERSION_INT_2_3_21
-                        // These implement TemplateSequenceModel, yet they can't be #list-ed:
-                        || !(tm instanceof SimpleMethodModel || tm instanceof OverloadedMethodsModel))
+                    // These implement TemplateSequenceModel, yet they can't be #list-ed:
+                    || !(tm instanceof SimpleMethodModel || tm instanceof OverloadedMethodsModel))
                     ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
@@ -386,8 +386,8 @@ class BuiltInsForMultipleTypes {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
             // WRONG: it also had to check Macro.isFunction()
-            return (tm instanceof Macro)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof Macro) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -396,18 +396,18 @@ class BuiltInsForMultipleTypes {
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateMarkupOutputModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateMarkupOutputModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
-    
+
     static class is_methodBI extends BuiltIn {
         @Override
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateMethodModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateMethodModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -416,8 +416,8 @@ class BuiltInsForMultipleTypes {
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateNodeModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateNodeModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -426,8 +426,8 @@ class BuiltInsForMultipleTypes {
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateNumberModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateNumberModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -437,11 +437,11 @@ class BuiltInsForMultipleTypes {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
             return (tm instanceof TemplateSequenceModel
-                        && (
-                            !(tm instanceof OverloadedMethodsModel || tm instanceof SimpleMethodModel)
+                    && (
+                    !(tm instanceof OverloadedMethodsModel || tm instanceof SimpleMethodModel)
                             || !env.isIcI2324OrLater())
-                        )
-                        ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            )
+                    ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -450,8 +450,8 @@ class BuiltInsForMultipleTypes {
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateScalarModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateScalarModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -460,8 +460,8 @@ class BuiltInsForMultipleTypes {
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel tm = target.eval(env);
             target.assertNonNull(tm, env);
-            return (tm instanceof TemplateTransformModel)  ?
-                TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return (tm instanceof TemplateTransformModel) ?
+                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         }
     }
 
@@ -472,7 +472,7 @@ class BuiltInsForMultipleTypes {
             if (!(tm instanceof Macro)) {
                 throw new UnexpectedTypeException(
                         target, tm,
-                        "macro or function", new Class[] { Macro.class },
+                        "macro or function", new Class[]{Macro.class},
                         env);
             } else {
                 return env.getMacroNamespace((Macro) tm);
@@ -496,7 +496,7 @@ class BuiltInsForMultipleTypes {
                 throw new UnexpectedTypeException(
                         target, model,
                         "extended-hash or sequence or extended collection",
-                        new Class[] {
+                        new Class[]{
                                 TemplateHashModelEx.class,
                                 TemplateSequenceModel.class,
                                 TemplateCollectionModelEx.class
@@ -506,26 +506,26 @@ class BuiltInsForMultipleTypes {
             return new SimpleNumber(size);
         }
     }
-    
+
     static class stringBI extends BuiltIn {
-        
+
         private class BooleanFormatter
-        implements 
-            TemplateScalarModel, 
-            TemplateMethodModel {
+                implements
+                TemplateScalarModel,
+                TemplateMethodModel {
             private final TemplateBooleanModel bool;
             private final Environment env;
-            
+
             BooleanFormatter(TemplateBooleanModel bool, Environment env) {
                 this.bool = bool;
                 this.env = env;
             }
-    
+
             public Object exec(List args) throws TemplateModelException {
                 checkMethodArgCount(args, 2);
                 return new SimpleScalar((String) args.get(bool.getAsBoolean() ? 0 : 1));
             }
-    
+
             public String getAsString() throws TemplateModelException {
                 // Boolean should have come first... but that change would be non-BC. 
                 if (bool instanceof TemplateScalarModel) {
@@ -539,51 +539,51 @@ class BuiltInsForMultipleTypes {
                 }
             }
         }
-    
+
         private class DateFormatter
-        implements
-            TemplateScalarModel,
-            TemplateHashModel,
-            TemplateMethodModel {
+                implements
+                TemplateScalarModel,
+                TemplateHashModel,
+                TemplateMethodModel {
             private final TemplateDateModel dateModel;
             private final Environment env;
             private final TemplateDateFormat defaultFormat;
             private String cachedValue;
-    
+
             DateFormatter(TemplateDateModel dateModel, Environment env)
-            throws TemplateException {
+                    throws TemplateException {
                 this.dateModel = dateModel;
                 this.env = env;
-                
+
                 final int dateType = dateModel.getDateType();
                 this.defaultFormat = dateType == TemplateDateModel.UNKNOWN
                         ? null  // Lazy unknown type error in getAsString()
                         : env.getTemplateDateFormat(
-                                dateType, EvalUtil.modelToDate(dateModel, target).getClass(), target, true);
+                        dateType, EvalUtil.modelToDate(dateModel, target).getClass(), target, true);
             }
-    
+
             public Object exec(List args) throws TemplateModelException {
                 checkMethodArgCount(args, 1);
                 return formatWith((String) args.get(0));
             }
 
             public TemplateModel get(String key)
-            throws TemplateModelException {
+                    throws TemplateModelException {
                 return formatWith(key);
             }
 
             private TemplateModel formatWith(String key)
-            throws TemplateModelException {
+                    throws TemplateModelException {
                 try {
                     return new SimpleScalar(env.formatDateToPlainText(dateModel, key, target, stringBI.this, true));
                 } catch (TemplateException e) {
                     // `e` should always be a TemplateModelException here, but to be sure: 
-                    throw _CoreAPI.ensureIsTemplateModelException("Failed to format value", e); 
+                    throw _CoreAPI.ensureIsTemplateModelException("Failed to format value", e);
                 }
             }
-            
+
             public String getAsString()
-            throws TemplateModelException {
+                    throws TemplateModelException {
                 if (cachedValue == null) {
                     if (defaultFormat == null) {
                         if (dateModel.getDateType() == TemplateDateModel.UNKNOWN) {
@@ -599,32 +599,32 @@ class BuiltInsForMultipleTypes {
                             throw _MessageUtil.newCantFormatDateException(defaultFormat, target, e, true);
                         } catch (TemplateException e2) {
                             // `e` should always be a TemplateModelException here, but to be sure: 
-                            throw _CoreAPI.ensureIsTemplateModelException("Failed to format date/time/datetime", e2); 
+                            throw _CoreAPI.ensureIsTemplateModelException("Failed to format date/time/datetime", e2);
                         }
                     }
                 }
                 return cachedValue;
             }
-    
+
             public boolean isEmpty() {
                 return false;
             }
         }
-        
+
         private class NumberFormatter
-        implements
-            TemplateScalarModel,
-            TemplateHashModel,
-            TemplateMethodModel {
+                implements
+                TemplateScalarModel,
+                TemplateHashModel,
+                TemplateMethodModel {
             private final TemplateNumberModel numberModel;
             private final Number number;
             private final Environment env;
             private final TemplateNumberFormat defaultFormat;
             private String cachedValue;
-    
+
             NumberFormatter(TemplateNumberModel numberModel, Environment env) throws TemplateException {
                 this.env = env;
-                
+
                 // As we format lazily, we need a snapshot of the format inputs:
                 this.numberModel = numberModel;
                 number = EvalUtil.modelToNumber(numberModel, target);  // for BackwardCompatibleTemplateNumberFormat-s
@@ -632,24 +632,24 @@ class BuiltInsForMultipleTypes {
                     defaultFormat = env.getTemplateNumberFormat(stringBI.this, true);
                 } catch (TemplateException e) {
                     // `e` should always be a TemplateModelException here, but to be sure: 
-                    throw _CoreAPI.ensureIsTemplateModelException("Failed to get default number format", e); 
+                    throw _CoreAPI.ensureIsTemplateModelException("Failed to get default number format", e);
                 }
             }
-    
+
             public Object exec(List args) throws TemplateModelException {
                 checkMethodArgCount(args, 1);
                 return get((String) args.get(0));
             }
-    
+
             public TemplateModel get(String key) throws TemplateModelException {
                 TemplateNumberFormat format;
                 try {
                     format = env.getTemplateNumberFormat(key, stringBI.this, true);
                 } catch (TemplateException e) {
                     // `e` should always be a TemplateModelException here, but to be sure: 
-                    throw _CoreAPI.ensureIsTemplateModelException("Failed to get number format", e); 
+                    throw _CoreAPI.ensureIsTemplateModelException("Failed to get number format", e);
                 }
-                
+
                 String result;
                 try {
                     if (format instanceof BackwardCompatibleTemplateNumberFormat) {
@@ -659,12 +659,12 @@ class BuiltInsForMultipleTypes {
                     }
                 } catch (TemplateException e) {
                     // `e` should always be a TemplateModelException here, but to be sure: 
-                    throw _CoreAPI.ensureIsTemplateModelException("Failed to format number", e); 
+                    throw _CoreAPI.ensureIsTemplateModelException("Failed to format number", e);
                 }
-                
+
                 return new SimpleScalar(result);
             }
-            
+
             public String getAsString() throws TemplateModelException {
                 if (cachedValue == null) {
                     try {
@@ -676,17 +676,17 @@ class BuiltInsForMultipleTypes {
                         }
                     } catch (TemplateException e) {
                         // `e` should always be a TemplateModelException here, but to be sure: 
-                        throw _CoreAPI.ensureIsTemplateModelException("Failed to format number", e); 
+                        throw _CoreAPI.ensureIsTemplateModelException("Failed to format number", e);
                     }
                 }
                 return cachedValue;
             }
-    
+
             public boolean isEmpty() {
                 return false;
             }
         }
-    
+
         @Override
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel model = target.eval(env);
@@ -703,13 +703,13 @@ class BuiltInsForMultipleTypes {
                 return new SimpleScalar(((TemplateScalarModel) model).getAsString());
             } else if (env.isClassicCompatible() && model instanceof BeanModel) {
                 return new SimpleScalar(_BeansAPI.getAsClassicCompatibleString((BeanModel) model));
-            } else {            
+            } else {
                 throw new UnexpectedTypeException(
                         target, model,
                         "number, date, boolean or string",
-                        new Class[] {
-                            TemplateNumberModel.class, TemplateDateModel.class, TemplateBooleanModel.class,
-                            TemplateScalarModel.class
+                        new Class[]{
+                                TemplateNumberModel.class, TemplateDateModel.class, TemplateBooleanModel.class,
+                                TemplateScalarModel.class
                         },
                         env);
             }
@@ -717,10 +717,11 @@ class BuiltInsForMultipleTypes {
     }
 
     // Can't be instantiated
-    private BuiltInsForMultipleTypes() { }
+    private BuiltInsForMultipleTypes() {
+    }
 
     static abstract class AbstractCBI extends BuiltIn {
-        
+
         @Override
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel model = target.eval(env);
@@ -732,13 +733,13 @@ class BuiltInsForMultipleTypes {
             } else {
                 throw new UnexpectedTypeException(
                         target, model,
-                        "number or boolean", new Class[] { TemplateNumberModel.class, TemplateBooleanModel.class },
+                        "number or boolean", new Class[]{TemplateNumberModel.class, TemplateBooleanModel.class},
                         env);
             }
         }
-    
+
         protected abstract TemplateModel formatNumber(Environment env, TemplateModel model) throws TemplateModelException;
-        
+
     }
 
 }

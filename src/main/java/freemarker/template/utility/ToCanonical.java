@@ -28,7 +28,7 @@ import java.io.IOException;
 
 /**
  * Read in a template and convert it to a canonical format.
- * 
+ *
  * @deprecated Will be removed (main method in a library, often classified as CWE-489 "Leftover Debug Code").
  */
 @Deprecated

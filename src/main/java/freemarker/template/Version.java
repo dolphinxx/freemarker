@@ -28,22 +28,22 @@ import java.util.Date;
  * Represents a version number plus the further qualifiers and build info. This is
  * mostly used for representing a FreeMarker version number, but should also be able
  * to parse the version strings of 3rd party libraries.
- * 
+ * <p>
  * see Configuration#getVersion()
- * 
+ *
  * @since 2.3.20
  */
 public final class Version implements Serializable {
-    
+
     private final int major;
     private final int minor;
     private final int micro;
     private final String extraInfo;
     private final String originalStringValue;
-    
+
     private final Boolean gaeCompliant;
     private final Date buildDate;
-    
+
     private final int intValue;
     private volatile String calculatedStringValue;  // not final because it's calculated on demand
     private int hashCode;  // not final because it's calculated on demand
@@ -54,14 +54,14 @@ public final class Version implements Serializable {
     public Version(String stringValue) {
         this(stringValue, null, null);
     }
-    
+
     /**
      * @throws IllegalArgumentException if the version string is malformed
      */
     public Version(String stringValue, Boolean gaeCompliant, Date buildDate) {
         stringValue = stringValue.trim();
-        originalStringValue = stringValue; 
-        
+        originalStringValue = stringValue;
+
         int[] parts = new int[3];
         String extraInfoTmp = null;
         {
@@ -74,14 +74,14 @@ public final class Version implements Serializable {
                     if (i == 0) {
                         throw new IllegalArgumentException(
                                 "The version number string " + StringUtil.jQuote(stringValue)
-                                + " doesn't start with a number.");
+                                        + " doesn't start with a number.");
                     }
                     if (c == '.') {
                         char nextC = i + 1 >= stringValue.length() ? 0 : stringValue.charAt(i + 1);
                         if (nextC == '.') {
                             throw new IllegalArgumentException(
                                     "The version number string " + StringUtil.jQuote(stringValue)
-                                    + " contains multiple dots after a number.");
+                                            + " contains multiple dots after a number.");
                         }
                         if (partIdx == 2 || !isNumber(nextC)) {
                             extraInfoTmp = stringValue.substring(i);
@@ -95,29 +95,29 @@ public final class Version implements Serializable {
                     }
                 }
             }
-            
+
             if (extraInfoTmp != null) {
-                char firstChar = extraInfoTmp.charAt(0); 
+                char firstChar = extraInfoTmp.charAt(0);
                 if (firstChar == '.' || firstChar == '-' || firstChar == '_') {
                     extraInfoTmp = extraInfoTmp.substring(1);
                     if (extraInfoTmp.length() == 0) {
                         throw new IllegalArgumentException(
-                            "The version number string " + StringUtil.jQuote(stringValue)
-                            + " has an extra info section opened with \"" + firstChar + "\", but it's empty.");
+                                "The version number string " + StringUtil.jQuote(stringValue)
+                                        + " has an extra info section opened with \"" + firstChar + "\", but it's empty.");
                     }
                 }
             }
         }
         extraInfo = extraInfoTmp;
-        
+
         major = parts[0];
         minor = parts[1];
         micro = parts[2];
         intValue = calculateIntValue();
-        
+
         this.gaeCompliant = gaeCompliant;
         this.buildDate = buildDate;
-        
+
     }
 
     private boolean isNumber(char c) {
@@ -130,22 +130,22 @@ public final class Version implements Serializable {
 
     /**
      * Creates an object based on the {@code int} value that uses the same kind of encoding as {link #intValue()}.
-     * 
+     *
      * @since 2.3.24
      */
     public Version(int intValue) {
         this.intValue = intValue;
-        
+
         this.micro = intValue % 1000;
         this.minor = (intValue / 1000) % 1000;
         this.major = intValue / 1000000;
-        
+
         this.extraInfo = null;
         this.gaeCompliant = null;
         this.buildDate = null;
         originalStringValue = null;
     }
-    
+
     public Version(int major, int minor, int micro, String extraInfo, Boolean gaeCompatible, Date buildDate) {
         this.major = major;
         this.minor = minor;
@@ -160,14 +160,14 @@ public final class Version implements Serializable {
     private int calculateIntValue() {
         return intValueFor(major, minor, micro);
     }
-    
+
     static public int intValueFor(int major, int minor, int micro) {
         return major * 1000000 + minor * 1000 + micro;
     }
-    
+
     private String getStringValue() {
         if (originalStringValue != null) return originalStringValue;
-        
+
         String calculatedStringValue = this.calculatedStringValue;
         if (calculatedStringValue == null) {
             synchronized (this) {
@@ -181,7 +181,7 @@ public final class Version implements Serializable {
         }
         return calculatedStringValue;
     }
-    
+
     /**
      * Contains the major.minor.micor numbers and the extraInfo part, not the other information.
      */
@@ -220,7 +220,7 @@ public final class Version implements Serializable {
     public String getExtraInfo() {
         return extraInfo;
     }
-    
+
     /**
      * @return The Google App Engine compliance, or {@code null}.
      */
@@ -270,25 +270,25 @@ public final class Version implements Serializable {
         Version other = (Version) obj;
 
         if (intValue != other.intValue) return false;
-        
+
         if (other.hashCode() != hashCode()) return false;
-        
+
         if (buildDate == null) {
             if (other.buildDate != null) return false;
         } else if (!buildDate.equals(other.buildDate)) {
             return false;
         }
-        
+
         if (extraInfo == null) {
             if (other.extraInfo != null) return false;
         } else if (!extraInfo.equals(other.extraInfo)) {
             return false;
         }
-        
+
         if (gaeCompliant == null) {
             return other.gaeCompliant == null;
         } else return gaeCompliant.equals(other.gaeCompliant);
 
     }
-    
+
 }

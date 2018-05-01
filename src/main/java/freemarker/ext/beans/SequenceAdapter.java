@@ -32,16 +32,16 @@ import java.util.AbstractList;
 class SequenceAdapter extends AbstractList implements TemplateModelAdapter {
     private final BeansWrapper wrapper;
     private final TemplateSequenceModel model;
-    
+
     SequenceAdapter(TemplateSequenceModel model, BeansWrapper wrapper) {
         this.model = model;
         this.wrapper = wrapper;
     }
-    
+
     public TemplateModel getTemplateModel() {
         return model;
     }
-    
+
     @Override
     public int size() {
         try {
@@ -50,7 +50,7 @@ class SequenceAdapter extends AbstractList implements TemplateModelAdapter {
             throw new UndeclaredThrowableException(e);
         }
     }
-    
+
     @Override
     public Object get(int index) {
         try {
@@ -59,9 +59,9 @@ class SequenceAdapter extends AbstractList implements TemplateModelAdapter {
             throw new UndeclaredThrowableException(e);
         }
     }
-    
+
     public TemplateSequenceModel getTemplateSequenceModel() {
         return model;
     }
-    
+
 }

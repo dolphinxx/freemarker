@@ -29,7 +29,7 @@ import java.text.DecimalFormatSymbols;
 //Compile this against Java 6
 @SuppressWarnings("Since15") // For IntelliJ inspection   
 public final class _Java6Impl implements _Java6 {
-    
+
     public static final _Java6 INSTANCE = new _Java6Impl();
 
     private _Java6Impl() {
@@ -43,5 +43,5 @@ public final class _Java6Impl implements _Java6 {
     public void setExponentSeparator(DecimalFormatSymbols dfs, String exponentSeparator) {
         dfs.setExponentSeparator(exponentSeparator);
     }
-    
+
 }

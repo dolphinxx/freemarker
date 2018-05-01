@@ -31,5 +31,5 @@ public interface _Java6 {
     void setRoundingMode(DecimalFormat df, RoundingMode roundingMode);
 
     void setExponentSeparator(DecimalFormatSymbols dfs, String exponentSeparator);
-    
+
 }

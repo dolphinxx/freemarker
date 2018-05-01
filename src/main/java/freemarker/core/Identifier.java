@@ -41,7 +41,7 @@ final class Identifier extends Expression {
             if (env == null) {
                 throw new _MiscTemplateException(
                         "Variables are not available (certainly you are in a parse-time executed directive). "
-                        + "The name of the variable you tried to read: ", name);
+                                + "The name of the variable you tried to read: ", name);
             } else {
                 throw e;
             }
@@ -52,14 +52,14 @@ final class Identifier extends Expression {
     public String getCanonicalForm() {
         return _CoreStringUtils.toFTLTopLevelIdentifierReference(name);
     }
-    
+
     /**
-     * The name of the identifier without any escaping or other syntactical distortions. 
+     * The name of the identifier without any escaping or other syntactical distortions.
      */
     String getName() {
         return name;
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return getCanonicalForm();
@@ -69,7 +69,7 @@ final class Identifier extends Expression {
     boolean isLiteral() {
         return false;
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;

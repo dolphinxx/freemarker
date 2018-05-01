@@ -24,7 +24,7 @@ import java.math.BigInteger;
 
 /**
  * Number- and math-related utilities.
- * 
+ *
  * @since 2.3.20
  */
 public class NumberUtil {
@@ -34,8 +34,9 @@ public class NumberUtil {
     private static final BigInteger BIG_INTEGER_INT_MIN = BIG_DECIMAL_INT_MIN.toBigInteger();
     private static final BigInteger BIG_INTEGER_INT_MAX = BIG_DECIMAL_INT_MAX.toBigInteger();
 
-    private NumberUtil() { }
-    
+    private NumberUtil() {
+    }
+
     public static boolean isInfinite(Number num) {
         if (num instanceof Double) {
             return ((Double) num).isInfinite();
@@ -45,7 +46,7 @@ public class NumberUtil {
             return false;
         } else {
             throw new UnsupportedNumberClassException(num.getClass());
-        }           
+        }
     }
 
     public static boolean isNaN(Number num) {
@@ -57,7 +58,7 @@ public class NumberUtil {
             return false;
         } else {
             throw new UnsupportedNumberClassException(num.getClass());
-        }           
+        }
     }
 
     /**
@@ -99,26 +100,26 @@ public class NumberUtil {
             throw new UnsupportedNumberClassException(num.getClass());
         }
     }
-    
+
     /**
      * Tells if a {link BigDecimal} stores a whole number. For example, it returns {@code true} for {@code 1.0000},
      * but {@code false} for {@code 1.0001}.
-     * 
+     *
      * @since 2.3.21
      */
     static public boolean isIntegerBigDecimal(BigDecimal bd) {
         // [Java 1.5] Try to utilize BigDecimal.toXxxExact methods
         return bd.scale() <= 0  // A fast check that whole numbers usually (not always) match
-               || bd.setScale(0, BigDecimal.ROUND_DOWN).compareTo(bd) == 0;  // This is rather slow
+                || bd.setScale(0, BigDecimal.ROUND_DOWN).compareTo(bd) == 0;  // This is rather slow
         // Note that `bd.signum() == 0 || bd.stripTrailingZeros().scale() <= 0` was also tried for the last
         // condition, but stripTrailingZeros was slower than setScale + compareTo.
     }
-    
+
     /**
      * Tells if the type of the parameter number is known to not be able to represent infinite (positive or negative)
      * and NaN. If this returns {@code false}, that doesn't mean that it can do that, because it's maybe just that this
      * utility doesn't know that type.
-     * 
+     *
      * @since 2.3.28
      */
     public static boolean hasTypeThatIsKnownToNotSupportInfiniteAndNaN(Number num) {
@@ -128,10 +129,8 @@ public class NumberUtil {
 
     /**
      * Converts a {link Number} to {@code int} whose mathematical value is exactly the same as of the original number.
-     * 
-     * @throws ArithmeticException
-     *             if the conversion to {@code int} is not possible without losing precision or overflow/underflow.
-     * 
+     *
+     * @throws ArithmeticException if the conversion to {@code int} is not possible without losing precision or overflow/underflow.
      * @since 2.3.22
      */
     public static int toIntExact(Number num) {
@@ -173,5 +172,5 @@ public class NumberUtil {
         return new ArithmeticException(
                 "Can't convert " + fromValue + " to type " + ClassUtil.getShortClassName(toType) + " without loss.");
     }
-    
+
 }

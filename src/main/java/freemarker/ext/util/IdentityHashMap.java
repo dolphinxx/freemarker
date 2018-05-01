@@ -31,14 +31,14 @@ import java.util.Set;
 
 /**
  * Was used instead of {link java.util.IdentityHashMap} before that was added to Java itself in Java 1.4.
- * 
+ *
  * @deprecated Use {link java.util.IdentityHashMap} instead.
  */
 @SuppressWarnings("rawtypes")
 @Deprecated
 public class IdentityHashMap
-    extends AbstractMap
-    implements Map, Cloneable, java.io.Serializable {
+        extends AbstractMap
+        implements Map, Cloneable, java.io.Serializable {
 
     public static final long serialVersionUID = 362498820763181265L;
     /**
@@ -75,18 +75,18 @@ public class IdentityHashMap
      * Constructs a new, empty map with the specified initial
      * capacity and the specified load factor.
      *
-     * @param      initialCapacity   the initial capacity of the IdentityHashMap.
-     * @param      loadFactor        the load factor of the IdentityHashMap
-     * @throws     IllegalArgumentException  if the initial capacity is less
-     *               than zero, or if the load factor is nonpositive.
+     * @param initialCapacity the initial capacity of the IdentityHashMap.
+     * @param loadFactor      the load factor of the IdentityHashMap
+     * @throws IllegalArgumentException if the initial capacity is less
+     *                                  than zero, or if the load factor is nonpositive.
      */
     public IdentityHashMap(int initialCapacity, float loadFactor) {
         if (initialCapacity < 0)
             throw new IllegalArgumentException(
-                "Illegal Initial Capacity: " + initialCapacity);
+                    "Illegal Initial Capacity: " + initialCapacity);
         if (loadFactor <= 0 || Float.isNaN(loadFactor))
             throw new IllegalArgumentException(
-                "Illegal Load factor: " + loadFactor);
+                    "Illegal Load factor: " + loadFactor);
         if (initialCapacity == 0)
             initialCapacity = 1;
         this.loadFactor = loadFactor;
@@ -98,9 +98,9 @@ public class IdentityHashMap
      * Constructs a new, empty map with the specified initial capacity
      * and default load factor, which is <tt>0.75</tt>.
      *
-     * @param   initialCapacity   the initial capacity of the IdentityHashMap.
-     * @throws    IllegalArgumentException if the initial capacity is less
-     *              than zero.
+     * @param initialCapacity the initial capacity of the IdentityHashMap.
+     * @throws IllegalArgumentException if the initial capacity is less
+     *                                  than zero.
      */
     public IdentityHashMap(int initialCapacity) {
         this(initialCapacity, 0.75f);
@@ -153,7 +153,7 @@ public class IdentityHashMap
      *
      * @param value value whose presence in this map is to be tested.
      * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value.
+     * specified value.
      */
     @Override
     public boolean containsValue(Object value) {
@@ -178,9 +178,9 @@ public class IdentityHashMap
      * Returns <tt>true</tt> if this map contains a mapping for the specified
      * key.
      *
+     * @param key key whose presence in this Map is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified
      * key.
-     * @param key key whose presence in this Map is to be tested.
      */
     @Override
     public boolean containsKey(Object key) {
@@ -208,8 +208,8 @@ public class IdentityHashMap
      * explicitly maps the key to <tt>null</tt>.  The <tt>containsKey</tt>
      * operation may be used to distinguish these two cases.
      *
-     * @return the value to which this map maps the specified key.
      * @param key key whose associated value is to be returned.
+     * @return the value to which this map maps the specified key.
      */
     @Override
     public Object get(Object key) {
@@ -263,12 +263,12 @@ public class IdentityHashMap
      * If the map previously contained a mapping for this key, the old
      * value is replaced.
      *
-     * @param key key with which the specified value is to be associated.
+     * @param key   key with which the specified value is to be associated.
      * @param value value to be associated with the specified key.
      * @return previous value associated with specified key, or <tt>null</tt>
-     *	       if there was no mapping for key.  A <tt>null</tt> return can
-     *	       also indicate that the IdentityHashMap previously associated
-     *	       <tt>null</tt> with the specified key.
+     * if there was no mapping for key.  A <tt>null</tt> return can
+     * also indicate that the IdentityHashMap previously associated
+     * <tt>null</tt> with the specified key.
      */
     @Override
     public Object put(Object key, Object value) {
@@ -318,9 +318,9 @@ public class IdentityHashMap
      *
      * @param key key whose mapping is to be removed from the map.
      * @return previous value associated with specified key, or <tt>null</tt>
-     *	       if there was no mapping for key.  A <tt>null</tt> return can
-     *	       also indicate that the map previously associated <tt>null</tt>
-     *	       with the specified key.
+     * if there was no mapping for key.  A <tt>null</tt> return can
+     * also indicate that the map previously associated <tt>null</tt>
+     * with the specified key.
      */
     @Override
     public Object remove(Object key) {
@@ -331,8 +331,8 @@ public class IdentityHashMap
             int index = (hash & 0x7FFFFFFF) % tab.length;
 
             for (Entry e = tab[index], prev = null;
-                e != null;
-                prev = e, e = e.next) {
+                 e != null;
+                 prev = e, e = e.next) {
                 if ((e.hash == hash) && key == e.key) {
                     modCount++;
                     if (prev != null)
@@ -348,8 +348,8 @@ public class IdentityHashMap
             }
         } else {
             for (Entry e = tab[0], prev = null;
-                e != null;
-                prev = e, e = e.next) {
+                 e != null;
+                 prev = e, e = e.next) {
                 if (e.key == null) {
                     modCount++;
                     if (prev != null)
@@ -370,7 +370,7 @@ public class IdentityHashMap
 
     /**
      * Copies all of the mappings from the specified map to this one.
-     *
+     * <p>
      * These mappings replace any mappings that this map had for any of the
      * keys currently in the specified Map.
      *
@@ -410,7 +410,7 @@ public class IdentityHashMap
             t.table = new Entry[table.length];
             for (int i = table.length; i-- > 0; ) {
                 t.table[i] =
-                    (table[i] != null) ? (Entry) table[i].clone() : null;
+                        (table[i] != null) ? (Entry) table[i].clone() : null;
             }
             t.keySet = null;
             t.entrySet = null;
@@ -443,26 +443,29 @@ public class IdentityHashMap
     @Override
     public Set keySet() {
         if (keySet == null) {
-            keySet = new AbstractSet()
-            {
+            keySet = new AbstractSet() {
                 @Override
                 public Iterator iterator() {
                     return getHashIterator(KEYS);
                 }
+
                 @Override
                 public int size() {
                     return count;
                 }
+
                 @Override
                 public boolean contains(Object o) {
                     return containsKey(o);
                 }
+
                 @Override
                 public boolean remove(Object o) {
                     int oldSize = count;
                     IdentityHashMap.this.remove(o);
                     return count != oldSize;
                 }
+
                 @Override
                 public void clear() {
                     IdentityHashMap.this.clear();
@@ -486,20 +489,22 @@ public class IdentityHashMap
     @Override
     public Collection values() {
         if (values == null) {
-            values = new AbstractCollection()
-            {
+            values = new AbstractCollection() {
                 @Override
                 public Iterator iterator() {
                     return getHashIterator(VALUES);
                 }
+
                 @Override
                 public int size() {
                     return count;
                 }
+
                 @Override
                 public boolean contains(Object o) {
                     return containsValue(o);
                 }
+
                 @Override
                 public void clear() {
                     IdentityHashMap.this.clear();
@@ -525,8 +530,7 @@ public class IdentityHashMap
     @Override
     public Set entrySet() {
         if (entrySet == null) {
-            entrySet = new AbstractSet()
-            {
+            entrySet = new AbstractSet() {
                 @Override
                 public Iterator iterator() {
                     return getHashIterator(ENTRIES);
@@ -559,8 +563,8 @@ public class IdentityHashMap
                     int index = (hash & 0x7FFFFFFF) % tab.length;
 
                     for (Entry e = tab[index], prev = null;
-                        e != null;
-                        prev = e, e = e.next) {
+                         e != null;
+                         prev = e, e = e.next) {
                         if (e.hash == hash && e.equals(entry)) {
                             modCount++;
                             if (prev != null)
@@ -618,10 +622,10 @@ public class IdentityHashMap
         @Override
         protected Object clone() {
             return new Entry(
-                hash,
-                key,
-                value,
-                (next == null ? null : (Entry) next.clone()));
+                    hash,
+                    key,
+                    value,
+                    (next == null ? null : (Entry) next.clone()));
         }
 
         // Map.Entry Ops
@@ -647,7 +651,7 @@ public class IdentityHashMap
             Map.Entry e = (Map.Entry) o;
 
             return (key == e.getKey())
-                && (value == null
+                    && (value == null
                     ? e.getValue() == null
                     : value.equals(e.getValue()));
         }
@@ -669,7 +673,7 @@ public class IdentityHashMap
     private static final int ENTRIES = 2;
 
     private static EmptyHashIterator emptyHashIterator =
-        new EmptyHashIterator();
+            new EmptyHashIterator();
 
     private static class EmptyHashIterator implements Iterator {
 
@@ -753,8 +757,8 @@ public class IdentityHashMap
             int index = (lastReturned.hash & 0x7FFFFFFF) % tab.length;
 
             for (Entry e = tab[index], prev = null;
-                e != null;
-                prev = e, e = e.next) {
+                 e != null;
+                 prev = e, e = e.next) {
                 if (e == lastReturned) {
                     modCount++;
                     expectedModCount++;
@@ -776,14 +780,14 @@ public class IdentityHashMap
      * serialize it).
      *
      * @serialData The <i>capacity</i> of the IdentityHashMap (the length of the
-     *		   bucket array) is emitted (int), followed  by the
-     *		   <i>size</i> of the IdentityHashMap (the number of key-value
-     *		   mappings), followed by the key (Object) and value (Object)
-     *		   for each key-value mapping represented by the IdentityHashMap
+     * bucket array) is emitted (int), followed  by the
+     * <i>size</i> of the IdentityHashMap (the number of key-value
+     * mappings), followed by the key (Object) and value (Object)
+     * for each key-value mapping represented by the IdentityHashMap
      * The key-value mappings are emitted in no particular order.
      */
     private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
+            throws java.io.IOException {
         // Write out the threshold, loadfactor, and any hidden stuff
         s.defaultWriteObject();
 
@@ -810,7 +814,7 @@ public class IdentityHashMap
      * deserialize it).
      */
     private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
+            throws java.io.IOException, ClassNotFoundException {
         // Read in the threshold, loadfactor, and any hidden stuff
         s.defaultReadObject();
 

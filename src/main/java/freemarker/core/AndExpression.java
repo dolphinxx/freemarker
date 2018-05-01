@@ -45,7 +45,7 @@ final class AndExpression extends BooleanExpression {
     String getNodeTypeSymbol() {
         return "&&";
     }
-    
+
     @Override
     boolean isLiteral() {
         return constantValue != null || (lho.isLiteral() && rho.isLiteral());
@@ -54,11 +54,11 @@ final class AndExpression extends BooleanExpression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new AndExpression(
-    	        lho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
+        return new AndExpression(
+                lho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -67,9 +67,12 @@ final class AndExpression extends BooleanExpression {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return lho;
-        case 1: return rho;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return lho;
+            case 1:
+                return rho;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -77,5 +80,5 @@ final class AndExpression extends BooleanExpression {
     ParameterRole getParameterRole(int idx) {
         return ParameterRole.forBinaryOperatorOperand(idx);
     }
-    
+
 }

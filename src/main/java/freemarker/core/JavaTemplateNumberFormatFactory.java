@@ -29,19 +29,19 @@ import java.util.concurrent.ConcurrentHashMap;
  * Deals with {link TemplateNumberFormat}-s that just wrap a Java {link NumberFormat}.
  */
 class JavaTemplateNumberFormatFactory extends TemplateNumberFormatFactory {
-    
+
     static final JavaTemplateNumberFormatFactory INSTANCE = new JavaTemplateNumberFormatFactory();
-    
+
     private static final Logger LOG = Logger.getLogger("freemarker.runtime");
 
     private static final ConcurrentHashMap<CacheKey, NumberFormat> GLOBAL_FORMAT_CACHE
             = new ConcurrentHashMap<CacheKey, NumberFormat>();
     private static final int LEAK_ALERT_NUMBER_FORMAT_CACHE_SIZE = 1024;
-    
+
     private JavaTemplateNumberFormatFactory() {
         // Not meant to be instantiated
     }
-    
+
     @Override
     public TemplateNumberFormat get(String params, Locale locale, Environment env)
             throws InvalidFormatParametersException {
@@ -80,17 +80,17 @@ class JavaTemplateNumberFormatFactory extends TemplateNumberFormatFactory {
                             + "Typical cause: Some template generates high variety of format pattern strings.");
                 }
             }
-            
+
             NumberFormat prevJFormat = GLOBAL_FORMAT_CACHE.putIfAbsent(cacheKey, jFormat);
             if (prevJFormat != null) {
                 jFormat = prevJFormat;
             }
         }  // if cache miss
-        
+
         // JFormat-s aren't thread-safe; must clone it
         jFormat = (NumberFormat) jFormat.clone();
-        
-        return new JavaTemplateNumberFormat(jFormat, params); 
+
+        return new JavaTemplateNumberFormat(jFormat, params);
     }
 
     private static final class CacheKey {
@@ -116,5 +116,5 @@ class JavaTemplateNumberFormatFactory extends TemplateNumberFormatFactory {
             return pattern.hashCode() ^ locale.hashCode();
         }
     }
-    
+
 }

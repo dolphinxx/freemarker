@@ -19,8 +19,6 @@
 
 package freemarker.cache;
 
-import freemarker.template.Configuration;
-
 import java.io.IOException;
 
 /**
@@ -30,7 +28,7 @@ import java.io.IOException;
  * were deduced from the requested name. Trying a name usually means calling
  * {link TemplateLookupContext#lookupWithAcquisitionStrategy(String)} with it and checking the value of
  * {link TemplateLookupResult#isPositive()}.
- * 
+ * <p>
  * <p>
  * Before you write your own lookup strategy, know that:
  * <ul>
@@ -48,9 +46,9 @@ import java.io.IOException;
  * etc.) that are layered over each other to form a single merged directory. (This is what's desirable in typical
  * applications, yet it can be confusing.)
  * </ul>
- * 
+ * <p>
  * see Configuration#setTemplateLookupStrategy(TemplateLookupStrategy)
- * 
+ *
  * @since 2.3.22
  */
 public abstract class TemplateLookupStrategy {
@@ -58,7 +56,7 @@ public abstract class TemplateLookupStrategy {
     /**
      * <p>
      * The default lookup strategy of FreeMarker.
-     * 
+     * <p>
      * <p>
      * Through an example: Assuming localized lookup is enabled and that a template is requested for the name
      * {@code example.ftl} and {@code Locale("es", "ES", "Traditional_WIN")}, it will try the following template names,
@@ -67,7 +65,7 @@ public abstract class TemplateLookupStrategy {
      * a template. (If the template name contains "*" steps, finding the template for the attempted localized variation
      * happens with the template acquisition mechanism.) If localized lookup is disabled, it won't try to add any locale
      * strings, so it just looks for {@code "foo.ftl"}.
-     * 
+     * <p>
      * <p>
      * The generation of the localized name variation with the default lookup strategy, happens like this: It removes
      * the file extension (the part starting with the <em>last</em> dot), then appends {link Locale#toString()} after
@@ -76,38 +74,36 @@ public abstract class TemplateLookupStrategy {
      * (like if the requested template name is {@code foo_bar.ftl}, it won't remove the {@code "_bar"}).
      */
     public static final TemplateLookupStrategy DEFAULT_2_3_0 = new Default020300();
-    
+
     /**
      * Finds the template source that matches the template name, locale (if not {@code null}) and other parameters
      * specified in the {link TemplateLookupContext}. See also the class-level {link TemplateLookupStrategy}
      * documentation to understand lookup strategies more.
-     * 
-     * @param ctx
-     *            Contains the parameters for which the matching template need to be found, and operations that
+     *
+     * @param ctx Contains the parameters for which the matching template need to be found, and operations that
      *            are needed to implement the strategy. Some of the important input parameters are:
      *            {link TemplateLookupContext#getTemplateName()}, {link TemplateLookupContext#getTemplateLocale()}.
      *            The most important operations are {link TemplateLookupContext#lookupWithAcquisitionStrategy(String)}
      *            and {link TemplateLookupContext#createNegativeLookupResult()}. (Note that you deliberately can't
      *            use {link TemplateLoader}-s directly to implement lookup.)
-     * 
      * @return Usually the return value of {link TemplateLookupContext#lookupWithAcquisitionStrategy(String)}, or
-     *         {@code TemplateLookupContext#createNegativeLookupResult()} if no matching template exists. Can't be
-     *         {@code null}.
+     * {@code TemplateLookupContext#createNegativeLookupResult()} if no matching template exists. Can't be
+     * {@code null}.
      */
     public abstract TemplateLookupResult lookup(TemplateLookupContext ctx) throws IOException;
-    
+
     private static class Default020300 extends TemplateLookupStrategy {
-        
+
         @Override
         public TemplateLookupResult lookup(TemplateLookupContext ctx) throws IOException {
             return ctx.lookupWithLocalizedThenAcquisitionStrategy(ctx.getTemplateName(), ctx.getTemplateLocale());
         }
-        
+
         @Override
         public String toString() {
             return "TemplateLookupStrategy.DEFAULT_2_3_0";
         }
-        
+
     }
-    
+
 }

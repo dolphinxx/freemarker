@@ -19,15 +19,11 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
 /**
  * #else element that belongs to a #list, not to an #if.
  */
 final class ElseOfList extends TemplateElement {
-    
+
     ElseOfList(TemplateElements children) {
         setChildren(children);
     }
@@ -42,7 +38,7 @@ final class ElseOfList extends TemplateElement {
         if (canonical) {
             StringBuilder buf = new StringBuilder();
             buf.append('<').append(getNodeTypeSymbol()).append('>');
-            buf.append(getChildrenCanonicalForm());            
+            buf.append(getChildrenCanonicalForm());
             return buf.toString();
         } else {
             return getNodeTypeSymbol();
@@ -53,7 +49,7 @@ final class ElseOfList extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#else";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -73,5 +69,5 @@ final class ElseOfList extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

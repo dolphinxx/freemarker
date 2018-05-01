@@ -23,13 +23,13 @@ import freemarker.template.TemplateModel;
 
 /**
  * Indicates that a {link TemplateMarkupOutputModel} value was expected, but the value had a different type.
- * 
+ *
  * @since 2.3.24
  */
 public class NonMarkupOutputException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateMarkupOutputModel.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateMarkupOutputModel.class};
+
     public NonMarkupOutputException(Environment env) {
         super(env, "Expecting markup output value here");
     }
@@ -58,6 +58,6 @@ public class NonMarkupOutputException extends UnexpectedTypeException {
     NonMarkupOutputException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "markup output", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

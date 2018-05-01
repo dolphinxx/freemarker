@@ -19,18 +19,21 @@
 
 package freemarker.template.utility;
 
-/** @since 2.3.21 */
+/**
+ * @since 2.3.21
+ */
 public class CollectionUtils {
-    
-    private CollectionUtils() { }
 
-    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[] { };
+    private CollectionUtils() {
+    }
 
-    public static final Class[] EMPTY_CLASS_ARRAY = new Class[] { };
+    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[]{};
+
+    public static final Class[] EMPTY_CLASS_ARRAY = new Class[]{};
 
     /**
      * @since 2.3.22
      */
-    public static final char[] EMPTY_CHAR_ARRAY = new char[] { };
-    
+    public static final char[] EMPTY_CHAR_ARRAY = new char[]{};
+
 }

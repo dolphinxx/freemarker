@@ -33,10 +33,10 @@ import java.io.IOException;
  * An instruction to visit an XML node.
  */
 final class VisitNode extends TemplateElement {
-    
+
     Expression targetNode;
     Expression namespaces;
-    
+
     VisitNode(Expression targetNode, Expression namespaces) {
         this.targetNode = targetNode;
         this.namespaces = namespaces;
@@ -48,7 +48,7 @@ final class VisitNode extends TemplateElement {
         if (!(node instanceof TemplateNodeModel)) {
             throw new NonNodeException(targetNode, node, env);
         }
-        
+
         TemplateModel nss = namespaces == null ? null : namespaces.eval(env);
         if (namespaces instanceof StringLiteral) {
             nss = env.importLib(((TemplateScalarModel) nss).getAsString(), null);
@@ -92,7 +92,7 @@ final class VisitNode extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#visit";
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -101,18 +101,24 @@ final class VisitNode extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return targetNode;
-        case 1: return namespaces;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return targetNode;
+            case 1:
+                return namespaces;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.NODE;
-        case 1: return ParameterRole.NAMESPACE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.NODE;
+            case 1:
+                return ParameterRole.NAMESPACE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -125,5 +131,5 @@ final class VisitNode extends TemplateElement {
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

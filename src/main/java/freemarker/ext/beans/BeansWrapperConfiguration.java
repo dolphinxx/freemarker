@@ -28,21 +28,21 @@ import freemarker.template._TemplateAPI;
  * Holds {link BeansWrapper} configuration settings and defines their defaults.
  * You will not use this abstract class directly, but concrete subclasses like {link BeansWrapperBuilder} and
  * {link DefaultObjectWrapperBuilder}. Unless, you are developing a builder for a custom {link BeansWrapper} subclass.
- * 
+ *
  * <p>This class is designed so that its instances can be used as lookup keys in a singleton cache. This is also why
  * this class defines the configuration setting defaults for {link BeansWrapper}, instead of leaving that to
  * {link BeansWrapper} itself. (Because, the default values influence the lookup key, and the singleton needs to be
  * looked up without creating a {link BeansWrapper} instance.) However, because instances are mutable, you should
  * deep-clone it with {link #clone(boolean)} before using it as cache key.
- * 
+ *
  * @since 2.3.21
  */
 public abstract class BeansWrapperConfiguration implements Cloneable {
 
     private final Version incompatibleImprovements;
-    
+
     private ClassIntrospectorBuilder classIntrospectorBuilder;
-    
+
     // Properties and their *defaults*:
     private boolean simpleMapWrapper = false;
     private boolean preferIndexedReadMethod;
@@ -55,37 +55,34 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     // - Fields with default values must be set until the end of the constructor to ensure that when the lookup happens,
     //   there will be no unset fields.
     // - If you add a new field, review all methods in this class
-    
+
     /**
-     * @param incompatibleImprovements
-     *            See the corresponding parameter of {link BeansWrapper#BeansWrapper(Version)}. Not {@code null}. Note
-     *            that the version will be normalized to the lowest version where the same incompatible
-     *            {link BeansWrapper} improvements were already present, so for the returned instance
-     *            {link #getIncompatibleImprovements()} might returns a lower version than what you have specified
-     *            here.
-     * @param isIncompImprsAlreadyNormalized
-     *            Tells if the {@code incompatibleImprovements} parameter contains an <em>already normalized</em> value.
-     *            This parameter meant to be {@code true} when the class that extends {link BeansWrapper} needs to add
-     *            additional breaking versions over those of {link BeansWrapper}. Thus, if this parameter is
-     *            {@code true}, the versions where {link BeansWrapper} had breaking changes must be already factored
-     *            into the {@code incompatibleImprovements} parameter value, as no more normalization will happen. (You
-     *            can use {link BeansWrapper#normalizeIncompatibleImprovementsVersion(Version)} to discover those.)
-     * 
+     * @param incompatibleImprovements       See the corresponding parameter of {link BeansWrapper#BeansWrapper(Version)}. Not {@code null}. Note
+     *                                       that the version will be normalized to the lowest version where the same incompatible
+     *                                       {link BeansWrapper} improvements were already present, so for the returned instance
+     *                                       {link #getIncompatibleImprovements()} might returns a lower version than what you have specified
+     *                                       here.
+     * @param isIncompImprsAlreadyNormalized Tells if the {@code incompatibleImprovements} parameter contains an <em>already normalized</em> value.
+     *                                       This parameter meant to be {@code true} when the class that extends {link BeansWrapper} needs to add
+     *                                       additional breaking versions over those of {link BeansWrapper}. Thus, if this parameter is
+     *                                       {@code true}, the versions where {link BeansWrapper} had breaking changes must be already factored
+     *                                       into the {@code incompatibleImprovements} parameter value, as no more normalization will happen. (You
+     *                                       can use {link BeansWrapper#normalizeIncompatibleImprovementsVersion(Version)} to discover those.)
      * @since 2.3.22
      */
     protected BeansWrapperConfiguration(Version incompatibleImprovements, boolean isIncompImprsAlreadyNormalized) {
         _TemplateAPI.checkVersionNotNullAndSupported(incompatibleImprovements);
-        
+
         incompatibleImprovements = isIncompImprsAlreadyNormalized
                 ? incompatibleImprovements
                 : BeansWrapper.normalizeIncompatibleImprovementsVersion(incompatibleImprovements);
         this.incompatibleImprovements = incompatibleImprovements;
-        
+
         preferIndexedReadMethod = incompatibleImprovements.intValue() < _TemplateAPI.VERSION_INT_2_3_27;
-        
+
         classIntrospectorBuilder = new ClassIntrospectorBuilder(incompatibleImprovements);
     }
-    
+
     /**
      * Same as {link #BeansWrapperConfiguration(Version, boolean) BeansWrapperConfiguration(Version, false)}.
      */
@@ -118,7 +115,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         BeansWrapperConfiguration other = (BeansWrapperConfiguration) obj;
-        
+
         if (!incompatibleImprovements.equals(other.incompatibleImprovements)) return false;
         if (simpleMapWrapper != other.simpleMapWrapper) return false;
         if (preferIndexedReadMethod != other.preferIndexedReadMethod) return false;
@@ -128,7 +125,7 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         if (useModelCache != other.useModelCache) return false;
         return classIntrospectorBuilder.equals(other.classIntrospectorBuilder);
     }
-    
+
     protected Object clone(boolean deepCloneKey) {
         try {
             BeansWrapperConfiguration clone = (BeansWrapperConfiguration) super.clone();
@@ -141,22 +138,28 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
             throw new RuntimeException("Failed to clone BeansWrapperConfiguration", e);
         }
     }
-    
+
     public boolean isSimpleMapWrapper() {
         return simpleMapWrapper;
     }
 
-    /** See {link BeansWrapper#setSimpleMapWrapper(boolean)}. */
+    /**
+     * See {link BeansWrapper#setSimpleMapWrapper(boolean)}.
+     */
     public void setSimpleMapWrapper(boolean simpleMapWrapper) {
         this.simpleMapWrapper = simpleMapWrapper;
     }
-    
-    /** @since 2.3.27 */
+
+    /**
+     * @since 2.3.27
+     */
     public boolean getPreferIndexedReadMethod() {
         return preferIndexedReadMethod;
     }
 
-    /** See {link BeansWrapper#setPreferIndexedReadMethod(boolean)}. @since 2.3.27 */
+    /**
+     * See {link BeansWrapper#setPreferIndexedReadMethod(boolean)}. @since 2.3.27
+     */
     public void setPreferIndexedReadMethod(boolean preferIndexedReadMethod) {
         this.preferIndexedReadMethod = preferIndexedReadMethod;
     }
@@ -165,7 +168,9 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return defaultDateType;
     }
 
-    /** See {link BeansWrapper#setDefaultDateType(int)}. */
+    /**
+     * See {link BeansWrapper#setDefaultDateType(int)}.
+     */
     public void setDefaultDateType(int defaultDateType) {
         this.defaultDateType = defaultDateType;
     }
@@ -186,7 +191,9 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return strict;
     }
 
-    /** See {link BeansWrapper#setStrict(boolean)}. */
+    /**
+     * See {link BeansWrapper#setStrict(boolean)}.
+     */
     public void setStrict(boolean strict) {
         this.strict = strict;
     }
@@ -195,7 +202,9 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return useModelCache;
     }
 
-    /** See {link BeansWrapper#setUseCache(boolean)} (it means the same). */
+    /**
+     * See {link BeansWrapper#setUseCache(boolean)} (it means the same).
+     */
     public void setUseModelCache(boolean useModelCache) {
         this.useModelCache = useModelCache;
     }
@@ -203,12 +212,14 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     public Version getIncompatibleImprovements() {
         return incompatibleImprovements;
     }
-    
+
     public int getExposureLevel() {
         return classIntrospectorBuilder.getExposureLevel();
     }
 
-    /** See {link BeansWrapper#setExposureLevel(int)}. */
+    /**
+     * See {link BeansWrapper#setExposureLevel(int)}.
+     */
     public void setExposureLevel(int exposureLevel) {
         classIntrospectorBuilder.setExposureLevel(exposureLevel);
     }
@@ -217,7 +228,9 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
         return classIntrospectorBuilder.getExposeFields();
     }
 
-    /** See {link BeansWrapper#setExposeFields(boolean)}. */
+    /**
+     * See {link BeansWrapper#setExposeFields(boolean)}.
+     */
     public void setExposeFields(boolean exposeFields) {
         classIntrospectorBuilder.setExposeFields(exposeFields);
     }
@@ -225,8 +238,10 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     public boolean getTreatDefaultMethodsAsBeanMembers() {
         return classIntrospectorBuilder.getTreatDefaultMethodsAsBeanMembers();
     }
-    
-    /** See {link BeansWrapper#setTreatDefaultMethodsAsBeanMembers(boolean)} */
+
+    /**
+     * See {link BeansWrapper#setTreatDefaultMethodsAsBeanMembers(boolean)}
+     */
     public void setTreatDefaultMethodsAsBeanMembers(boolean treatDefaultMethodsAsBeanMembers) {
         classIntrospectorBuilder.setTreatDefaultMethodsAsBeanMembers(treatDefaultMethodsAsBeanMembers);
     }
@@ -255,5 +270,5 @@ public abstract class BeansWrapperConfiguration implements Cloneable {
     ClassIntrospectorBuilder getClassIntrospectorBuilder() {
         return classIntrospectorBuilder;
     }
- 
+
 }

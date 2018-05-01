@@ -27,10 +27,10 @@ import java.io.IOException;
  * Holder for the attempted section of the #attempt element and of the nested #recover element ({link RecoveryBlock}).
  */
 final class AttemptBlock extends TemplateElement {
-    
+
     private TemplateElement attemptedSection;
     private RecoveryBlock recoverySection;
-    
+
     AttemptBlock(TemplateElements attemptedSectionChildren, RecoveryBlock recoverySection) {
         TemplateElement attemptedSection = attemptedSectionChildren.asSingleElement();
         this.attemptedSection = attemptedSection;
@@ -53,12 +53,12 @@ final class AttemptBlock extends TemplateElement {
         } else {
             StringBuilder buf = new StringBuilder();
             buf.append("<").append(getNodeTypeSymbol()).append(">");
-            buf.append(getChildrenCanonicalForm());            
+            buf.append(getChildrenCanonicalForm());
             buf.append("</").append(getNodeTypeSymbol()).append(">");
             return buf.toString();
         }
     }
-    
+
     @Override
     int getParameterCount() {
         return 1;
@@ -75,15 +75,15 @@ final class AttemptBlock extends TemplateElement {
         if (idx != 0) throw new IndexOutOfBoundsException();
         return ParameterRole.ERROR_HANDLER;
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#attempt";
     }
-    
+
     @Override
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

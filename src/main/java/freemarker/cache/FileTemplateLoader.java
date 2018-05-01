@@ -42,7 +42,7 @@ import java.security.PrivilegedExceptionAction;
  * the security implications there!
  */
 public class FileTemplateLoader implements TemplateLoader {
-    
+
     /**
      * By setting this Java system property to {@code true}, you can change the default of
      * {@code #getEmulateCaseSensitiveFileSystem()}.
@@ -50,6 +50,7 @@ public class FileTemplateLoader implements TemplateLoader {
     public static String SYSTEM_PROPERTY_NAME_EMULATE_CASE_SENSITIVE_FILE_SYSTEM
             = "org.freemarker.emulateCaseSensitiveFileSystem";
     private static final boolean EMULATE_CASE_SENSITIVE_FILE_SYSTEM_DEFAULT;
+
     static {
         final String s = SecurityUtilities.getSystemProperty(SYSTEM_PROPERTY_NAME_EMULATE_CASE_SENSITIVE_FILE_SYSTEM,
                 "false");
@@ -65,9 +66,9 @@ public class FileTemplateLoader implements TemplateLoader {
     private static final int CASE_CHECH_CACHE_HARD_SIZE = 50;
     private static final int CASE_CHECK_CACHE__SOFT_SIZE = 1000;
     private static final boolean SEP_IS_SLASH = File.separatorChar == '/';
-    
+
     private static final Logger LOG = Logger.getLogger("freemarker.cache");
-    
+
     public final File baseDir;
     private final String canonicalBasePath;
     private boolean emulateCaseSensitiveFileSystem;
@@ -77,9 +78,9 @@ public class FileTemplateLoader implements TemplateLoader {
      * Creates a new file template cache that will use the current directory (the value of the system property
      * <code>user.dir</code> as the base directory for loading templates. It will not allow access to template files
      * that are accessible through symlinks that point outside the base directory.
-     * 
+     *
      * @deprecated Relying on what the current directory is is a bad practice; use
-     *             {link FileTemplateLoader#FileTemplateLoader(File)} instead.
+     * {link FileTemplateLoader#FileTemplateLoader(File)} instead.
      */
     @Deprecated
     public FileTemplateLoader() throws IOException {
@@ -89,8 +90,9 @@ public class FileTemplateLoader implements TemplateLoader {
     /**
      * Creates a new file template loader that will use the specified directory
      * as the base directory for loading templates. It will not allow access to
-     * template files that are accessible through symlinks that point outside 
+     * template files that are accessible through symlinks that point outside
      * the base directory.
+     *
      * @param baseDir the base directory for loading templates
      */
     public FileTemplateLoader(final File baseDir) throws IOException {
@@ -100,18 +102,15 @@ public class FileTemplateLoader implements TemplateLoader {
     /**
      * Creates a new file template loader that will use the specified directory as the base directory for loading
      * templates. See the parameters for allowing symlinks that point outside the base directory.
-     * 
-     * @param baseDir
-     *            the base directory for loading templates
-     * 
-     * @param disableCanonicalPathCheck
-     *            If {@code true}, it will not check if the file to be loaded is inside the {@code baseDir} or not,
-     *            according the <em>canonical</em> paths of the {@code baseDir} and the file to load. Note that
-     *            {link Configuration#getTemplate(String)} and (its overloads) already prevents backing out from the
-     *            template directory with paths like {@code /../../../etc/password}, however, that can be circumvented
-     *            with symbolic links or other file system features. If you really want to use symbolic links that point
-     *            outside the {@code baseDir}, set this parameter to {@code true}, but then be very careful with
-     *            template paths that are supplied by the visitor or an external system.
+     *
+     * @param baseDir                   the base directory for loading templates
+     * @param disableCanonicalPathCheck If {@code true}, it will not check if the file to be loaded is inside the {@code baseDir} or not,
+     *                                  according the <em>canonical</em> paths of the {@code baseDir} and the file to load. Note that
+     *                                  {link Configuration#getTemplate(String)} and (its overloads) already prevents backing out from the
+     *                                  template directory with paths like {@code /../../../etc/password}, however, that can be circumvented
+     *                                  with symbolic links or other file system features. If you really want to use symbolic links that point
+     *                                  outside the {@code baseDir}, set this parameter to {@code true}, but then be very careful with
+     *                                  template paths that are supplied by the visitor or an external system.
      */
     public FileTemplateLoader(final File baseDir, final boolean disableCanonicalPathCheck) throws IOException {
         try {
@@ -142,19 +141,19 @@ public class FileTemplateLoader implements TemplateLoader {
             });
             this.baseDir = (File) retval[0];
             this.canonicalBasePath = (String) retval[1];
-            
+
             setEmulateCaseSensitiveFileSystem(getEmulateCaseSensitiveFileSystemDefault());
         } catch (PrivilegedActionException e) {
             throw (IOException) e.getException();
         }
     }
-    
+
     public Object findTemplateSource(final String name) throws IOException {
         try {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<File>() {
                 public File run() throws IOException {
-                    File source = new File(baseDir, SEP_IS_SLASH ? name : 
-                        name.replace('/', File.separatorChar));
+                    File source = new File(baseDir, SEP_IS_SLASH ? name :
+                            name.replace('/', File.separatorChar));
                     if (!source.isFile()) {
                         return null;
                     }
@@ -164,16 +163,16 @@ public class FileTemplateLoader implements TemplateLoader {
                     if (canonicalBasePath != null) {
                         String normalized = source.getCanonicalPath();
                         if (!normalized.startsWith(canonicalBasePath)) {
-                            throw new SecurityException(source.getAbsolutePath() 
+                            throw new SecurityException(source.getAbsolutePath()
                                     + " resolves to " + normalized + " which "
                                     + " doesn't start with " + canonicalBasePath);
                         }
                     }
-                    
+
                     if (emulateCaseSensitiveFileSystem && !isNameCaseCorrect(source)) {
                         return null;
                     }
-                    
+
                     return source;
                 }
             });
@@ -181,7 +180,7 @@ public class FileTemplateLoader implements TemplateLoader {
             throw (IOException) e.getException();
         }
     }
-    
+
     public long getLastModified(final Object templateSource) {
         return AccessController.doPrivileged(new PrivilegedAction<Long>() {
             public Long run() {
@@ -189,15 +188,15 @@ public class FileTemplateLoader implements TemplateLoader {
             }
         });
     }
-    
+
     public Reader getReader(final Object templateSource, final String encoding) throws IOException {
         try {
             return AccessController.doPrivileged(new PrivilegedExceptionAction<Reader>() {
                 public Reader run() throws IOException {
                     if (!(templateSource instanceof File)) {
                         throw new IllegalArgumentException(
-                                "templateSource wasn't a File, but a: " + 
-                                templateSource.getClass().getName());
+                                "templateSource wasn't a File, but a: " +
+                                        templateSource.getClass().getName());
                     }
                     return new InputStreamReader(new FileInputStream((File) templateSource), encoding);
                 }
@@ -206,7 +205,7 @@ public class FileTemplateLoader implements TemplateLoader {
             throw (IOException) e.getException();
         }
     }
-    
+
     /**
      * Called by {link #findTemplateSource(String)} when {link #getEmulateCaseSensitiveFileSystem()} is {@code true}.
      */
@@ -217,24 +216,24 @@ public class FileTemplateLoader implements TemplateLoader {
                 return true;
             }
         }
-        
+
         final File parentDir = source.getParentFile();
         if (parentDir != null) {
             if (!baseDir.equals(parentDir) && !isNameCaseCorrect(parentDir)) {
                 return false;
             }
-            
+
             final String[] listing = parentDir.list();
             if (listing != null) {
                 final String fileName = source.getName();
-                
+
                 boolean identicalNameFound = false;
                 for (int i = 0; !identicalNameFound && i < listing.length; i++) {
                     if (fileName.equals(listing[i])) {
                         identicalNameFound = true;
                     }
                 }
-        
+
                 if (!identicalNameFound) {
                     // If we find a similarly named file that only differs in case, then this is a file-not-found.
                     for (int i = 0; i < listing.length; i++) {
@@ -252,7 +251,7 @@ public class FileTemplateLoader implements TemplateLoader {
         }
 
         synchronized (correctCasePaths) {
-            correctCasePaths.put(sourcePath, Boolean.TRUE);        
+            correctCasePaths.put(sourcePath, Boolean.TRUE);
         }
         return true;
     }
@@ -260,17 +259,17 @@ public class FileTemplateLoader implements TemplateLoader {
     public void closeTemplateSource(Object templateSource) {
         // Do nothing.
     }
-    
+
     /**
      * Returns the base directory in which the templates are searched. This comes from the constructor argument, but
-     * it's possibly a canonicalized version of that. 
-     *  
+     * it's possibly a canonicalized version of that.
+     *
      * @since 2.3.21
      */
     public File getBaseDirectory() {
         return baseDir;
     }
-    
+
     /**
      * Intended for development only, checks if the template name matches the case (upper VS lower case letters) of the
      * actual file name, and if it doesn't, it emulates a file-not-found even if the file system is case insensitive.
@@ -278,10 +277,10 @@ public class FileTemplateLoader implements TemplateLoader {
      * check can be resource intensive, as to check the file name the directories involved, up to the
      * {link #getBaseDirectory()} directory, must be listed. Positive results (matching case) will be cached without
      * expiration time.
-     * 
+     *
      * <p>The default in {link FileTemplateLoader} is {@code false}, but subclasses may change they by overriding
      * {link #getEmulateCaseSensitiveFileSystemDefault()}.
-     * 
+     *
      * @since 2.3.23
      */
     public void setEmulateCaseSensitiveFileSystem(boolean nameCaseChecked) {
@@ -293,13 +292,13 @@ public class FileTemplateLoader implements TemplateLoader {
         } else {
             correctCasePaths = null;
         }
-        
+
         this.emulateCaseSensitiveFileSystem = nameCaseChecked;
     }
 
     /**
      * Getter pair of {link #setEmulateCaseSensitiveFileSystem(boolean)}.
-     * 
+     *
      * @since 2.3.23
      */
     public boolean getEmulateCaseSensitiveFileSystem() {
@@ -311,7 +310,7 @@ public class FileTemplateLoader implements TemplateLoader {
      * {@code false}, unless the {link #SYSTEM_PROPERTY_NAME_EMULATE_CASE_SENSITIVE_FILE_SYSTEM} system property was
      * set to {@code true}, but this can be overridden here in custom subclasses. For example, if your environment
      * defines something like developer mode, you may want to override this to return {@code true} on Windows.
-     * 
+     *
      * @since 2.3.23
      */
     protected boolean getEmulateCaseSensitiveFileSystemDefault() {
@@ -320,7 +319,7 @@ public class FileTemplateLoader implements TemplateLoader {
 
     /**
      * Show class name and some details that are useful in template-not-found errors.
-     * 
+     *
      * @since 2.3.21
      */
     @Override
@@ -333,5 +332,5 @@ public class FileTemplateLoader implements TemplateLoader {
                 + (emulateCaseSensitiveFileSystem ? ", emulateCaseSensitiveFileSystem=true" : "")
                 + ")";
     }
-    
+
 }

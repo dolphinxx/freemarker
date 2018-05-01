@@ -35,10 +35,10 @@ public abstract class ModelCache {
     private boolean useCache = false;
     private Map<Object, ModelReference> modelCache = null;
     private ReferenceQueue<TemplateModel> refQueue = null;
-    
+
     protected ModelCache() {
     }
-    
+
     /**
      * Sets whether this wrapper caches model instances. Default is false.
      * When set to true, calling {link #getInstance(Object)}
@@ -61,7 +61,7 @@ public abstract class ModelCache {
     public synchronized boolean getUseCache() {
         return useCache;
     }
-    
+
     public TemplateModel getInstance(Object object) {
         if (object instanceof TemplateModel) {
             return (TemplateModel) object;
@@ -80,10 +80,11 @@ public abstract class ModelCache {
             return create(object);
         }
     }
-    
+
     protected abstract TemplateModel create(Object object);
+
     protected abstract boolean isCacheable(Object object);
-    
+
     public void clearCache() {
         if (modelCache != null) {
             synchronized (modelCache) {

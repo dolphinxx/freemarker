@@ -26,11 +26,11 @@ import freemarker.log.Logger;
  * we can have static field.
  */
 class LoggingAttemptExceptionReporter implements AttemptExceptionReporter {
-    
+
     private static final Logger LOG = Logger.getLogger("freemarker.runtime");
-    
+
     private final boolean logAsWarn;
-    
+
     public LoggingAttemptExceptionReporter(boolean logAsWarn) {
         this.logAsWarn = logAsWarn;
     }
@@ -43,5 +43,5 @@ class LoggingAttemptExceptionReporter implements AttemptExceptionReporter {
             LOG.warn(message, te);
         }
     }
-    
+
 }

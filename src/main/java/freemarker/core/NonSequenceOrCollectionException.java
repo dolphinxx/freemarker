@@ -28,18 +28,18 @@ import freemarker.template.utility.CollectionUtils;
 /**
  * Indicates that a {link TemplateSequenceModel} or {link TemplateCollectionModel} value was expected, but the value
  * had a different type.
- * 
+ *
  * @since 2.3.21
  */
 public class NonSequenceOrCollectionException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] {
-        TemplateSequenceModel.class, TemplateCollectionModel.class
+    private static final Class[] EXPECTED_TYPES = new Class[]{
+            TemplateSequenceModel.class, TemplateCollectionModel.class
     };
     private static final String ITERABLE_SUPPORT_HINT = "The problematic value is a java.lang.Iterable. Using "
             + "DefaultObjectWrapper(..., iterableSupport=true) as the object_wrapper setting of the FreeMarker "
             + "configuration should solve this.";
-    
+
     public NonSequenceOrCollectionException(Environment env) {
         super(env, "Expecting sequence or collection value here");
     }
@@ -62,14 +62,14 @@ public class NonSequenceOrCollectionException extends UnexpectedTypeException {
             Expression blamed, TemplateModel model, String tip,
             Environment env)
             throws InvalidReferenceException {
-        this(blamed, model, new Object[] { tip }, env);
+        this(blamed, model, new Object[]{tip}, env);
     }
 
     NonSequenceOrCollectionException(
             Expression blamed, TemplateModel model, Object[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "sequence or collection", EXPECTED_TYPES, extendTipsIfIterable(model, tips), env);
     }
-    
+
     private static Object[] extendTipsIfIterable(TemplateModel model, Object[] tips) {
         if (isWrappedIterable(model)) {
             final int tipsLen = tips != null ? tips.length : 0;

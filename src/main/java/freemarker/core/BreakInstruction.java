@@ -33,7 +33,7 @@ final class BreakInstruction extends TemplateElement {
     protected String dump(boolean canonical) {
         return canonical ? "<" + getNodeTypeSymbol() + "/>" : getNodeTypeSymbol();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#break";
@@ -53,12 +53,12 @@ final class BreakInstruction extends TemplateElement {
     ParameterRole getParameterRole(int idx) {
         throw new IndexOutOfBoundsException();
     }
-    
+
     @Override
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }
 
 

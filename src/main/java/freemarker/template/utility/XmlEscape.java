@@ -41,35 +41,63 @@ public class XmlEscape implements TemplateTransformModel {
     private static final char[] APOS = "&apos;".toCharArray();
 
     public Writer getWriter(final Writer out, Map args) {
-        return new Writer()
-        {
+        return new Writer() {
             @Override
             public void write(int c)
-            throws IOException {
-                switch(c)
-                {
-                    case '<': out.write(LT, 0, 4); break;
-                    case '>': out.write(GT, 0, 4); break;
-                    case '&': out.write(AMP, 0, 5); break;
-                    case '"': out.write(QUOT, 0, 6); break;
-                    case '\'': out.write(APOS, 0, 6); break;
-                    default: out.write(c);
+                    throws IOException {
+                switch (c) {
+                    case '<':
+                        out.write(LT, 0, 4);
+                        break;
+                    case '>':
+                        out.write(GT, 0, 4);
+                        break;
+                    case '&':
+                        out.write(AMP, 0, 5);
+                        break;
+                    case '"':
+                        out.write(QUOT, 0, 6);
+                        break;
+                    case '\'':
+                        out.write(APOS, 0, 6);
+                        break;
+                    default:
+                        out.write(c);
                 }
             }
 
             @Override
             public void write(char cbuf[], int off, int len)
-            throws IOException {
+                    throws IOException {
                 int lastoff = off;
                 int lastpos = off + len;
                 for (int i = off; i < lastpos; i++) {
-                    switch (cbuf[i])
-                    {
-                        case '<': out.write(cbuf, lastoff, i - lastoff); out.write(LT, 0, 4); lastoff = i + 1; break;
-                        case '>': out.write(cbuf, lastoff, i - lastoff); out.write(GT, 0, 4); lastoff = i + 1; break;
-                        case '&': out.write(cbuf, lastoff, i - lastoff); out.write(AMP, 0, 5); lastoff = i + 1; break;
-                        case '"': out.write(cbuf, lastoff, i - lastoff); out.write(QUOT, 0, 6); lastoff = i + 1; break;
-                        case '\'': out.write(cbuf, lastoff, i - lastoff); out.write(APOS, 0, 6); lastoff = i + 1; break;
+                    switch (cbuf[i]) {
+                        case '<':
+                            out.write(cbuf, lastoff, i - lastoff);
+                            out.write(LT, 0, 4);
+                            lastoff = i + 1;
+                            break;
+                        case '>':
+                            out.write(cbuf, lastoff, i - lastoff);
+                            out.write(GT, 0, 4);
+                            lastoff = i + 1;
+                            break;
+                        case '&':
+                            out.write(cbuf, lastoff, i - lastoff);
+                            out.write(AMP, 0, 5);
+                            lastoff = i + 1;
+                            break;
+                        case '"':
+                            out.write(cbuf, lastoff, i - lastoff);
+                            out.write(QUOT, 0, 6);
+                            lastoff = i + 1;
+                            break;
+                        case '\'':
+                            out.write(cbuf, lastoff, i - lastoff);
+                            out.write(APOS, 0, 6);
+                            lastoff = i + 1;
+                            break;
                     }
                 }
                 int remaining = lastpos - lastoff;
@@ -77,6 +105,7 @@ public class XmlEscape implements TemplateTransformModel {
                     out.write(cbuf, lastoff, remaining);
                 }
             }
+
             @Override
             public void flush() throws IOException {
                 out.flush();

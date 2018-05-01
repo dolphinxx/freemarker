@@ -29,11 +29,11 @@ final class BoundedRangeModel extends RangeModel {
     private final int size;
     private final boolean rightAdaptive;
     private final boolean affectedByStringSlicingBug;
-    
+
     /**
-     * @param inclusiveEnd Tells if the {@code end} index is part of the range. 
+     * @param inclusiveEnd  Tells if the {@code end} index is part of the range.
      * @param rightAdaptive Tells if the right end of the range adapts to the size of the sliced value, if otherwise
-     *     it would be bigger than that. 
+     *                      it would be bigger than that.
      */
     BoundedRangeModel(int begin, int end, boolean inclusiveEnd, boolean rightAdaptive) {
         super(begin);
@@ -46,7 +46,7 @@ final class BoundedRangeModel extends RangeModel {
     public int size() {
         return size;
     }
-    
+
     @Override
     int getStep() {
         return step;
@@ -66,5 +66,5 @@ final class BoundedRangeModel extends RangeModel {
     boolean isAffactedByStringSlicingBug() {
         return affectedByStringSlicingBug;
     }
-    
+
 }

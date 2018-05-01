@@ -65,7 +65,7 @@ final class ComparisonExpression extends BooleanExpression {
     public String getCanonicalForm() {
         return left.getCanonicalForm() + ' ' + opString + ' ' + right.getCanonicalForm();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return opString;
@@ -79,12 +79,12 @@ final class ComparisonExpression extends BooleanExpression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new ComparisonExpression(
-    	        left.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        right.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        opString);
+        return new ComparisonExpression(
+                left.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                right.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                opString);
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -99,5 +99,5 @@ final class ComparisonExpression extends BooleanExpression {
     ParameterRole getParameterRole(int idx) {
         return ParameterRole.forBinaryOperatorOperand(idx);
     }
-    
+
 }

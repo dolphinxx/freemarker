@@ -60,7 +60,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Returns information about a {link Class} that's useful for FreeMarker. Encapsulates a cache for this. Thread-safe,
  * doesn't even require "proper publishing" starting from 2.3.24 or Java 5. Immutable, with the exception of the
  * internal caches.
- * 
+ * <p>
  * <p>
  * Note that instances of this are cached on the level of FreeMarker's defining class loader. Hence, it must not do
  * operations that depend on the Thread Context Class Loader, such as resolving class names.
@@ -83,11 +83,17 @@ class ClassIntrospector {
     // -----------------------------------------------------------------------------------------------------------------
     // Introspection info Map keys:
 
-    /** Key in the class info Map to the Map that maps method to argument type arrays */
+    /**
+     * Key in the class info Map to the Map that maps method to argument type arrays
+     */
     private static final Object ARG_TYPES_BY_METHOD_KEY = new Object();
-    /** Key in the class info Map to the object that represents the constructors (one or multiple due to overloading) */
+    /**
+     * Key in the class info Map to the object that represents the constructors (one or multiple due to overloading)
+     */
     static final Object CONSTRUCTORS_KEY = new Object();
-    /** Key in the class info Map to the get(String|Object) Method */
+    /**
+     * Key in the class info Map to the get(String|Object) Method
+     */
     static final Object GENERIC_GET_KEY = new Object();
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -102,10 +108,14 @@ class ClassIntrospector {
     final boolean treatDefaultMethodsAsBeanMembers;
     final boolean bugfixed;
 
-    /** See {link #getHasSharedInstanceRestrictons()} */
+    /**
+     * See {link #getHasSharedInstanceRestrictons()}
+     */
     final private boolean hasSharedInstanceRestrictons;
 
-    /** See {link #isShared()} */
+    /**
+     * See {link #isShared()}
+     */
     final private boolean shared;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -128,21 +138,19 @@ class ClassIntrospector {
 
     /**
      * Creates a new instance, that is hence surely not shared (singleton) instance.
-     * 
-     * @param pa
-     *            Stores what the values of the JavaBean properties of the returned instance will be. Not {@code null}.
+     *
+     * @param pa Stores what the values of the JavaBean properties of the returned instance will be. Not {@code null}.
      */
     ClassIntrospector(ClassIntrospectorBuilder pa, Object sharedLock) {
         this(pa, sharedLock, false, false);
     }
 
     /**
-     * @param hasSharedInstanceRestrictons
-     *            {@code true} exactly if we are creating a new instance with {link ClassIntrospectorBuilder}. Then
-     *            it's {@code true} even if it won't put the instance into the cache.
+     * @param hasSharedInstanceRestrictons {@code true} exactly if we are creating a new instance with {link ClassIntrospectorBuilder}. Then
+     *                                     it's {@code true} even if it won't put the instance into the cache.
      */
     ClassIntrospector(ClassIntrospectorBuilder builder, Object sharedLock,
-            boolean hasSharedInstanceRestrictons, boolean shared) {
+                      boolean hasSharedInstanceRestrictons, boolean shared) {
         NullArgumentException.check("sharedLock", sharedLock);
 
         this.exposureLevel = builder.getExposureLevel();
@@ -171,10 +179,10 @@ class ClassIntrospector {
 
     /**
      * Gets the class introspection data from {link #cache}, automatically creating the cache entry if it's missing.
-     * 
+     *
      * @return A {link Map} where each key is a property/method/field name (or a special {link Object} key like
-     *         {link #CONSTRUCTORS_KEY}), each value is a {link FastPropertyDescriptor} or {link Method} or
-     *         {link OverloadedMethods} or {link Field} (but better check the source code...).
+     * {link #CONSTRUCTORS_KEY}), each value is a {link FastPropertyDescriptor} or {link Method} or
+     * {link OverloadedMethods} or {link Field} (but better check the source code...).
      */
     Map<Object, Object> get(Class<?> clazz) {
         {
@@ -338,7 +346,7 @@ class ClassIntrospector {
                                 if (argTypesUsedByIndexerPropReaders == null) {
                                     argTypesUsedByIndexerPropReaders = new IdentityHashMap<Method, Void>();
                                 }
-                                argTypesUsedByIndexerPropReaders.put(method, null);                                
+                                argTypesUsedByIndexerPropReaders.put(method, null);
                             }
                         }
                     }
@@ -354,12 +362,12 @@ class ClassIntrospector {
         PropertyDescriptor[] introspectorPDsArray = beanInfo.getPropertyDescriptors();
         List<PropertyDescriptor> introspectorPDs = introspectorPDsArray != null ? Arrays.asList(introspectorPDsArray)
                 : Collections.emptyList();
-        
+
         if (!treatDefaultMethodsAsBeanMembers || _JavaVersions.JAVA_8 == null) {
             // java.beans.Introspector was good enough then.
             return introspectorPDs;
         }
-        
+
         // introspectorPDs contains each property exactly once. But as now we will search them manually too, it can
         // happen that we find the same property for multiple times. Worse, because of indexed properties, it's possible
         // that we have to merge entries (like one has the normal reader method, the other has the indexed reader
@@ -367,7 +375,7 @@ class ClassIntrospector {
         // which holds the methods belonging to the same property name. IndexedPropertyDescriptor is not good for that,
         // as it can't store two methods whose types are incompatible, and we have to wait until all the merging was
         // done to see if the incompatibility goes away.
-        
+
         // This could be Map<String, PropertyReaderMethodPair>, but since we rarely need to do merging, we try to avoid
         // creating those and use the source objects as much as possible. Also note that we initialize this lazily.
         LinkedHashMap<String, Object /*PropertyReaderMethodPair|Method|PropertyDescriptor*/> mergedPRMPs = null;
@@ -398,16 +406,16 @@ class ClassIntrospector {
                 }
             }
         } // for clazz.getMethods()
-        
+
         if (mergedPRMPs == null) {
             // We had no interfering Java 8 default methods, so we can chose the fast route.
             return introspectorPDs;
         }
-        
+
         for (PropertyDescriptor introspectorPD : introspectorPDs) {
             mergeInPropertyDescriptor(mergedPRMPs, introspectorPD);
         }
-        
+
         // Now we convert the PRMPs to PDs, handling case where the normal and the indexed read methods contradict.
         List<PropertyDescriptor> mergedPDs = new ArrayList<PropertyDescriptor>(mergedPRMPs.size());
         for (Entry<String, Object> entry : mergedPRMPs.entrySet()) {
@@ -438,7 +446,7 @@ class ClassIntrospector {
                     mergedPDs.add(
                             indexedReadMethod != null
                                     ? new IndexedPropertyDescriptor(propName,
-                                            readMethod, null, indexedReadMethod, null)
+                                    readMethod, null, indexedReadMethod, null)
                                     : new PropertyDescriptor(propName, readMethod, null));
                 } catch (IntrospectionException e) {
                     if (LOG.isWarnEnabled()) {
@@ -454,19 +462,19 @@ class ClassIntrospector {
     private static class PropertyReaderMethodPair {
         private final Method readMethod;
         private final Method indexedReadMethod;
-        
+
         PropertyReaderMethodPair(Method readerMethod, Method indexedReaderMethod) {
             this.readMethod = readerMethod;
             this.indexedReadMethod = indexedReaderMethod;
         }
-        
+
         PropertyReaderMethodPair(PropertyDescriptor pd) {
             this(
                     pd.getReadMethod(),
                     pd instanceof IndexedPropertyDescriptor
                             ? ((IndexedPropertyDescriptor) pd).getIndexedReadMethod() : null);
         }
-    
+
         static PropertyReaderMethodPair from(Object obj) {
             if (obj instanceof PropertyReaderMethodPair) {
                 return (PropertyReaderMethodPair) obj;
@@ -478,14 +486,14 @@ class ClassIntrospector {
                 throw new BugException("Unexpected obj type: " + obj.getClass().getName());
             }
         }
-        
+
         static PropertyReaderMethodPair merge(PropertyReaderMethodPair oldMethods, PropertyReaderMethodPair newMethods) {
             return new PropertyReaderMethodPair(
                     newMethods.readMethod != null ? newMethods.readMethod : oldMethods.readMethod,
                     newMethods.indexedReadMethod != null ? newMethods.indexedReadMethod
                             : oldMethods.indexedReadMethod);
         }
-    
+
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -494,7 +502,7 @@ class ClassIntrospector {
             result = prime * result + ((readMethod == null) ? 0 : readMethod.hashCode());
             return result;
         }
-    
+
         @Override
         public boolean equals(Object obj) {
             if (this == obj) return true;
@@ -503,7 +511,7 @@ class ClassIntrospector {
             PropertyReaderMethodPair other = (PropertyReaderMethodPair) obj;
             return other.readMethod == readMethod && other.indexedReadMethod == indexedReadMethod;
         }
-        
+
     }
 
     private void mergeInPropertyDescriptor(LinkedHashMap<String, Object> mergedPRMPs, PropertyDescriptor pd) {
@@ -516,15 +524,15 @@ class ClassIntrospector {
     }
 
     private void mergeInPropertyReaderMethodPair(LinkedHashMap<String, Object> mergedPRMPs,
-            String propName, PropertyReaderMethodPair newPRM) {
+                                                 String propName, PropertyReaderMethodPair newPRM) {
         Object replaced = mergedPRMPs.put(propName, newPRM);
         if (replaced != null) {
             putIfMergedPropertyReaderMethodPairDiffers(mergedPRMPs, propName, replaced, newPRM);
         }
     }
-    
+
     private void mergeInPropertyReaderMethod(LinkedHashMap<String, Object> mergedPRMPs,
-            String propName, Method readerMethod) {
+                                             String propName, Method readerMethod) {
         Object replaced = mergedPRMPs.put(propName, readerMethod);
         if (replaced != null) {
             putIfMergedPropertyReaderMethodPairDiffers(mergedPRMPs, propName,
@@ -533,14 +541,14 @@ class ClassIntrospector {
     }
 
     private void putIfMergedPropertyReaderMethodPairDiffers(LinkedHashMap<String, Object> mergedPRMPs,
-            String propName, Object replaced, PropertyReaderMethodPair newPRMP) {
+                                                            String propName, Object replaced, PropertyReaderMethodPair newPRMP) {
         PropertyReaderMethodPair replacedPRMP = PropertyReaderMethodPair.from(replaced);
         PropertyReaderMethodPair mergedPRMP = PropertyReaderMethodPair.merge(replacedPRMP, newPRMP);
         if (!mergedPRMP.equals(newPRMP)) {
             mergedPRMPs.put(propName, mergedPRMP);
         }
     }
-    
+
     /**
      * Very similar to {link BeanInfo#getMethodDescriptors()}, but can deal with Java 8 default methods too.
      */
@@ -568,7 +576,7 @@ class ClassIntrospector {
                 overloads.add(method);
             }
         }
-        
+
         if (defaultMethodsToAddByName == null) {
             // We had no interfering default methods:
             return introspectionMDs;
@@ -590,14 +598,14 @@ class ClassIntrospector {
             }
         }
         introspectionMDs = newIntrospectionMDs;
-        
+
         // Add default methods:
         for (Entry<String, List<Method>> entry : defaultMethodsToAddByName.entrySet()) {
             for (Method method : entry.getValue()) {
                 introspectionMDs.add(new MethodDescriptor(method));
             }
         }
-        
+
         return introspectionMDs;
     }
 
@@ -605,7 +613,7 @@ class ClassIntrospector {
         if (overloads == null) {
             return false;
         }
-        
+
         Class<?>[] paramTypes = m.getParameterTypes();
         for (Method overload : overloads) {
             if (Arrays.equals(overload.getParameterTypes(), paramTypes)) {
@@ -616,12 +624,12 @@ class ClassIntrospector {
     }
 
     private void addPropertyDescriptorToClassIntrospectionData(Map<Object, Object> introspData,
-            PropertyDescriptor pd, Class<?> clazz, Map<MethodSignature, List<Method>> accessibleMethods) {
+                                                               PropertyDescriptor pd, Class<?> clazz, Map<MethodSignature, List<Method>> accessibleMethods) {
         Method readMethod = getMatchingAccessibleMethod(pd.getReadMethod(), accessibleMethods);
         if (readMethod != null && !isAllowedToExpose(readMethod)) {
             readMethod = null;
         }
-        
+
         Method indexedReadMethod;
         if (pd instanceof IndexedPropertyDescriptor) {
             indexedReadMethod = getMatchingAccessibleMethod(
@@ -636,14 +644,14 @@ class ClassIntrospector {
         } else {
             indexedReadMethod = null;
         }
-        
+
         if (readMethod != null || indexedReadMethod != null) {
             introspData.put(pd.getName(), new FastPropertyDescriptor(readMethod, indexedReadMethod));
         }
     }
 
     private void addGenericGetToClassIntrospectionData(Map<Object, Object> introspData,
-            Map<MethodSignature, List<Method>> accessibleMethods) {
+                                                       Map<MethodSignature, List<Method>> accessibleMethods) {
         Method genericGet = getFirstAccessibleMethod(
                 MethodSignature.GET_STRING_SIGNATURE, accessibleMethods);
         if (genericGet == null) {
@@ -656,7 +664,7 @@ class ClassIntrospector {
     }
 
     private void addConstructorsToClassIntrospectionData(final Map<Object, Object> introspData,
-            Class<?> clazz) {
+                                                         Class<?> clazz) {
         try {
             Constructor<?>[] ctors = clazz.getConstructors();
             if (ctors.length == 1) {
@@ -705,7 +713,7 @@ class ClassIntrospector {
                     // C.class will have both "Object m()" and "Integer m()" methods.
                     List<Method> methodList = accessibles.get(sig);
                     if (methodList == null) {
-                     // TODO Collection.singletonList is more efficient, though read only.
+                        // TODO Collection.singletonList is more efficient, though read only.
                         methodList = new LinkedList<Method>();
                         accessibles.put(sig, methodList);
                     }
@@ -780,9 +788,9 @@ class ClassIntrospector {
 
     private static final class MethodSignature {
         private static final MethodSignature GET_STRING_SIGNATURE =
-                new MethodSignature("get", new Class[] { String.class });
+                new MethodSignature("get", new Class[]{String.class});
         private static final MethodSignature GET_OBJECT_SIGNATURE =
-                new MethodSignature("get", new Class[] { Object.class });
+                new MethodSignature("get", new Class[]{Object.class});
 
         private final String name;
         private final Class<?>[] args;
@@ -816,7 +824,7 @@ class ClassIntrospector {
 
     /**
      * Corresponds to {link BeansWrapper#clearClassIntrospecitonCache()}.
-     * 
+     *
      * @since 2.3.20
      */
     void clearCache() {
@@ -853,7 +861,7 @@ class ClassIntrospector {
 
     /**
      * Corresponds to {link BeansWrapper#removeFromClassIntrospectionCache(Class)}.
-     * 
+     *
      * @since 2.3.20
      */
     void remove(Class<?> clazz) {
@@ -945,7 +953,8 @@ class ClassIntrospector {
         Reference<?> cleardRef;
         while ((cleardRef = modelFactoriesRefQueue.poll()) != null) {
             synchronized (sharedLock) {
-                findClearedRef: for (Iterator<WeakReference<Object>> it = modelFactories.iterator(); it.hasNext(); ) {
+                findClearedRef:
+                for (Iterator<WeakReference<Object>> it = modelFactories.iterator(); it.hasNext(); ) {
                     if (it.next() == cleardRef) {
                         it.remove();
                         break findClearedRef;
@@ -999,7 +1008,7 @@ class ClassIntrospector {
     boolean getExposeFields() {
         return exposeFields;
     }
-    
+
     boolean getTreatDefaultMethodsAsBeanMembers() {
         return treatDefaultMethodsAsBeanMembers;
     }
@@ -1022,7 +1031,7 @@ class ClassIntrospector {
 
     /**
      * Tells if this instance is (potentially) shared among {link BeansWrapper} instances.
-     * 
+     * <p>
      * see #getHasSharedInstanceRestrictons()
      */
     boolean isShared() {
@@ -1040,7 +1049,9 @@ class ClassIntrospector {
     // -----------------------------------------------------------------------------------------------------------------
     // Monitoring:
 
-    /** For unit testing only */
+    /**
+     * For unit testing only
+     */
     Object[] getRegisteredModelFactoriesSnapshot() {
         synchronized (sharedLock) {
             return modelFactories.toArray();

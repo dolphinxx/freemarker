@@ -24,11 +24,11 @@ package freemarker.core;
  * and trailing whitespace on this line should be trimmed.
  */
 final class TrimInstruction extends TemplateElement {
-    
-    static final int TYPE_T = 0;  
-    static final int TYPE_LT = 1;  
-    static final int TYPE_RT = 2;  
-    static final int TYPE_NT = 3;  
+
+    static final int TYPE_T = 0;
+    static final int TYPE_LT = 1;
+    static final int TYPE_RT = 2;
+    static final int TYPE_NT = 3;
 
     final boolean left;
     final boolean right;
@@ -52,7 +52,7 @@ final class TrimInstruction extends TemplateElement {
         if (canonical) sb.append("/>");
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         if (left && right) {
@@ -65,7 +65,7 @@ final class TrimInstruction extends TemplateElement {
             return "#nt";
         }
     }
-    
+
     @Override
     boolean isIgnorable(boolean stripWhitespace) {
         return true;
@@ -107,5 +107,5 @@ final class TrimInstruction extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

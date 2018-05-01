@@ -33,35 +33,35 @@ import java.util.List;
  * A holder for builtins that operate exclusively on (XML-)node left-hand value.
  */
 class BuiltInsForNodes {
-    
+
     static class ancestorsBI extends BuiltInForNode {
-       @Override
-    TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
-           AncestorSequence result = new AncestorSequence(env);
-           TemplateNodeModel parent = nodeModel.getParentNode();
-           while (parent != null) {
-               result.add(parent);
-               parent = parent.getParentNode();
-           }
-           return result;
-       }
+        @Override
+        TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
+            AncestorSequence result = new AncestorSequence(env);
+            TemplateNodeModel parent = nodeModel.getParentNode();
+            while (parent != null) {
+                result.add(parent);
+                parent = parent.getParentNode();
+            }
+            return result;
+        }
     }
-    
+
     static class childrenBI extends BuiltInForNode {
-       @Override
-    TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
+        @Override
+        TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
             return nodeModel.getChildNodes();
-       }
+        }
     }
-    
+
     static class node_nameBI extends BuiltInForNode {
-       @Override
-    TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
+        @Override
+        TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
             return new SimpleScalar(nodeModel.getNodeName());
-       }
+        }
     }
-    
-    
+
+
     static class node_namespaceBI extends BuiltInForNode {
         @Override
         TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
@@ -69,24 +69,24 @@ class BuiltInsForNodes {
             return nsURI == null ? null : new SimpleScalar(nsURI);
         }
     }
-    
+
     static class node_typeBI extends BuiltInForNode {
-       @Override
-    TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
+        @Override
+        TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
             return new SimpleScalar(nodeModel.getNodeType());
         }
     }
 
     static class parentBI extends BuiltInForNode {
-       @Override
-    TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
+        @Override
+        TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
             return nodeModel.getParentNode();
-       }
+        }
     }
-    
+
     static class rootBI extends BuiltInForNode {
-       @Override
-    TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
+        @Override
+        TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env) throws TemplateModelException {
             TemplateNodeModel result = nodeModel;
             TemplateNodeModel parent = nodeModel.getParentNode();
             while (parent != null) {
@@ -94,7 +94,7 @@ class BuiltInsForNodes {
                 parent = result.getParentNode();
             }
             return result;
-       }
+        }
     }
 
     static class previousSiblingBI extends BuiltInForNodeEx {
@@ -104,24 +104,25 @@ class BuiltInsForNodes {
         }
     }
 
-    static class nextSiblingBI extends  BuiltInForNodeEx {
+    static class nextSiblingBI extends BuiltInForNodeEx {
         @Override
         TemplateModel calculateResult(TemplateNodeModelEx nodeModel, Environment env) throws TemplateModelException {
             return nodeModel.getNextSibling();
         }
     }
-    
+
     // Can't be instantiated
-    private BuiltInsForNodes() { }
+    private BuiltInsForNodes() {
+    }
 
     static class AncestorSequence extends SimpleSequence implements TemplateMethodModel {
-        
+
         private Environment env;
-        
+
         AncestorSequence(Environment env) {
             this.env = env;
         }
-        
+
         public Object exec(List names) throws TemplateModelException {
             if (names == null || names.isEmpty()) {
                 return this;
@@ -147,5 +148,5 @@ class BuiltInsForNodes {
 //            return result;
             throw new UnsupportedOperationException();
         }
-    }    
+    }
 }

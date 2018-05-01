@@ -24,14 +24,13 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
 
 class ExtendedDecimalFormatParser {
-    
+
     private static final String PARAM_ROUNDING_MODE = "roundingMode";
     private static final String PARAM_MULTIPIER = "multipier";
     private static final String PARAM_DECIMAL_SEPARATOR = "decimalSeparator";
@@ -55,8 +54,9 @@ class ExtendedDecimalFormatParser {
     private static final String PARAM_VALUE_RND_HALF_EVEN = "halfEven";
     private static final String PARAM_VALUE_RND_HALF_UP = "halfUp";
     private static final String PARAM_VALUE_RND_UNNECESSARY = "unnecessary";
-    
+
     private static final HashMap<String, ? extends ParameterHandler> PARAM_HANDLERS;
+
     static {
         HashMap<String, ParameterHandler> m = new HashMap<String, ParameterHandler>();
         m.put(PARAM_ROUNDING_MODE, new ParameterHandler() {
@@ -257,7 +257,8 @@ class ExtendedDecimalFormatParser {
         }
 
         String currencySymbol = null;  // Exceptional, as must be applied after "currency code"
-        fetchParamters: do {
+        fetchParamters:
+        do {
             int namePos = pos;
             String name = fetchName();
             if (name == null) {
@@ -308,7 +309,7 @@ class ExtendedDecimalFormatParser {
                 }
             }
         } while (true);
-        
+
         // This is brought out to here to ensure that it's applied after "currency code":
         if (currencySymbol != null) {
             symbols.setCurrencySymbol(currencySymbol);
@@ -316,10 +317,10 @@ class ExtendedDecimalFormatParser {
     }
 
     private ParseException newInvalidParameterValueException(String name, String value, int valuePos,
-            InvalidParameterValueException e) {
+                                                             InvalidParameterValueException e) {
         return new java.text.ParseException(
                 StringUtil.jQuote(value) + " is an invalid value for the \"" + name + "\" parameter: "
-                + e.message,
+                        + e.message,
                 valuePos);
     }
 
@@ -363,7 +364,8 @@ class ExtendedDecimalFormatParser {
         int ln = src.length();
         int startPos = pos;
         boolean firstChar = true;
-        scanUntilEnd: while (pos < ln) {
+        scanUntilEnd:
+        while (pos < ln) {
             char c = src.charAt(pos);
             if (firstChar) {
                 if (!Character.isJavaIdentifierStart(c)) {
@@ -383,7 +385,8 @@ class ExtendedDecimalFormatParser {
         int startPos = pos;
         char openedQuot = 0;
         boolean needsUnescaping = false;
-        scanUntilEnd: while (pos < ln) {
+        scanUntilEnd:
+        while (pos < ln) {
             char c = src.charAt(pos);
             if (c == '\'' || c == '"') {
                 if (openedQuot == 0) {
@@ -413,8 +416,8 @@ class ExtendedDecimalFormatParser {
         } // while
         if (openedQuot != 0) {
             throw new java.text.ParseException(
-                    "The " + openedQuot 
-                    + " quotation wasn't closed when the end of the source was reached.",
+                    "The " + openedQuot
+                            + " quotation wasn't closed when the end of the source was reached.",
                     pos);
         }
         return startPos == pos ? null : src.substring(startPos, pos);
@@ -429,7 +432,8 @@ class ExtendedDecimalFormatParser {
         int ln = src.length();
         int semicolonCnt = 0;
         boolean quotedMode = false;
-        findStdPartEnd: while (pos < ln) {
+        findStdPartEnd:
+        while (pos < ln) {
             char c = src.charAt(pos);
             if (c == ';' && !quotedMode) {
                 semicolonCnt++;

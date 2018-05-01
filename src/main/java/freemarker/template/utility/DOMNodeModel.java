@@ -44,6 +44,7 @@ import java.util.List;
 public class DOMNodeModel implements TemplateHashModel {
 
     static private HashMap equivalenceTable = new HashMap();
+
     static {
         equivalenceTable.put("*", "children");
         equivalenceTable.put("@*", "attributes");
@@ -84,10 +85,10 @@ public class DOMNodeModel implements TemplateHashModel {
                 }
             } else if ("is_element".equals(key)) {
                 result = (node instanceof Element) ?
-                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+                        TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
             } else if ("is_text".equals(key)) {
                 result = (node instanceof Text) ?
-                    TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+                        TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
             } else if ("name".equals(key)) {
                 result = new SimpleScalar(node.getNodeName());
             } else if ("children".equals(key)) {

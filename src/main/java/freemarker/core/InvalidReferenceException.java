@@ -28,25 +28,26 @@ import freemarker.template.TemplateException;
 public class InvalidReferenceException extends TemplateException {
 
     static final InvalidReferenceException FAST_INSTANCE;
+
     static {
         Environment prevEnv = Environment.getCurrentEnvironment();
         try {
             Environment.setCurrentEnvironment(null);
             FAST_INSTANCE = new InvalidReferenceException(
                     "Invalid reference. Details are unavilable, as this should have been handled by an FTL construct. "
-                    + "If it wasn't, that's problably a bug in FreeMarker.",
+                            + "If it wasn't, that's problably a bug in FreeMarker.",
                     null);
         } finally {
             Environment.setCurrentEnvironment(prevEnv);
         }
     }
-    
+
     private static final Object[] TIP = {
-        "If the failing expression is known to legally refer to something that's sometimes null or missing, "
-        + "either specify a default value like myOptionalVar!myDefault, or use ",
-        "<#if myOptionalVar??>", "when-present", "<#else>", "when-missing", "</#if>",
-        ". (These only cover the last step of the expression; to cover the whole expression, "
-        + "use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??"
+            "If the failing expression is known to legally refer to something that's sometimes null or missing, "
+                    + "either specify a default value like myOptionalVar!myDefault, or use ",
+            "<#if myOptionalVar??>", "when-present", "<#else>", "when-missing", "</#if>",
+            ". (These only cover the last step of the expression; to cover the whole expression, "
+                    + "use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??"
     };
 
     private static final Object[] TIP_MISSING_ASSIGNMENT_TARGET = {
@@ -54,7 +55,7 @@ public class InvalidReferenceException extends TemplateException {
             "<#assign x += 1>", ", you could write ", "<#if x??>", "<#assign x += 1>", "</#if>",
             " or ", "<#assign x = (x!0) + 1>"
     };
-    
+
     private static final String TIP_NO_DOLLAR =
             "Variable references must not start with \"$\", unless the \"$\" is really part of the variable name.";
 
@@ -63,12 +64,12 @@ public class InvalidReferenceException extends TemplateException {
 
     private static final String TIP_LAST_STEP_SQUARE_BRACKET =
             "It's the final [] step that caused this error, not those before it.";
-    
+
     private static final String TIP_JSP_TAGLIBS =
             "The \"JspTaglibs\" variable isn't a core FreeMarker feature; "
-            + "it's only available when templates are invoked through freemarker.ext.servlet.FreemarkerServlet"
-            + " (or other custom FreeMarker-JSP integration solution).";
-    
+                    + "it's only available when templates are invoked through freemarker.ext.servlet.FreemarkerServlet"
+                    + " (or other custom FreeMarker-JSP integration solution).";
+
     /**
      * Creates and invalid reference exception that contains no information about what was missing or null.
      * As such, try to avoid this constructor.
@@ -89,10 +90,10 @@ public class InvalidReferenceException extends TemplateException {
 
     /**
      * This is the recommended constructor, but it's only used internally, and has no backward compatibility guarantees.
-     * 
+     *
      * @param expression The expression that evaluates to missing or null. The last step of the expression should be
-     *     the failing one, like in {@code goodStep.failingStep.furtherStep} it should only contain
-     *     {@code goodStep.failingStep}.
+     *                   the failing one, like in {@code goodStep.failingStep.furtherStep} it should only contain
+     *                   {@code goodStep.failingStep}.
      */
     InvalidReferenceException(_ErrorDescriptionBuilder description, Environment env, Expression expression) {
         super(null, env, expression, description);
@@ -121,8 +122,8 @@ public class InvalidReferenceException extends TemplateException {
                     }
                     errDescBuilder.tips(
                             nameFixTip == null
-                                    ? new Object[] { TIP_LAST_STEP_DOT, TIP }
-                                    : new Object[] { TIP_LAST_STEP_DOT, nameFixTip, TIP });
+                                    ? new Object[]{TIP_LAST_STEP_DOT, TIP}
+                                    : new Object[]{TIP_LAST_STEP_DOT, nameFixTip, TIP});
                 } else if (blamed instanceof DynamicKeyName) {
                     errDescBuilder.tips(TIP_LAST_STEP_SQUARE_BRACKET, TIP);
                 } else if (blamed instanceof Identifier
@@ -137,21 +138,21 @@ public class InvalidReferenceException extends TemplateException {
             }
         }
     }
-    
+
     /**
-     * Used for assignments that use operators like {@code +=}, when the target variable was null/missing. 
+     * Used for assignments that use operators like {@code +=}, when the target variable was null/missing.
      */
     static InvalidReferenceException getInstance(int scope, String missingAssignedVarName, String assignmentOperator,
-            Environment env) {
+                                                 Environment env) {
         if (env != null && env.getFastInvalidReferenceExceptions()) {
             return FAST_INSTANCE;
         } else {
             final _ErrorDescriptionBuilder errDescBuilder = new _ErrorDescriptionBuilder(
-                            "The target variable of the assignment, ",
-                            new _DelayedJQuote(missingAssignedVarName),
-                            ", was null or missing in the " + Assignment.scopeAsString(scope) + ", and the \"",
-                            assignmentOperator, "\" operator must get its value from there before assigning to it."
-                    );
+                    "The target variable of the assignment, ",
+                    new _DelayedJQuote(missingAssignedVarName),
+                    ", was null or missing in the " + Assignment.scopeAsString(scope) + ", and the \"",
+                    assignmentOperator, "\" operator must get its value from there before assigning to it."
+            );
             if (missingAssignedVarName.startsWith("$")) {
                 errDescBuilder.tips(TIP_NO_DOLLAR, TIP_MISSING_ASSIGNMENT_TARGET);
             } else {
@@ -165,5 +166,5 @@ public class InvalidReferenceException extends TemplateException {
         return blame instanceof Identifier && ((Identifier) blame).getName().startsWith("$")
                 || blame instanceof Dot && ((Dot) blame).getRHO().startsWith("$");
     }
-    
+
 }

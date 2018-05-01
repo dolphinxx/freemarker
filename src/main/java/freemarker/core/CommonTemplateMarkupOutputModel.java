@@ -21,12 +21,12 @@ package freemarker.core;
 /**
  * Common superclass for implementing {link TemplateMarkupOutputModel}-s that belong to a
  * {link CommonMarkupOutputFormat} subclass format.
- * 
+ * <p>
  * <p>
  * Thread-safe after proper publishing. Calculated fields (typically, the markup calculated from plain text) might will
  * be re-calculated for multiple times if accessed from multiple threads (this only affects performance, not
  * functionality).
- * 
+ *
  * @since 2.3.24
  */
 public abstract class CommonTemplateMarkupOutputModel<MO extends CommonTemplateMarkupOutputModel<MO>>
@@ -45,12 +45,16 @@ public abstract class CommonTemplateMarkupOutputModel<MO extends CommonTemplateM
 
     public abstract CommonMarkupOutputFormat<MO> getOutputFormat();
 
-    /** Maybe {@code null}, but then {link #getMarkupContent()} isn't {@code null}. */
+    /**
+     * Maybe {@code null}, but then {link #getMarkupContent()} isn't {@code null}.
+     */
     final String getPlainTextContent() {
         return plainTextContent;
     }
 
-    /** Maybe {@code null}, but then {link #getPlainTextContent()} isn't {@code null}. */
+    /**
+     * Maybe {@code null}, but then {link #getPlainTextContent()} isn't {@code null}.
+     */
     final String getMarkupContent() {
         return markupContet;
     }

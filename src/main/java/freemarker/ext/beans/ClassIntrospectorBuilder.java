@@ -30,12 +30,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 final class ClassIntrospectorBuilder implements Cloneable {
-    
+
     private final boolean bugfixed;
 
     private static final Map/*<PropertyAssignments, Reference<ClassIntrospector>>*/ INSTANCE_CACHE = new HashMap();
-    private static final ReferenceQueue INSTANCE_CACHE_REF_QUEUE = new ReferenceQueue(); 
-    
+    private static final ReferenceQueue INSTANCE_CACHE_REF_QUEUE = new ReferenceQueue();
+
     // Properties and their *defaults*:
     private int exposureLevel = BeansWrapper.EXPOSE_SAFE;
     private boolean exposeFields;
@@ -47,16 +47,16 @@ final class ClassIntrospectorBuilder implements Cloneable {
     // - If some field has a default value, it must be set until the end of the constructor. No field that has a
     //   default can be left unset (like null).
     // - If you add a new field, review all methods in this class, also the ClassIntrospector constructor
-    
+
     ClassIntrospectorBuilder(ClassIntrospector ci) {
         bugfixed = ci.bugfixed;
         exposureLevel = ci.exposureLevel;
         exposeFields = ci.exposeFields;
         treatDefaultMethodsAsBeanMembers = ci.treatDefaultMethodsAsBeanMembers;
         methodAppearanceFineTuner = ci.methodAppearanceFineTuner;
-        methodSorter = ci.methodSorter; 
+        methodSorter = ci.methodSorter;
     }
-    
+
     ClassIntrospectorBuilder(Version incompatibleImprovements) {
         // Warning: incompatibleImprovements must not affect this object at versions increments where there's no
         // change in the BeansWrapper.normalizeIncompatibleImprovements results. That is, this class may don't react
@@ -65,7 +65,7 @@ final class ClassIntrospectorBuilder implements Cloneable {
         treatDefaultMethodsAsBeanMembers
                 = incompatibleImprovements.intValue() >= _TemplateAPI.VERSION_INT_2_3_26;
     }
-    
+
     @Override
     protected Object clone() {
         try {
@@ -94,7 +94,7 @@ final class ClassIntrospectorBuilder implements Cloneable {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
         ClassIntrospectorBuilder other = (ClassIntrospectorBuilder) obj;
-        
+
         if (bugfixed != other.bugfixed) return false;
         if (exposeFields != other.exposeFields) return false;
         if (treatDefaultMethodsAsBeanMembers != other.treatDefaultMethodsAsBeanMembers) return false;
@@ -102,17 +102,19 @@ final class ClassIntrospectorBuilder implements Cloneable {
         if (methodAppearanceFineTuner != other.methodAppearanceFineTuner) return false;
         return methodSorter == other.methodSorter;
     }
-    
+
     public int getExposureLevel() {
         return exposureLevel;
     }
 
-    /** See {link BeansWrapper#setExposureLevel(int)}. */
+    /**
+     * See {link BeansWrapper#setExposureLevel(int)}.
+     */
     public void setExposureLevel(int exposureLevel) {
         if (exposureLevel < BeansWrapper.EXPOSE_ALL || exposureLevel > BeansWrapper.EXPOSE_NOTHING) {
             throw new IllegalArgumentException("Illegal exposure level: " + exposureLevel);
         }
-        
+
         this.exposureLevel = exposureLevel;
     }
 
@@ -120,11 +122,13 @@ final class ClassIntrospectorBuilder implements Cloneable {
         return exposeFields;
     }
 
-    /** See {link BeansWrapper#setExposeFields(boolean)}. */
+    /**
+     * See {link BeansWrapper#setExposeFields(boolean)}.
+     */
     public void setExposeFields(boolean exposeFields) {
         this.exposeFields = exposeFields;
     }
-    
+
     public boolean getTreatDefaultMethodsAsBeanMembers() {
         return treatDefaultMethodsAsBeanMembers;
     }
@@ -153,7 +157,8 @@ final class ClassIntrospectorBuilder implements Cloneable {
         Reference clearedRef;
         while ((clearedRef = INSTANCE_CACHE_REF_QUEUE.poll()) != null) {
             synchronized (INSTANCE_CACHE) {
-                findClearedRef: for (Iterator it = INSTANCE_CACHE.values().iterator(); it.hasNext(); ) {
+                findClearedRef:
+                for (Iterator it = INSTANCE_CACHE.values().iterator(); it.hasNext(); ) {
                     if (it.next() == clearedRef) {
                         it.remove();
                         break findClearedRef;
@@ -163,14 +168,18 @@ final class ClassIntrospectorBuilder implements Cloneable {
         }
     }
 
-    /** For unit testing only */
+    /**
+     * For unit testing only
+     */
     static void clearInstanceCache() {
         synchronized (INSTANCE_CACHE) {
             INSTANCE_CACHE.clear();
         }
     }
-    
-    /** For unit testing only */
+
+    /**
+     * For unit testing only
+     */
     static Map getInstanceCache() {
         return INSTANCE_CACHE;
     }
@@ -193,9 +202,9 @@ final class ClassIntrospectorBuilder implements Cloneable {
                     INSTANCE_CACHE.put(thisClone, new WeakReference(instance, INSTANCE_CACHE_REF_QUEUE));
                 }
             }
-            
+
             removeClearedReferencesFromInstanceCache();
-            
+
             return instance;
         } else {
             // If methodAppearanceFineTuner or methodSorter is specified and isn't marked as a singleton, the
@@ -208,5 +217,5 @@ final class ClassIntrospectorBuilder implements Cloneable {
     public boolean isBugfixed() {
         return bugfixed;
     }
-    
+
 }

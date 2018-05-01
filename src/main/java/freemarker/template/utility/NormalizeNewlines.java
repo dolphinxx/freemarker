@@ -90,19 +90,19 @@ public class NormalizeNewlines implements TemplateTransformModel {
     /**
      * Performs newline normalization on FreeMarker output.
      *
-     * @param in the input to be transformed
+     * @param in  the input to be transformed
      * @param out the destination of the transformation
      */
     public void transform(Reader in, Writer out) throws IOException {
         BufferedReader br = (in instanceof BufferedReader)
-                            ? (BufferedReader) in
-                            : new BufferedReader(in);
+                ? (BufferedReader) in
+                : new BufferedReader(in);
         PrintWriter pw = (out instanceof PrintWriter)
-                         ? (PrintWriter) out
-                         : new PrintWriter(out);
+                ? (PrintWriter) out
+                : new PrintWriter(out);
         String line = br.readLine();
         if (line != null) {
-            if ( line.length() > 0 ) {
+            if (line.length() > 0) {
                 pw.println(line);
             }
         }

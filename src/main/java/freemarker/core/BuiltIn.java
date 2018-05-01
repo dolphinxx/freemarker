@@ -78,7 +78,7 @@ import java.util.TreeSet;
  * The {@code ?} operator used for things like {@code foo?upper_case}.
  */
 abstract class BuiltIn extends Expression implements Cloneable {
-    
+
     protected Expression target;
     protected String key;
 
@@ -89,7 +89,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
 
     static {
         // Note that you must update NUMBER_OF_BIS if you add new items here!
-        
+
         putBI("abs", new absBI());
         putBI("absolute_template_name", "absoluteTemplateName", new BuiltInsForStringsMisc.absolute_template_nameBI());
         putBI("ancestors", new ancestorsBI());
@@ -102,7 +102,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
         putBI("ceiling", new ceilingBI());
         putBI("children", new childrenBI());
         putBI("chop_linebreak", "chopLinebreak", new BuiltInsForStringsBasic.chop_linebreakBI());
-        putBI("contains", new BuiltInsForStringsBasic.containsBI());        
+        putBI("contains", new BuiltInsForStringsBasic.containsBI());
         putBI("date", new BuiltInsForMultipleTypes.dateBI(TemplateDateModel.DATE));
         putBI("date_if_unknown", "dateIfUnknown", new BuiltInsForDates.dateType_if_unknownBI(TemplateDateModel.DATE));
         putBI("datetime", new BuiltInsForMultipleTypes.dateBI(TemplateDateModel.DATETIME));
@@ -159,69 +159,69 @@ abstract class BuiltIn extends Expression implements Cloneable {
         putBI("is_string", "isString", new BuiltInsForMultipleTypes.is_stringBI());
         putBI("is_time", "isTime", new BuiltInsForMultipleTypes.is_dateOfTypeBI(TemplateDateModel.TIME));
         putBI("is_transform", "isTransform", new BuiltInsForMultipleTypes.is_transformBI());
-        
+
         putBI("iso_utc", "isoUtc", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_SECONDS, /* useUTC = */ true));
         putBI("iso_utc_fz", "isoUtcFZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.TRUE, DateUtil.ACCURACY_SECONDS, /* useUTC = */ true));
         putBI("iso_utc_nz", "isoUtcNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_SECONDS, /* useUTC = */ true));
-        
+
         putBI("iso_utc_ms", "isoUtcMs", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_MILLISECONDS, /* useUTC = */ true));
         putBI("iso_utc_ms_nz", "isoUtcMsNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_MILLISECONDS, /* useUTC = */ true));
-        
+
         putBI("iso_utc_m", "isoUtcM", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_MINUTES, /* useUTC = */ true));
         putBI("iso_utc_m_nz", "isoUtcMNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_MINUTES, /* useUTC = */ true));
-        
+
         putBI("iso_utc_h", "isoUtcH", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_HOURS, /* useUTC = */ true));
         putBI("iso_utc_h_nz", "isoUtcHNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_HOURS, /* useUTC = */ true));
-        
+
         putBI("iso_local", "isoLocal", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_SECONDS, /* useUTC = */ false));
         putBI("iso_local_nz", "isoLocalNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_SECONDS, /* useUTC = */ false));
-        
+
         putBI("iso_local_ms", "isoLocalMs", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_MILLISECONDS, /* useUTC = */ false));
         putBI("iso_local_ms_nz", "isoLocalMsNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_MILLISECONDS, /* useUTC = */ false));
-        
+
         putBI("iso_local_m", "isoLocalM", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_MINUTES, /* useUTC = */ false));
         putBI("iso_local_m_nz", "isoLocalMNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_MINUTES, /* useUTC = */ false));
-        
+
         putBI("iso_local_h", "isoLocalH", new iso_utc_or_local_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_HOURS, /* useUTC = */ false));
         putBI("iso_local_h_nz", "isoLocalHNZ", new iso_utc_or_local_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_HOURS, /* useUTC = */ false));
-        
+
         putBI("iso", new iso_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_SECONDS));
         putBI("iso_nz", "isoNZ", new iso_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_SECONDS));
-        
+
         putBI("iso_ms", "isoMs", new iso_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_MILLISECONDS));
         putBI("iso_ms_nz", "isoMsNZ", new iso_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_MILLISECONDS));
-        
+
         putBI("iso_m", "isoM", new iso_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_MINUTES));
         putBI("iso_m_nz", "isoMNZ", new iso_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_MINUTES));
-        
+
         putBI("iso_h", "isoH", new iso_BI(
                 /* showOffset = */ null, DateUtil.ACCURACY_HOURS));
         putBI("iso_h_nz", "isoHNZ", new iso_BI(
                 /* showOffset = */ Boolean.FALSE, DateUtil.ACCURACY_HOURS));
-        
+
         putBI("j_string", "jString", new BuiltInsForStringsEncoding.j_stringBI());
         putBI("join", new BuiltInsForSequences.joinBI());
         putBI("js_string", "jsString", new BuiltInsForStringsEncoding.js_stringBI());
@@ -294,12 +294,12 @@ abstract class BuiltIn extends Expression implements Cloneable {
         putBI("groups", new BuiltInsForStringsRegexp.groupsBI());
         putBI("replace", new BuiltInsForStringsRegexp.replace_reBI());
 
-        
+
         if (NUMBER_OF_BIS < BUILT_INS_BY_NAME.size()) {
             throw new AssertionError("Update NUMBER_OF_BIS! Should be: " + BUILT_INS_BY_NAME.size());
         }
     }
-    
+
     private static void putBI(String name, BuiltIn bi) {
         BUILT_INS_BY_NAME.put(name, bi);
         SNAKE_CASE_NAMES.add(name);
@@ -312,41 +312,39 @@ abstract class BuiltIn extends Expression implements Cloneable {
         SNAKE_CASE_NAMES.add(nameSnakeCase);
         CAMEL_CASE_NAMES.add(nameCamelCase);
     }
-    
+
     /**
-     * @param target
-     *            Left-hand-operand expression
-     * @param keyTk
-     *            Built-in name token
+     * @param target Left-hand-operand expression
+     * @param keyTk  Built-in name token
      */
     static BuiltIn newBuiltIn(int incompatibleImprovements, Expression target, Token keyTk,
-            FMParserTokenManager tokenManager) throws ParseException {
+                              FMParserTokenManager tokenManager) throws ParseException {
         String key = keyTk.image;
         BuiltIn bi = BUILT_INS_BY_NAME.get(key);
         if (bi == null) {
             StringBuilder buf = new StringBuilder("Unknown built-in: ").append(StringUtil.jQuote(key)).append(". ");
-            
+
             buf.append(
                     "Help (latest version): https://freemarker.apache.org/docs/ref_builtins.html; "
-                    + "you're using FreeMarker ").append(Configuration.getVersion()).append(".\n" 
+                            + "you're using FreeMarker ").append(Configuration.getVersion()).append(".\n"
                     + "The alphabetical list of built-ins:");
             List names = new ArrayList(BUILT_INS_BY_NAME.keySet().size());
             names.addAll(BUILT_INS_BY_NAME.keySet());
             Collections.sort(names);
             char lastLetter = 0;
-            
+
             int shownNamingConvention;
             {
                 int namingConvention = tokenManager.namingConvention;
                 shownNamingConvention = namingConvention != Configuration.AUTO_DETECT_NAMING_CONVENTION
-                        ? namingConvention : Configuration.LEGACY_NAMING_CONVENTION /* [2.4] CAMEL_CASE */; 
+                        ? namingConvention : Configuration.LEGACY_NAMING_CONVENTION /* [2.4] CAMEL_CASE */;
             }
-            
+
             boolean first = true;
             for (Iterator it = names.iterator(); it.hasNext(); ) {
                 String correctName = (String) it.next();
                 int correctNameNamingConvetion = _CoreStringUtils.getIdentifierNamingConvention(correctName);
-                if (shownNamingConvention == Configuration.CAMEL_CASE_NAMING_CONVENTION 
+                if (shownNamingConvention == Configuration.CAMEL_CASE_NAMING_CONVENTION
                         ? correctNameNamingConvetion != Configuration.LEGACY_NAMING_CONVENTION
                         : correctNameNamingConvetion != Configuration.CAMEL_CASE_NAMING_CONVENTION) {
                     if (first) {
@@ -354,7 +352,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
                     } else {
                         buf.append(", ");
                     }
-                    
+
                     char firstChar = correctName.charAt(0);
                     if (firstChar != lastLetter) {
                         lastLetter = firstChar;
@@ -363,15 +361,15 @@ abstract class BuiltIn extends Expression implements Cloneable {
                     buf.append(correctName);
                 }
             }
-                
+
             throw new ParseException(buf.toString(), null, keyTk);
         }
-        
+
         while (bi instanceof ICIChainMember
                 && incompatibleImprovements < ((ICIChainMember) bi).getMinimumICIVersion()) {
             bi = (BuiltIn) ((ICIChainMember) bi).getPreviousICIChainMember();
         }
-        
+
         try {
             bi = (BuiltIn) bi.clone();
         } catch (CloneNotSupportedException e) {
@@ -386,7 +384,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
     public String getCanonicalForm() {
         return target.getCanonicalForm() + "?" + key;
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "?" + key;
@@ -396,11 +394,11 @@ abstract class BuiltIn extends Expression implements Cloneable {
     boolean isLiteral() {
         return false; // be on the safe side.
     }
-    
+
     protected final void checkMethodArgCount(List args, int expectedCnt) throws TemplateModelException {
         checkMethodArgCount(args.size(), expectedCnt);
     }
-    
+
     protected final void checkMethodArgCount(int argCnt, int expectedCnt) throws TemplateModelException {
         if (argCnt != expectedCnt) {
             throw _MessageUtil.newArgCntError("?" + key, argCnt, expectedCnt);
@@ -410,7 +408,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
     protected final void checkMethodArgCount(List args, int minCnt, int maxCnt) throws TemplateModelException {
         checkMethodArgCount(args.size(), minCnt, maxCnt);
     }
-    
+
     protected final void checkMethodArgCount(int argCnt, int minCnt, int maxCnt) throws TemplateModelException {
         if (argCnt < minCnt || argCnt > maxCnt) {
             throw _MessageUtil.newArgCntError("?" + key, argCnt, minCnt, maxCnt);
@@ -425,7 +423,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
             throws TemplateModelException {
         return args.size() > argIdx ? getStringMethodArg(args, argIdx) : null;
     }
-    
+
     /**
      * Gets a method argument and checks if it's a string; it does NOT check if {@code args} is big enough.
      */
@@ -451,7 +449,7 @@ abstract class BuiltIn extends Expression implements Cloneable {
             return EvalUtil.modelToNumber((TemplateNumberModel) arg, null);
         }
     }
-    
+
     protected final TemplateModelException newMethodArgInvalidValueException(int argIdx, Object[] details) {
         return _MessageUtil.newMethodArgInvalidValueException("?" + key, argIdx, details);
     }
@@ -459,14 +457,14 @@ abstract class BuiltIn extends Expression implements Cloneable {
     protected final TemplateModelException newMethodArgsInvalidValueException(Object[] details) {
         return _MessageUtil.newMethodArgsInvalidValueException("?" + key, details);
     }
-    
+
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	try {
-	    	BuiltIn clone = (BuiltIn) clone();
-	    	clone.target = target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState);
-	    	return clone;
+        try {
+            BuiltIn clone = (BuiltIn) clone();
+            clone.target = target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState);
+            return clone;
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException("Internal error: " + e);
         }
@@ -480,19 +478,25 @@ abstract class BuiltIn extends Expression implements Cloneable {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return target;
-        case 1: return key;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return target;
+            case 1:
+                return key;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.LEFT_HAND_OPERAND;
-        case 1: return ParameterRole.RIGHT_HAND_OPERAND;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.LEFT_HAND_OPERAND;
+            case 1:
+                return ParameterRole.RIGHT_HAND_OPERAND;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
-    
+
 }

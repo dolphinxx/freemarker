@@ -25,13 +25,13 @@ import freemarker.template.utility.CollectionUtils;
 
 /**
  * Indicates that a {link TemplateSequenceModel} value was expected, but the value had a different type.
- * 
+ *
  * @since 2.3.21
  */
 public class NonSequenceException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateSequenceModel.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateSequenceModel.class};
+
     public NonSequenceException(Environment env) {
         super(env, "Expecting sequence value here");
     }
@@ -54,12 +54,12 @@ public class NonSequenceException extends UnexpectedTypeException {
             Expression blamed, TemplateModel model, String tip,
             Environment env)
             throws InvalidReferenceException {
-        this(blamed, model, new Object[] { tip }, env);
+        this(blamed, model, new Object[]{tip}, env);
     }
 
     NonSequenceException(
             Expression blamed, TemplateModel model, Object[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "sequence", EXPECTED_TYPES, tips, env);
-    }    
-    
+    }
+
 }

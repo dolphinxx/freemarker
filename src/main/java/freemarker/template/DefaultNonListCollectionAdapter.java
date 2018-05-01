@@ -31,18 +31,18 @@ import java.util.Collection;
  * Adapts a non-{link List} Java {link Collection} to the corresponding {link TemplateModel} interface(s), most
  * importantly to {link TemplateCollectionModelEx}. For {link List}-s, use {link DefaultListAdapter}, or else you
  * lose indexed element access.
- * 
+ * <p>
  * <p>
  * Thread safety: A {link DefaultNonListCollectionAdapter} is as thread-safe as the {link Collection} that it wraps
  * is. Normally you only have to consider read-only access, as the FreeMarker template language doesn't allow writing
  * these collections (though of course, Java methods called from the template can violate this rule).
- * 
+ * <p>
  * <p>
  * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher, and its
  * {link DefaultObjectWrapper#setForceLegacyNonListCollections(boolean) forceLegacyNonListCollections} property is
  * {@code false}, which is still not the default as of 2.3.22 (so you have to set it explicitly).
- * 
+ *
  * @since 2.3.22
  */
 public class DefaultNonListCollectionAdapter extends WrappingTemplateModel implements TemplateCollectionModelEx,
@@ -52,12 +52,10 @@ public class DefaultNonListCollectionAdapter extends WrappingTemplateModel imple
 
     /**
      * Factory method for creating new adapter instances.
-     * 
-     * @param collection
-     *            The collection to adapt; can't be {@code null}.
-     * @param wrapper
-     *            The {link ObjectWrapper} used to wrap the items in the collection. Has to be
-     *            {link ObjectWrapperAndUnwrapper} because of planned future features.
+     *
+     * @param collection The collection to adapt; can't be {@code null}.
+     * @param wrapper    The {link ObjectWrapper} used to wrap the items in the collection. Has to be
+     *                   {link ObjectWrapperAndUnwrapper} because of planned future features.
      */
     public static DefaultNonListCollectionAdapter adapt(Collection collection, ObjectWrapperWithAPISupport wrapper) {
         return new DefaultNonListCollectionAdapter(collection, wrapper);

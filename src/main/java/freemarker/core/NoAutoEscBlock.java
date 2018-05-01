@@ -19,16 +19,12 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
 /**
  * An #noAutoEsc element
  */
 final class NoAutoEscBlock extends TemplateElement {
-    
-    NoAutoEscBlock(TemplateElements children) { 
+
+    NoAutoEscBlock(TemplateElements children) {
         setChildren(children);
     }
 
@@ -45,12 +41,12 @@ final class NoAutoEscBlock extends TemplateElement {
             return getNodeTypeSymbol();
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#noautoesc";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -75,5 +71,5 @@ final class NoAutoEscBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

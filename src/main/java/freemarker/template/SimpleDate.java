@@ -27,7 +27,7 @@ package freemarker.template;
 public class SimpleDate implements TemplateDateModel {
     private final java.util.Date date;
     private final int type;
-    
+
     /**
      * Creates a new date model wrapping the specified date object and
      * having DATE type.
@@ -35,7 +35,7 @@ public class SimpleDate implements TemplateDateModel {
     public SimpleDate(java.sql.Date date) {
         this(date, DATE);
     }
-    
+
     /**
      * Creates a new date model wrapping the specified time object and
      * having TIME type.
@@ -43,7 +43,7 @@ public class SimpleDate implements TemplateDateModel {
     public SimpleDate(java.sql.Time time) {
         this(time, TIME);
     }
-    
+
     /**
      * Creates a new date model wrapping the specified time object and
      * having DATETIME type.
@@ -51,7 +51,7 @@ public class SimpleDate implements TemplateDateModel {
     public SimpleDate(java.sql.Timestamp datetime) {
         this(datetime, DATETIME);
     }
-    
+
     /**
      * Creates a new date model wrapping the specified date object and
      * having the specified type.
@@ -63,7 +63,7 @@ public class SimpleDate implements TemplateDateModel {
         this.date = date;
         this.type = type;
     }
-    
+
     public java.util.Date getAsDate() {
         return date;
     }
@@ -71,7 +71,7 @@ public class SimpleDate implements TemplateDateModel {
     public int getDateType() {
         return type;
     }
-    
+
     @Override
     public String toString() {
         return date.toString();

@@ -20,26 +20,25 @@ package freemarker.core;
 
 /**
  * Stores combined markup to be printed; used with {link CombinedMarkupOutputFormat}.
- * 
+ *
  * @since 2.3.24
  */
 public final class TemplateCombinedMarkupOutputModel
         extends CommonTemplateMarkupOutputModel<TemplateCombinedMarkupOutputModel> {
-    
+
     private final CombinedMarkupOutputFormat outputFormat;
-    
+
     /**
      * See {link CommonTemplateMarkupOutputModel#CommonTemplateMarkupOutputModel(String, String)}.
-     * 
-     * @param outputFormat
-     *            The {link CombinedMarkupOutputFormat} format this value is bound to. Because
-     *            {link CombinedMarkupOutputFormat} has no singleton, we have to pass it in, unlike with most other
-     *            {link CommonTemplateMarkupOutputModel}-s.
+     *
+     * @param outputFormat The {link CombinedMarkupOutputFormat} format this value is bound to. Because
+     *                     {link CombinedMarkupOutputFormat} has no singleton, we have to pass it in, unlike with most other
+     *                     {link CommonTemplateMarkupOutputModel}-s.
      */
     TemplateCombinedMarkupOutputModel(String plainTextContent, String markupContent,
-            CombinedMarkupOutputFormat outputFormat) {
+                                      CombinedMarkupOutputFormat outputFormat) {
         super(plainTextContent, markupContent);
-        this.outputFormat = outputFormat; 
+        this.outputFormat = outputFormat;
     }
 
     @Override

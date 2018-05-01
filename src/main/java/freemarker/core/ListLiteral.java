@@ -46,7 +46,7 @@ final class ListLiteral extends Expression {
         for (Iterator it = items.iterator(); it.hasNext(); ) {
             Expression exp = (Expression) it.next();
             TemplateModel tm = exp.eval(env);
-            if (env == null || !env.isClassicCompatible()) {            
+            if (env == null || !env.isClassicCompatible()) {
                 exp.assertNonNull(tm, env);
             }
             list.add(tm);
@@ -60,7 +60,7 @@ final class ListLiteral extends Expression {
      */
     List/*<String>*/ getValueList(Environment env) throws TemplateException {
         int size = items.size();
-        switch(size) {
+        switch (size) {
             case 0: {
                 return Collections.EMPTY_LIST;
             }
@@ -83,7 +83,7 @@ final class ListLiteral extends Expression {
      */
     List/*<TemplateModel>*/ getModelList(Environment env) throws TemplateException {
         int size = items.size();
-        switch(size) {
+        switch (size) {
             case 0: {
                 return Collections.EMPTY_LIST;
             }
@@ -115,12 +115,12 @@ final class ListLiteral extends Expression {
         buf.append("]");
         return buf.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "[...]";
     }
-    
+
     @Override
     boolean isLiteral() {
         if (constantValue != null) {
@@ -134,9 +134,9 @@ final class ListLiteral extends Expression {
         }
         return true;
     }
-    
+
     // A hacky routine used by VisitNode and RecurseNode
-    
+
     TemplateSequenceModel evaluateStringsToNamespaces(Environment env) throws TemplateException {
         TemplateSequenceModel val = (TemplateSequenceModel) eval(env);
         SimpleSequence result = new SimpleSequence(val.size());
@@ -158,12 +158,12 @@ final class ListLiteral extends Expression {
         }
         return result;
     }
-    
+
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-		ArrayList clonedValues = (ArrayList) items.clone();
-		for (ListIterator iter = clonedValues.listIterator(); iter.hasNext(); ) {
+        ArrayList clonedValues = (ArrayList) items.clone();
+        for (ListIterator iter = clonedValues.listIterator(); iter.hasNext(); ) {
             iter.set(((Expression) iter.next()).deepCloneWithIdentifierReplaced(
                     replacedIdentifier, replacement, replacementState));
         }

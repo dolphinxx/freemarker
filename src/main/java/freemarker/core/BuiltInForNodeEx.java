@@ -33,6 +33,7 @@ public abstract class BuiltInForNodeEx extends BuiltIn {
             throw new NonExtendedNodeException(target, model, env);
         }
     }
+
     abstract TemplateModel calculateResult(TemplateNodeModelEx nodeModel, Environment env)
             throws TemplateModelException;
 }

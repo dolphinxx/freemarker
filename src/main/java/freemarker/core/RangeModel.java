@@ -25,7 +25,7 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateSequenceModel;
 
 abstract class RangeModel implements TemplateSequenceModel, java.io.Serializable {
-    
+
     private final int begin;
 
     public RangeModel(int begin) {
@@ -35,7 +35,7 @@ abstract class RangeModel implements TemplateSequenceModel, java.io.Serializable
     final int getBegining() {
         return begin;
     }
-    
+
     final public TemplateModel get(int index) throws TemplateModelException {
         if (index < 0 || index >= size()) {
             throw new _TemplateModelException("Range item index ", index, " is out of bounds.");
@@ -43,16 +43,16 @@ abstract class RangeModel implements TemplateSequenceModel, java.io.Serializable
         long value = begin + getStep() * (long) index;
         return value <= Integer.MAX_VALUE ? new SimpleNumber((int) value) : new SimpleNumber(value);
     }
-    
+
     /**
      * @return {@code 1} or {@code -1}; other return values need not be properly handled until FTL supports other steps.
      */
     abstract int getStep();
-    
+
     abstract boolean isRightUnbounded();
-    
+
     abstract boolean isRightAdaptive();
-    
+
     abstract boolean isAffactedByStringSlicingBug();
 
 }

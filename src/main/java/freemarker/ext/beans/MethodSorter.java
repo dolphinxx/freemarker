@@ -32,5 +32,5 @@ interface MethodSorter {
      * Sorts the methods in place (that is, by modifying the parameter list).
      */
     void sortMethodDescriptors(List<MethodDescriptor> methodDescriptors);
-    
+
 }

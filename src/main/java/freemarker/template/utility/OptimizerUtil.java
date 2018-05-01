@@ -35,20 +35,16 @@ public class OptimizerUtil {
 
     private OptimizerUtil() {
     }
-    
+
     public static List optimizeListStorage(List list) {
-        switch(list.size())
-        {
-            case 0:
-            {
+        switch (list.size()) {
+            case 0: {
                 return Collections.EMPTY_LIST;
             }
-            case 1:
-            {
+            case 1: {
                 return Collections.singletonList(list.get(0));
             }
-            default:
-            {
+            default: {
                 if (list instanceof ArrayList) {
                     ((ArrayList) list).trimToSize();
                 }
@@ -56,14 +52,14 @@ public class OptimizerUtil {
             }
         }
     }
-    
+
     /**
-     * This is needed to reverse the extreme conversions in arithmetic 
+     * This is needed to reverse the extreme conversions in arithmetic
      * operations so that numbers can be meaningfully used with models that
      * don't know what to do with a BigDecimal. Of course, this will make
-     * impossible for these models (i.e. Jython) to receive a BigDecimal even if 
-     * it was originally placed as such in the data model. However, since 
-     * arithmetic operations aggressively erase the information regarding the 
+     * impossible for these models (i.e. Jython) to receive a BigDecimal even if
+     * it was originally placed as such in the data model. However, since
+     * arithmetic operations aggressively erase the information regarding the
      * original number type, we have no other choice to ensure expected operation
      * in majority of cases.
      */

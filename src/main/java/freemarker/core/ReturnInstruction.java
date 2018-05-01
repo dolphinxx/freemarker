@@ -61,13 +61,14 @@ public final class ReturnInstruction extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#return";
     }
-    
+
     public static class Return extends FlowControlException {
         static final Return INSTANCE = new Return();
+
         private Return() {
         }
     }
-    
+
     @Override
     int getParameterCount() {
         return 1;
@@ -89,5 +90,5 @@ public final class ReturnInstruction extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

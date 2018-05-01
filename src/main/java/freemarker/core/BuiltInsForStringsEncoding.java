@@ -34,29 +34,29 @@ import java.util.List;
 class BuiltInsForStringsEncoding {
 
     static class htmlBI extends BuiltInForLegacyEscaping implements ICIChainMember {
-        
+
         static class BIBeforeICI2d3d20 extends BuiltInForLegacyEscaping {
             @Override
             TemplateModel calculateResult(String s, Environment env) {
                 return new SimpleScalar(StringUtil.HTMLEnc(s));
             }
         }
-        
+
         private final BIBeforeICI2d3d20 prevICIObj = new BIBeforeICI2d3d20();
-        
+
         @Override
         TemplateModel calculateResult(String s, Environment env) {
             return new SimpleScalar(StringUtil.XHTMLEnc(s));
         }
-    
+
         public int getMinimumICIVersion() {
             return _TemplateAPI.VERSION_INT_2_3_20;
         }
-    
+
         public Object getPreviousICIChainMember() {
             return prevICIObj;
         }
-        
+
     }
 
     static class j_stringBI extends BuiltInForString {
@@ -88,47 +88,47 @@ class BuiltInsForStringsEncoding {
     }
 
     static class urlBI extends BuiltInForString {
-        
+
         static class UrlBIResult extends BuiltInsForStringsEncoding.AbstractUrlBIResult {
-    
+
             protected UrlBIResult(BuiltIn parent, String target, Environment env) {
                 super(parent, target, env);
             }
-    
+
             @Override
             protected String encodeWithCharset(String cs) throws UnsupportedEncodingException {
                 return StringUtil.URLEnc(targetAsString, cs);
             }
-            
+
         }
-        
+
         @Override
         TemplateModel calculateResult(String s, Environment env) {
             return new UrlBIResult(this, s, env);
         }
-        
+
     }
 
     static class urlPathBI extends BuiltInForString {
-    
+
         static class UrlPathBIResult extends BuiltInsForStringsEncoding.AbstractUrlBIResult {
-    
+
             protected UrlPathBIResult(BuiltIn parent, String target, Environment env) {
                 super(parent, target, env);
             }
-    
+
             @Override
             protected String encodeWithCharset(String cs) throws UnsupportedEncodingException {
                 return StringUtil.URLPathEnc(targetAsString, cs);
             }
-            
+
         }
-        
+
         @Override
         TemplateModel calculateResult(String s, Environment env) {
             return new UrlPathBIResult(this, s, env);
         }
-        
+
     }
 
     static class xhtmlBI extends BuiltInForLegacyEscaping {
@@ -146,24 +146,25 @@ class BuiltInsForStringsEncoding {
     }
 
     // Can't be instantiated
-    private BuiltInsForStringsEncoding() { }
+    private BuiltInsForStringsEncoding() {
+    }
 
     static abstract class AbstractUrlBIResult implements
-    TemplateScalarModel, TemplateMethodModel {
-        
+            TemplateScalarModel, TemplateMethodModel {
+
         protected final BuiltIn parent;
         protected final String targetAsString;
         private final Environment env;
         private String cachedResult;
-        
+
         protected AbstractUrlBIResult(BuiltIn parent, String target, Environment env) {
             this.parent = parent;
             this.targetAsString = target;
             this.env = env;
         }
-        
+
         protected abstract String encodeWithCharset(String cs) throws UnsupportedEncodingException;
-    
+
         public Object exec(List args) throws TemplateModelException {
             parent.checkMethodArgCount(args.size(), 1);
             try {
@@ -172,7 +173,7 @@ class BuiltInsForStringsEncoding {
                 throw new _TemplateModelException(e, "Failed to execute URL encoding.");
             }
         }
-        
+
         public String getAsString() throws TemplateModelException {
             if (cachedResult == null) {
                 String cs = env.getEffectiveURLEscapingCharset();
@@ -182,10 +183,10 @@ class BuiltInsForStringsEncoding {
                             Configuration.OUTPUT_ENCODING_KEY, "\" setting or the \"",
                             Configuration.URL_ESCAPING_CHARSET_KEY,
                             "\" setting, so ask the programmers to set them. Or, as a last chance, you can set the "
-                            + "url_encoding_charset setting in the template, e.g. <#setting ",
+                                    + "url_encoding_charset setting in the template, e.g. <#setting ",
                             Configuration.URL_ESCAPING_CHARSET_KEY,
                             "='ISO-8859-1'>, or give the charset explicitly to the built-in, e.g. "
-                            + "foo?url('ISO-8859-1').");
+                                    + "foo?url('ISO-8859-1').");
                 }
                 try {
                     cachedResult = encodeWithCharset(cs);
@@ -195,7 +196,7 @@ class BuiltInsForStringsEncoding {
             }
             return cachedResult;
         }
-        
+
     }
 
 }

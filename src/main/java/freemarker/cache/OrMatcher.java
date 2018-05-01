@@ -22,13 +22,13 @@ import java.io.IOException;
 
 /**
  * Logical "or" operation among the given matchers.
- * 
+ *
  * @since 2.3.24
  */
 public class OrMatcher extends TemplateSourceMatcher {
-    
+
     private final TemplateSourceMatcher[] matchers;
-    
+
     public OrMatcher(TemplateSourceMatcher... matchers) {
         if (matchers.length == 0) throw new IllegalArgumentException("Need at least 1 matcher, had 0.");
         this.matchers = matchers;

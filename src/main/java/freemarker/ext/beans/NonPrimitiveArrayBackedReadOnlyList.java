@@ -22,9 +22,9 @@ package freemarker.ext.beans;
 import java.util.AbstractList;
 
 class NonPrimitiveArrayBackedReadOnlyList extends AbstractList {
-    
+
     private final Object[] array;
-    
+
     NonPrimitiveArrayBackedReadOnlyList(Object[] array) {
         this.array = array;
     }
@@ -38,5 +38,5 @@ class NonPrimitiveArrayBackedReadOnlyList extends AbstractList {
     public int size() {
         return array.length;
     }
-    
+
 }

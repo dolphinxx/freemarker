@@ -50,7 +50,7 @@ class BuiltInsForNumbers {
             } catch (ArithmeticException e) {
                 throw new _TemplateModelException(target,
                         "The left side operand value isn't compatible with ?", key, ": ", e.getMessage());
-         
+
             }
             if (n <= 0) {
                 throw new _TemplateModelException(target,
@@ -60,7 +60,7 @@ class BuiltInsForNumbers {
         }
 
         protected abstract String toABC(int n);
-        
+
     }
 
     static class lower_abcBI extends abcBI {
@@ -69,7 +69,7 @@ class BuiltInsForNumbers {
         protected String toABC(int n) {
             return StringUtil.toLowerABC(n);
         }
-        
+
     }
 
     static class upper_abcBI extends abcBI {
@@ -78,9 +78,9 @@ class BuiltInsForNumbers {
         protected String toABC(int n) {
             return StringUtil.toUpperABC(n);
         }
-        
+
     }
-    
+
     static class absBI extends BuiltInForNumber {
         @Override
         TemplateModel calculateResult(Number num, TemplateModel model) throws TemplateModelException {
@@ -142,10 +142,10 @@ class BuiltInsForNumbers {
                 }
             } else {
                 throw new _TemplateModelException("Unsupported number class: ", num.getClass());
-            }            
+            }
         }
     }
-    
+
     static class byteBI extends BuiltInForNumber {
         @Override
         TemplateModel calculateResult(Number num, TemplateModel model) {
@@ -236,28 +236,29 @@ class BuiltInsForNumbers {
     }
 
     static class number_to_dateBI extends BuiltInForNumber {
-        
+
         private final int dateType;
-        
+
         number_to_dateBI(int dateType) {
             this.dateType = dateType;
         }
-        
+
         @Override
         TemplateModel calculateResult(Number num, TemplateModel model)
-        throws TemplateModelException {
+                throws TemplateModelException {
             return new SimpleDate(new Date(safeToLong(num)), dateType);
         }
     }
 
     static class roundBI extends BuiltInForNumber {
         private static final BigDecimal half = new BigDecimal("0.5");
+
         @Override
         TemplateModel calculateResult(Number num, TemplateModel model) {
             return new SimpleNumber(new BigDecimal(num.doubleValue()).add(half).divide(BIG_DECIMAL_ONE, 0, BigDecimal.ROUND_FLOOR));
         }
     }
-    
+
     static class shortBI extends BuiltInForNumber {
         @Override
         TemplateModel calculateResult(Number num, TemplateModel model) {
@@ -306,15 +307,16 @@ class BuiltInsForNumbers {
             throw new _TemplateModelException("Unsupported number type: ", num.getClass());
         }
     }
-    
+
     private static final BigDecimal BIG_DECIMAL_ONE = new BigDecimal("1");
-    private static final BigDecimal BIG_DECIMAL_LONG_MIN = BigDecimal.valueOf(Long.MIN_VALUE); 
+    private static final BigDecimal BIG_DECIMAL_LONG_MIN = BigDecimal.valueOf(Long.MIN_VALUE);
     private static final BigDecimal BIG_DECIMAL_LONG_MAX = BigDecimal.valueOf(Long.MAX_VALUE);
-    private static final BigInteger BIG_INTEGER_LONG_MIN = BigInteger.valueOf(Long.MIN_VALUE); 
-    
+    private static final BigInteger BIG_INTEGER_LONG_MIN = BigInteger.valueOf(Long.MIN_VALUE);
+
     private static final BigInteger BIG_INTEGER_LONG_MAX = BigInteger.valueOf(Long.MAX_VALUE);
-    
+
     // Can't be instantiated
-    private BuiltInsForNumbers() { }
-    
+    private BuiltInsForNumbers() {
+    }
+
 }

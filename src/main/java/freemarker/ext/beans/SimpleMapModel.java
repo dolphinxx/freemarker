@@ -45,19 +45,18 @@ import java.util.Map;
  * underlying map (does not copy like {link freemarker.template.SimpleHash}),
  * and a method interface to non-string keys.
  */
-public class SimpleMapModel extends WrappingTemplateModel 
-implements TemplateHashModelEx2, TemplateMethodModelEx, AdapterTemplateModel, 
-WrapperTemplateModel, TemplateModelWithAPISupport {
+public class SimpleMapModel extends WrappingTemplateModel
+        implements TemplateHashModelEx2, TemplateMethodModelEx, AdapterTemplateModel,
+        WrapperTemplateModel, TemplateModelWithAPISupport {
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new SimpleMapModel((Map) object, (BeansWrapper) wrapper);
-            }
-        };
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new SimpleMapModel((Map) object, (BeansWrapper) wrapper);
+                }
+            };
 
     private final Map map;
-    
+
     public SimpleMapModel(Map map, BeansWrapper wrapper) {
         super(wrapper);
         this.map = map;
@@ -79,7 +78,7 @@ WrapperTemplateModel, TemplateModelWithAPISupport {
         }
         return wrap(val);
     }
-    
+
     public Object exec(List args) throws TemplateModelException {
         Object key = ((BeansWrapper) getObjectWrapper()).unwrap((TemplateModel) args.get(0));
         Object value = map.get(key);
@@ -104,7 +103,7 @@ WrapperTemplateModel, TemplateModelWithAPISupport {
     public TemplateCollectionModel values() {
         return new CollectionAndSequence(new SimpleSequence(map.values(), getObjectWrapper()));
     }
-    
+
     public KeyValuePairIterator keyValuePairIterator() {
         return new MapKeyValuePairIterator(map, getObjectWrapper());
     }
@@ -112,7 +111,7 @@ WrapperTemplateModel, TemplateModelWithAPISupport {
     public Object getAdaptedObject(Class hint) {
         return map;
     }
-    
+
     public Object getWrappedObject() {
         return map;
     }

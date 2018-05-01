@@ -58,10 +58,10 @@ final class MethodCall extends Expression {
         TemplateModel targetModel = target.eval(env);
         if (targetModel instanceof TemplateMethodModel) {
             TemplateMethodModel targetMethod = (TemplateMethodModel) targetModel;
-            List argumentStrings = 
-            targetMethod instanceof TemplateMethodModelEx
-            ? arguments.getModelList(env)
-            : arguments.getValueList(env);
+            List argumentStrings =
+                    targetMethod instanceof TemplateMethodModelEx
+                            ? arguments.getModelList(env)
+                            : arguments.getValueList(env);
             Object result = targetMethod.exec(argumentStrings);
             return env.getObjectWrapper().wrap(result);
         } else if (targetModel instanceof Macro) {
@@ -101,7 +101,7 @@ final class MethodCall extends Expression {
     String getNodeTypeSymbol() {
         return "...(...)";
     }
-    
+
     TemplateModel getConstantValue() {
         return null;
     }

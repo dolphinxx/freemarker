@@ -26,7 +26,7 @@ import java.util.Collections;
  * to invoke. It would be more natural to invoke child elements before returning from
  * {link TemplateElement#accept(Environment)}, however, if there's nothing to do after the child elements were invoked,
  * that would mean wasting stack space.
- * 
+ *
  * @since 2.3.24
  */
 class TemplateElementsToVisit {
@@ -44,5 +44,5 @@ class TemplateElementsToVisit {
     Collection<TemplateElement> getTemplateElements() {
         return templateElements;
     }
-    
+
 }

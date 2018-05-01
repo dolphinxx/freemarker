@@ -29,7 +29,7 @@ import java.util.List;
  * An object that you can make available in a template
  * to instantiate arbitrary beans-wrapped objects in a template.
  * Beware of this class's security implications. It allows
- * the instantiation of arbitrary objects and invoking 
+ * the instantiation of arbitrary objects and invoking
  * methods on them. Usage is something like:
  * <br>
  * <br>myDataModel.put("objectConstructor", new ObjectConstructor());

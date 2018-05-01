@@ -66,38 +66,38 @@ public class Execute implements freemarker.template.TemplateMethodModel {
      * Executes a method call.
      *
      * @param arguments a <tt>List</tt> of <tt>String</tt> objects containing the values
-     * of the arguments passed to the method.
+     *                  of the arguments passed to the method.
      * @return the <tt>TemplateModel</tt> produced by the method, or null.
      */
-    public Object exec (List arguments) throws TemplateModelException {
+    public Object exec(List arguments) throws TemplateModelException {
         String aExecute;
-        StringBuilder    aOutputBuffer = new StringBuilder();
+        StringBuilder aOutputBuffer = new StringBuilder();
 
-        if ( arguments.size() < 1 ) {
-            throw new TemplateModelException( "Need an argument to execute" );
+        if (arguments.size() < 1) {
+            throw new TemplateModelException("Need an argument to execute");
         }
 
         aExecute = (String) (arguments.get(0));
 
         try {
-            Process exec = Runtime.getRuntime().exec( aExecute );
+            Process exec = Runtime.getRuntime().exec(aExecute);
 
             // stdout from the process comes in here
             InputStream execOut = exec.getInputStream();
             try {
-                Reader execReader = new InputStreamReader( execOut );
-    
-                char[] buffer = new char[ OUTPUT_BUFFER_SIZE ];
-                int bytes_read = execReader.read( buffer );
-                while ( bytes_read > 0 ) {
-                    aOutputBuffer.append( buffer, 0, bytes_read );
-                    bytes_read = execReader.read( buffer );
+                Reader execReader = new InputStreamReader(execOut);
+
+                char[] buffer = new char[OUTPUT_BUFFER_SIZE];
+                int bytes_read = execReader.read(buffer);
+                while (bytes_read > 0) {
+                    aOutputBuffer.append(buffer, 0, bytes_read);
+                    bytes_read = execReader.read(buffer);
                 }
             } finally {
                 execOut.close();
             }
-        } catch ( IOException ioe ) {
-            throw new TemplateModelException( ioe.getMessage() );
+        } catch (IOException ioe) {
+            throw new TemplateModelException(ioe.getMessage());
         }
         return aOutputBuffer.toString();
     }

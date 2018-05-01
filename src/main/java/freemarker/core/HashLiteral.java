@@ -70,7 +70,7 @@ final class HashLiteral extends Expression {
         buf.append("}");
         return buf.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "{...}";
@@ -95,17 +95,17 @@ final class HashLiteral extends Expression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-		ArrayList clonedKeys = (ArrayList) keys.clone();
-		for (ListIterator iter = clonedKeys.listIterator(); iter.hasNext(); ) {
+        ArrayList clonedKeys = (ArrayList) keys.clone();
+        for (ListIterator iter = clonedKeys.listIterator(); iter.hasNext(); ) {
             iter.set(((Expression) iter.next()).deepCloneWithIdentifierReplaced(
                     replacedIdentifier, replacement, replacementState));
         }
-		ArrayList clonedValues = (ArrayList) values.clone();
-		for (ListIterator iter = clonedValues.listIterator(); iter.hasNext(); ) {
+        ArrayList clonedValues = (ArrayList) values.clone();
+        for (ListIterator iter = clonedValues.listIterator(); iter.hasNext(); ) {
             iter.set(((Expression) iter.next()).deepCloneWithIdentifierReplaced(
                     replacedIdentifier, replacement, replacementState));
         }
-    	return new HashLiteral(clonedKeys, clonedValues);
+        return new HashLiteral(clonedKeys, clonedValues);
     }
 
     private class SequenceHash implements TemplateHashModelEx2 {
@@ -177,7 +177,7 @@ final class HashLiteral extends Expression {
         public boolean isEmpty() {
             return size == 0;
         }
-        
+
         @Override
         public String toString() {
             return getCanonicalForm();
@@ -204,13 +204,13 @@ final class HashLiteral extends Expression {
                         public TemplateModel getValue() {
                             return value;
                         }
-                        
+
                     };
                 }
-                
+
             };
         }
-        
+
     }
 
     @Override
@@ -235,5 +235,5 @@ final class HashLiteral extends Expression {
             throw new IndexOutOfBoundsException();
         }
     }
-    
+
 }

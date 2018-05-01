@@ -43,7 +43,7 @@ final class DynamicKeyName extends Expression {
     private final Expression target;
 
     DynamicKeyName(Expression target, Expression keyExpression) {
-        this.target = target; 
+        this.target = target;
         this.keyExpression = keyExpression;
     }
 
@@ -57,7 +57,7 @@ final class DynamicKeyName extends Expression {
                 throw InvalidReferenceException.getInstance(target, env);
             }
         }
-        
+
         TemplateModel keyModel = keyExpression.eval(env);
         if (keyModel == null) {
             if (env.isClassicCompatible()) {
@@ -78,10 +78,11 @@ final class DynamicKeyName extends Expression {
             return dealWithRangeKey(targetModel, (RangeModel) keyModel, env);
         }
         throw new UnexpectedTypeException(keyExpression, keyModel, "number, range, or string",
-                new Class[] { TemplateNumberModel.class, TemplateScalarModel.class, Range.class }, env);
+                new Class[]{TemplateNumberModel.class, TemplateScalarModel.class, Range.class}, env);
     }
 
     static private Class[] NUMERICAL_KEY_LHO_EXPECTED_TYPES;
+
     static {
         NUMERICAL_KEY_LHO_EXPECTED_TYPES = new Class[1 + NonStringException.STRING_COERCABLE_TYPES.length];
         NUMERICAL_KEY_LHO_EXPECTED_TYPES[0] = TemplateSequenceModel.class;
@@ -89,11 +90,11 @@ final class DynamicKeyName extends Expression {
             NUMERICAL_KEY_LHO_EXPECTED_TYPES[i + 1] = NonStringException.STRING_COERCABLE_TYPES[i];
         }
     }
-    
-    private TemplateModel dealWithNumericalKey(TemplateModel targetModel, 
-                                               int index, 
+
+    private TemplateModel dealWithNumericalKey(TemplateModel targetModel,
+                                               int index,
                                                Environment env)
-        throws TemplateException {
+            throws TemplateException {
         if (targetModel instanceof TemplateSequenceModel) {
             TemplateSequenceModel tsm = (TemplateSequenceModel) targetModel;
             int size;
@@ -103,8 +104,8 @@ final class DynamicKeyName extends Expression {
                 size = Integer.MAX_VALUE;
             }
             return index < size ? tsm.get(index) : null;
-        } 
-        
+        }
+
         try {
             String s = target.evalAndCoerceToPlainText(env);
             try {
@@ -127,23 +128,23 @@ final class DynamicKeyName extends Expression {
                     NUMERICAL_KEY_LHO_EXPECTED_TYPES,
                     (targetModel instanceof TemplateHashModel
                             ? "You had a numberical value inside the []. Currently that's only supported for "
-                                    + "sequences (lists) and strings. To get a Map item with a non-string key, "
-                                    + "use myMap?api.get(myKey)."
+                            + "sequences (lists) and strings. To get a Map item with a non-string key, "
+                            + "use myMap?api.get(myKey)."
                             : null),
                     env);
         }
     }
 
     private TemplateModel dealWithStringKey(TemplateModel targetModel, String key, Environment env)
-        throws TemplateException {
+            throws TemplateException {
         if (targetModel instanceof TemplateHashModel) {
-            return((TemplateHashModel) targetModel).get(key);
+            return ((TemplateHashModel) targetModel).get(key);
         }
         throw new NonHashException(target, targetModel, env);
     }
 
     private TemplateModel dealWithRangeKey(TemplateModel targetModel, RangeModel range, Environment env)
-    throws TemplateException {
+            throws TemplateException {
         final TemplateSequenceModel targetSeq;
         final String targetStr;
         if (targetModel instanceof TemplateSequenceModel) {
@@ -160,11 +161,11 @@ final class DynamicKeyName extends Expression {
                         NUMERICAL_KEY_LHO_EXPECTED_TYPES, env);
             }
         }
-        
+
         final int size = range.size();
         final boolean rightUnbounded = range.isRightUnbounded();
         final boolean rightAdaptive = range.isRightAdaptive();
-        
+
         // Right bounded empty ranges are accepted even if the begin index is out of bounds. That's because a such range
         // produces an empty sequence, which thus doesn't contain any illegal indexes.
         if (!rightUnbounded && size == 0) {
@@ -177,10 +178,10 @@ final class DynamicKeyName extends Expression {
                     "Negative range start index (", firstIdx,
                     ") isn't allowed for a range used for slicing.");
         }
-        
+
         final int targetSize = targetStr != null ? targetStr.length() : targetSeq.size();
         final int step = range.getStep();
-        
+
         // Right-adaptive increasing ranges can start 1 after the last element of the target, because they are like
         // ranges with exclusive end index of at most targetSize. Thence a such range is just an empty list of indexes,
         // and thus it isn't out-of-bounds.
@@ -193,7 +194,7 @@ final class DynamicKeyName extends Expression {
                     " has only ", targetSize, " ", (targetStr != null ? "character(s)" : "element(s)"),
                     ". ", "(Note that indices are 0-based).");
         }
-        
+
         final int resultSize;
         if (!rightUnbounded) {
             final int lastIdx = firstIdx + (size - 1) * step;
@@ -221,7 +222,7 @@ final class DynamicKeyName extends Expression {
         } else {
             resultSize = targetSize - firstIdx;
         }
-        
+
         if (resultSize == 0) {
             return emptyResult(targetSeq != null);
         }
@@ -240,7 +241,7 @@ final class DynamicKeyName extends Expression {
                 if (!(range.isAffactedByStringSlicingBug() && resultSize == 2)) {
                     throw new _MiscTemplateException(keyExpression,
                             "Decreasing ranges aren't allowed for slicing strings (as it would give reversed text). "
-                            + "The index range was: first = ", firstIdx,
+                                    + "The index range was: first = ", firstIdx,
                             ", last = ", firstIdx + (resultSize - 1) * step);
                 } else {
                     // Emulate the legacy bug, where "foo"[n .. n-1] gives "" instead of an error (if n >= 1).  
@@ -250,7 +251,7 @@ final class DynamicKeyName extends Expression {
             } else {
                 exclEndIdx = firstIdx + resultSize;
             }
-            
+
             return new SimpleScalar(targetStr.substring(firstIdx, exclEndIdx));
         }
     }
@@ -258,29 +259,29 @@ final class DynamicKeyName extends Expression {
     private TemplateModel emptyResult(boolean seq) {
         return seq
                 ? (_TemplateAPI.getTemplateLanguageVersionAsInt(this) < _TemplateAPI.VERSION_INT_2_3_21
-                        ? new SimpleSequence(Collections.EMPTY_LIST, null)
-                        : Constants.EMPTY_SEQUENCE)
+                ? new SimpleSequence(Collections.EMPTY_LIST, null)
+                : Constants.EMPTY_SEQUENCE)
                 : TemplateScalarModel.EMPTY_STRING;
     }
 
     @Override
     public String getCanonicalForm() {
-        return target.getCanonicalForm() 
-               + "[" 
-               + keyExpression.getCanonicalForm() 
-               + "]";
+        return target.getCanonicalForm()
+                + "["
+                + keyExpression.getCanonicalForm()
+                + "]";
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "...[...]";
     }
-    
+
     @Override
     boolean isLiteral() {
         return constantValue != null || (target.isLiteral() && keyExpression.isLiteral());
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -299,8 +300,8 @@ final class DynamicKeyName extends Expression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new DynamicKeyName(
-    	        target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        keyExpression.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
+        return new DynamicKeyName(
+                target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                keyExpression.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
     }
 }

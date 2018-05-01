@@ -38,7 +38,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Frequently used constant {link TemplateModel} values.
- * 
+ *
  * <p>These constants should be stored in the {link TemplateModel}
  * sub-interfaces, but for backward compatibility they are stored here instead.
  * Starting from FreeMarker 2.4 they should be copied (not moved!) into the
@@ -50,17 +50,17 @@ public class Constants {
     public static final TemplateBooleanModel TRUE = TemplateBooleanModel.TRUE;
 
     public static final TemplateBooleanModel FALSE = TemplateBooleanModel.FALSE;
-    
+
     public static final TemplateScalarModel EMPTY_STRING = (TemplateScalarModel) TemplateScalarModel.EMPTY_STRING;
 
     public static final TemplateNumberModel ZERO = new SimpleNumber(0);
-    
+
     public static final TemplateNumberModel ONE = new SimpleNumber(1);
-    
+
     public static final TemplateNumberModel MINUS_ONE = new SimpleNumber(-1);
-    
+
     public static final TemplateModelIterator EMPTY_ITERATOR = new EmptyIteratorModel();
-    
+
     private static class EmptyIteratorModel implements TemplateModelIterator, Serializable {
 
         public TemplateModel next() throws TemplateModelException {
@@ -70,41 +70,41 @@ public class Constants {
         public boolean hasNext() {
             return false;
         }
-        
+
     }
 
     public static final TemplateCollectionModel EMPTY_COLLECTION = new EmptyCollectionModel();
-    
+
     private static class EmptyCollectionModel implements TemplateCollectionModel, Serializable {
 
         public TemplateModelIterator iterator() {
             return EMPTY_ITERATOR;
         }
-        
+
     }
-    
+
     public static final TemplateSequenceModel EMPTY_SEQUENCE = new EmptySequenceModel();
-    
+
     private static class EmptySequenceModel implements TemplateSequenceModel, Serializable {
-        
+
         public TemplateModel get(int index) throws TemplateModelException {
             return null;
         }
-    
+
         public int size() throws TemplateModelException {
             return 0;
         }
-        
+
     }
-    
+
     public static final TemplateHashModelEx EMPTY_HASH = new EmptyHashModel();
-    
+
     /**
      * An empty hash. Since 2.3.27, it implements {link TemplateHashModelEx2}, before that it was only
      * {link TemplateHashModelEx}.
      */
     private static class EmptyHashModel implements TemplateHashModelEx2, Serializable {
-        
+
         public int size() throws TemplateModelException {
             return 0;
         }
@@ -128,14 +128,14 @@ public class Constants {
         public KeyValuePairIterator keyValuePairIterator() {
             return EMPTY_KEY_VALUE_PAIR_ITERATOR;
         }
-        
+
     }
-    
+
     /**
      * @since 2.3.27
      */
     public static final KeyValuePairIterator EMPTY_KEY_VALUE_PAIR_ITERATOR = new EmptyKeyValuePairIterator();
-    
+
     private static class EmptyKeyValuePairIterator implements KeyValuePairIterator {
         private EmptyKeyValuePairIterator() {
             //
@@ -149,6 +149,6 @@ public class Constants {
             throw new NoSuchElementException("Can't retrieve element from empty key-value pair iterator.");
         }
 
-    }    
-    
+    }
+
 }

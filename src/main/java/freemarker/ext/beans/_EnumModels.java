@@ -33,7 +33,7 @@ public class _EnumModels extends ClassBasedModelFactory {
     public _EnumModels(BeansWrapper wrapper) {
         super(wrapper);
     }
-    
+
     @Override
     protected TemplateModel createModel(Class clazz) {
         Object[] obj = clazz.getEnumConstants();

@@ -30,7 +30,7 @@ import java.util.List;
  * Stores the non-varargs methods for a {link OverloadedMethods} object.
  */
 class OverloadedFixArgsMethods extends OverloadedMethodsSubset {
-    
+
     OverloadedFixArgsMethods(boolean bugfixed) {
         super(bugfixed);
     }
@@ -39,15 +39,15 @@ class OverloadedFixArgsMethods extends OverloadedMethodsSubset {
     Class[] preprocessParameterTypes(CallableMemberDescriptor memberDesc) {
         return memberDesc.getParamTypes();
     }
-    
+
     @Override
     void afterWideningUnwrappingHints(Class[] paramTypes, int[] paramNumericalTypes) {
         // Do nothing
     }
 
     @Override
-    MaybeEmptyMemberAndArguments getMemberAndArguments(List tmArgs, BeansWrapper unwrapper) 
-    throws TemplateModelException {
+    MaybeEmptyMemberAndArguments getMemberAndArguments(List tmArgs, BeansWrapper unwrapper)
+            throws TemplateModelException {
         if (tmArgs == null) {
             // null is treated as empty args
             tmArgs = Collections.EMPTY_LIST;
@@ -61,9 +61,9 @@ class OverloadedFixArgsMethods extends OverloadedMethodsSubset {
         if (unwarppingHints == null) {
             return EmptyMemberAndArguments.WRONG_NUMBER_OF_ARGUMENTS;
         }
-        
+
         Object[] pojoArgs = new Object[argCount];
-        
+
         int[] typeFlags = getTypeFlags(argCount);
         if (typeFlags == ALL_ZEROS_ARRAY) {
             typeFlags = null;
@@ -80,7 +80,7 @@ class OverloadedFixArgsMethods extends OverloadedMethodsSubset {
             }
             pojoArgs[i] = pojo;
         }
-        
+
         MaybeEmptyCallableMemberDescriptor maybeEmtpyMemberDesc = getMemberDescriptorForArgs(pojoArgs, false);
         if (maybeEmtpyMemberDesc instanceof CallableMemberDescriptor) {
             CallableMemberDescriptor memberDesc = (CallableMemberDescriptor) maybeEmtpyMemberDesc;
@@ -99,5 +99,5 @@ class OverloadedFixArgsMethods extends OverloadedMethodsSubset {
             return EmptyMemberAndArguments.from((EmptyCallableMemberDescriptor) maybeEmtpyMemberDesc, pojoArgs);
         }
     }
-    
+
 }

@@ -33,11 +33,11 @@ public class NonStringException extends UnexpectedTypeException {
 
     static final String STRING_COERCABLE_TYPES_DESC
             = "string or something automatically convertible to string (number, date or boolean)";
-    
-    static final Class[] STRING_COERCABLE_TYPES = new Class[] {
-        TemplateScalarModel.class, TemplateNumberModel.class, TemplateDateModel.class, TemplateBooleanModel.class
+
+    static final Class[] STRING_COERCABLE_TYPES = new Class[]{
+            TemplateScalarModel.class, TemplateNumberModel.class, TemplateDateModel.class, TemplateBooleanModel.class
     };
-    
+
     private static final String DEFAULT_DESCRIPTION
             = "Expecting " + NonStringException.STRING_COERCABLE_TYPES_DESC + " value here";
 
@@ -48,7 +48,7 @@ public class NonStringException extends UnexpectedTypeException {
     public NonStringException(String description, Environment env) {
         super(env, description);
     }
- 
+
     NonStringException(Environment env, _ErrorDescriptionBuilder description) {
         super(env, description);
     }
@@ -70,5 +70,5 @@ public class NonStringException extends UnexpectedTypeException {
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, NonStringException.STRING_COERCABLE_TYPES_DESC, STRING_COERCABLE_TYPES, tips, env);
     }
-        
+
 }

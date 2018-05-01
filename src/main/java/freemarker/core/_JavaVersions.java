@@ -26,12 +26,13 @@ import freemarker.template.utility.SecurityUtilities;
  * Used internally only, might changes without notice!
  */
 public final class _JavaVersions {
-    
+
     private _JavaVersions() {
         // Not meant to be instantiated
     }
 
     private static final boolean IS_AT_LEAST_6;
+
     static {
         boolean result = false;
         String vStr = SecurityUtilities.getSystemProperty("java.version", null);
@@ -53,8 +54,9 @@ public final class _JavaVersions {
         }
         IS_AT_LEAST_6 = result;
     }
-    
+
     static public final _Java6 JAVA_6;
+
     static {
         _Java6 java6;
         if (IS_AT_LEAST_6) {
@@ -73,8 +75,9 @@ public final class _JavaVersions {
         }
         JAVA_6 = java6;
     }
-    
+
     private static final boolean IS_AT_LEAST_8;
+
     static {
         boolean result = false;
         String vStr = SecurityUtilities.getSystemProperty("java.version", null);
@@ -95,11 +98,12 @@ public final class _JavaVersions {
         }
         IS_AT_LEAST_8 = result;
     }
-    
+
     /**
      * {@code null} if Java 8 is not available, otherwise the object through with the Java 8 operations are available.
      */
     static public final _Java8 JAVA_8;
+
     static {
         _Java8 java8;
         if (IS_AT_LEAST_8) {
@@ -118,5 +122,5 @@ public final class _JavaVersions {
         }
         JAVA_8 = java8;
     }
-    
+
 }

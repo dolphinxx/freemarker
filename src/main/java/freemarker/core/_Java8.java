@@ -30,5 +30,5 @@ public interface _Java8 {
      * Returns if it's a Java 8 "default method".
      */
     boolean isDefaultMethod(Method method);
-    
+
 }

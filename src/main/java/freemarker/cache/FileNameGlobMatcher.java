@@ -20,7 +20,6 @@ package freemarker.cache;
 
 import freemarker.template.utility.StringUtil;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
@@ -28,20 +27,19 @@ import java.util.regex.Pattern;
  * the source name with the given glob. For example, the file name glob {@code *.ftlh} matches both {@code foo.ftlh} and
  * {@code foo/bar.ftlh}. With other words, that file name glob is equivalent with the {@code **}{@code /*.ftlh})
  * <em>path</em> glob ( {link PathGlobMatcher}).
- * 
+ *
  * @since 2.3.24
  */
 public class FileNameGlobMatcher extends TemplateSourceMatcher {
 
     private final String glob;
-    
+
     private Pattern pattern;
     private boolean caseInsensitive;
-    
+
     /**
-     * @param glob
-     *            Glob with the syntax defined by {link StringUtil#globToRegularExpression(String, boolean)}. Must not
-     *            start with {@code /}.
+     * @param glob Glob with the syntax defined by {link StringUtil#globToRegularExpression(String, boolean)}. Must not
+     *             start with {@code /}.
      */
     public FileNameGlobMatcher(String glob) {
         if (glob.indexOf('/') != -1) {
@@ -59,11 +57,11 @@ public class FileNameGlobMatcher extends TemplateSourceMatcher {
     public boolean matches(String sourceName, Object templateSource) {
         return pattern.matcher(sourceName).matches();
     }
-    
+
     public boolean isCaseInsensitive() {
         return caseInsensitive;
     }
-    
+
     /**
      * Sets if the matching will be case insensitive (UNICODE compliant); default is {@code false}.
      */
@@ -74,7 +72,7 @@ public class FileNameGlobMatcher extends TemplateSourceMatcher {
             buildPattern();
         }
     }
-    
+
     /**
      * Fluid API variation of {link #setCaseInsensitive(boolean)}
      */
@@ -82,5 +80,5 @@ public class FileNameGlobMatcher extends TemplateSourceMatcher {
         setCaseInsensitive(caseInsensitive);
         return this;
     }
-    
+
 }

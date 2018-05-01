@@ -36,27 +36,27 @@ import java.util.List;
  * in a <tt>&lt;#list&gt;</tt> block.</p>
  */
 public class CollectionModel
-extends
-    StringModel
-implements
-    TemplateCollectionModel,
-    TemplateSequenceModel {
+        extends
+        StringModel
+        implements
+        TemplateCollectionModel,
+        TemplateSequenceModel {
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new CollectionModel((Collection) object, (BeansWrapper) wrapper);
-            }
-        };
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new CollectionModel((Collection) object, (BeansWrapper) wrapper);
+                }
+            };
 
 
     /**
      * Creates a new model that wraps the specified collection object.
+     *
      * @param collection the collection object to wrap into a model.
-     * @param wrapper the {link BeansWrapper} associated with this model.
-     * Every model has to have an associated {link BeansWrapper} instance. The
-     * model gains many attributes from its wrapper, including the caching 
-     * behavior, method exposure level, method-over-item shadowing policy etc.
+     * @param wrapper    the {link BeansWrapper} associated with this model.
+     *                   Every model has to have an associated {link BeansWrapper} instance. The
+     *                   model gains many attributes from its wrapper, including the caching
+     *                   behavior, method exposure level, method-over-item shadowing policy etc.
      */
     public CollectionModel(Collection collection, BeansWrapper wrapper) {
         super(collection, wrapper);
@@ -64,11 +64,12 @@ implements
 
     /**
      * Retrieves the i-th object from the collection, wrapped as a TemplateModel.
+     *
      * @throws TemplateModelException if the index is out of bounds, or the
-     * underlying collection is not a List.
+     *                                underlying collection is not a List.
      */
     public TemplateModel get(int index)
-    throws TemplateModelException {
+            throws TemplateModelException {
         // Don't forget to keep getSupportsIndexedAccess in sync with this!
         if (object instanceof List) {
             try {
@@ -81,20 +82,20 @@ implements
             throw new TemplateModelException("Underlying collection is not a list, it's " + object.getClass().getName());
         }
     }
-    
+
     /**
      * Tells if {link #get(int)} will always fail for this object.
      * As this object implements {link TemplateSequenceModel},
      * {link #get(int)} should always work, but due to a design flaw, for
      * non-{link List} wrapped objects {link #get(int)} will always fail.
      * This method exists to ease working this problem around.
-     * 
-     * @since 2.3.17 
+     *
+     * @since 2.3.17
      */
     public boolean getSupportsIndexedAccess() {
         return object instanceof List;
     }
-    
+
     public TemplateModelIterator iterator() {
         return new IteratorModel(((Collection) object).iterator(), wrapper);
     }
@@ -103,5 +104,5 @@ implements
     public int size() {
         return ((Collection) object).size();
     }
-    
+
 }

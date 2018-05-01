@@ -30,7 +30,7 @@ class NoEscapeBlock extends TemplateElement {
     NoEscapeBlock(TemplateElements children) {
         setChildren(children);
     }
-    
+
     @Override
     TemplateElement[] accept(Environment env) throws TemplateException, IOException {
         return getChildBuffer();
@@ -60,7 +60,7 @@ class NoEscapeBlock extends TemplateElement {
     ParameterRole getParameterRole(int idx) {
         throw new IndexOutOfBoundsException();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#noescape";
@@ -75,5 +75,5 @@ class NoEscapeBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

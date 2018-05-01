@@ -34,10 +34,10 @@ import java.io.IOException;
  * An instruction to visit the children of a node.
  */
 final class RecurseNode extends TemplateElement {
-    
+
     Expression targetNode;
     Expression namespaces;
-    
+
     RecurseNode(Expression targetNode, Expression namespaces) {
         this.targetNode = targetNode;
         this.namespaces = namespaces;
@@ -49,7 +49,7 @@ final class RecurseNode extends TemplateElement {
         if (node != null && !(node instanceof TemplateNodeModel)) {
             throw new NonNodeException(targetNode, node, "node", env);
         }
-        
+
         TemplateModel nss = namespaces == null ? null : namespaces.eval(env);
         if (namespaces instanceof StringLiteral) {
             nss = env.importLib(((TemplateScalarModel) nss).getAsString(), null);
@@ -70,7 +70,7 @@ final class RecurseNode extends TemplateElement {
                 }
             }
         }
-        
+
         env.recurse((TemplateNodeModel) node, (TemplateSequenceModel) nss);
         return null;
     }
@@ -105,18 +105,24 @@ final class RecurseNode extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return targetNode;
-        case 1: return namespaces;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return targetNode;
+            case 1:
+                return namespaces;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.NODE;
-        case 1: return ParameterRole.NAMESPACE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.NODE;
+            case 1:
+                return ParameterRole.NAMESPACE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -124,10 +130,10 @@ final class RecurseNode extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
     @Override
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

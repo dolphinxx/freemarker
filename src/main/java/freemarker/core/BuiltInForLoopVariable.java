@@ -24,13 +24,13 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 abstract class BuiltInForLoopVariable extends SpecialBuiltIn {
-    
+
     private String loopVarName;
-    
+
     void bindToLoopVariable(String loopVarName) {
         this.loopVarName = loopVarName;
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         IterationContext iterCtx = IteratorBlock.findEnclosingIterationContext(env, loopVarName);
@@ -40,10 +40,10 @@ abstract class BuiltInForLoopVariable extends SpecialBuiltIn {
                     this, env,
                     "There's no iteration in context that uses loop variable ", new _DelayedJQuote(loopVarName), ".");
         }
-        
+
         return calculateResult(iterCtx, env);
     }
 
     abstract TemplateModel calculateResult(IterationContext iterCtx, Environment env) throws TemplateException;
-    
+
 }

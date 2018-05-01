@@ -30,31 +30,30 @@ import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
 class JavaTemplateDateFormatFactory extends TemplateDateFormatFactory {
-    
-    static final JavaTemplateDateFormatFactory INSTANCE = new JavaTemplateDateFormatFactory(); 
-    
+
+    static final JavaTemplateDateFormatFactory INSTANCE = new JavaTemplateDateFormatFactory();
+
     private static final Logger LOG = Logger.getLogger("freemarker.runtime");
 
     private static final ConcurrentHashMap<CacheKey, DateFormat> GLOBAL_FORMAT_CACHE
             = new ConcurrentHashMap<CacheKey, DateFormat>();
     private static final int LEAK_ALERT_DATE_FORMAT_CACHE_SIZE = 1024;
-    
+
     private JavaTemplateDateFormatFactory() {
         // Can't be instantiated
     }
-    
+
     /**
-     * @param zonelessInput
-     *            Has no effect in this implementation.
+     * @param zonelessInput Has no effect in this implementation.
      */
     @Override
     public TemplateDateFormat get(String params, int dateType, Locale locale, TimeZone timeZone, boolean zonelessInput,
-            Environment env) throws UnknownDateTypeFormattingUnsupportedException, InvalidFormatParametersException {
+                                  Environment env) throws UnknownDateTypeFormattingUnsupportedException, InvalidFormatParametersException {
         return new JavaTemplateDateFormat(getJavaDateFormat(dateType, params, locale, timeZone));
     }
 
     /**
-     * Returns a "private" copy (not in the global cache) for the given format.  
+     * Returns a "private" copy (not in the global cache) for the given format.
      */
     private DateFormat getJavaDateFormat(int dateType, String nameOrPattern, Locale locale, TimeZone timeZone)
             throws UnknownDateTypeFormattingUnsupportedException, InvalidFormatParametersException {
@@ -62,7 +61,7 @@ class JavaTemplateDateFormatFactory extends TemplateDateFormatFactory {
         // Get DateFormat from global cache:
         CacheKey cacheKey = new CacheKey(dateType, nameOrPattern, locale, timeZone);
         DateFormat jFormat;
-        
+
         jFormat = GLOBAL_FORMAT_CACHE.get(cacheKey);
         if (jFormat == null) {
             // Add format to global format cache.
@@ -100,7 +99,7 @@ class JavaTemplateDateFormatFactory extends TemplateDateFormatFactory {
                 }
             }
             jFormat.setTimeZone(cacheKey.timeZone);
-            
+
             if (GLOBAL_FORMAT_CACHE.size() >= LEAK_ALERT_DATE_FORMAT_CACHE_SIZE) {
                 boolean triggered = false;
                 synchronized (JavaTemplateDateFormatFactory.class) {
@@ -115,13 +114,13 @@ class JavaTemplateDateFormatFactory extends TemplateDateFormatFactory {
                             + "Typical cause: Some template generates high variety of format pattern strings.");
                 }
             }
-            
+
             DateFormat prevJFormat = GLOBAL_FORMAT_CACHE.putIfAbsent(cacheKey, jFormat);
             if (prevJFormat != null) {
                 jFormat = prevJFormat;
             }
         }  // if cache miss
-        
+
         return (DateFormat) jFormat.clone();  // For thread safety
     }
 
@@ -169,5 +168,5 @@ class JavaTemplateDateFormatFactory extends TemplateDateFormatFactory {
         }
         return -1;
     }
-    
+
 }

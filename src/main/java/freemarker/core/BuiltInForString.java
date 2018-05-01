@@ -25,13 +25,14 @@ import freemarker.template.TemplateModel;
 abstract class BuiltInForString extends BuiltIn {
     @Override
     TemplateModel _eval(Environment env)
-    throws TemplateException {
+            throws TemplateException {
         return calculateResult(getTargetString(target, env), env);
     }
+
     abstract TemplateModel calculateResult(String s, Environment env) throws TemplateException;
-    
+
     static String getTargetString(Expression target, Environment env) throws TemplateException {
         return target.evalAndCoerceToStringOrUnsupportedMarkup(env);
     }
-    
+
 }

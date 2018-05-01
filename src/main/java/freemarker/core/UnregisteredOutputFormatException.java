@@ -26,7 +26,7 @@ public class UnregisteredOutputFormatException extends Exception {
     public UnregisteredOutputFormatException(String message) {
         this(message, null);
     }
-    
+
     public UnregisteredOutputFormatException(String message, Throwable cause) {
         super(message, cause);
     }

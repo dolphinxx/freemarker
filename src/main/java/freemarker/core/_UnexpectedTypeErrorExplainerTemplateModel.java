@@ -23,14 +23,14 @@ import freemarker.template.TemplateModel;
 
 /**
  * Don't use this; used internally by FreeMarker, might changes without notice.
- * 
+ *
  * <p>Implemented by {link TemplateModel}-s that can explain why they don't implement a certain type.
- * */
+ */
 public interface _UnexpectedTypeErrorExplainerTemplateModel extends TemplateModel {
 
     /**
      * @return A single {link _ErrorDescriptionBuilder} tip, or {@code null}.
      */
     Object[] explainTypeError(Class[]/*<? extends TemplateModel>*/ expectedClasses);
-    
+
 }

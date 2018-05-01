@@ -22,13 +22,13 @@ import java.lang.reflect.Method;
 
 /**
  * Used instead of {link PropertyDescriptor}, because the methods of that are synchronized.
- * 
+ *
  * @since 2.3.27
  */
 final class FastPropertyDescriptor {
     private final Method readMethod;
     private final Method indexedReadMethod;
-    
+
     public FastPropertyDescriptor(Method readMethod, Method indexedReadMethod) {
         this.readMethod = readMethod;
         this.indexedReadMethod = indexedReadMethod;
@@ -41,5 +41,5 @@ final class FastPropertyDescriptor {
     public Method getIndexedReadMethod() {
         return indexedReadMethod;
     }
-    
+
 }

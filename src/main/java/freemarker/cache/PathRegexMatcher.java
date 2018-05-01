@@ -18,24 +18,22 @@
  */
 package freemarker.cache;
 
-import java.io.IOException;
 import java.util.regex.Pattern;
 
 /**
  * Matches the whole template source name (also known as template source path) with the given regular expression.
  * Note that the template source name is relative to the template storage root defined by the {link TemplateLoader};
  * it's not the full path of a file on the file system.
- * 
+ *
  * @since 2.3.24
  */
 public class PathRegexMatcher extends TemplateSourceMatcher {
-    
+
     private final Pattern pattern;
-    
+
     /**
-     * @param regex
-     *            Glob with the syntax defined by {link StringUtil#globToRegularExpression(String)}. Must not
-     *            start with {@code /}.
+     * @param regex Glob with the syntax defined by {link StringUtil#globToRegularExpression(String)}. Must not
+     *              start with {@code /}.
      */
     public PathRegexMatcher(String regex) {
         if (regex.startsWith("/")) {

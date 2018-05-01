@@ -50,24 +50,18 @@ final class IteratorBlock extends TemplateElement {
     private final boolean forEach;
 
     /**
-     * @param listedExp
-     *            a variable referring to a sequence or collection or extended hash to list
-     * @param loopVarName
-     *            The name of the variable that will hold the value of the current item when looping through listed value,
-     *            or {@code null} if we have a nested {@code #items}. If this is a hash listing then this variable will holds the value
-     *            of the hash key.
-     * @param loopVar2Name
-     *            The name of the variable that will hold the value of the current item when looping through the list,
-     *            or {@code null} if we have a nested {@code #items}. If this is a hash listing then it variable will hold the value
-     *            from the key-value pair.
-     * @param childrenBeforeElse
-     *            The nested content to execute if the listed value wasn't empty; can't be {@code null}. If the loop variable
-     *            was specified in the start tag, this is also what we will iterate over.
-     * @param hashListing
-     *            Whether this is a key-value pair listing, or a usual listing. This is properly set even if we have
-     *            a nested {@code #items}.
-     * @param forEach
-     *            Whether this is {@code #foreach} or a {@code #list}.
+     * @param listedExp          a variable referring to a sequence or collection or extended hash to list
+     * @param loopVarName        The name of the variable that will hold the value of the current item when looping through listed value,
+     *                           or {@code null} if we have a nested {@code #items}. If this is a hash listing then this variable will holds the value
+     *                           of the hash key.
+     * @param loopVar2Name       The name of the variable that will hold the value of the current item when looping through the list,
+     *                           or {@code null} if we have a nested {@code #items}. If this is a hash listing then it variable will hold the value
+     *                           from the key-value pair.
+     * @param childrenBeforeElse The nested content to execute if the listed value wasn't empty; can't be {@code null}. If the loop variable
+     *                           was specified in the start tag, this is also what we will iterate over.
+     * @param hashListing        Whether this is a key-value pair listing, or a usual listing. This is properly set even if we have
+     *                           a nested {@code #items}.
+     * @param forEach            Whether this is {@code #foreach} or a {@code #list}.
      */
     IteratorBlock(Expression listedExp,
                   String loopVarName,
@@ -82,7 +76,7 @@ final class IteratorBlock extends TemplateElement {
         this.hashListing = hashListing;
         this.forEach = forEach;
     }
-    
+
     boolean isHashListing() {
         return hashListing;
     }
@@ -92,12 +86,12 @@ final class IteratorBlock extends TemplateElement {
         acceptWithResult(env);
         return null;
     }
-    
+
     boolean acceptWithResult(Environment env) throws TemplateException, IOException {
         TemplateModel listedValue = listedExp.eval(env);
         if (listedValue == null) {
             if (env.isClassicCompatible()) {
-                listedValue = Constants.EMPTY_SEQUENCE; 
+                listedValue = Constants.EMPTY_SEQUENCE;
             } else {
                 listedExp.assertNonNull(null, env);
             }
@@ -107,9 +101,8 @@ final class IteratorBlock extends TemplateElement {
     }
 
     /**
-     * @param loopVariableName
-     *            Then name of the loop variable whose context we are looking for, or {@code null} if we simply look for
-     *            the innermost context.
+     * @param loopVariableName Then name of the loop variable whose context we are looking for, or {@code null} if we simply look for
+     *                         the innermost context.
      * @return The matching context or {@code null} if no such context exists.
      */
     static IterationContext findEnclosingIterationContext(Environment env, String loopVariableName) {
@@ -119,16 +112,16 @@ final class IteratorBlock extends TemplateElement {
                 Object ctx = ctxStack.get(i);
                 if (ctx instanceof IterationContext
                         && (loopVariableName == null
-                            || loopVariableName.equals(((IterationContext) ctx).getLoopVariableName())
-                            || loopVariableName.equals(((IterationContext) ctx).getLoopVariable2Name())
-                            )) {
+                        || loopVariableName.equals(((IterationContext) ctx).getLoopVariableName())
+                        || loopVariableName.equals(((IterationContext) ctx).getLoopVariable2Name())
+                )) {
                     return (IterationContext) ctx;
                 }
             }
         }
         return null;
     }
-    
+
     @Override
     protected String dump(boolean canonical) {
         StringBuilder buf = new StringBuilder();
@@ -161,7 +154,7 @@ final class IteratorBlock extends TemplateElement {
         }
         return buf.toString();
     }
-    
+
     @Override
     int getParameterCount() {
         return 1 + (loopVarName != null ? 1 : 0) + (loopVar2Name != null ? 1 : 0);
@@ -170,33 +163,35 @@ final class IteratorBlock extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0:
-            return listedExp;
-        case 1:
-            if (loopVarName == null) throw new IndexOutOfBoundsException();
-            return loopVarName;
-        case 2:
-            if (loopVar2Name == null) throw new IndexOutOfBoundsException();
-            return loopVar2Name;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return listedExp;
+            case 1:
+                if (loopVarName == null) throw new IndexOutOfBoundsException();
+                return loopVarName;
+            case 2:
+                if (loopVar2Name == null) throw new IndexOutOfBoundsException();
+                return loopVar2Name;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0:
-            return ParameterRole.LIST_SOURCE;
-        case 1:
-            if (loopVarName == null) throw new IndexOutOfBoundsException();
-            return ParameterRole.TARGET_LOOP_VARIABLE;
-        case 2:
-            if (loopVar2Name == null) throw new IndexOutOfBoundsException();
-            return ParameterRole.TARGET_LOOP_VARIABLE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.LIST_SOURCE;
+            case 1:
+                if (loopVarName == null) throw new IndexOutOfBoundsException();
+                return ParameterRole.TARGET_LOOP_VARIABLE;
+            case 2:
+                if (loopVar2Name == null) throw new IndexOutOfBoundsException();
+                return ParameterRole.TARGET_LOOP_VARIABLE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
-    }    
-    
+    }
+
     @Override
     String getNodeTypeSymbol() {
         return forEach ? "#foreach" : "#list";
@@ -211,10 +206,10 @@ final class IteratorBlock extends TemplateElement {
      * Holds the context of a #list (or #forEach) directive.
      */
     class IterationContext implements LocalContext {
-        
+
         private static final String LOOP_STATE_HAS_NEXT = "_has_next"; // lenght: 9
         private static final String LOOP_STATE_INDEX = "_index"; // length 6
-        
+
         private Object openedIterator;
         private boolean hasNext;
         private TemplateModel loopVar;
@@ -222,26 +217,30 @@ final class IteratorBlock extends TemplateElement {
         private int index;
         private boolean alreadyEntered;
         private Collection localVarNames = null;
-        
-        /** If the {@code #list} has nested {@code #items}, it's {@code null} outside the {@code #items}. */
+
+        /**
+         * If the {@code #list} has nested {@code #items}, it's {@code null} outside the {@code #items}.
+         */
         private String loopVarName;
-        /** Used if we list key-value pairs */
+        /**
+         * Used if we list key-value pairs
+         */
         private String loopVar2Name;
-        
+
         private final TemplateModel listedValue;
-        
+
         public IterationContext(TemplateModel listedValue, String loopVarName, String loopVar2Name) {
             this.listedValue = listedValue;
             this.loopVarName = loopVarName;
             this.loopVar2Name = loopVar2Name;
         }
-        
+
         boolean accept(Environment env) throws TemplateException, IOException {
             return executeNestedContent(env, getChildBuffer());
         }
 
         void loopForItemsElement(Environment env, TemplateElement[] childBuffer, String loopVarName, String loopVar2Name)
-                    throws
+                throws
                 TemplateException, IOException {
             try {
                 if (alreadyEntered) {
@@ -276,22 +275,23 @@ final class IteratorBlock extends TemplateElement {
                 final TemplateCollectionModel collModel = (TemplateCollectionModel) listedValue;
                 final TemplateModelIterator iterModel
                         = openedIterator == null ? collModel.iterator()
-                                : ((TemplateModelIterator) openedIterator);
+                        : ((TemplateModelIterator) openedIterator);
                 listNotEmpty = iterModel.hasNext();
                 if (listNotEmpty) {
                     if (loopVarName != null) {
-                            listLoop: do {
-                                loopVar = iterModel.next();
-                                hasNext = iterModel.hasNext();
-                                try {
-                                    env.visit(childBuffer);
-                                } catch (BreakOrContinueException br) {
-                                    if (br == BreakOrContinueException.BREAK_INSTANCE) {
-                                        break listLoop;
-                                    }
+                        listLoop:
+                        do {
+                            loopVar = iterModel.next();
+                            hasNext = iterModel.hasNext();
+                            try {
+                                env.visit(childBuffer);
+                            } catch (BreakOrContinueException br) {
+                                if (br == BreakOrContinueException.BREAK_INSTANCE) {
+                                    break listLoop;
                                 }
-                                index++;
-                            } while (hasNext);
+                            }
+                            index++;
+                        } while (hasNext);
                         openedIterator = null;
                     } else {
                         // We must reuse this later, because TemplateCollectionModel-s that wrap an Iterator only
@@ -306,17 +306,18 @@ final class IteratorBlock extends TemplateElement {
                 listNotEmpty = size != 0;
                 if (listNotEmpty) {
                     if (loopVarName != null) {
-                            listLoop: for (index = 0; index < size; index++) {
-                                loopVar = seqModel.get(index);
-                                hasNext = (size > index + 1);
-                                try {
-                                    env.visit(childBuffer);
-                                } catch (BreakOrContinueException br) {
-                                    if (br == BreakOrContinueException.BREAK_INSTANCE) {
-                                        break listLoop;
-                                    }
+                        listLoop:
+                        for (index = 0; index < size; index++) {
+                            loopVar = seqModel.get(index);
+                            hasNext = (size > index + 1);
+                            try {
+                                env.visit(childBuffer);
+                            } catch (BreakOrContinueException br) {
+                                if (br == BreakOrContinueException.BREAK_INSTANCE) {
+                                    break listLoop;
                                 }
                             }
+                        }
                     } else {
                         env.visit(childBuffer);
                     }
@@ -338,8 +339,8 @@ final class IteratorBlock extends TemplateElement {
                         new _ErrorDescriptionBuilder("The value you try to list is ",
                                 new _DelayedAOrAn(new _DelayedFTLTypeDescription(listedValue)),
                                 ", thus you must specify two loop variables after the \"as\"; one for the key, and "
-                                + "another for the value, like ", "<#... as k, v>", ")."
-                                ));
+                                        + "another for the value, like ", "<#... as k, v>", ")."
+                        ));
             } else {
                 throw new NonSequenceOrCollectionException(
                         listedExp, listedValue, env);
@@ -351,15 +352,16 @@ final class IteratorBlock extends TemplateElement {
                 throws IOException, TemplateException {
             final boolean hashNotEmpty;
             if (listedValue instanceof TemplateHashModelEx) {
-                TemplateHashModelEx listedHash = (TemplateHashModelEx) listedValue; 
+                TemplateHashModelEx listedHash = (TemplateHashModelEx) listedValue;
                 if (listedHash instanceof TemplateHashModelEx2) {
                     KeyValuePairIterator kvpIter
                             = openedIterator == null ? ((TemplateHashModelEx2) listedHash).keyValuePairIterator()
-                                    : (KeyValuePairIterator) openedIterator;
+                            : (KeyValuePairIterator) openedIterator;
                     hashNotEmpty = kvpIter.hasNext();
                     if (hashNotEmpty) {
                         if (loopVarName != null) {
-                            listLoop: do {
+                            listLoop:
+                            do {
                                 KeyValuePair kvp = kvpIter.next();
                                 loopVar = kvp.getKey();
                                 loopVar2 = kvp.getValue();
@@ -385,11 +387,12 @@ final class IteratorBlock extends TemplateElement {
                     hashNotEmpty = keysIter.hasNext();
                     if (hashNotEmpty) {
                         if (loopVarName != null) {
-                            listLoop: do {
+                            listLoop:
+                            do {
                                 loopVar = keysIter.next();
                                 if (!(loopVar instanceof TemplateScalarModel)) {
                                     throw _MessageUtil.newKeyValuePairListingNonStringKeyExceptionMessage(
-                                                loopVar, (TemplateHashModelEx) listedValue);
+                                            loopVar, (TemplateHashModelEx) listedValue);
                                 }
                                 loopVar2 = listedHash.get(((TemplateScalarModel) loopVar).getAsString());
                                 hasNext = keysIter.hasNext();
@@ -413,8 +416,8 @@ final class IteratorBlock extends TemplateElement {
                         new _ErrorDescriptionBuilder("The value you try to list is ",
                                 new _DelayedAOrAn(new _DelayedFTLTypeDescription(listedValue)),
                                 ", thus you must specify only one loop variable after the \"as\" (there's no separate "
-                                + "key and value)."
-                                ));
+                                        + "key and value)."
+                        ));
             } else {
                 throw new NonExtendedHashException(
                         listedExp, listedValue, env);
@@ -429,33 +432,33 @@ final class IteratorBlock extends TemplateElement {
         String getLoopVariable2Name() {
             return this.loopVar2Name;
         }
-        
+
         public TemplateModel getLocalVariable(String name) {
             String loopVariableName = this.loopVarName;
             if (loopVariableName != null && name.startsWith(loopVariableName)) {
-                switch(name.length() - loopVariableName.length()) {
-                    case 0: 
+                switch (name.length() - loopVariableName.length()) {
+                    case 0:
                         return loopVar;
-                    case 6: 
+                    case 6:
                         if (name.endsWith(LOOP_STATE_INDEX)) {
                             return new SimpleNumber(index);
                         }
                         break;
-                    case 9: 
+                    case 9:
                         if (name.endsWith(LOOP_STATE_HAS_NEXT)) {
                             return hasNext ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
                         }
                         break;
                 }
             }
-            
+
             if (name.equals(loopVar2Name)) {
                 return loopVar2;
             }
-            
+
             return null;
         }
-        
+
         public Collection getLocalVariableNames() {
             String loopVariableName = this.loopVarName;
             if (loopVariableName != null) {
@@ -474,11 +477,11 @@ final class IteratorBlock extends TemplateElement {
         boolean hasNext() {
             return hasNext;
         }
-        
+
         int getIndex() {
             return index;
         }
-        
+
     }
-    
+
 }

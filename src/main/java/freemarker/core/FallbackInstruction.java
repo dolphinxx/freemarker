@@ -35,12 +35,12 @@ final class FallbackInstruction extends TemplateElement {
     protected String dump(boolean canonical) {
         return canonical ? "<" + getNodeTypeSymbol() + "/>" : getNodeTypeSymbol();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#fallback";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -60,7 +60,7 @@ final class FallbackInstruction extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
     @Override
     boolean isShownInStackTrace() {
         return true;

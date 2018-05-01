@@ -28,7 +28,7 @@ import java.util.Enumeration;
  * Adapts an {link Enumeration} to the corresponding {link TemplateModel} interface(s), most importantly to
  * {link TemplateCollectionModel}. Putting aside that it wraps an {link Enumeration} instead of an {link Iterator},
  * this is identical to {link DefaultIteratorAdapter}, so see further details there.
- * 
+ *
  * @since 2.3.26
  */
 @SuppressWarnings("serial")
@@ -41,8 +41,7 @@ public class DefaultEnumerationAdapter extends WrappingTemplateModel implements 
     /**
      * Factory method for creating new adapter instances.
      *
-     * @param enumeration
-     *            The enumeration to adapt; can't be {@code null}.
+     * @param enumeration The enumeration to adapt; can't be {@code null}.
      */
     public static DefaultEnumerationAdapter adapt(Enumeration<?> enumeration, ObjectWrapper wrapper) {
         return new DefaultEnumerationAdapter(enumeration, wrapper);
@@ -68,7 +67,7 @@ public class DefaultEnumerationAdapter extends WrappingTemplateModel implements 
     public TemplateModel getAPI() throws TemplateModelException {
         return ((ObjectWrapperWithAPISupport) getObjectWrapper()).wrapAsAPI(enumeration);
     }
-    
+
     /**
      * Not thread-safe.
      */

@@ -21,11 +21,11 @@ package freemarker.template.utility;
 
 /**
  * Used for the trivial cases of the factory pattern. Has a generic type argument since 2.3.24.
- * 
+ *
  * @since 2.3.22
  */
 public interface ObjectFactory<T> {
-    
+
     T createObject() throws Exception;
 
 }

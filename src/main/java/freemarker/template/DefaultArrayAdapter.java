@@ -28,20 +28,20 @@ import java.lang.reflect.Array;
  * Adapts an {@code array} of a non-primitive elements to the corresponding {link TemplateModel} interface(s), most
  * importantly to {link TemplateHashModelEx}. If you aren't wrapping an already existing {@code array}, but build a
  * sequence specifically to be used from a template, also consider using {link SimpleSequence} (see comparison there).
- *
+ * <p>
  * <p>
  * Thread safety: A {link DefaultListAdapter} is as thread-safe as the array that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these sequences (though
  * of course, Java methods called from the template can violate this rule).
- * 
+ * <p>
  * <p>
  * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
- * 
+ * <p>
  * see SimpleSequence
  * see DefaultListAdapter
  * see TemplateSequenceModel
- * 
+ *
  * @since 2.3.22
  */
 public abstract class DefaultArrayAdapter extends WrappingTemplateModel implements TemplateSequenceModel,
@@ -49,19 +49,17 @@ public abstract class DefaultArrayAdapter extends WrappingTemplateModel implemen
 
     /**
      * Factory method for creating new adapter instances.
-     * 
-     * @param array
-     *            The array to adapt; can't be {@code null}. Must be an array. 
-     * @param wrapper
-     *            The {link ObjectWrapper} used to wrap the items in the array. Has to be
-     *            {link ObjectWrapperAndUnwrapper} because of planned future features.
+     *
+     * @param array   The array to adapt; can't be {@code null}. Must be an array.
+     * @param wrapper The {link ObjectWrapper} used to wrap the items in the array. Has to be
+     *                {link ObjectWrapperAndUnwrapper} because of planned future features.
      */
     public static DefaultArrayAdapter adapt(Object array, ObjectWrapperAndUnwrapper wrapper) {
         final Class componentType = array.getClass().getComponentType();
         if (componentType == null) {
             throw new IllegalArgumentException("Not an array");
         }
-        
+
         if (componentType.isPrimitive()) {
             if (componentType == int.class) {
                 return new IntArrayAdapter((int[]) array, wrapper);

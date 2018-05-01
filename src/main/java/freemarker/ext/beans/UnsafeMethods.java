@@ -33,13 +33,14 @@ class UnsafeMethods {
 
     private static final String UNSAFE_METHODS_PROPERTIES = "unsafeMethods.properties";
     private static final Set UNSAFE_METHODS = createUnsafeMethodsSet();
-    
-    private UnsafeMethods() { }
-    
-    static boolean isUnsafeMethod(Method method) {
-        return UNSAFE_METHODS.contains(method);        
+
+    private UnsafeMethods() {
     }
-    
+
+    static boolean isUnsafeMethod(Method method) {
+        return UNSAFE_METHODS.contains(method);
+    }
+
     private static final Set createUnsafeMethodsSet() {
         try {
             Properties props = ClassUtil.loadProperties(BeansWrapper.class, UNSAFE_METHODS_PROPERTIES);
@@ -65,8 +66,8 @@ class UnsafeMethods {
     }
 
     private static Method parseMethodSpec(String methodSpec, Map primClasses)
-    throws ClassNotFoundException,
-        NoSuchMethodException {
+            throws ClassNotFoundException,
+            NoSuchMethodException {
         int brace = methodSpec.indexOf('(');
         int dot = methodSpec.lastIndexOf('.', brace);
         Class clazz = ClassUtil.forName(methodSpec.substring(0, dot));

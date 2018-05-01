@@ -27,7 +27,7 @@ import freemarker.template.TemplateModel;
  */
 public class NonDateException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateDateModel.class };
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateDateModel.class};
 
     public NonDateException(Environment env) {
         super(env, "Expecting date/time value here");
@@ -53,6 +53,6 @@ public class NonDateException extends UnexpectedTypeException {
     NonDateException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "date/time", EXPECTED_TYPES, tips, env);
-    }    
-        
+    }
+
 }

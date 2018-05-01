@@ -34,5 +34,5 @@ interface ICIChainMember {
      * The closest object used for ICE lower than {link #getMinimumICIVersion()}.
      */
     Object getPreviousICIChainMember();
-    
+
 }

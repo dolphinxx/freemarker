@@ -26,8 +26,8 @@ import freemarker.template.TemplateModel;
  * Indicates that a {link TemplateBooleanModel} value was expected, but the value had a different type.
  */
 public class NonBooleanException extends UnexpectedTypeException {
-    
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateBooleanModel.class }; 
+
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateBooleanModel.class};
 
     public NonBooleanException(Environment env) {
         super(env, "Expecting boolean value here");
@@ -57,6 +57,6 @@ public class NonBooleanException extends UnexpectedTypeException {
     NonBooleanException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "boolean", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

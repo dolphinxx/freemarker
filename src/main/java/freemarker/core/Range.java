@@ -28,11 +28,11 @@ import freemarker.template._TemplateAPI;
  */
 final class Range extends Expression {
 
-    static final int END_INCLUSIVE = 0; 
-    static final int END_EXCLUSIVE = 1; 
-    static final int END_UNBOUND = 2; 
-    static final int END_SIZE_LIMITED = 3; 
-    
+    static final int END_INCLUSIVE = 0;
+    static final int END_EXCLUSIVE = 1;
+    static final int END_UNBOUND = 2;
+    static final int END_SIZE_LIMITED = 3;
+
     final Expression lho;
     final Expression rho;
     final int endType;
@@ -42,7 +42,7 @@ final class Range extends Expression {
         this.rho = rho;
         this.endType = endType;
     }
-    
+
     int getEndType() {
         return endType;
     }
@@ -54,14 +54,14 @@ final class Range extends Expression {
             final int lhoValue = rho.evalToNumber(env).intValue();
             return new BoundedRangeModel(
                     begin, endType != END_SIZE_LIMITED ? lhoValue : begin + lhoValue,
-                    endType == END_INCLUSIVE, endType == END_SIZE_LIMITED); 
+                    endType == END_INCLUSIVE, endType == END_SIZE_LIMITED);
         } else {
             return _TemplateAPI.getTemplateLanguageVersionAsInt(this) >= _TemplateAPI.VERSION_INT_2_3_21
                     ? new ListableRightUnboundedRangeModel(begin)
                     : new NonListableRightUnboundedRangeModel(begin);
         }
     }
-    
+
     // Surely this way we can tell that it won't be a boolean without evaluating the range, but why was this important?
     @Override
     boolean evalToBoolean(Environment env) throws TemplateException {
@@ -73,24 +73,29 @@ final class Range extends Expression {
         String rhs = rho != null ? rho.getCanonicalForm() : "";
         return lho.getCanonicalForm() + getNodeTypeSymbol() + rhs;
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         switch (endType) {
-        case END_EXCLUSIVE: return "..<";
-        case END_INCLUSIVE: return "..";
-        case END_UNBOUND: return "..";
-        case END_SIZE_LIMITED: return "..*";
-        default: throw new BugException(endType);
+            case END_EXCLUSIVE:
+                return "..<";
+            case END_INCLUSIVE:
+                return "..";
+            case END_UNBOUND:
+                return "..";
+            case END_SIZE_LIMITED:
+                return "..*";
+            default:
+                throw new BugException(endType);
         }
     }
-    
+
     @Override
     boolean isLiteral() {
         boolean rightIsLiteral = rho == null || rho.isLiteral();
         return constantValue != null || (lho.isLiteral() && rightIsLiteral);
     }
-    
+
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
@@ -99,7 +104,7 @@ final class Range extends Expression {
                 rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
                 endType);
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -108,9 +113,12 @@ final class Range extends Expression {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return lho;
-        case 1: return rho;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return lho;
+            case 1:
+                return rho;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -118,5 +126,5 @@ final class Range extends Expression {
     ParameterRole getParameterRole(int idx) {
         return ParameterRole.forBinaryOperatorOperand(idx);
     }
-    
+
 }

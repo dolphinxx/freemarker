@@ -39,8 +39,8 @@ import java.util.Iterator;
  * are <em>not</em> thread-safe.
  */
 public class SimpleCollection extends WrappingTemplateModel
-implements TemplateCollectionModel, Serializable {
-    
+        implements TemplateCollectionModel, Serializable {
+
     private boolean iteratorOwned;
     private final Iterator iterator;
     private final Iterable iterable;
@@ -65,21 +65,21 @@ implements TemplateCollectionModel, Serializable {
 
     /**
      * Same as {link SimpleCollection#SimpleCollection(Iterable)}; kept for binary compatibility.
-     * 
+     *
      * @deprecated Use {link #SimpleCollection(Iterable, ObjectWrapper)} instead.
      */
     @Deprecated
     public SimpleCollection(Collection collection) {
         this((Iterable) collection);
     }
-    
+
     /**
      * Same as {link SimpleCollection#SimpleCollection(Iterable, ObjectWrapper)}; kept for binary compatibility.
      */
     public SimpleCollection(Collection collection, ObjectWrapper wrapper) {
         this((Iterable) collection, wrapper);
     }
-    
+
     public SimpleCollection(Iterator iterator, ObjectWrapper wrapper) {
         super(wrapper);
         this.iterator = iterator;
@@ -97,7 +97,7 @@ implements TemplateCollectionModel, Serializable {
 
     /**
      * Retrieves a template model iterator that is used to iterate over the elements in this collection.
-     *  
+     *
      * <p>When you wrap an <tt>Iterator</tt> and you get <tt>TemplateModelIterator</tt> for multiple times,
      * only on of the returned <tt>TemplateModelIterator</tt> instances can be really used. When you have called a
      * method of a <tt>TemplateModelIterator</tt> instance, all other instance will throw a
@@ -109,7 +109,7 @@ implements TemplateCollectionModel, Serializable {
                 ? new SimpleTemplateModelIterator(iterator, false)
                 : new SimpleTemplateModelIterator(iterable.iterator(), true);
     }
-    
+
     /**
      * Wraps an {link Iterator}; not thread-safe. The encapsulated {link Iterator} may be accessible from multiple
      * threads (as multiple {link SimpleTemplateModelIterator} instance can wrap the same {link Iterator} instance),
@@ -117,29 +117,29 @@ implements TemplateCollectionModel, Serializable {
      * {link Iterator} will monopolize that.
      */
     private class SimpleTemplateModelIterator implements TemplateModelIterator {
-        
+
         private final Iterator iterator;
         private boolean iteratorOwnedByMe;
-            
+
         SimpleTemplateModelIterator(Iterator iterator, boolean iteratorOwnedByMe) {
             this.iterator = iterator;
             this.iteratorOwnedByMe = iteratorOwnedByMe;
         }
 
         public TemplateModel next() throws TemplateModelException {
-            if (!iteratorOwnedByMe) { 
+            if (!iteratorOwnedByMe) {
                 synchronized (SimpleCollection.this) {
                     checkIteratorOwned();
                     iteratorOwned = true;
                     iteratorOwnedByMe = true;
                 }
             }
-            
+
             if (!iterator.hasNext()) {
                 throw new TemplateModelException("The collection has no more items.");
             }
-            
-            Object value  = iterator.next();
+
+            Object value = iterator.next();
             return value instanceof TemplateModel ? (TemplateModel) value : wrap(value);
         }
 
@@ -150,17 +150,17 @@ implements TemplateCollectionModel, Serializable {
                     checkIteratorOwned();
                 }
             }
-            
+
             return iterator.hasNext();
         }
-        
+
         private void checkIteratorOwned() throws TemplateModelException {
             if (iteratorOwned) {
                 throw new TemplateModelException(
                         "This collection value wraps a java.util.Iterator, thus it can be listed only once.");
             }
         }
-        
+
     }
-    
+
 }

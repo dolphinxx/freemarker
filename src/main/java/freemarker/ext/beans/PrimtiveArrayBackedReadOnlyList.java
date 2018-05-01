@@ -24,12 +24,12 @@ import java.util.AbstractList;
 
 /**
  * Similar to {link NonPrimitiveArrayBackedReadOnlyList}, but uses reflection so that it works with primitive arrays
- * too. 
+ * too.
  */
 class PrimtiveArrayBackedReadOnlyList extends AbstractList {
-    
+
     private final Object array;
-    
+
     PrimtiveArrayBackedReadOnlyList(Object array) {
         this.array = array;
     }

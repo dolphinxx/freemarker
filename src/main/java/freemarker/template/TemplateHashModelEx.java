@@ -23,10 +23,10 @@ package freemarker.template;
  * "extended hash" template language data type; extends {link TemplateHashModel} by allowing
  * iterating through its keys and values. Consider implementing the modern variation of this,
  * {link TemplateHashModelEx2}, which allows the more efficient listing of key-value pairs.
- * 
+ *
  * <p>In templates they are used like hashes, but these will also work (among others):
  * {@code myExtHash?size}, {@code myExtHash?keys}, {@code myExtHash?values}, {@code <#list myMap as k, v>}.
- * 
+ * <p>
  * see DefaultMapAdapter
  * see SimpleHash
  */
@@ -38,9 +38,9 @@ public interface TemplateHashModelEx extends TemplateHashModel {
     int size() throws TemplateModelException;
 
     /**
-     * @return a collection containing the keys in the hash. Every element of 
-     *      the returned collection must implement the {link TemplateScalarModel}
-     *      (as the keys of hashes are always strings).
+     * @return a collection containing the keys in the hash. Every element of
+     * the returned collection must implement the {link TemplateScalarModel}
+     * (as the keys of hashes are always strings).
      */
     TemplateCollectionModel keys() throws TemplateModelException;
 

@@ -26,12 +26,15 @@ package freemarker.cache;
  * The implementations can be coded in a non-threadsafe manner as the natural
  * user of the cache storage, {link TemplateCache} does the necessary
  * synchronization.
- *
+ * <p>
  * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
  */
 public interface CacheStorage {
     Object get(Object key);
+
     void put(Object key, Object value);
+
     void remove(Object key);
+
     void clear();
 }

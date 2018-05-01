@@ -25,29 +25,24 @@ import freemarker.template.TemplateNumberModel;
  * Represents a number format; used in templates for formatting and parsing with that format. This is similar to Java's
  * {link NumberFormat}, but made to fit the requirements of FreeMarker. Also, it makes easier to define formats that
  * can't be represented with Java's existing {link NumberFormat} implementations.
- * 
+ * <p>
  * <p>
  * Implementations need not be thread-safe if the {link TemplateNumberFormatFactory} doesn't recycle them among
  * different {link Environment}-s. As far as FreeMarker's concerned, instances are bound to a single
  * {link Environment}, and {link Environment}-s are thread-local objects.
- * 
+ *
  * @since 2.3.24
  */
 public abstract class TemplateNumberFormat extends TemplateValueFormat {
 
     /**
-     * @param numberModel
-     *            The number to format; not {@code null}. Most implementations will just work with the return value of
-     *            {link TemplateDateModel#getAsDate()}, but some may format differently depending on the properties of
-     *            a custom {link TemplateDateModel} implementation.
-     *            
+     * @param numberModel The number to format; not {@code null}. Most implementations will just work with the return value of
+     *                    {link TemplateDateModel#getAsDate()}, but some may format differently depending on the properties of
+     *                    a custom {link TemplateDateModel} implementation.
      * @return The number as text, with no escaping (like no HTML escaping); can't be {@code null}.
-     * 
-     * @throws TemplateValueFormatException
-     *             If any problem occurs while parsing/getting the format. Notable subclass:
-     *             {link UnformattableValueException}.
-     * @throws TemplateModelException
-     *             Exception thrown by the {@code dateModel} object when calling its methods.
+     * @throws TemplateValueFormatException If any problem occurs while parsing/getting the format. Notable subclass:
+     *                                      {link UnformattableValueException}.
+     * @throws TemplateModelException       Exception thrown by the {@code dateModel} object when calling its methods.
      */
     public abstract String formatToPlainText(TemplateNumberModel numberModel)
             throws TemplateValueFormatException, TemplateModelException;
@@ -57,17 +52,17 @@ public abstract class TemplateNumberFormat extends TemplateValueFormat {
      * escaped, otherwise falls back to formatting to plain text. If the markup result would be just the result of
      * {link #formatToPlainText(TemplateNumberModel)} escaped, it must return the {link String} that
      * {link #formatToPlainText(TemplateNumberModel)} does.
-     * 
+     * <p>
      * <p>
      * The implementation in {link TemplateNumberFormat} simply calls {link #formatToPlainText(TemplateNumberModel)}.
-     * 
+     *
      * @return A {link String} or a {link TemplateMarkupOutputModel}; not {@code null}.
      */
     public Object format(TemplateNumberModel numberModel)
             throws TemplateValueFormatException, TemplateModelException {
         return formatToPlainText(numberModel);
     }
-    
+
     /**
      * Tells if this formatter should be re-created if the locale changes.
      */
@@ -82,6 +77,6 @@ public abstract class TemplateNumberFormat extends TemplateValueFormat {
     public final Object parse(String s) throws TemplateValueFormatException {
         throw new ParsingNotSupportedException("Number formats currenly don't support parsing");
     }
-    
-    
+
+
 }

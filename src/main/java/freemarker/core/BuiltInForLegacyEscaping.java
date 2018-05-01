@@ -23,13 +23,13 @@ import freemarker.template.TemplateModel;
 
 /**
  * A string built-in whose usage is banned when auto-escaping with a markup-output format is active.
- * This is just a marker; the actual checking is in {@code FTL.jj}. 
+ * This is just a marker; the actual checking is in {@code FTL.jj}.
  */
 abstract class BuiltInForLegacyEscaping extends BuiltInBannedWhenAutoEscaping {
-    
+
     @Override
     TemplateModel _eval(Environment env)
-    throws TemplateException {
+            throws TemplateException {
         TemplateModel tm = target.eval(env);
         Object moOrStr = EvalUtil.coerceModelToStringOrMarkup(tm, target, null, env);
         if (moOrStr instanceof String) {
@@ -42,7 +42,7 @@ abstract class BuiltInForLegacyEscaping extends BuiltInBannedWhenAutoEscaping {
             throw new NonStringException(target, tm, env);
         }
     }
-    
+
     abstract TemplateModel calculateResult(String s, Environment env) throws TemplateException;
-    
+
 }

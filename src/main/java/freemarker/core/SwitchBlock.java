@@ -37,7 +37,7 @@ final class SwitchBlock extends TemplateElement {
      */
     SwitchBlock(Expression searched, MixedContent ignoredSectionBeforeFirstCase) {
         this.searched = searched;
-        
+
         int ignoredCnt = ignoredSectionBeforeFirstCase != null ? ignoredSectionBeforeFirstCase.getChildCount() : 0;
         setChildBufferCapacity(ignoredCnt + 4);
         for (int i = 0; i < ignoredCnt; i++) {
@@ -58,7 +58,7 @@ final class SwitchBlock extends TemplateElement {
 
     @Override
     TemplateElement[] accept(Environment env)
-        throws TemplateException, IOException {
+            throws TemplateException, IOException {
         boolean processedCase = false;
         int ln = getChildCount();
         try {
@@ -86,7 +86,8 @@ final class SwitchBlock extends TemplateElement {
             if (!processedCase && defaultCase != null) {
                 env.visit(defaultCase);
             }
-        } catch (BreakOrContinueException br) {}
+        } catch (BreakOrContinueException br) {
+        }
         return null;
     }
 
@@ -138,7 +139,7 @@ final class SwitchBlock extends TemplateElement {
     @Override
     TemplateElement postParseCleanup(boolean stripWhitespace) throws ParseException {
         TemplateElement result = super.postParseCleanup(stripWhitespace);
-        
+
         // The first #case might have shifted in the child array, so we have to find it again:
         int ln = getChildCount();
         int i = 0;
@@ -146,8 +147,8 @@ final class SwitchBlock extends TemplateElement {
             i++;
         }
         firstCaseIndex = i;
-        
+
         return result;
     }
-    
+
 }

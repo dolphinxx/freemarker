@@ -33,45 +33,45 @@ import java.util.Map;
 
 /**
  * An element representing a macro declaration.
- * 
+ *
  * @deprecated Subject to be changed or renamed any time; no "stable" replacement exists yet.
  */
 @Deprecated
 public final class Macro extends TemplateElement implements TemplateModel {
 
-    static final Macro DO_NOTHING_MACRO = new Macro(".pass", 
-            Collections.EMPTY_LIST, 
+    static final Macro DO_NOTHING_MACRO = new Macro(".pass",
+            Collections.EMPTY_LIST,
             Collections.EMPTY_MAP,
             null, false,
             TemplateElements.EMPTY);
-    
+
     final static int TYPE_MACRO = 0;
     final static int TYPE_FUNCTION = 1;
-    
+
     private final String name;
     private final String[] paramNames;
     private final Map paramDefaults;
     private final String catchAllParamName;
     private final boolean function;
 
-    Macro(String name, List argumentNames, Map args, 
-            String catchAllParamName, boolean function,
-            TemplateElements children) {
+    Macro(String name, List argumentNames, Map args,
+          String catchAllParamName, boolean function,
+          TemplateElements children) {
         this.name = name;
         this.paramNames = (String[]) argumentNames.toArray(
                 new String[argumentNames.size()]);
         this.paramDefaults = args;
-        
+
         this.function = function;
-        this.catchAllParamName = catchAllParamName; 
-        
+        this.catchAllParamName = catchAllParamName;
+
         this.setChildren(children);
     }
 
     public String getCatchAll() {
         return catchAllParamName;
     }
-    
+
     public String[] getArgumentNames() {
         return paramNames.clone();
     }
@@ -83,7 +83,7 @@ public final class Macro extends TemplateElement implements TemplateModel {
     boolean hasArgNamed(String name) {
         return paramDefaults.containsKey(name);
     }
-    
+
     public String getName() {
         return name;
     }
@@ -142,36 +142,36 @@ public final class Macro extends TemplateElement implements TemplateModel {
         }
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return function ? "#function" : "#macro";
     }
-    
+
     public boolean isFunction() {
         return function;
     }
 
     class Context implements LocalContext {
-        final Environment.Namespace localVars; 
+        final Environment.Namespace localVars;
         final TemplateObject callPlace;
         final Environment.Namespace nestedContentNamespace;
         final List nestedContentParameterNames;
         final LocalContextStack prevLocalContextStack;
         final Context prevMacroContext;
-        
-        Context(Environment env, 
+
+        Context(Environment env,
                 TemplateObject callPlace,
                 List nestedContentParameterNames) {
-            this.localVars = env.new Namespace(); 
+            this.localVars = env.new Namespace();
             this.callPlace = callPlace;
             this.nestedContentNamespace = env.getCurrentNamespace();
             this.nestedContentParameterNames = nestedContentParameterNames;
             this.prevLocalContextStack = env.getLocalContextStack();
             this.prevMacroContext = env.getCurrentMacroContext();
         }
-                
-        
+
+
         Macro getMacro() {
             return Macro.this;
         }
@@ -213,23 +213,23 @@ public final class Macro extends TemplateElement implements TemplateModel {
                             throw new _MiscTemplateException(env,
                                     new _ErrorDescriptionBuilder(
                                             "When calling ", (isFunction() ? "function" : "macro"), " ",
-                                            new _DelayedJQuote(name), 
+                                            new _DelayedJQuote(name),
                                             ", required parameter ", new _DelayedJQuote(argName),
                                             " (parameter #", i + 1, ") was ",
                                             (argWasSpecified
                                                     ? "specified, but had null/missing value."
-                                                    : "not specified.") 
+                                                    : "not specified.")
                                     ).tip(argWasSpecified
-                                            ? new Object[] {
-                                                    "If the parameter value expression on the caller side is known to "
+                                            ? new Object[]{
+                                            "If the parameter value expression on the caller side is known to "
                                                     + "be legally null/missing, you may want to specify a default "
                                                     + "value for it with the \"!\" operator, like "
-                                                    + "paramValue!defaultValue." }
-                                            : new Object[] { 
-                                                    "If the omission was deliberate, you may consider making the "
+                                                    + "paramValue!defaultValue."}
+                                            : new Object[]{
+                                            "If the omission was deliberate, you may consider making the "
                                                     + "parameter optional in the macro by specifying a default value "
-                                                    + "for it, like ", "<#macro macroName paramName=defaultExpr>", ")" }
-                                            ));
+                                                    + "for it, like ", "<#macro macroName paramName=defaultExpr>", ")"}
+                                    ));
                         }
                     }
                 }
@@ -246,17 +246,17 @@ public final class Macro extends TemplateElement implements TemplateModel {
         /**
          * @return the local variable of the given name
          * or null if it doesn't exist.
-         */ 
+         */
         public TemplateModel getLocalVariable(String name) throws TemplateModelException {
-             return localVars.get(name);
+            return localVars.get(name);
         }
 
         Environment.Namespace getLocals() {
             return localVars;
         }
-        
+
         /**
-         * Set a local variable in this macro 
+         * Set a local variable in this macro
          */
         void setLocalVar(String name, TemplateModel var) {
             localVars.put(name, var);
@@ -326,5 +326,5 @@ public final class Macro extends TemplateElement implements TemplateModel {
         // Because of recursive calls
         return true;
     }
-    
+
 }

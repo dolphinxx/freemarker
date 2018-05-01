@@ -31,19 +31,20 @@ import java.io.StringReader;
 import java.util.List;
 
 final class StringLiteral extends Expression implements TemplateScalarModel {
-    
+
     private final String value;
-    
-    /** {link List} of {link String}-s and {link Interpolation}-s. */
+
+    /**
+     * {link List} of {link String}-s and {link Interpolation}-s.
+     */
     private List<Object> dynamicValue;
-    
+
     StringLiteral(String value) {
         this.value = value;
     }
-    
+
     /**
-     * @param parentParser
-     *            The parser of the template that contains this string literal.
+     * @param parentParser The parser of the template that contains this string literal.
      */
     void parseValue(FMParser parentParser, OutputFormat outputFormat) throws ParseException {
         // The way this works is incorrect (the literal should be parsed without un-escaping),
@@ -52,21 +53,21 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
         ParserConfiguration pcfg = parentTemplate.getParserConfiguration();
         int intSyn = pcfg.getInterpolationSyntax();
         if (value.length() > 3 && (
-                    (intSyn == Configuration.LEGACY_INTERPOLATION_SYNTAX
-                        || intSyn == Configuration.DOLLAR_INTERPOLATION_SYNTAX) 
+                (intSyn == Configuration.LEGACY_INTERPOLATION_SYNTAX
+                        || intSyn == Configuration.DOLLAR_INTERPOLATION_SYNTAX)
                         && (value.indexOf("${") != -1
-                    || intSyn == Configuration.LEGACY_INTERPOLATION_SYNTAX && value.indexOf("#{") != -1)
-                    || intSyn == Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX && value.indexOf("[=") != -1)) {
+                        || intSyn == Configuration.LEGACY_INTERPOLATION_SYNTAX && value.indexOf("#{") != -1)
+                        || intSyn == Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX && value.indexOf("[=") != -1)) {
             try {
                 SimpleCharStream simpleCharacterStream = new SimpleCharStream(
                         new StringReader(value),
                         beginLine, beginColumn + 1,
                         value.length());
                 simpleCharacterStream.setTabSize(pcfg.getTabSize());
-                
+
                 FMParserTokenManager tkMan = new FMParserTokenManager(
                         simpleCharacterStream);
-                
+
                 FMParser parser = new FMParser(parentTemplate, false, tkMan, pcfg);
                 // We continue from the parent parser's current state:
                 parser.setupStringLiteralMode(parentParser, outputFormat);
@@ -83,7 +84,7 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
             this.constantValue = null;
         }
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         if (dynamicValue == null) {
@@ -91,16 +92,16 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
         } else {
             // This should behave like concatenating the values with `+`. Thus, an interpolated expression that
             // returns markup promotes the result of the whole expression to markup.
-            
+
             // Exactly one of these is non-null, depending on if the result will be plain text or markup, which can
             // change during evaluation, depending on the result of the interpolations:
             StringBuilder plainTextResult = null;
             TemplateMarkupOutputModel<?> markupResult = null;
-            
+
             for (Object part : dynamicValue) {
                 Object calcedPart =
                         part instanceof String ? part
-                        : ((Interpolation) part).calculateInterpolatedStringOrMarkup(env);
+                                : ((Interpolation) part).calculateInterpolatedStringOrMarkup(env);
                 if (markupResult != null) {
                     TemplateMarkupOutputModel<?> partMO = calcedPart instanceof String
                             ? markupResult.getOutputFormat().fromPlainTextByEscaping((String) calcedPart)
@@ -136,7 +137,7 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
     public String getAsString() {
         return value;
     }
-    
+
     /**
      * Tells if this is something like <tt>"${foo}"</tt>, which is usually a user mistake.
      */
@@ -144,7 +145,7 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
         return dynamicValue != null && dynamicValue.size() == 1
                 && dynamicValue.get(0) instanceof Interpolation;
     }
-    
+
     @Override
     public String getCanonicalForm() {
         if (dynamicValue == null) {
@@ -163,12 +164,12 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
             return sb.toString();
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return dynamicValue == null ? getCanonicalForm() : "dynamic \"...\"";
     }
-    
+
     @Override
     boolean isLiteral() {
         return dynamicValue == null;
@@ -205,5 +206,5 @@ final class StringLiteral extends Expression implements TemplateScalarModel {
         checkIndex(idx);
         return ParameterRole.VALUE_PART;
     }
-    
+
 }

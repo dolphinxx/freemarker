@@ -33,22 +33,22 @@ public class BeansModelCache extends ModelCache {
     private final Set mappedClassNames = new HashSet();
 
     private final BeansWrapper wrapper;
-    
+
     BeansModelCache(BeansWrapper wrapper) {
         this.wrapper = wrapper;
     }
-    
+
     @Override
     protected boolean isCacheable(Object object) {
-        return object.getClass() != Boolean.class; 
+        return object.getClass() != Boolean.class;
     }
-    
+
     @Override
     protected TemplateModel create(Object object) {
         Class clazz = object.getClass();
-        
+
         ModelFactory factory = (ModelFactory) classToFactory.get(clazz);
-        
+
         if (factory == null) {
             // Synchronized so that we won't unnecessarily create the same factory for multiple times in parallel.
             synchronized (classToFactory) {
@@ -66,7 +66,7 @@ public class BeansModelCache extends ModelCache {
                 }
             }
         }
-        
+
         return factory.create(object, wrapper);
     }
 }

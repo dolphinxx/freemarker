@@ -25,9 +25,9 @@ package freemarker.template;
  * it will throw exception. It will also block {@code ?api} calls on the values it wraps.
  */
 public class SimpleObjectWrapper extends DefaultObjectWrapper {
-    
+
     static final SimpleObjectWrapper instance = new SimpleObjectWrapper();
-    
+
     /**
      * @deprecated Use {link #SimpleObjectWrapper(Version)} instead.
      */
@@ -35,29 +35,28 @@ public class SimpleObjectWrapper extends DefaultObjectWrapper {
     public SimpleObjectWrapper() {
         super();
     }
-    
+
     /**
      * @param incompatibleImprovements see in {link BeansWrapper#BeansWrapper(Version)}.
-     * 
      * @since 2.3.21
      */
     public SimpleObjectWrapper(Version incompatibleImprovements) {
         super(incompatibleImprovements);
     }
-    
+
     /**
-     * Called if a type other than the simple ones we know about is passed in. 
+     * Called if a type other than the simple ones we know about is passed in.
      * In this implementation, this just throws an exception.
      */
     @Override
     protected TemplateModel handleUnknownType(Object obj) throws TemplateModelException {
-        throw new TemplateModelException("SimpleObjectWrapper deliberately won't wrap this type: " 
-                                         + obj.getClass().getName());
+        throw new TemplateModelException("SimpleObjectWrapper deliberately won't wrap this type: "
+                + obj.getClass().getName());
     }
 
     @Override
     public TemplateHashModel wrapAsAPI(Object obj) throws TemplateModelException {
         throw new TemplateModelException("SimpleObjectWrapper deliberately doesn't allow ?api.");
     }
-    
+
 }

@@ -32,9 +32,8 @@ class Items extends TemplateElement {
     private final String loopVar2Name;
 
     /**
-     * @param loopVar2Name
-     *            For non-hash listings always {@code null}, for hash listings {@code loopVarName} and
-     *            {@code loopVarName2} holds the key- and value loop variable names.
+     * @param loopVar2Name For non-hash listings always {@code null}, for hash listings {@code loopVarName} and
+     *                     {@code loopVarName2} holds the key- and value loop variable names.
      */
     Items(String loopVarName, String loopVar2Name, TemplateElements children) {
         this.loopVarName = loopVarName;
@@ -50,7 +49,7 @@ class Items extends TemplateElement {
             throw new _MiscTemplateException(env,
                     getNodeTypeSymbol(), " without iteration in context");
         }
-        
+
         iterCtx.loopForItemsElement(env, getChildBuffer(), loopVarName, loopVar2Name);
         return null;
     }
@@ -94,26 +93,28 @@ class Items extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0:
-            if (loopVarName == null) throw new IndexOutOfBoundsException();
-            return loopVarName;
-        case 1:
-            if (loopVar2Name == null) throw new IndexOutOfBoundsException();
-            return loopVar2Name;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                if (loopVarName == null) throw new IndexOutOfBoundsException();
+                return loopVarName;
+            case 1:
+                if (loopVar2Name == null) throw new IndexOutOfBoundsException();
+                return loopVar2Name;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0:
-            if (loopVarName == null) throw new IndexOutOfBoundsException();
-            return ParameterRole.TARGET_LOOP_VARIABLE;
-        case 1:
-            if (loopVar2Name == null) throw new IndexOutOfBoundsException();
-            return ParameterRole.TARGET_LOOP_VARIABLE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                if (loopVarName == null) throw new IndexOutOfBoundsException();
+                return ParameterRole.TARGET_LOOP_VARIABLE;
+            case 1:
+                if (loopVar2Name == null) throw new IndexOutOfBoundsException();
+                return ParameterRole.TARGET_LOOP_VARIABLE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 

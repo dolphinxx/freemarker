@@ -37,38 +37,40 @@ import java.util.TreeSet;
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
  * This class is to work around the lack of module system in Java, i.e., so that other FreeMarker packages can
- * access things inside this package that users shouldn't. 
- */ 
+ * access things inside this package that users shouldn't.
+ */
 public class _CoreAPI {
-    
+
     public static final String ERROR_MESSAGE_HR = "----";
 
     // Can't be instantiated
-    private _CoreAPI() { }
+    private _CoreAPI() {
+    }
 
     private static void addName(Set<String> allNames, Set<String> lcNames, Set<String> ccNames,
-            String commonName) {
+                                String commonName) {
         allNames.add(commonName);
         lcNames.add(commonName);
         ccNames.add(commonName);
     }
-    
+
     private static void addName(Set<String> allNames, Set<String> lcNames, Set<String> ccNames,
-            String lcName, String ccName) {
+                                String lcName, String ccName) {
         allNames.add(lcName);
         allNames.add(ccName);
         lcNames.add(lcName);
         ccNames.add(ccName);
     }
-    
+
     public static final Set<String> ALL_BUILT_IN_DIRECTIVE_NAMES;
     public static final Set<String> LEGACY_BUILT_IN_DIRECTIVE_NAMES;
     public static final Set<String> CAMEL_CASE_BUILT_IN_DIRECTIVE_NAMES;
+
     static {
         Set<String> allNames = new TreeSet();
         Set<String> lcNames = new TreeSet();
         Set<String> ccNames = new TreeSet();
-        
+
         addName(allNames, lcNames, ccNames, "assign");
         addName(allNames, lcNames, ccNames, "attempt");
         addName(allNames, lcNames, ccNames, "autoesc", "autoEsc");
@@ -113,21 +115,20 @@ public class _CoreAPI {
         addName(allNames, lcNames, ccNames, "t");
         addName(allNames, lcNames, ccNames, "transform");
         addName(allNames, lcNames, ccNames, "visit");
-        
+
         ALL_BUILT_IN_DIRECTIVE_NAMES = Collections.unmodifiableSet(allNames);
         LEGACY_BUILT_IN_DIRECTIVE_NAMES = Collections.unmodifiableSet(lcNames);
         CAMEL_CASE_BUILT_IN_DIRECTIVE_NAMES = Collections.unmodifiableSet(ccNames);
     }
-    
+
     /**
      * Returns the names of the currently supported "built-ins" ({@code expr?builtin_name}-like things).
-     * 
-     * @param namingConvention
-     *            One of {link Configuration#AUTO_DETECT_NAMING_CONVENTION},
-     *            {link Configuration#LEGACY_NAMING_CONVENTION}, and
-     *            {link Configuration#CAMEL_CASE_NAMING_CONVENTION}. If it's
-     *            {link Configuration#AUTO_DETECT_NAMING_CONVENTION} then the union of the names in all the naming
-     *            conventions is returned.
+     *
+     * @param namingConvention One of {link Configuration#AUTO_DETECT_NAMING_CONVENTION},
+     *                         {link Configuration#LEGACY_NAMING_CONVENTION}, and
+     *                         {link Configuration#CAMEL_CASE_NAMING_CONVENTION}. If it's
+     *                         {link Configuration#AUTO_DETECT_NAMING_CONVENTION} then the union of the names in all the naming
+     *                         conventions is returned.
      */
     public static Set<String> getSupportedBuiltInNames(int namingConvention) {
         Set<String> names;
@@ -142,15 +143,15 @@ public class _CoreAPI {
         }
         return Collections.unmodifiableSet(names);
     }
-    
+
     public static void appendInstructionStackItem(TemplateElement stackEl, StringBuilder sb) {
         Environment.appendInstructionStackItem(stackEl, sb);
     }
-    
+
     public static TemplateElement[] getInstructionStackSnapshot(Environment env) {
         return env.getInstructionStackSnapshot();
     }
-    
+
     public static void outputInstructionStack(
             TemplateElement[] instructionStackSnapshot, boolean terseMode, Writer pw) {
         Environment.outputInstructionStack(instructionStackSnapshot, terseMode, pw);
@@ -158,7 +159,7 @@ public class _CoreAPI {
 
     /**
      * ATTENTION: This is used by https://github.com/kenshoo/freemarker-online. Don't break backward
-     * compatibility without updating that project too! 
+     * compatibility without updating that project too!
      */
     static final public void addThreadInterruptedChecks(Template template) {
         try {
@@ -167,22 +168,21 @@ public class _CoreAPI {
             throw new RuntimeException("Template post-processing failed", e);
         }
     }
-    
+
     static final public void checkHasNoNestedContent(TemplateDirectiveBody body)
             throws NestedContentNotSupportedException {
         NestedContentNotSupportedException.check(body);
     }
-    
+
     static final public void replaceText(TextBlock textBlock, String text) {
         textBlock.replaceText(text);
     }
 
     /**
-     * @throws IllegalArgumentException
-     *             if the type of the some of the values isn't as expected
+     * @throws IllegalArgumentException if the type of the some of the values isn't as expected
      */
     public static void checkSettingValueItemsType(String somethingsSentenceStart, Class<?> expectedClass,
-            Collection<?> values) {
+                                                  Collection<?> values) {
         if (values == null) return;
         for (Object value : values) {
             if (!expectedClass.isInstance(value)) {
@@ -192,7 +192,7 @@ public class _CoreAPI {
             }
         }
     }
-    
+
     /**
      * The work around the problematic cases where we should throw a {link TemplateException}, but we are inside
      * a {link TemplateModel} method and so we can only throw {link TemplateModelException}-s.
@@ -205,7 +205,7 @@ public class _CoreAPI {
                     _TemplateAPI.getBlamedExpression(e), e.getCause(), e.getEnvironment(), modelOpMsg);
         }
     }
-    
+
     public static TemplateElement getParentElement(TemplateElement te) {
         return te.getParentElement();
     }
@@ -217,5 +217,5 @@ public class _CoreAPI {
     public static void setPreventStrippings(FMParser parser, boolean preventStrippings) {
         parser.setPreventStrippings(preventStrippings);
     }
-    
+
 }

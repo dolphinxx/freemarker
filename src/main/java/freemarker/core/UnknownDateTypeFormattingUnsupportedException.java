@@ -21,7 +21,7 @@ package freemarker.core;
 
 /**
  * Thrown when a {link TemplateDateModel} can't be formatted because its type is {link TemplateDateModel#UNKNOWN}.
- * 
+ *
  * @since 2.3.24
  */
 public final class UnknownDateTypeFormattingUnsupportedException extends UnformattableValueException {
@@ -29,5 +29,5 @@ public final class UnknownDateTypeFormattingUnsupportedException extends Unforma
     public UnknownDateTypeFormattingUnsupportedException() {
         super(_MessageUtil.UNKNOWN_DATE_TO_STRING_ERROR_MESSAGE);
     }
-    
+
 }

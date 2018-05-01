@@ -33,7 +33,7 @@ final class ContinueInstruction extends TemplateElement {
     protected String dump(boolean canonical) {
         return canonical ? "<" + getNodeTypeSymbol() + "/>" : getNodeTypeSymbol();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#continue";
@@ -53,12 +53,12 @@ final class ContinueInstruction extends TemplateElement {
     ParameterRole getParameterRole(int idx) {
         throw new IndexOutOfBoundsException();
     }
-    
+
     @Override
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }
 
 

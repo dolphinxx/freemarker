@@ -27,13 +27,13 @@ import java.io.Serializable;
  * As of version 2.0 this object is immutable.
  *
  * <p>This class is thread-safe.
- *
+ * <p>
  * see SimpleSequence
  * see SimpleHash
  */
-public final class SimpleScalar 
-implements TemplateScalarModel, Serializable {
-    
+public final class SimpleScalar
+        implements TemplateScalarModel, Serializable {
+
     /**
      * @serial the value of this <tt>SimpleScalar</tt> if it wraps a
      * <tt>String</tt>.
@@ -42,6 +42,7 @@ implements TemplateScalarModel, Serializable {
 
     /**
      * Constructs a <tt>SimpleScalar</tt> containing a string value.
+     *
      * @param value the string value. If this is {@code null}, its value in FTL will be {@code ""}.
      */
     public SimpleScalar(String value) {
@@ -57,14 +58,14 @@ implements TemplateScalarModel, Serializable {
         // [2.4] Shouldn't return null
         return value;
     }
-    
+
     /**
-     * Same as calling the constructor, except that for a {@code null} parameter it returns null. 
-     * 
+     * Same as calling the constructor, except that for a {@code null} parameter it returns null.
+     *
      * @since 2.3.23
      */
     public static SimpleScalar newInstanceOrNull(String s) {
         return s != null ? new SimpleScalar(s) : null;
     }
-    
+
 }

@@ -32,14 +32,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Base class for hash models keyed by Java class names. 
+ * Base class for hash models keyed by Java class names.
  */
 abstract class ClassBasedModelFactory implements TemplateHashModel {
     private final BeansWrapper wrapper;
-    
+
     private final Map/*<String,TemplateModel>*/ cache = new ConcurrentHashMap();
     private final Set classIntrospectionsInProgress = new HashSet();
-    
+
     protected ClassBasedModelFactory(BeansWrapper wrapper) {
         this.wrapper = wrapper;
     }
@@ -69,7 +69,7 @@ abstract class ClassBasedModelFactory implements TemplateHashModel {
         synchronized (sharedLock) {
             TemplateModel model = (TemplateModel) cache.get(key);
             if (model != null) return model;
-            
+
             while (model == null
                     && classIntrospectionsInProgress.contains(key)) {
                 // Another thread is already introspecting this class;
@@ -83,7 +83,7 @@ abstract class ClassBasedModelFactory implements TemplateHashModel {
                 }
             }
             if (model != null) return model;
-            
+
             // This will be the thread that introspects this class.
             classIntrospectionsInProgress.add(key);
 
@@ -94,22 +94,22 @@ abstract class ClassBasedModelFactory implements TemplateHashModel {
         }
         try {
             final Class clazz = ClassUtil.forName(key);
-            
+
             // This is called so that we trigger the
             // class-reloading detector. If clazz is a reloaded class,
             // the wrapper will in turn call our clearCache method.
             // TODO: Why do we check it now and only now?
             classIntrospector.get(clazz);
-            
+
             TemplateModel model = createModel(clazz);
             // Warning: model will be null if the class is not good for the subclass.
             // For example, EnumModels#createModel returns null if clazz is not an enum.
-            
+
             if (model != null) {
                 synchronized (sharedLock) {
                     // Save it into the cache, but only if nothing relevant has changed while we were outside the lock: 
                     if (classIntrospector == wrapper.getClassIntrospector()
-                            && classIntrospectorClearingCounter == classIntrospector.getClearingCounter()) {  
+                            && classIntrospectorClearingCounter == classIntrospector.getClearingCounter()) {
                         cache.put(key, model);
                     }
                 }
@@ -122,13 +122,13 @@ abstract class ClassBasedModelFactory implements TemplateHashModel {
             }
         }
     }
-    
+
     void clearCache() {
         synchronized (wrapper.getSharedIntrospectionLock()) {
             cache.clear();
         }
     }
-    
+
     void removeFromCache(Class clazz) {
         synchronized (wrapper.getSharedIntrospectionLock()) {
             cache.remove(clazz.getName());
@@ -138,12 +138,12 @@ abstract class ClassBasedModelFactory implements TemplateHashModel {
     public boolean isEmpty() {
         return false;
     }
-    
-    protected abstract TemplateModel createModel(Class clazz) 
-    throws TemplateModelException;
-    
+
+    protected abstract TemplateModel createModel(Class clazz)
+            throws TemplateModelException;
+
     protected BeansWrapper getWrapper() {
         return wrapper;
     }
-    
+
 }

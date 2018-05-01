@@ -35,7 +35,7 @@ final class NumberLiteral extends Expression implements TemplateNumberModel {
     public NumberLiteral(Number value) {
         this.value = value;
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) {
         return new SimpleNumber(value);
@@ -49,7 +49,7 @@ final class NumberLiteral extends Expression implements TemplateNumberModel {
     public Number getAsNumber() {
         return value;
     }
-    
+
     String getName() {
         return "the number: '" + value + "'";
     }
@@ -58,12 +58,12 @@ final class NumberLiteral extends Expression implements TemplateNumberModel {
     public String getCanonicalForm() {
         return value.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return getCanonicalForm();
     }
-    
+
     @Override
     boolean isLiteral() {
         return true;
@@ -74,7 +74,7 @@ final class NumberLiteral extends Expression implements TemplateNumberModel {
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
         return new NumberLiteral(value);
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -89,5 +89,5 @@ final class NumberLiteral extends Expression implements TemplateNumberModel {
     ParameterRole getParameterRole(int idx) {
         throw new IndexOutOfBoundsException();
     }
-    
+
 }

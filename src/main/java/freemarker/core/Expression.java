@@ -36,28 +36,28 @@ import freemarker.template.utility.UndeclaredThrowableException;
 
 /**
  * <b>Internal API - subject to change:</b> Represent expression nodes in the parsed template.
- * 
+ *
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
- *             it.
+ * it.
  */
 @Deprecated
 abstract public class Expression extends TemplateObject {
 
     /**
      * @param env might be {@code null}, if this kind of expression can be evaluated during parsing (as opposed to
-     *     during template execution).
+     *            during template execution).
      */
     abstract TemplateModel _eval(Environment env) throws TemplateException;
-    
+
     abstract boolean isLiteral();
 
     // Used to store a constant return value for this expression. Only if it
     // is possible, of course.
-    
+
     TemplateModel constantValue;
 
     // Hook in here to set the constant value if possible.
-    
+
     @Override
     void setLocation(Template template, int beginColumn, int beginLine, int endColumn, int endLine) {
         super.setLocation(template, beginColumn, beginLine, endColumn, endLine);
@@ -65,7 +65,7 @@ abstract public class Expression extends TemplateObject {
             try {
                 constantValue = _eval(null);
             } catch (Exception e) {
-            // deliberately ignore.
+                // deliberately ignore.
             }
         }
     }
@@ -77,7 +77,7 @@ abstract public class Expression extends TemplateObject {
     public final TemplateModel getAsTemplateModel(Environment env) throws TemplateException {
         return eval(env);
     }
-    
+
     final TemplateModel eval(Environment env) throws TemplateException {
         try {
             return constantValue != null ? constantValue : _eval(env);
@@ -96,7 +96,7 @@ abstract public class Expression extends TemplateObject {
             }
         }
     }
-    
+
     String evalAndCoerceToPlainText(Environment env) throws TemplateException {
         return EvalUtil.coerceModelToPlainText(eval(env), this, null, env);
     }
@@ -118,7 +118,7 @@ abstract public class Expression extends TemplateObject {
     Object evalAndCoerceToStringOrMarkup(Environment env, String seqTip) throws TemplateException {
         return EvalUtil.coerceModelToStringOrMarkup(eval(env), this, seqTip, env);
     }
-    
+
     String evalAndCoerceToStringOrUnsupportedMarkup(Environment env) throws TemplateException {
         return EvalUtil.coerceModelToStringOrUnsupportedMarkup(eval(env), this, null, env);
     }
@@ -129,7 +129,7 @@ abstract public class Expression extends TemplateObject {
     String evalAndCoerceToStringOrUnsupportedMarkup(Environment env, String seqTip) throws TemplateException {
         return EvalUtil.coerceModelToStringOrUnsupportedMarkup(eval(env), this, seqTip, env);
     }
-    
+
     Number evalToNumber(Environment env) throws TemplateException {
         TemplateModel model = eval(env);
         return modelToNumber(model, env);
@@ -142,7 +142,7 @@ abstract public class Expression extends TemplateObject {
             throw new NonNumericalException(this, model, env);
         }
     }
-    
+
     boolean evalToBoolean(Environment env) throws TemplateException {
         return evalToBoolean(env, null);
     }
@@ -156,12 +156,12 @@ abstract public class Expression extends TemplateObject {
         assertNonNull(result, env);
         return result;
     }
-    
+
     private boolean evalToBoolean(Environment env, Configuration cfg) throws TemplateException {
         TemplateModel model = eval(env);
         return modelToBoolean(model, env, cfg);
     }
-    
+
     boolean modelToBoolean(TemplateModel model, Environment env) throws TemplateException {
         return modelToBoolean(model, env, null);
     }
@@ -169,7 +169,7 @@ abstract public class Expression extends TemplateObject {
     boolean modelToBoolean(TemplateModel model, Configuration cfg) throws TemplateException {
         return modelToBoolean(model, null, cfg);
     }
-    
+
     private boolean modelToBoolean(TemplateModel model, Environment env, Configuration cfg) throws TemplateException {
         if (model instanceof TemplateBooleanModel) {
             return ((TemplateBooleanModel) model).getAsBoolean();
@@ -179,7 +179,7 @@ abstract public class Expression extends TemplateObject {
             throw new NonBooleanException(this, model, env);
         }
     }
-    
+
     final Expression deepCloneWithIdentifierReplaced(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
         Expression clone = deepCloneWithIdentifierReplaced_inner(replacedIdentifier, replacement, replacementState);
@@ -188,17 +188,17 @@ abstract public class Expression extends TemplateObject {
         }
         return clone;
     }
-    
+
     static class ReplacemenetState {
         /**
          * If the replacement expression is not in use yet, we don't have to clone it.
          */
-        boolean replacementAlreadyInUse; 
+        boolean replacementAlreadyInUse;
     }
 
     /**
      * This should return an equivalent new expression object (or an identifier replacement expression).
-     * The position need not be filled, unless it will be different from the position of what we were cloning. 
+     * The position need not be filled, unless it will be different from the position of what we were cloning.
      */
     protected abstract Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState);
@@ -224,9 +224,9 @@ abstract public class Expression extends TemplateObject {
                 && !(model instanceof TemplateDateModel)
                 && !(model instanceof TemplateBooleanModel);
     }
-    
+
     void assertNonNull(TemplateModel model, Environment env) throws InvalidReferenceException {
         if (model == null) throw InvalidReferenceException.getInstance(this, env);
     }
-    
+
 }

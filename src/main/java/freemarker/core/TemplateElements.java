@@ -23,21 +23,19 @@ import freemarker.template.utility.CollectionUtils;
 /**
  * Holds an buffer (array) of {link TemplateElement}-s with the count of the utilized items in it. The un-utilized tail
  * of the array must only contain {@code null}-s.
- * 
+ *
  * @since 2.3.24
  */
 public class TemplateElements {
-    
+
     static final TemplateElements EMPTY = new TemplateElements(null, 0);
 
     private final TemplateElement[] buffer;
     private final int count;
 
     /**
-     * @param buffer
-     *            The buffer; {@code null} exactly if {@code count} is 0.
-     * @param count
-     *            The number of utilized buffer elements; if 0, then {@code null} must be {@code null}.
+     * @param buffer The buffer; {@code null} exactly if {@code count} is 0.
+     * @param count  The number of utilized buffer elements; if 0, then {@code null} must be {@code null}.
      */
     TemplateElements(TemplateElement[] buffer, int count) {
         /*
@@ -46,7 +44,7 @@ public class TemplateElements {
             throw new IllegalArgumentException(); 
         }
         */
-        
+
         this.buffer = buffer;
         this.count = count;
     }
@@ -62,17 +60,17 @@ public class TemplateElements {
     TemplateElement getFirst() {
         return buffer != null ? buffer[0] : null;
     }
-    
+
     TemplateElement getLast() {
         return buffer != null ? buffer[count - 1] : null;
     }
-    
+
     /**
      * Used for some backward compatibility hacks.
      */
     TemplateElement asSingleElement() {
         if (count == 0) {
-            return new TextBlock(CollectionUtils.EMPTY_CHAR_ARRAY, false); 
+            return new TextBlock(CollectionUtils.EMPTY_CHAR_ARRAY, false);
         } else {
             TemplateElement first = buffer[0];
             if (count == 1) {
@@ -85,7 +83,7 @@ public class TemplateElements {
             }
         }
     }
-    
+
     /**
      * Used for some backward compatibility hacks.
      */

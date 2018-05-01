@@ -26,43 +26,56 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * Everything related to coercion to ambiguous numerical types.  
+ * Everything related to coercion to ambiguous numerical types.
  */
 class OverloadedNumberUtil {
 
     // Can't be instantiated
-    private OverloadedNumberUtil() { }
+    private OverloadedNumberUtil() {
+    }
 
     /**
      * The lower limit of conversion prices where there's a risk of significant mantissa loss.
      * The value comes from misc/overloadedNumberRules/prices.ods and generator.ftl.
      */
     static final int BIG_MANTISSA_LOSS_PRICE = 4 * 10000;
-    
-    /** The highest long that can be stored in double without precision loss: 2**53. */
+
+    /**
+     * The highest long that can be stored in double without precision loss: 2**53.
+     */
     private static final long MAX_DOUBLE_OR_LONG = 9007199254740992L;
-    /** The lowest long that can be stored in double without precision loss: -(2**53). */
+    /**
+     * The lowest long that can be stored in double without precision loss: -(2**53).
+     */
     private static final long MIN_DOUBLE_OR_LONG = -9007199254740992L;
     private static final int MAX_DOUBLE_OR_LONG_LOG_2 = 53;
-    
-    /** The highest long that can be stored in float without precision loss: 2**24. */
+
+    /**
+     * The highest long that can be stored in float without precision loss: 2**24.
+     */
     private static final int MAX_FLOAT_OR_INT = 16777216;
-    /** The lowest long that can be stored in float without precision loss: -(2**24). */
+    /**
+     * The lowest long that can be stored in float without precision loss: -(2**24).
+     */
     private static final int MIN_FLOAT_OR_INT = -16777216;
     private static final int MAX_FLOAT_OR_INT_LOG_2 = 24;
-    /** Lowest number that we don't thread as possible integer 0. */
+    /**
+     * Lowest number that we don't thread as possible integer 0.
+     */
     private static final double LOWEST_ABOVE_ZERO = 0.000001;
-    /** Highest number that we don't thread as possible integer 1. */
+    /**
+     * Highest number that we don't thread as possible integer 1.
+     */
     private static final double HIGHEST_BELOW_ONE = 0.999999;
 
     /**
      * Attaches the lowest alternative number type to the parameter number via {link NumberWithFallbackType}, if
      * that's useful according the possible target number types. This transformation is applied on the method call
      * argument list before overloaded method selection.
-     * 
+     *
      * <p>Note that as of this writing, this method is only used when
      * {link BeansWrapper#getIncompatibleImprovements()} >= 2.3.21.
-     * 
+     *
      * <p>Why's this needed, how it works: Overloaded method selection only selects methods where the <em>type</em>
      * (not the value!) of the argument is "smaller" or the same as the parameter type. This is similar to how it's in
      * the Java language. That it only decides based on the parameter type is important because this way
@@ -82,14 +95,13 @@ class OverloadedNumberUtil {
      * {link NumberWithFallbackType} numerical classes like {link IntegerOrByte}, which represents both the original
      * type and the coerced type, all encoded into the class of the value, which is used as the overloaded method lookup
      * cache key.
-     *  
+     *
      * <p>See also: <tt>src\main\misc\overloadedNumberRules\prices.ods</tt>.
-     * 
-     * @param num the number to coerce
+     *
+     * @param num       the number to coerce
      * @param typeFlags the type flags of the target parameter position; see {link TypeFlags}
-     * 
      * @return The original number or a {link NumberWithFallbackType}, depending on the actual value and the types
-     *     indicated in the {@code targetNumTypes} parameter.
+     * indicated in the {@code targetNumTypes} parameter.
      */
     static Number addFallbackType(final Number num, final int typeFlags) {
         final Class numClass = num.getClass();
@@ -97,7 +109,7 @@ class OverloadedNumberUtil {
             // For now we only support the backward-compatible mode that doesn't prevent roll overs and magnitude loss.
             // However, we push the overloaded selection to the right direction, so we will at least indicate if the
             // number has decimals.
-            BigDecimal n = (BigDecimal) num; 
+            BigDecimal n = (BigDecimal) num;
             if ((typeFlags & TypeFlags.MASK_KNOWN_INTEGERS) != 0
                     && (typeFlags & TypeFlags.MASK_KNOWN_NONINTEGERS) != 0
                     && NumberUtil.isIntegerBigDecimal(n) /* <- can be expensive */) {
@@ -123,7 +135,7 @@ class OverloadedNumberUtil {
                 return num;
             }
         } else if (numClass == Long.class) {
-            final long pn = num.longValue(); 
+            final long pn = num.longValue();
             if ((typeFlags & TypeFlags.BYTE) != 0 && pn <= Byte.MAX_VALUE && pn >= Byte.MIN_VALUE) {
                 return new LongOrByte((Long) num, (byte) pn);
             } else if ((typeFlags & TypeFlags.SHORT) != 0 && pn <= Short.MAX_VALUE && pn >= Short.MIN_VALUE) {
@@ -135,15 +147,16 @@ class OverloadedNumberUtil {
             }
         } else if (numClass == Double.class) {
             final double doubleN = num.doubleValue();
-            
+
             // Can we store it in an integer type?
-            checkIfWholeNumber: do {
+            checkIfWholeNumber:
+            do {
                 if ((typeFlags & TypeFlags.MASK_KNOWN_INTEGERS) == 0) break checkIfWholeNumber;
-                
+
                 // There's no hope to be 1-precise outside this region. (Although problems can occur even inside it...)
                 if (doubleN > MAX_DOUBLE_OR_LONG || doubleN < MIN_DOUBLE_OR_LONG) break checkIfWholeNumber;
-                
-                long longN = num.longValue(); 
+
+                long longN = num.longValue();
                 double diff = doubleN - longN;
                 boolean exact;  // We will try to ignore precision glitches (like 0.3 - 0.2 - 0.1 = -2.7E-17)
                 if (diff == 0) {
@@ -167,9 +180,9 @@ class OverloadedNumberUtil {
                         break checkIfWholeNumber;
                     }
                 }
-                
+
                 // If we reach this, it can be treated as a whole number.
-                
+
                 if ((typeFlags & TypeFlags.BYTE) != 0
                         && longN <= Byte.MAX_VALUE && longN >= Byte.MIN_VALUE) {
                     return new DoubleOrByte((Double) num, (byte) longN);
@@ -178,10 +191,10 @@ class OverloadedNumberUtil {
                     return new DoubleOrShort((Double) num, (short) longN);
                 } else if ((typeFlags & TypeFlags.INTEGER) != 0
                         && longN <= Integer.MAX_VALUE && longN >= Integer.MIN_VALUE) {
-                    final int intN = (int) longN; 
+                    final int intN = (int) longN;
                     return (typeFlags & TypeFlags.FLOAT) != 0 && intN >= MIN_FLOAT_OR_INT && intN <= MAX_FLOAT_OR_INT
-                                    ? new DoubleOrIntegerOrFloat((Double) num, intN)
-                                    : new DoubleOrInteger((Double) num, intN);
+                            ? new DoubleOrIntegerOrFloat((Double) num, intN)
+                            : new DoubleOrInteger((Double) num, intN);
                 } else if ((typeFlags & TypeFlags.LONG) != 0) {
                     if (exact) {
                         return new DoubleOrLong((Double) num, longN);
@@ -199,7 +212,7 @@ class OverloadedNumberUtil {
                 // Falls through!
             } while (false);
             // If we reach this that means that it can't be treated as a whole number.
-            
+
             if ((typeFlags & TypeFlags.FLOAT) != 0 && doubleN >= -Float.MAX_VALUE && doubleN <= Float.MAX_VALUE) {
                 return new DoubleOrFloat((Double) num);
             } else {
@@ -208,20 +221,21 @@ class OverloadedNumberUtil {
             }
         } else if (numClass == Float.class) {
             final float floatN = num.floatValue();
-            
+
             // Can we store it in an integer type?
-            checkIfWholeNumber: do {
+            checkIfWholeNumber:
+            do {
                 if ((typeFlags & TypeFlags.MASK_KNOWN_INTEGERS) == 0) break checkIfWholeNumber;
-                
+
                 // There's no hope to be 1-precise outside this region. (Although problems can occur even inside it...)
                 if (floatN > MAX_FLOAT_OR_INT || floatN < MIN_FLOAT_OR_INT) break checkIfWholeNumber;
-                
+
                 int intN = num.intValue();
                 double diff = floatN - intN;
                 boolean exact;  // We will try to ignore precision glitches (like 0.3 - 0.2 - 0.1 = -2.7E-17)
                 if (diff == 0) {
                     exact = true;
-                // We already reach ULP 7.6293945E-6 with bytes, so we don't continue with shorts.
+                    // We already reach ULP 7.6293945E-6 with bytes, so we don't continue with shorts.
                 } else if (intN >= Byte.MIN_VALUE && intN <= Byte.MAX_VALUE) {
                     if (diff > 0) {
                         if (diff < 0.00001) {
@@ -245,9 +259,9 @@ class OverloadedNumberUtil {
                 } else {
                     break checkIfWholeNumber;
                 }
-                
+
                 // If we reach this, it can be treated as a whole number.
-                
+
                 if ((typeFlags & TypeFlags.BYTE) != 0 && intN <= Byte.MAX_VALUE && intN >= Byte.MIN_VALUE) {
                     return new FloatOrByte((Float) num, (byte) intN);
                 } else if ((typeFlags & TypeFlags.SHORT) != 0 && intN <= Short.MAX_VALUE && intN >= Short.MIN_VALUE) {
@@ -268,7 +282,7 @@ class OverloadedNumberUtil {
         } else if (numClass == Byte.class) {
             return num;
         } else if (numClass == Short.class) {
-            short pn = num.shortValue(); 
+            short pn = num.shortValue();
             if ((typeFlags & TypeFlags.BYTE) != 0 && pn <= Byte.MAX_VALUE && pn >= Byte.MIN_VALUE) {
                 return new ShortOrByte((Short) num, (byte) pn);
             } else {
@@ -277,7 +291,7 @@ class OverloadedNumberUtil {
         } else if (numClass == BigInteger.class) {
             if ((typeFlags
                     & ((TypeFlags.MASK_KNOWN_INTEGERS | TypeFlags.MASK_KNOWN_NONINTEGERS)
-                            ^ (TypeFlags.BIG_INTEGER | TypeFlags.BIG_DECIMAL))) != 0) {
+                    ^ (TypeFlags.BIG_INTEGER | TypeFlags.BIG_DECIMAL))) != 0) {
                 BigInteger biNum = (BigInteger) num;
                 final int bitLength = biNum.bitLength();  // Doesn't include sign bit, so it's one less than expected
                 if ((typeFlags & TypeFlags.BYTE) != 0 && bitLength <= 7) {
@@ -290,13 +304,13 @@ class OverloadedNumberUtil {
                     return new BigIntegerOrLong(biNum);
                 } else if ((typeFlags & TypeFlags.FLOAT) != 0
                         && (bitLength <= MAX_FLOAT_OR_INT_LOG_2
-                            || bitLength == MAX_FLOAT_OR_INT_LOG_2 + 1
-                               && biNum.getLowestSetBit() >= MAX_FLOAT_OR_INT_LOG_2)) {
+                        || bitLength == MAX_FLOAT_OR_INT_LOG_2 + 1
+                        && biNum.getLowestSetBit() >= MAX_FLOAT_OR_INT_LOG_2)) {
                     return new BigIntegerOrFloat(biNum);
                 } else if ((typeFlags & TypeFlags.DOUBLE) != 0
                         && (bitLength <= MAX_DOUBLE_OR_LONG_LOG_2
-                            || bitLength == MAX_DOUBLE_OR_LONG_LOG_2 + 1
-                               && biNum.getLowestSetBit() >= MAX_DOUBLE_OR_LONG_LOG_2)) {
+                        || bitLength == MAX_DOUBLE_OR_LONG_LOG_2 + 1
+                        && biNum.getLowestSetBit() >= MAX_DOUBLE_OR_LONG_LOG_2)) {
                     return new BigIntegerOrDouble(biNum);
                 } else {
                     return num;
@@ -311,15 +325,38 @@ class OverloadedNumberUtil {
         }
     }
 
-    interface ByteSource { Byte byteValue(); }
-    interface ShortSource { Short shortValue(); }
-    interface IntegerSource { Integer integerValue(); }
-    interface LongSource { Long longValue(); }
-    interface FloatSource { Float floatValue(); }
-    interface DoubleSource { Double doubleValue(); }
-    interface BigIntegerSource { BigInteger bigIntegerValue(); }
-    interface BigDecimalSource { BigDecimal bigDecimalValue(); }
-    
+    interface ByteSource {
+        Byte byteValue();
+    }
+
+    interface ShortSource {
+        Short shortValue();
+    }
+
+    interface IntegerSource {
+        Integer integerValue();
+    }
+
+    interface LongSource {
+        Long longValue();
+    }
+
+    interface FloatSource {
+        Float floatValue();
+    }
+
+    interface DoubleSource {
+        Double doubleValue();
+    }
+
+    interface BigIntegerSource {
+        BigInteger bigIntegerValue();
+    }
+
+    interface BigDecimalSource {
+        BigDecimal bigDecimalValue();
+    }
+
     /**
      * Superclass of "Or"-ed numerical types. With an example, a {@code int} 1 has the fallback type {@code byte}, as
      * that's the smallest type that can store the value, so it can be represented as an {link IntegerOrByte}.
@@ -328,7 +365,7 @@ class OverloadedNumberUtil {
      * method selection.
      */
     abstract static class NumberWithFallbackType extends Number implements Comparable {
-        
+
         protected abstract Number getSourceNumber();
 
         @Override
@@ -385,12 +422,12 @@ class OverloadedNumberUtil {
         public int compareTo(Object o) {
             Number n = getSourceNumber();
             if (n instanceof Comparable) {
-                return ((Comparable) n).compareTo(o); 
+                return ((Comparable) n).compareTo(o);
             } else {
                 throw new ClassCastException(n.getClass().getName() + " is not Comparable.");
             }
         }
-        
+
     }
 
     /**
@@ -403,7 +440,7 @@ class OverloadedNumberUtil {
     static final class IntegerBigDecimal extends NumberWithFallbackType {
 
         private final BigDecimal n;
-        
+
         IntegerBigDecimal(BigDecimal n) {
             this.n = n;
         }
@@ -412,17 +449,17 @@ class OverloadedNumberUtil {
         protected Number getSourceNumber() {
             return n;
         }
-        
+
         public BigInteger bigIntegerValue() {
             return n.toBigInteger();
         }
-        
+
     }
 
     static abstract class LongOrSmallerInteger extends NumberWithFallbackType {
-        
+
         private final Long n;
-        
+
         protected LongOrSmallerInteger(Long n) {
             this.n = n;
         }
@@ -436,12 +473,12 @@ class OverloadedNumberUtil {
         public long longValue() {
             return n;
         }
-        
+
     }
-    
+
     static class LongOrByte extends LongOrSmallerInteger {
-        
-        private final byte w; 
+
+        private final byte w;
 
         LongOrByte(Long n, byte w) {
             super(n);
@@ -452,12 +489,12 @@ class OverloadedNumberUtil {
         public byte byteValue() {
             return w;
         }
-        
+
     }
-    
+
     static class LongOrShort extends LongOrSmallerInteger {
-        
-        private final short w; 
+
+        private final short w;
 
         LongOrShort(Long n, short w) {
             super(n);
@@ -468,12 +505,12 @@ class OverloadedNumberUtil {
         public short shortValue() {
             return w;
         }
-        
+
     }
-    
+
     static class LongOrInteger extends LongOrSmallerInteger {
-        
-        private final int w; 
+
+        private final int w;
 
         LongOrInteger(Long n, int w) {
             super(n);
@@ -484,13 +521,13 @@ class OverloadedNumberUtil {
         public int intValue() {
             return w;
         }
-        
+
     }
-    
+
     static abstract class IntegerOrSmallerInteger extends NumberWithFallbackType {
-        
+
         private final Integer n;
-        
+
         protected IntegerOrSmallerInteger(Integer n) {
             this.n = n;
         }
@@ -504,12 +541,12 @@ class OverloadedNumberUtil {
         public int intValue() {
             return n;
         }
-        
+
     }
-    
+
     static class IntegerOrByte extends IntegerOrSmallerInteger {
-        
-        private final byte w; 
+
+        private final byte w;
 
         IntegerOrByte(Integer n, byte w) {
             super(n);
@@ -520,12 +557,12 @@ class OverloadedNumberUtil {
         public byte byteValue() {
             return w;
         }
-        
+
     }
-    
+
     static class IntegerOrShort extends IntegerOrSmallerInteger {
-        
-        private final short w; 
+
+        private final short w;
 
         IntegerOrShort(Integer n, short w) {
             super(n);
@@ -536,14 +573,14 @@ class OverloadedNumberUtil {
         public short shortValue() {
             return w;
         }
-        
+
     }
-    
+
     static class ShortOrByte extends NumberWithFallbackType {
-        
+
         private final Short n;
         private final byte w;
-        
+
         protected ShortOrByte(Short n, byte w) {
             this.n = n;
             this.w = w;
@@ -563,12 +600,12 @@ class OverloadedNumberUtil {
         public byte byteValue() {
             return w;
         }
-        
+
     }
-    
+
     static abstract class DoubleOrWholeNumber extends NumberWithFallbackType {
-        
-        private final Double n; 
+
+        private final Double n;
 
         protected DoubleOrWholeNumber(Double n) {
             this.n = n;
@@ -578,71 +615,71 @@ class OverloadedNumberUtil {
         protected Number getSourceNumber() {
             return n;
         }
-        
+
         @Override
         public double doubleValue() {
             return n;
         }
-        
+
     }
-    
+
     static final class DoubleOrByte extends DoubleOrWholeNumber {
-        
+
         private final byte w;
 
         DoubleOrByte(Double n, byte w) {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public byte byteValue() {
             return w;
         }
-        
+
         @Override
         public short shortValue() {
             return w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
-    
+
     static final class DoubleOrShort extends DoubleOrWholeNumber {
-        
+
         private final short w;
 
         DoubleOrShort(Double n, short w) {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public short shortValue() {
             return w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
-    
+
     static final class DoubleOrIntegerOrFloat extends DoubleOrWholeNumber {
 
         private final int w;
@@ -651,19 +688,19 @@ class OverloadedNumberUtil {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
-    
+
     static final class DoubleOrInteger extends DoubleOrWholeNumber {
 
         private final int w;
@@ -672,19 +709,19 @@ class OverloadedNumberUtil {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
-    
+
     static final class DoubleOrLong extends DoubleOrWholeNumber {
 
         private final long w;
@@ -693,27 +730,27 @@ class OverloadedNumberUtil {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
-    
+
     static final class DoubleOrFloat extends NumberWithFallbackType {
-        
+
         private final Double n;
 
         DoubleOrFloat(Double n) {
             this.n = n;
         }
-        
+
         @Override
         public float floatValue() {
             return n.floatValue();
         }
-        
+
         @Override
         public double doubleValue() {
             return n;
@@ -723,12 +760,12 @@ class OverloadedNumberUtil {
         protected Number getSourceNumber() {
             return n;
         }
-        
+
     }
 
     static abstract class FloatOrWholeNumber extends NumberWithFallbackType {
-        
-        private final Float n; 
+
+        private final Float n;
 
         FloatOrWholeNumber(Float n) {
             this.n = n;
@@ -738,96 +775,96 @@ class OverloadedNumberUtil {
         protected Number getSourceNumber() {
             return n;
         }
-        
+
         @Override
         public float floatValue() {
             return n;
         }
-        
+
     }
-    
+
     static final class FloatOrByte extends FloatOrWholeNumber {
-        
+
         private final byte w;
 
         FloatOrByte(Float n, byte w) {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public byte byteValue() {
             return w;
         }
-        
+
         @Override
         public short shortValue() {
             return w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
-    
+
     static final class FloatOrShort extends FloatOrWholeNumber {
-        
+
         private final short w;
 
         FloatOrShort(Float n, short w) {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public short shortValue() {
             return w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
 
     static final class FloatOrInteger extends FloatOrWholeNumber {
-        
+
         private final int w;
 
         FloatOrInteger(Float n, int w) {
             super(n);
             this.w = w;
         }
-        
+
         @Override
         public int intValue() {
             return w;
         }
-        
+
         @Override
         public long longValue() {
             return w;
         }
-        
+
     }
 
     abstract static class BigIntegerOrPrimitive extends NumberWithFallbackType {
 
         protected final BigInteger n;
-        
+
         BigIntegerOrPrimitive(BigInteger n) {
             this.n = n;
         }
@@ -836,9 +873,9 @@ class OverloadedNumberUtil {
         protected Number getSourceNumber() {
             return n;
         }
-        
+
     }
-    
+
     final static class BigIntegerOrByte extends BigIntegerOrPrimitive {
 
         BigIntegerOrByte(BigInteger n) {
@@ -846,7 +883,7 @@ class OverloadedNumberUtil {
         }
 
     }
-    
+
     final static class BigIntegerOrShort extends BigIntegerOrPrimitive {
 
         BigIntegerOrShort(BigInteger n) {
@@ -854,7 +891,7 @@ class OverloadedNumberUtil {
         }
 
     }
-    
+
     final static class BigIntegerOrInteger extends BigIntegerOrPrimitive {
 
         BigIntegerOrInteger(BigInteger n) {
@@ -862,7 +899,7 @@ class OverloadedNumberUtil {
         }
 
     }
-    
+
     final static class BigIntegerOrLong extends BigIntegerOrPrimitive {
 
         BigIntegerOrLong(BigInteger n) {
@@ -877,20 +914,24 @@ class OverloadedNumberUtil {
             super(n);
         }
 
-        /** Faster version of {link BigDecimal#floatValue()}, utilizes that the number known to fit into a long. */
+        /**
+         * Faster version of {link BigDecimal#floatValue()}, utilizes that the number known to fit into a long.
+         */
         @Override
         public float floatValue() {
-            return n.longValue(); 
+            return n.longValue();
         }
-        
-        /** Faster version of {link BigDecimal#doubleValue()}, utilizes that the number known to fit into a long. */
+
+        /**
+         * Faster version of {link BigDecimal#doubleValue()}, utilizes that the number known to fit into a long.
+         */
         @Override
         public double doubleValue() {
-            return n.longValue(); 
+            return n.longValue();
         }
 
     }
-    
+
     final static class BigIntegerOrFloat extends BigIntegerOrFPPrimitive {
 
         BigIntegerOrFloat(BigInteger n) {
@@ -898,41 +939,39 @@ class OverloadedNumberUtil {
         }
 
     }
-    
+
     final static class BigIntegerOrDouble extends BigIntegerOrFPPrimitive {
 
         BigIntegerOrDouble(BigInteger n) {
             super(n);
         }
-        
+
     }
-    
+
     /**
      * Returns a non-negative number that indicates how much we want to avoid a given numerical type conversion. Since
      * we only consider the types here, not the actual value, we always consider the worst case scenario. Like it will
      * say that converting int to short is not allowed, although int 1 can be converted to byte without loss. To account
      * for such situations, "Or"-ed types, like {link IntegerOrByte} has to be used.
-     * 
+     *
      * @param fromC the non-primitive type of the argument (with other words, the actual type).
-     *        Must be {link Number} or its subclass. This is possibly an {link NumberWithFallbackType} subclass.
-     * @param toC the <em>non-primitive</em> type of the target parameter (with other words, the format type).
-     *        Must be a {link Number} subclass, not {link Number} itself.
-     *        Must <em>not</em> be {link NumberWithFallbackType} or its subclass.
-     * 
-     * @return
-     *     <p>The possible values are:
-     *     <ul>
-     *       <li>0: No conversion is needed
-     *       <li>[0, 30000): Lossless conversion
-     *       <li>[30000, 40000): Smaller precision loss in mantissa is possible.
-     *       <li>[40000, 50000): Bigger precision loss in mantissa is possible.
-     *       <li>{link Integer#MAX_VALUE}: Conversion not allowed due to the possibility of magnitude loss or
-     *          overflow</li>
-     *     </ul>
-     * 
-     *     <p>At some places, we only care if the conversion is possible, i.e., whether the return value is
-     *     {link Integer#MAX_VALUE} or not. But when multiple overloaded methods have an argument type to which we
-     *     could convert to, this number will influence which of those will be chosen.
+     *              Must be {link Number} or its subclass. This is possibly an {link NumberWithFallbackType} subclass.
+     * @param toC   the <em>non-primitive</em> type of the target parameter (with other words, the format type).
+     *              Must be a {link Number} subclass, not {link Number} itself.
+     *              Must <em>not</em> be {link NumberWithFallbackType} or its subclass.
+     * @return <p>The possible values are:
+     * <ul>
+     * <li>0: No conversion is needed
+     * <li>[0, 30000): Lossless conversion
+     * <li>[30000, 40000): Smaller precision loss in mantissa is possible.
+     * <li>[40000, 50000): Bigger precision loss in mantissa is possible.
+     * <li>{link Integer#MAX_VALUE}: Conversion not allowed due to the possibility of magnitude loss or
+     * overflow</li>
+     * </ul>
+     *
+     * <p>At some places, we only care if the conversion is possible, i.e., whether the return value is
+     * {link Integer#MAX_VALUE} or not. But when multiple overloaded methods have an argument type to which we
+     * could convert to, this number will influence which of those will be chosen.
      */
     static int getArgumentConversionPrice(Class fromC, Class toC) {
         // DO NOT EDIT, generated code!
@@ -1190,7 +1229,7 @@ class OverloadedNumberUtil {
         } else {
             // Unknown toC; we don't know how to convert to it:
             return Integer.MAX_VALUE;
-        }        
+        }
     }
 
     static int compareNumberTypeSpecificity(Class c1, Class c2) {
@@ -1198,9 +1237,9 @@ class OverloadedNumberUtil {
         // See: src\main\misc\overloadedNumberRules\README.txt
         c1 = ClassUtil.primitiveClassToBoxingClass(c1);
         c2 = ClassUtil.primitiveClassToBoxingClass(c2);
-        
+
         if (c1 == c2) return 0;
-        
+
         if (c1 == Integer.class) {
             if (c2 == Long.class) return 4 - 3;
             if (c2 == Double.class) return 7 - 3;

@@ -27,10 +27,10 @@ import java.lang.reflect.InvocationTargetException;
 /**
  */
 class MemberAndArguments extends MaybeEmptyMemberAndArguments {
-    
+
     private final CallableMemberDescriptor callableMemberDesc;
     private final Object[] args;
-    
+
     /**
      * @param args The already unwrapped arguments
      */
@@ -38,14 +38,14 @@ class MemberAndArguments extends MaybeEmptyMemberAndArguments {
         this.callableMemberDesc = memberDesc;
         this.args = args;
     }
-    
+
     /**
      * The already unwrapped arguments.
      */
     Object[] getArgs() {
         return args;
     }
-    
+
     TemplateModel invokeMethod(BeansWrapper bw, Object obj)
             throws TemplateModelException, InvocationTargetException, IllegalAccessException {
         return callableMemberDesc.invokeMethod(bw, obj, args);
@@ -56,9 +56,9 @@ class MemberAndArguments extends MaybeEmptyMemberAndArguments {
             TemplateModelException {
         return callableMemberDesc.invokeConstructor(bw, args);
     }
-    
+
     CallableMemberDescriptor getCallableMemberDescriptor() {
         return callableMemberDesc;
     }
-    
+
 }

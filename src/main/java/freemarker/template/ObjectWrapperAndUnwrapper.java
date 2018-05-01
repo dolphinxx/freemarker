@@ -27,11 +27,11 @@ package freemarker.template;
  * or which was created by another {link ObjectWrapper}. The author of an {link ObjectWrapperAndUnwrapper} should be
  * aware of the {link TemplateModelAdapter} and {link WrapperTemplateModel} interfaces, which should be used for
  * unwrapping if the {link TemplateModel} implements them.
- * 
- * <p>
+ *
+ *
  * <b>Experimental status warning:</b> This interface is subject to change on non-backward compatible ways, hence, it
  * shouldn't be implemented outside FreeMarker yet.
- * 
+ *
  * @since 2.3.22
  */
 public interface ObjectWrapperAndUnwrapper extends ObjectWrapper {
@@ -39,25 +39,22 @@ public interface ObjectWrapperAndUnwrapper extends ObjectWrapper {
     /**
      * Indicates that while the unwrapping is <em>maybe</em> possible, the result surely can't be the instance of the
      * desired class, nor it can be {@code null}.
-     * 
+     * <p>
      * see #tryUnwrapTo(TemplateModel, Class)
-     * 
+     *
      * @since 2.3.22
      */
     Object CANT_UNWRAP_TO_TARGET_CLASS = new Object();
 
     /**
      * Unwraps a {link TemplateModel} to a plain Java object.
-     * 
+     *
      * @return The plain Java object. Can be {@code null}, if {@code null} is the appropriate Java value to represent
-     *         the template model. {@code null} must not be used to indicate an unwrapping failure. It must NOT be
-     *         {link #CANT_UNWRAP_TO_TARGET_CLASS}.
-     * 
-     * @throws TemplateModelException
-     *             If the unwrapping fails from any reason.
-     * 
-     * see #tryUnwrapTo(TemplateModel, Class)
-     * 
+     * the template model. {@code null} must not be used to indicate an unwrapping failure. It must NOT be
+     * {link #CANT_UNWRAP_TO_TARGET_CLASS}.
+     * @throws TemplateModelException If the unwrapping fails from any reason.
+     *                                <p>
+     *                                see #tryUnwrapTo(TemplateModel, Class)
      * @since 2.3.22
      */
     Object unwrap(TemplateModel tm) throws TemplateModelException;
@@ -65,24 +62,19 @@ public interface ObjectWrapperAndUnwrapper extends ObjectWrapper {
     /**
      * Attempts to unwrap a {link TemplateModel} to a plain Java object that's the instance of the given class (or is
      * {@code null}).
-     * 
-     * @param targetClass
-     *            The class that the return value must be an instance of (except when the return value is {@code null}).
-     *            Can't be {@code null}; if the caller doesn't care, it should either use {#unwrap(TemplateModel)}, or
-     *            {@code Object.class} as the parameter value.
      *
+     * @param targetClass The class that the return value must be an instance of (except when the return value is {@code null}).
+     *                    Can't be {@code null}; if the caller doesn't care, it should either use {#unwrap(TemplateModel)}, or
+     *                    {@code Object.class} as the parameter value.
      * @return The unwrapped value that's either an instance of {@code targetClass}, or is {@code null} (if {@code null}
-     *         is the appropriate Java value to represent the template model), or is
-     *         {link #CANT_UNWRAP_TO_TARGET_CLASS} if the unwrapping can't satisfy the {@code targetClass} (nor the
-     *         result can be {@code null}). However, {link #CANT_UNWRAP_TO_TARGET_CLASS} must not be returned if the
-     *         {@code targetClass} parameter was {@code Object.class}.
-     * 
-     * @throws TemplateModelException
-     *             If the unwrapping fails for a reason than doesn't fit the meaning of the
-     *             {link #CANT_UNWRAP_TO_TARGET_CLASS} return value.
-     * 
-     * see #unwrap(TemplateModel)
-     * 
+     * is the appropriate Java value to represent the template model), or is
+     * {link #CANT_UNWRAP_TO_TARGET_CLASS} if the unwrapping can't satisfy the {@code targetClass} (nor the
+     * result can be {@code null}). However, {link #CANT_UNWRAP_TO_TARGET_CLASS} must not be returned if the
+     * {@code targetClass} parameter was {@code Object.class}.
+     * @throws TemplateModelException If the unwrapping fails for a reason than doesn't fit the meaning of the
+     *                                {link #CANT_UNWRAP_TO_TARGET_CLASS} return value.
+     *                                <p>
+     *                                see #unwrap(TemplateModel)
      * @since 2.3.22
      */
     Object tryUnwrapTo(TemplateModel tm, Class<?> targetClass) throws TemplateModelException;

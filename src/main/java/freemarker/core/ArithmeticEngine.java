@@ -31,7 +31,7 @@ import java.util.Map;
 
 /**
  * Used for implementing the arithmetic operations and number comparisons in the template language. The concrete
- * implementation is plugged into the configuration with the {@code arithmetical_engine} setting. 
+ * implementation is plugged into the configuration with the {@code arithmetical_engine} setting.
  * (See {link Configurable#setArithmeticEngine(ArithmeticEngine)}.)
  */
 public abstract class ArithmeticEngine {
@@ -50,19 +50,24 @@ public abstract class ArithmeticEngine {
     public static final ConservativeEngine CONSERVATIVE_ENGINE = new ConservativeEngine();
 
     public abstract int compareNumbers(Number first, Number second) throws TemplateException;
+
     public abstract Number add(Number first, Number second) throws TemplateException;
+
     public abstract Number subtract(Number first, Number second) throws TemplateException;
+
     public abstract Number multiply(Number first, Number second) throws TemplateException;
+
     public abstract Number divide(Number first, Number second) throws TemplateException;
+
     public abstract Number modulus(Number first, Number second) throws TemplateException;
-    
+
     /**
      * Should be able to parse all FTL numerical literals, Java Double toString results, and XML Schema numbers.
      * This means these should be parsed successfully, except if the arithmetical engine
      * couldn't support the resulting value anyway (such as NaN, infinite, even non-integers):
      * {@code -123.45}, {@code 1.5e3}, {@code 1.5E3}, {@code 0005}, {@code +0}, {@code -0}, {@code NaN},
-     * {@code INF}, {@code -INF}, {@code Infinity}, {@code -Infinity}. 
-     */    
+     * {@code INF}, {@code -INF}, {@code Infinity}, {@code -Infinity}.
+     */
     public abstract Number toNumber(String s);
 
     protected int minScale = 12;
@@ -79,9 +84,9 @@ public abstract class ArithmeticEngine {
         }
         this.minScale = minScale;
     }
-    
+
     /**
-     * Sets the maximal scale to use when multiplying BigDecimal numbers. 
+     * Sets the maximal scale to use when multiplying BigDecimal numbers.
      * Default value is 100.
      */
     public void setMaxScale(int maxScale) {
@@ -93,16 +98,16 @@ public abstract class ArithmeticEngine {
 
     public void setRoundingPolicy(int roundingPolicy) {
         if (roundingPolicy != BigDecimal.ROUND_CEILING
-            && roundingPolicy != BigDecimal.ROUND_DOWN
-            && roundingPolicy != BigDecimal.ROUND_FLOOR
-            && roundingPolicy != BigDecimal.ROUND_HALF_DOWN
-            && roundingPolicy != BigDecimal.ROUND_HALF_EVEN
-            && roundingPolicy != BigDecimal.ROUND_HALF_UP
-            && roundingPolicy != BigDecimal.ROUND_UNNECESSARY
-            && roundingPolicy != BigDecimal.ROUND_UP) {
-            throw new IllegalArgumentException("invalid rounding policy");        
+                && roundingPolicy != BigDecimal.ROUND_DOWN
+                && roundingPolicy != BigDecimal.ROUND_FLOOR
+                && roundingPolicy != BigDecimal.ROUND_HALF_DOWN
+                && roundingPolicy != BigDecimal.ROUND_HALF_EVEN
+                && roundingPolicy != BigDecimal.ROUND_HALF_UP
+                && roundingPolicy != BigDecimal.ROUND_UNNECESSARY
+                && roundingPolicy != BigDecimal.ROUND_UP) {
+            throw new IllegalArgumentException("invalid rounding policy");
         }
-        
+
         this.roundingPolicy = roundingPolicy;
     }
 
@@ -112,16 +117,16 @@ public abstract class ArithmeticEngine {
      * converted {link BigDecimal}s.
      */
     public static class BigDecimalEngine extends ArithmeticEngine {
-        
+
         @Override
         public int compareNumbers(Number first, Number second) {
             // We try to find the result based on the sign (+/-/0) first, because:
             // - It's much faster than converting to BigDecial, and comparing to 0 is the most common comparison.
             // - It doesn't require any type conversions, and thus things like "Infinity > 0" won't fail.
-            int firstSignum = NumberUtil.getSignum(first); 
+            int firstSignum = NumberUtil.getSignum(first);
             int secondSignum = NumberUtil.getSignum(second);
             if (firstSignum != secondSignum) {
-                return firstSignum < secondSignum ? -1 : (firstSignum > secondSignum ? 1 : 0); 
+                return firstSignum < secondSignum ? -1 : (firstSignum > secondSignum ? 1 : 0);
             } else if (firstSignum == 0 && secondSignum == 0) {
                 return 0;
             } else {
@@ -133,7 +138,7 @@ public abstract class ArithmeticEngine {
                     if (first instanceof BigDecimal) {
                         return ((BigDecimal) first).compareTo((BigDecimal) second);
                     }
-                    
+
                     if (first instanceof Integer) {
                         return ((Integer) first).compareTo((Integer) second);
                     }
@@ -154,13 +159,13 @@ public abstract class ArithmeticEngine {
                     }
                 }
                 // We are going to compare values of two different types.
-                
+
                 // Handle infinity before we try conversion to BigDecimal, as that BigDecimal can't represent that:
                 if (first instanceof Double) {
                     double firstD = first.doubleValue();
                     if (Double.isInfinite(firstD)) {
                         if (NumberUtil.hasTypeThatIsKnownToNotSupportInfiniteAndNaN(second)) {
-                            return  firstD == Double.NEGATIVE_INFINITY ? -1 : 1;
+                            return firstD == Double.NEGATIVE_INFINITY ? -1 : 1;
                         }
                         if (second instanceof Float) {
                             return Double.compare(firstD, second.doubleValue());
@@ -200,25 +205,25 @@ public abstract class ArithmeticEngine {
                         }
                     }
                 }
-                
+
                 return toBigDecimal(first).compareTo(toBigDecimal(second));
             }
         }
-    
+
         @Override
         public Number add(Number first, Number second) {
             BigDecimal left = toBigDecimal(first);
             BigDecimal right = toBigDecimal(second);
             return left.add(right);
         }
-    
+
         @Override
         public Number subtract(Number first, Number second) {
             BigDecimal left = toBigDecimal(first);
             BigDecimal right = toBigDecimal(second);
             return left.subtract(right);
         }
-    
+
         @Override
         public Number multiply(Number first, Number second) {
             BigDecimal left = toBigDecimal(first);
@@ -229,26 +234,26 @@ public abstract class ArithmeticEngine {
             }
             return result;
         }
-    
+
         @Override
         public Number divide(Number first, Number second) {
             BigDecimal left = toBigDecimal(first);
             BigDecimal right = toBigDecimal(second);
             return divide(left, right);
         }
-    
+
         @Override
         public Number modulus(Number first, Number second) {
             long left = first.longValue();
             long right = second.longValue();
             return left % right;
         }
-    
+
         @Override
         public Number toNumber(String s) {
             return toBigDecimalOrDouble(s);
         }
-        
+
         private BigDecimal divide(BigDecimal left, BigDecimal right) {
             int scale1 = left.scale();
             int scale2 = right.scale();
@@ -260,18 +265,18 @@ public abstract class ArithmeticEngine {
 
     /**
      * An arithmetic engine that conservatively widens the operation arguments
-     * to extent that they can hold the result of the operation. Widening 
+     * to extent that they can hold the result of the operation. Widening
      * conversions occur in following situations:
      * <ul>
      * <li>byte and short are always widened to int (alike to Java language).</li>
-     * <li>To preserve magnitude: when operands are of different types, the 
+     * <li>To preserve magnitude: when operands are of different types, the
      * result type is the type of the wider operand.</li>
      * <li>to avoid overflows: if add, subtract, or multiply would overflow on
-     * integer types, the result is widened from int to long, or from long to 
+     * integer types, the result is widened from int to long, or from long to
      * BigInteger.</li>
-     * <li>to preserve fractional part: if a division of integer types would 
-     * have a fractional part, int and long are converted to double, and 
-     * BigInteger is converted to BigDecimal. An operation on a float and a 
+     * <li>to preserve fractional part: if a division of integer types would
+     * have a fractional part, int and long are converted to double, and
+     * BigInteger is converted to BigDecimal. An operation on a float and a
      * long results in a double. An operation on a float or double and a
      * BigInteger results in a BigDecimal.</li>
      * </ul>
@@ -283,31 +288,31 @@ public abstract class ArithmeticEngine {
         private static final int DOUBLE = 3;
         private static final int BIGINTEGER = 4;
         private static final int BIGDECIMAL = 5;
-        
+
         private static final Map classCodes = createClassCodesMap();
-        
+
         @Override
         public int compareNumbers(Number first, Number second) throws TemplateException {
-            switch(getCommonClassCode(first, second)) {
+            switch (getCommonClassCode(first, second)) {
                 case INTEGER: {
                     int n1 = first.intValue();
                     int n2 = second.intValue();
-                    return  n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
+                    return n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
                 }
                 case LONG: {
                     long n1 = first.longValue();
                     long n2 = second.longValue();
-                    return  n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
+                    return n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
                 }
                 case FLOAT: {
                     float n1 = first.floatValue();
                     float n2 = second.floatValue();
-                    return  n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
+                    return n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
                 }
                 case DOUBLE: {
                     double n1 = first.doubleValue();
                     double n2 = second.doubleValue();
-                    return  n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
+                    return n1 < n2 ? -1 : (n1 == n2 ? 0 : 1);
                 }
                 case BIGINTEGER: {
                     BigInteger n1 = toBigInteger(first);
@@ -324,27 +329,27 @@ public abstract class ArithmeticEngine {
             // return only above codes, or throw an exception.
             throw new Error();
         }
-    
+
         @Override
         public Number add(Number first, Number second) throws TemplateException {
-            switch(getCommonClassCode(first, second)) {
+            switch (getCommonClassCode(first, second)) {
                 case INTEGER: {
                     int n1 = first.intValue();
                     int n2 = second.intValue();
                     int n = n1 + n2;
                     return
-                        ((n ^ n1) < 0 && (n ^ n2) < 0) // overflow check
-                        ? Long.valueOf(((long) n1) + n2)
-                        : Integer.valueOf(n);
+                            ((n ^ n1) < 0 && (n ^ n2) < 0) // overflow check
+                                    ? Long.valueOf(((long) n1) + n2)
+                                    : Integer.valueOf(n);
                 }
                 case LONG: {
                     long n1 = first.longValue();
                     long n2 = second.longValue();
                     long n = n1 + n2;
                     return
-                        ((n ^ n1) < 0 && (n ^ n2) < 0) // overflow check
-                        ? toBigInteger(first).add(toBigInteger(second))
-                        : Long.valueOf(n);
+                            ((n ^ n1) < 0 && (n ^ n2) < 0) // overflow check
+                                    ? toBigInteger(first).add(toBigInteger(second))
+                                    : Long.valueOf(n);
                 }
                 case FLOAT: {
                     return first.floatValue() + second.floatValue();
@@ -367,27 +372,27 @@ public abstract class ArithmeticEngine {
             // return only above codes, or throw an exception.
             throw new Error();
         }
-    
+
         @Override
         public Number subtract(Number first, Number second) throws TemplateException {
-            switch(getCommonClassCode(first, second)) {
+            switch (getCommonClassCode(first, second)) {
                 case INTEGER: {
                     int n1 = first.intValue();
                     int n2 = second.intValue();
                     int n = n1 - n2;
                     return
-                        ((n ^ n1) < 0 && (n ^ ~n2) < 0) // overflow check
-                        ? Long.valueOf(((long) n1) - n2)
-                        : Integer.valueOf(n);
+                            ((n ^ n1) < 0 && (n ^ ~n2) < 0) // overflow check
+                                    ? Long.valueOf(((long) n1) - n2)
+                                    : Integer.valueOf(n);
                 }
                 case LONG: {
                     long n1 = first.longValue();
                     long n2 = second.longValue();
                     long n = n1 - n2;
                     return
-                        ((n ^ n1) < 0 && (n ^ ~n2) < 0) // overflow check
-                        ? toBigInteger(first).subtract(toBigInteger(second))
-                        : Long.valueOf(n);
+                            ((n ^ n1) < 0 && (n ^ ~n2) < 0) // overflow check
+                                    ? toBigInteger(first).subtract(toBigInteger(second))
+                                    : Long.valueOf(n);
                 }
                 case FLOAT: {
                     return first.floatValue() - second.floatValue();
@@ -410,27 +415,27 @@ public abstract class ArithmeticEngine {
             // return only above codes, or throw an exception.
             throw new Error();
         }
-    
+
         @Override
         public Number multiply(Number first, Number second) throws TemplateException {
-            switch(getCommonClassCode(first, second)) {
+            switch (getCommonClassCode(first, second)) {
                 case INTEGER: {
                     int n1 = first.intValue();
                     int n2 = second.intValue();
                     int n = n1 * n2;
                     return
-                        n1 == 0 || n / n1 == n2 // overflow check
-                        ? Integer.valueOf(n)
-                        : Long.valueOf(((long) n1) * n2);
+                            n1 == 0 || n / n1 == n2 // overflow check
+                                    ? Integer.valueOf(n)
+                                    : Long.valueOf(((long) n1) * n2);
                 }
                 case LONG: {
                     long n1 = first.longValue();
                     long n2 = second.longValue();
                     long n = n1 * n2;
                     return
-                        n1 == 0L || n / n1 == n2 // overflow check
-                        ? Long.valueOf(n)
-                        : toBigInteger(first).multiply(toBigInteger(second));
+                            n1 == 0L || n / n1 == n2 // overflow check
+                                    ? Long.valueOf(n)
+                                    : toBigInteger(first).multiply(toBigInteger(second));
                 }
                 case FLOAT: {
                     return first.floatValue() * second.floatValue();
@@ -454,10 +459,10 @@ public abstract class ArithmeticEngine {
             // return only above codes, or throw an exception.
             throw new Error();
         }
-    
+
         @Override
         public Number divide(Number first, Number second) throws TemplateException {
-            switch(getCommonClassCode(first, second)) {
+            switch (getCommonClassCode(first, second)) {
                 case INTEGER: {
                     int n1 = first.intValue();
                     int n2 = second.intValue();
@@ -506,10 +511,10 @@ public abstract class ArithmeticEngine {
             // return only above codes, or throw an exception.
             throw new Error();
         }
-    
+
         @Override
         public Number modulus(Number first, Number second) throws TemplateException {
-            switch(getCommonClassCode(first, second)) {
+            switch (getCommonClassCode(first, second)) {
                 case INTEGER: {
                     return first.intValue() % second.intValue();
                 }
@@ -535,13 +540,13 @@ public abstract class ArithmeticEngine {
             // return only above codes, or throw an exception.
             throw new BugException();
         }
-    
+
         @Override
         public Number toNumber(String s) {
             Number n = toBigDecimalOrDouble(s);
             return n instanceof BigDecimal ? OptimizerUtil.optimizeNumberRepresentation(n) : n;
         }
-        
+
         private static Map createClassCodesMap() {
             Map map = new HashMap(17);
             Integer intcode = INTEGER;
@@ -555,7 +560,7 @@ public abstract class ArithmeticEngine {
             map.put(BigDecimal.class, BIGDECIMAL);
             return map;
         }
-        
+
         private static int getClassCode(Number num) throws TemplateException {
             try {
                 return (Integer) classCodes.get(num.getClass());
@@ -567,7 +572,7 @@ public abstract class ArithmeticEngine {
                 }
             }
         }
-        
+
         private static int getCommonClassCode(Number num1, Number num2) throws TemplateException {
             int c1 = getClassCode(num1);
             int c2 = getClassCode(num2);
@@ -576,7 +581,7 @@ public abstract class ArithmeticEngine {
             // BigDecimal instead of BigInteger in order not to lose the 
             // fractional parts. If Float is combined with Long, the result is a
             // Double instead of Float to preserve the bigger bit width.
-            switch(c) {
+            switch (c) {
                 case FLOAT: {
                     if ((c1 < c2 ? c1 : c2) == LONG) {
                         return DOUBLE;
@@ -593,7 +598,7 @@ public abstract class ArithmeticEngine {
             }
             return c;
         }
-        
+
         private static BigInteger toBigInteger(Number num) {
             return num instanceof BigInteger ? (BigInteger) num : new BigInteger(num.toString());
         }
@@ -601,9 +606,8 @@ public abstract class ArithmeticEngine {
 
     /**
      * Convert a {@code Number} to {link BigDecimal}.
-     * 
-     * @throws NumberFormatException
-     *             If the conversion is not possible, e.g. Infinite and NaN can't be converted to {link BigDecimal}.
+     *
+     * @throws NumberFormatException If the conversion is not possible, e.g. Infinite and NaN can't be converted to {link BigDecimal}.
      */
     private static BigDecimal toBigDecimal(Number num) {
         if (num instanceof BigDecimal) {
@@ -630,7 +634,7 @@ public abstract class ArithmeticEngine {
             throw new NumberFormatException("Can't parse this as BigDecimal number: " + StringUtil.jQuote(num));
         }
     }
-    
+
     private static Number toBigDecimalOrDouble(String s) {
         if (s.length() > 2) {
             char c = s.charAt(0);
@@ -644,5 +648,5 @@ public abstract class ArithmeticEngine {
         }
         return new BigDecimal(s);
     }
-    
+
 }

@@ -31,13 +31,13 @@ import java.util.Date;
  * Java {link DateFormat}-based format.
  */
 class JavaTemplateDateFormat extends TemplateDateFormat {
-    
+
     private final DateFormat javaDateFormat;
 
     public JavaTemplateDateFormat(DateFormat javaDateFormat) {
         this.javaDateFormat = javaDateFormat;
     }
-    
+
     @Override
     public String formatToPlainText(TemplateDateModel dateModel) throws TemplateModelException {
         return javaDateFormat.format(TemplateFormatUtil.getNonNullDate(dateModel));
@@ -68,5 +68,5 @@ class JavaTemplateDateFormat extends TemplateDateFormat {
     public boolean isTimeZoneBound() {
         return true;
     }
-    
+
 }

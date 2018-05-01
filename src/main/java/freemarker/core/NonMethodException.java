@@ -24,13 +24,13 @@ import freemarker.template.TemplateModel;
 
 /**
  * Indicates that a {link TemplateMethodModel} value was expected, but the value had a different type.
- * 
+ *
  * @since 2.3.21
  */
 public class NonMethodException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateMethodModel.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateMethodModel.class};
+
     public NonMethodException(Environment env) {
         super(env, "Expecting method value here");
     }
@@ -59,6 +59,6 @@ public class NonMethodException extends UnexpectedTypeException {
     NonMethodException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "method", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

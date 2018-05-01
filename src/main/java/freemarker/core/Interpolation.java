@@ -28,14 +28,14 @@ abstract class Interpolation extends TemplateElement {
     protected final String dump(boolean canonical) {
         return dump(canonical, false);
     }
-    
+
     final String getCanonicalFormInStringLiteral() {
         return dump(true, true);
     }
 
     /**
      * Returns the already type-converted value that this interpolation will insert into the output.
-     * 
+     *
      * @return A {link String} or {link TemplateMarkupOutputModel}. Not {@code null}.
      */
     protected abstract Object calculateInterpolatedStringOrMarkup(Environment env) throws TemplateException;
@@ -44,5 +44,5 @@ abstract class Interpolation extends TemplateElement {
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

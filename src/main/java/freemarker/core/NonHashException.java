@@ -24,13 +24,13 @@ import freemarker.template.TemplateModel;
 
 /**
  * Indicates that a {link TemplateHashModel} value was expected, but the value had a different type.
- * 
+ *
  * @since 2.3.21
  */
 public class NonHashException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateHashModel.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateHashModel.class};
+
     public NonHashException(Environment env) {
         super(env, "Expecting hash value here");
     }
@@ -59,6 +59,6 @@ public class NonHashException extends UnexpectedTypeException {
     NonHashException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "hash", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

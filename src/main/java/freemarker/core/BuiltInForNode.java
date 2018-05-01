@@ -35,6 +35,7 @@ abstract class BuiltInForNode extends BuiltIn {
             throw new NonNodeException(target, model, env);
         }
     }
+
     abstract TemplateModel calculateResult(TemplateNodeModel nodeModel, Environment env)
             throws TemplateModelException;
 }

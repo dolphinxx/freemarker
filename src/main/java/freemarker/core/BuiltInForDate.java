@@ -38,11 +38,13 @@ abstract class BuiltInForDate extends BuiltIn {
         }
     }
 
-    /** Override this to implement the built-in. */
+    /**
+     * Override this to implement the built-in.
+     */
     protected abstract TemplateModel calculateResult(
             Date date, int dateType, Environment env)
-    throws TemplateException;
-    
+            throws TemplateException;
+
     static TemplateException newNonDateException(Environment env, TemplateModel model, Expression target)
             throws InvalidReferenceException {
         TemplateException e;
@@ -53,5 +55,5 @@ abstract class BuiltInForDate extends BuiltIn {
         }
         return e;
     }
-    
+
 }

@@ -36,7 +36,7 @@ class BuiltInsForStringsMisc {
 
     static class booleanBI extends BuiltInForString {
         @Override
-        TemplateModel calculateResult(String s, Environment env)  throws TemplateException {
+        TemplateModel calculateResult(String s, Environment env) throws TemplateException {
             final boolean b;
             if (s.equals("true")) {
                 b = true;
@@ -55,20 +55,20 @@ class BuiltInsForStringsMisc {
     }
 
     static class evalBI extends OutputFormatBoundBuiltIn {
-        
+
         @Override
         protected TemplateModel calculateResult(Environment env) throws TemplateException {
             return calculateResult(BuiltInForString.getTargetString(target, env), env);
         }
-        
+
         TemplateModel calculateResult(String s, Environment env) throws TemplateException {
             Template parentTemplate = getTemplate();
-            
+
             Expression exp = null;
             try {
                 try {
                     ParserConfiguration pCfg = parentTemplate.getParserConfiguration();
-                    
+
                     SimpleCharStream simpleCharStream = new SimpleCharStream(
                             new StringReader("(" + s + ")"),
                             RUNTIME_EVAL_LINE_DISPLACEMENT, 1,
@@ -83,10 +83,10 @@ class BuiltInsForStringsMisc {
                         pCfg = new _ParserConfigurationWithInheritedFormat(
                                 pCfg, outputFormat, autoEscapingPolicy);
                     }
-                    
+
                     FMParser parser = new FMParser(
                             parentTemplate, false, tkMan, pCfg);
-                    
+
                     exp = parser.Expression();
                 } catch (TokenMgrError e) {
                     throw e.toParseException(parentTemplate);
@@ -110,12 +110,12 @@ class BuiltInsForStringsMisc {
                         "\n\nThe failing expression:");
             }
         }
-        
+
     }
 
     static class numberBI extends BuiltInForString {
         @Override
-        TemplateModel calculateResult(String s, Environment env)  throws TemplateException {
+        TemplateModel calculateResult(String s, Environment env) throws TemplateException {
             try {
                 return new SimpleNumber(env.getArithmeticEngine().toNumber(s));
             } catch (NumberFormatException nfe) {
@@ -123,13 +123,13 @@ class BuiltInsForStringsMisc {
             }
         }
     }
-    
+
     static class absolute_template_nameBI extends BuiltInForString {
         @Override
-        TemplateModel calculateResult(String s, Environment env)  throws TemplateException {
+        TemplateModel calculateResult(String s, Environment env) throws TemplateException {
             return new AbsoluteTemplateNameResult(s, env);
         }
-        
+
         private class AbsoluteTemplateNameResult implements TemplateScalarModel, TemplateMethodModelEx {
             private final String pathToResolve;
             private final Environment env;
@@ -161,12 +161,13 @@ class BuiltInsForStringsMisc {
                             "; see cause exception");
                 }
             }
-            
+
         }
-        
+
     }
 
     // Can't be instantiated
-    private BuiltInsForStringsMisc() { }
-    
+    private BuiltInsForStringsMisc() {
+    }
+
 }

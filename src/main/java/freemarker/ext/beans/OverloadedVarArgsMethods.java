@@ -36,7 +36,7 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
     OverloadedVarArgsMethods(boolean bugfixed) {
         super(bugfixed);
     }
-    
+
     /**
      * Replaces the last parameter type with the array component type of it.
      */
@@ -65,10 +65,10 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
         // But we can't do that for real, because we had to add infinite number of methods. Also, for efficiency we
         // don't want to create unwrappingHintsByParamCount entries at the indices which are still unused.
         // So we only update the already existing hints. Remember that we already have m(t1, t2) there.
-        
+
         final int paramCount = paramTypes.length;
         final Class[][] unwrappingHintsByParamCount = getUnwrappingHintsByParamCount();
-        
+
         // The case of e(t1, t2), e(t1, t2, t2), e(t1, t2, t2, t2), ..., where e is an *earlierly* added method.
         // When that was added, this method wasn't added yet, so it had no chance updating the hints of this method,
         // so we do that now:
@@ -95,7 +95,7 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
                         oneLongerHints, getTypeFlags(paramCount + 1));
             }
         }
-        
+
         // The case of m(t1, t2, t2), m(t1, t2, t2, t2), ..., where m is the currently added method.
         // Update the longer hints-arrays:  
         for (int i = paramCount + 1; i < unwrappingHintsByParamCount.length; i++) {
@@ -110,16 +110,16 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
                     paramCount - 1,
                     paramTypes, paramNumericalTypes);
         }
-        
+
     }
-    
+
     private void widenHintsToCommonSupertypes(
             int paramCountOfWidened, Class[] wideningTypes, int[] wideningTypeFlags) {
         final Class[] typesToWiden = getUnwrappingHintsByParamCount()[paramCountOfWidened];
-        if (typesToWiden == null) { 
+        if (typesToWiden == null) {
             return;  // no such overload exists; nothing to widen
         }
-        
+
         final int typesToWidenLen = typesToWiden.length;
         final int wideningTypesLen = wideningTypes.length;
         int min = Math.min(wideningTypesLen, typesToWidenLen);
@@ -132,15 +132,15 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
                 typesToWiden[i] = getCommonSupertypeForUnwrappingHint(typesToWiden[i], varargsComponentType);
             }
         }
-        
+
         if (bugfixed) {
             mergeInTypesFlags(paramCountOfWidened, wideningTypeFlags);
         }
     }
-    
+
     @Override
-    MaybeEmptyMemberAndArguments getMemberAndArguments(List tmArgs, BeansWrapper unwrapper) 
-    throws TemplateModelException {
+    MaybeEmptyMemberAndArguments getMemberAndArguments(List tmArgs, BeansWrapper unwrapper)
+            throws TemplateModelException {
         if (tmArgs == null) {
             // null is treated as empty args
             tmArgs = Collections.EMPTY_LIST;
@@ -151,7 +151,8 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
         int[] typesFlags = null;
         // Going down starting from methods with args.length + 1 parameters, because we must try to match against a case
         // where all specified args are fixargs, and we have 0 varargs.
-        outer: for (int paramCount = Math.min(argsLen + 1, unwrappingHintsByParamCount.length - 1); paramCount >= 0; --paramCount) {
+        outer:
+        for (int paramCount = Math.min(argsLen + 1, unwrappingHintsByParamCount.length - 1); paramCount >= 0; --paramCount) {
             Class[] unwarappingHints = unwrappingHintsByParamCount[paramCount];
             if (unwarappingHints == null) {
                 if (paramCount == 0) {
@@ -159,12 +160,12 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
                 }
                 continue;
             }
-            
+
             typesFlags = getTypeFlags(paramCount);
             if (typesFlags == ALL_ZEROS_ARRAY) {
                 typesFlags = null;
             }
-            
+
             // Try to unwrap the arguments
             Iterator it = tmArgs.iterator();
             for (int i = 0; i < argsLen; ++i) {
@@ -180,7 +181,7 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
             }
             break outer;
         }
-        
+
         MaybeEmptyCallableMemberDescriptor maybeEmtpyMemberDesc = getMemberDescriptorForArgs(pojoArgs, true);
         if (maybeEmtpyMemberDesc instanceof CallableMemberDescriptor) {
             CallableMemberDescriptor memberDesc = (CallableMemberDescriptor) maybeEmtpyMemberDesc;
@@ -206,21 +207,21 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
             return EmptyMemberAndArguments.from((EmptyCallableMemberDescriptor) maybeEmtpyMemberDesc, pojoArgs);
         }
     }
-    
+
     /**
      * Converts a flat argument list to one where the last argument is an array that collects the varargs, also
      * re-unwraps the varargs to the component type. Note that this couldn't be done until we had the concrete
      * member selected.
-     * 
+     *
      * @return An {@code Object[]} if everything went well, or an {@code Integer} the
-     *    order (1-based index) of the argument that couldn't be unwrapped. 
+     * order (1-based index) of the argument that couldn't be unwrapped.
      */
     private Object replaceVarargsSectionWithArray(
-            Object[] args, List modelArgs, CallableMemberDescriptor memberDesc, BeansWrapper unwrapper) 
-    throws TemplateModelException {
+            Object[] args, List modelArgs, CallableMemberDescriptor memberDesc, BeansWrapper unwrapper)
+            throws TemplateModelException {
         final Class[] paramTypes = memberDesc.getParamTypes();
         final int paramCount = paramTypes.length;
-        final Class varArgsCompType = paramTypes[paramCount - 1].getComponentType(); 
+        final Class varArgsCompType = paramTypes[paramCount - 1].getComponentType();
         final int totalArgCount = args.length;
         final int fixArgCount = paramCount - 1;
         if (args.length != paramCount) {
@@ -247,5 +248,5 @@ class OverloadedVarArgsMethods extends OverloadedMethodsSubset {
             return args;
         }
     }
-    
+
 }

@@ -30,7 +30,7 @@ abstract class BuiltInForNumber extends BuiltIn {
         TemplateModel model = target.eval(env);
         return calculateResult(target.modelToNumber(model, env), model);
     }
-    
+
     abstract TemplateModel calculateResult(Number num, TemplateModel model)
-    throws TemplateModelException;
+            throws TemplateModelException;
 }

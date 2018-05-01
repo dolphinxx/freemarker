@@ -25,10 +25,10 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 /**
- * This exception is thrown when a <tt>#stop</tt> directive is encountered. 
+ * This exception is thrown when a <tt>#stop</tt> directive is encountered.
  */
 public class StopException extends TemplateException {
-    
+
     StopException(Environment env) {
         super(env);
     }
@@ -60,7 +60,7 @@ public class StopException extends TemplateException {
             super.printStackTrace(ps);
         }
     }
-    
+
 }
 
 

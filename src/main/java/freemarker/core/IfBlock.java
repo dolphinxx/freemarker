@@ -21,8 +21,6 @@ package freemarker.core;
 
 import freemarker.template.TemplateException;
 
-import java.io.IOException;
-
 /**
  * Container for a group of related #if, #elseif and #else elements.
  * Each such block is a nested {link ConditionalBlock}. Note that if an #if has no #else or #elseif,
@@ -41,7 +39,7 @@ final class IfBlock extends TemplateElement {
 
     @Override
     TemplateElement[] accept(Environment env) throws TemplateException {
-        int ln  = getChildCount();
+        int ln = getChildCount();
         for (int i = 0; i < ln; i++) {
             ConditionalBlock cblock = (ConditionalBlock) getChild(i);
             Expression condition = cblock.condition;
@@ -55,7 +53,7 @@ final class IfBlock extends TemplateElement {
 
     @Override
     TemplateElement postParseCleanup(boolean stripWhitespace)
-        throws ParseException {
+            throws ParseException {
         if (getChildCount() == 1) {
             ConditionalBlock cblock = (ConditionalBlock) getChild(0);
             cblock.setLocation(getTemplate(), cblock, this);
@@ -64,7 +62,7 @@ final class IfBlock extends TemplateElement {
             return super.postParseCleanup(stripWhitespace);
         }
     }
-    
+
     @Override
     protected String dump(boolean canonical) {
         if (canonical) {
@@ -80,12 +78,12 @@ final class IfBlock extends TemplateElement {
             return getNodeTypeSymbol();
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#if-#elseif-#else-container";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -105,5 +103,5 @@ final class IfBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

@@ -19,17 +19,14 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
 /**
- * Encapsulates an array of <tt>TemplateElement</tt> objects. 
+ * Encapsulates an array of <tt>TemplateElement</tt> objects.
  */
 final class MixedContent extends TemplateElement {
 
-    MixedContent() { }
-    
+    MixedContent() {
+    }
+
     /**
      * @deprecated Use {link #addChild(TemplateElement)} instead.
      */
@@ -45,10 +42,10 @@ final class MixedContent extends TemplateElement {
     void addElement(int index, TemplateElement element) {
         addChild(index, element);
     }
-    
+
     @Override
     TemplateElement postParseCleanup(boolean stripWhitespace)
-        throws ParseException {
+            throws ParseException {
         super.postParseCleanup(stripWhitespace);
         return getChildCount() == 1 ? getChild(0) : this;
     }
@@ -89,7 +86,7 @@ final class MixedContent extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#mixed_content";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -104,7 +101,7 @@ final class MixedContent extends TemplateElement {
     ParameterRole getParameterRole(int idx) {
         throw new IndexOutOfBoundsException();
     }
-    
+
     @Override
     boolean isIgnorable(boolean stripWhitespace) {
         return getChildCount() == 0;

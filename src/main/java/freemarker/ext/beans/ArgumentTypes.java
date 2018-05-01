@@ -34,7 +34,7 @@ import java.util.List;
  * The argument types of a method call; usable as cache key.
  */
 final class ArgumentTypes {
-    
+
     /**
      * Conversion difficulty: Lowest; Java Reflection will do it automatically.
      */
@@ -44,23 +44,23 @@ final class ArgumentTypes {
      * Conversion difficulty: Java reflection API will won't convert it, FreeMarker has to do it.
      */
     private static final int CONVERSION_DIFFICULTY_FREEMARKER = 1;
-    
+
     /**
      * Conversion difficulty: Highest; conversion is not possible.
      */
     private static final int CONVERSION_DIFFICULTY_IMPOSSIBLE = 2;
 
     /**
-     * The types of the arguments; for varags this contains the exploded list (not the array). 
+     * The types of the arguments; for varags this contains the exploded list (not the array).
      */
     private final Class<?>[] types;
-    
+
     private final boolean bugfixed;
-    
+
     /**
-     * @param args The actual arguments. A varargs argument should be present exploded, no as an array.
+     * @param args     The actual arguments. A varargs argument should be present exploded, no as an array.
      * @param bugfixed Introduced in 2.3.21, sets this object to a mode that works well with {link BeansWrapper}-s
-     *      created with {link Version} 2.3.21 or higher.
+     *                 created with {link Version} 2.3.21 or higher.
      */
     ArgumentTypes(Object[] args, boolean bugfixed) {
         int ln = args.length;
@@ -71,12 +71,12 @@ final class ArgumentTypes {
                     ? (bugfixed ? Null.class : Object.class)
                     : arg.getClass();
         }
-        
+
         // `typesTmp` is used so the array is only modified before it's stored in the final `types` field (see JSR-133)
-        types = typesTmp;  
+        types = typesTmp;
         this.bugfixed = bugfixed;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -85,7 +85,7 @@ final class ArgumentTypes {
         }
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof ArgumentTypes) {
@@ -102,10 +102,10 @@ final class ArgumentTypes {
         }
         return false;
     }
-    
+
     /**
      * @return Possibly {link EmptyCallableMemberDescriptor#NO_SUCH_METHOD} or
-     *         {link EmptyCallableMemberDescriptor#AMBIGUOUS_METHOD}.
+     * {link EmptyCallableMemberDescriptor#AMBIGUOUS_METHOD}.
      */
     MaybeEmptyCallableMemberDescriptor getMostSpecific(
             List<ReflectionCallableMemberDescriptor> memberDescs, boolean varArg) {
@@ -116,15 +116,15 @@ final class ArgumentTypes {
         if (applicables.size() == 1) {
             return applicables.getFirst();
         }
-        
+
         LinkedList<CallableMemberDescriptor> maximals = new LinkedList<CallableMemberDescriptor>();
         for (CallableMemberDescriptor applicable : applicables) {
             boolean lessSpecific = false;
-            for (Iterator<CallableMemberDescriptor> maximalsIter = maximals.iterator(); 
-                maximalsIter.hasNext(); ) {
+            for (Iterator<CallableMemberDescriptor> maximalsIter = maximals.iterator();
+                 maximalsIter.hasNext(); ) {
                 CallableMemberDescriptor maximal = maximalsIter.next();
                 final int cmpRes = compareParameterListPreferability(
-                        applicable.getParamTypes(), maximal.getParamTypes(), varArg); 
+                        applicable.getParamTypes(), maximal.getParamTypes(), varArg);
                 if (cmpRes > 0) {
                     maximalsIter.remove();
                 } else if (cmpRes < 0) {
@@ -145,15 +145,15 @@ final class ArgumentTypes {
      * Tells if among the parameter list of two methods, which one fits this argument list better.
      * This method assumes that the parameter lists are applicable to this argument lists; if that's not ensured,
      * what the result will be is undefined.
-     * 
+     *
      * <p>This method behaves differently in {@code bugfixed}-mode (used when a {link BeansWrapper} is created with
-     * incompatible improvements set to 2.3.21 or higher). Below we describe the bugfixed behavior only. 
-     *  
+     * incompatible improvements set to 2.3.21 or higher). Below we describe the bugfixed behavior only.
+     *
      * <p>The decision is made by comparing the preferability of each parameter types of the same position in a loop.
      * At the end, the parameter list with the more preferred parameters will be the preferred one. If both parameter
      * lists has the same amount of preferred parameters, the one that has the first (lower index) preferred parameter
      * is the preferred one. Otherwise the two parameter list are considered to be equal in terms of preferability.
-     * 
+     *
      * <p>If there's no numerical conversion involved, the preferability of two parameter types is decided on how
      * specific their types are. For example, {@code String} is more specific than {link Object} (because
      * {@code Object.class.isAssignableFrom(String.class)}-s), and so {@code String} is preferred. Primitive
@@ -165,19 +165,19 @@ final class ArgumentTypes {
      * be used to calculate the conversion "price", and the parameter type with lowest price wins. There are also
      * a twist with array-to-list and list-to-array conversions; we try to avoid those, so the parameter where such
      * conversion isn't needed will always win.
-     * 
+     *
      * @param paramTypes1 The parameter types of one of the competing methods
      * @param paramTypes2 The parameter types of the other competing method
-     * @param varArg Whether these competing methods are varargs methods. 
+     * @param varArg      Whether these competing methods are varargs methods.
      * @return More than 0 if the first parameter list is preferred, less then 0 if the other is preferred,
-     *        0 if there's no decision 
+     * 0 if there's no decision
      */
     int compareParameterListPreferability(Class<?>[] paramTypes1, Class<?>[] paramTypes2, boolean varArg) {
-        final int argTypesLen = types.length; 
+        final int argTypesLen = types.length;
         final int paramTypes1Len = paramTypes1.length;
         final int paramTypes2Len = paramTypes2.length;
         //assert varArg || paramTypes1Len == paramTypes2Len;
-        
+
         if (bugfixed) {
             int paramList1WeakWinCnt = 0;
             int paramList2WeakWinCnt = 0;
@@ -191,18 +191,18 @@ final class ArgumentTypes {
             for (int i = 0; i < argTypesLen; i++) {
                 final Class<?> paramType1 = getParamType(paramTypes1, paramTypes1Len, i, varArg);
                 final Class<?> paramType2 = getParamType(paramTypes2, paramTypes2Len, i, varArg);
-                
+
                 final int winerParam;  // 1 => paramType1; -1 => paramType2; 0 => draw
                 if (paramType1 == paramType2) {
                     winerParam = 0;
                 } else {
                     final Class<?> argType = types[i];
                     final boolean argIsNum = Number.class.isAssignableFrom(argType);
-                    
+
                     final int numConvPrice1;
                     if (argIsNum && ClassUtil.isNumerical(paramType1)) {
                         final Class<?> nonPrimParamType1 = paramType1.isPrimitive()
-                                ? ClassUtil.primitiveClassToBoxingClass(paramType1) : paramType1; 
+                                ? ClassUtil.primitiveClassToBoxingClass(paramType1) : paramType1;
                         numConvPrice1 = OverloadedNumberUtil.getArgumentConversionPrice(argType, nonPrimParamType1);
                     } else {
                         numConvPrice1 = Integer.MAX_VALUE;
@@ -210,16 +210,16 @@ final class ArgumentTypes {
                     // numConvPrice1 is Integer.MAX_VALUE if either:
                     // - argType and paramType1 aren't both numerical
                     // - FM doesn't know some of the numerical types, or the conversion between them is not allowed    
-                    
+
                     final int numConvPrice2;
                     if (argIsNum && ClassUtil.isNumerical(paramType2)) {
                         final Class<?> nonPrimParamType2 = paramType2.isPrimitive()
-                                ? ClassUtil.primitiveClassToBoxingClass(paramType2) : paramType2; 
+                                ? ClassUtil.primitiveClassToBoxingClass(paramType2) : paramType2;
                         numConvPrice2 = OverloadedNumberUtil.getArgumentConversionPrice(argType, nonPrimParamType2);
                     } else {
                         numConvPrice2 = Integer.MAX_VALUE;
                     }
-                    
+
                     if (numConvPrice1 == Integer.MAX_VALUE) {
                         if (numConvPrice2 == Integer.MAX_VALUE) {  // No numerical conversions anywhere
                             // List to array conversions (unwrapping sometimes makes a List instead of an array)
@@ -262,7 +262,7 @@ final class ArgumentTypes {
                                 }
                             } else if (argType.isArray()
                                     && (List.class.isAssignableFrom(paramType1)
-                                            || List.class.isAssignableFrom(paramType2))) {
+                                    || List.class.isAssignableFrom(paramType2))) {
                                 // Array to List conversions (unwrapping sometimes makes an array instead of a List)
                                 if (List.class.isAssignableFrom(paramType1)) {
                                     if (List.class.isAssignableFrom(paramType2)) {
@@ -332,12 +332,12 @@ final class ArgumentTypes {
                         }
                     }
                 }  // when paramType1 != paramType2
-                
+
                 if (firstWinerParamList == 0 && winerParam != 0) {
-                    firstWinerParamList = winerParam; 
+                    firstWinerParamList = winerParam;
                 }
             }  // for each parameter types
-            
+
             if (paramList1VeryStrongWinCnt != paramList2VeryStrongWinCnt) {
                 return paramList1VeryStrongWinCnt - paramList2VeryStrongWinCnt;
             } else if (paramList1StrongWinCnt != paramList2StrongWinCnt) {
@@ -381,15 +381,15 @@ final class ArgumentTypes {
                 Class<?> paramType1 = getParamType(paramTypes1, paramTypes1Len, i, varArg);
                 Class<?> paramType2 = getParamType(paramTypes2, paramTypes2Len, i, varArg);
                 if (paramType1 != paramType2) {
-                    paramTypes1HasAMoreSpecific = 
-                        paramTypes1HasAMoreSpecific
-                        || _MethodUtil.isMoreOrSameSpecificParameterType(paramType1, paramType2, false, 0) != 0;
-                    paramTypes2HasAMoreSpecific = 
-                        paramTypes2HasAMoreSpecific
-                        || _MethodUtil.isMoreOrSameSpecificParameterType(paramType2, paramType1, false, 0) != 0;
+                    paramTypes1HasAMoreSpecific =
+                            paramTypes1HasAMoreSpecific
+                                    || _MethodUtil.isMoreOrSameSpecificParameterType(paramType1, paramType2, false, 0) != 0;
+                    paramTypes2HasAMoreSpecific =
+                            paramTypes2HasAMoreSpecific
+                                    || _MethodUtil.isMoreOrSameSpecificParameterType(paramType2, paramType1, false, 0) != 0;
                 }
             }
-            
+
             if (paramTypes1HasAMoreSpecific) {
                 return paramTypes2HasAMoreSpecific ? 0 : 1;
             } else if (paramTypes2HasAMoreSpecific) {
@@ -399,22 +399,22 @@ final class ArgumentTypes {
             }
         }
     }
-    
+
     /**
-     * Trivial comparison of type specificities; unaware of numerical conversions. 
-     * 
+     * Trivial comparison of type specificities; unaware of numerical conversions.
+     *
      * @return Less-than-0, 0, or more-than-0 depending on which side is more specific. The absolute value is 1 if
-     *     the difference is only in primitive VS non-primitive, more otherwise.
+     * the difference is only in primitive VS non-primitive, more otherwise.
      */
     private int compareParameterListPreferability_cmpTypeSpecificty(
             final Class<?> paramType1, final Class<?> paramType2) {
         // The more specific (smaller) type wins.
-        
+
         final Class<?> nonPrimParamType1 = paramType1.isPrimitive()
-                ? ClassUtil.primitiveClassToBoxingClass(paramType1) : paramType1; 
+                ? ClassUtil.primitiveClassToBoxingClass(paramType1) : paramType1;
         final Class<?> nonPrimParamType2 = paramType2.isPrimitive()
                 ? ClassUtil.primitiveClassToBoxingClass(paramType2) : paramType2;
-                
+
         if (nonPrimParamType1 == nonPrimParamType2) {
             if (nonPrimParamType1 != paramType1) {
                 if (nonPrimParamType2 != paramType2) {
@@ -431,9 +431,11 @@ final class ArgumentTypes {
             return 2;
         } else if (nonPrimParamType1.isAssignableFrom(nonPrimParamType2)) {
             return -2;
-        } if (nonPrimParamType1 == Character.class && nonPrimParamType2.isAssignableFrom(String.class)) {
+        }
+        if (nonPrimParamType1 == Character.class && nonPrimParamType2.isAssignableFrom(String.class)) {
             return 2;  // A character is a 1 long string in FTL, so we pretend that it's a String subtype.
-        } if (nonPrimParamType2 == Character.class && nonPrimParamType1.isAssignableFrom(String.class)) {
+        }
+        if (nonPrimParamType2 == Character.class && nonPrimParamType1.isAssignableFrom(String.class)) {
             return -2;
         } else {
             return 0;  // unrelated types
@@ -445,7 +447,7 @@ final class ArgumentTypes {
                 ? paramTypes[paramTypesLen - 1].getComponentType()
                 : paramTypes[i];
     }
-    
+
     /**
      * Returns all methods that are applicable to actual
      * parameter types represented by this ArgumentTypes object.
@@ -467,16 +469,16 @@ final class ArgumentTypes {
         }
         return applicables;
     }
-    
+
     /**
      * Returns if the supplied method is applicable to actual
      * parameter types represented by this ArgumentTypes object, also tells
      * how difficult that conversion is.
-     * 
+     *
      * @return One of the <tt>CONVERSION_DIFFICULTY_...</tt> constants.
      */
     private int isApplicable(ReflectionCallableMemberDescriptor memberDesc, boolean varArg) {
-        final Class<?>[] paramTypes = memberDesc.getParamTypes(); 
+        final Class<?>[] paramTypes = memberDesc.getParamTypes();
         final int cl = types.length;
         final int fl = paramTypes.length - (varArg ? 1 : 0);
         if (varArg) {
@@ -488,7 +490,7 @@ final class ArgumentTypes {
                 return CONVERSION_DIFFICULTY_IMPOSSIBLE;
             }
         }
-        
+
         int maxDifficulty = 0;
         for (int i = 0; i < fl; ++i) {
             int difficulty = isMethodInvocationConvertible(paramTypes[i], types[i]);
@@ -502,7 +504,7 @@ final class ArgumentTypes {
         if (varArg) {
             Class<?> varArgParamType = paramTypes[fl].getComponentType();
             for (int i = fl; i < cl; ++i) {
-                int difficulty = isMethodInvocationConvertible(varArgParamType, types[i]); 
+                int difficulty = isMethodInvocationConvertible(varArgParamType, types[i]);
                 if (difficulty == CONVERSION_DIFFICULTY_IMPOSSIBLE) {
                     return CONVERSION_DIFFICULTY_IMPOSSIBLE;
                 }
@@ -515,17 +517,17 @@ final class ArgumentTypes {
     }
 
     /**
-     * Determines whether a type is convertible to another type via 
+     * Determines whether a type is convertible to another type via
      * method invocation conversion, and if so, what kind of conversion is needed.
      * It treates the object type counterpart of primitive types as if they were the primitive types
      * (that is, a Boolean actual parameter type matches boolean primitive formal type). This behavior
-     * is because this method is used to determine applicable methods for 
-     * an actual parameter list, and primitive types are represented by 
+     * is because this method is used to determine applicable methods for
+     * an actual parameter list, and primitive types are represented by
      * their object duals in reflective method calls.
-     * @param formal the parameter type to which the actual 
-     * parameter type should be convertible; possibly a primitive type
+     *
+     * @param formal the parameter type to which the actual
+     *               parameter type should be convertible; possibly a primitive type
      * @param actual the argument type; not a primitive type, maybe {link Null}.
-     * 
      * @return One of the <tt>CONVERSION_DIFFICULTY_...</tt> constants.
      */
     private int isMethodInvocationConvertible(final Class<?> formal, final Class<?> actual) {
@@ -538,7 +540,7 @@ final class ArgumentTypes {
                 if (actual == Null.class) {
                     return CONVERSION_DIFFICULTY_IMPOSSIBLE;
                 }
-                
+
                 formalNP = ClassUtil.primitiveClassToBoxingClass(formal);
                 if (actual == formalNP) {
                     // Character and char, etc.
@@ -548,7 +550,7 @@ final class ArgumentTypes {
                 if (actual == Null.class) {
                     return CONVERSION_DIFFICULTY_REFLECTION;
                 }
-                
+
                 formalNP = formal;
             }
             if (Number.class.isAssignableFrom(actual) && Number.class.isAssignableFrom(formalNP)) {
@@ -563,7 +565,7 @@ final class ArgumentTypes {
                 return CONVERSION_DIFFICULTY_FREEMARKER;
             } else if (actual == CharacterOrString.class
                     && (formal.isAssignableFrom(String.class)
-                            || formal.isAssignableFrom(Character.class) || formal == char.class)) {
+                    || formal.isAssignableFrom(Character.class) || formal == char.class)) {
                 return CONVERSION_DIFFICULTY_FREEMARKER;
             } else {
                 return CONVERSION_DIFFICULTY_IMPOSSIBLE;
@@ -583,31 +585,31 @@ final class ArgumentTypes {
                 if (formal == Boolean.TYPE) {
                     return actual == Boolean.class
                             ? CONVERSION_DIFFICULTY_REFLECTION : CONVERSION_DIFFICULTY_IMPOSSIBLE;
-                } else if (formal == Double.TYPE && 
-                        (actual == Double.class || actual == Float.class || 
-                         actual == Long.class || actual == Integer.class || 
-                         actual == Short.class || actual == Byte.class)) {
-                     return CONVERSION_DIFFICULTY_REFLECTION;
-                } else if (formal == Integer.TYPE && 
-                        (actual == Integer.class || actual == Short.class || 
-                         actual == Byte.class)) {
-                     return CONVERSION_DIFFICULTY_REFLECTION;
-                } else if (formal == Long.TYPE && 
-                        (actual == Long.class || actual == Integer.class || 
-                         actual == Short.class || actual == Byte.class)) {
-                     return CONVERSION_DIFFICULTY_REFLECTION;
-                } else if (formal == Float.TYPE && 
-                        (actual == Float.class || actual == Long.class || 
-                         actual == Integer.class || actual == Short.class || 
-                         actual == Byte.class)) {
-                     return CONVERSION_DIFFICULTY_REFLECTION;
+                } else if (formal == Double.TYPE &&
+                        (actual == Double.class || actual == Float.class ||
+                                actual == Long.class || actual == Integer.class ||
+                                actual == Short.class || actual == Byte.class)) {
+                    return CONVERSION_DIFFICULTY_REFLECTION;
+                } else if (formal == Integer.TYPE &&
+                        (actual == Integer.class || actual == Short.class ||
+                                actual == Byte.class)) {
+                    return CONVERSION_DIFFICULTY_REFLECTION;
+                } else if (formal == Long.TYPE &&
+                        (actual == Long.class || actual == Integer.class ||
+                                actual == Short.class || actual == Byte.class)) {
+                    return CONVERSION_DIFFICULTY_REFLECTION;
+                } else if (formal == Float.TYPE &&
+                        (actual == Float.class || actual == Long.class ||
+                                actual == Integer.class || actual == Short.class ||
+                                actual == Byte.class)) {
+                    return CONVERSION_DIFFICULTY_REFLECTION;
                 } else if (formal == Character.TYPE) {
                     return actual == Character.class
                             ? CONVERSION_DIFFICULTY_REFLECTION : CONVERSION_DIFFICULTY_IMPOSSIBLE;
                 } else if (formal == Byte.TYPE && actual == Byte.class) {
                     return CONVERSION_DIFFICULTY_REFLECTION;
                 } else if (formal == Short.TYPE &&
-                   (actual == Short.class || actual == Byte.class)) {
+                        (actual == Short.class || actual == Byte.class)) {
                     return CONVERSION_DIFFICULTY_REFLECTION;
                 } else if (BigDecimal.class.isAssignableFrom(actual) && ClassUtil.isNumerical(formal)) {
                     // Special case for BigDecimals as we deem BigDecimal to be
@@ -623,24 +625,25 @@ final class ArgumentTypes {
             }
         }
     }
-    
+
     /**
      * Symbolizes the class of null (it's missing from Java).
      */
     private static class Null {
-        
+
         // Can't be instantiated
-        private Null() { }
-        
+        private Null() {
+        }
+
     }
-    
+
     /**
      * Used instead of {link ReflectionCallableMemberDescriptor} when the method is only applicable
      * ({link #isApplicable}) with conversion that Java reflection won't do. It delegates to a
      * {link ReflectionCallableMemberDescriptor}, but it adds the necessary conversions to the invocation methods.
      */
     private static final class SpecialConversionCallableMemberDescriptor extends CallableMemberDescriptor {
-        
+
         private final ReflectionCallableMemberDescriptor callableMemberDesc;
 
         SpecialConversionCallableMemberDescriptor(ReflectionCallableMemberDescriptor callableMemberDesc) {
@@ -685,7 +688,7 @@ final class ArgumentTypes {
         Class<?>[] getParamTypes() {
             return callableMemberDesc.getParamTypes();
         }
-        
+
         @Override
         String getName() {
             return callableMemberDesc.getName();
@@ -698,7 +701,7 @@ final class ArgumentTypes {
                 Class<?> paramType = paramTypes[i];
                 final Object arg = args[i];
                 if (arg == null) continue;
-                
+
                 // Handle conversion between List and array types, in both directions. Java reflection won't do such
                 // conversion, so we have to.
                 // Most reflection-incompatible conversions were already addressed by the unwrapping. The reason
@@ -710,17 +713,17 @@ final class ArgumentTypes {
                 // parameter, and that an array argument is applicable to a List parameter, so we end up with this
                 // situation.
                 if (paramType.isArray() && arg instanceof List) {
-                   args[i] = bw.listToArray((List<?>) arg, paramType, null);
+                    args[i] = bw.listToArray((List<?>) arg, paramType, null);
                 }
                 if (arg.getClass().isArray() && paramType.isAssignableFrom(List.class)) {
                     args[i] = bw.arrayToList(arg);
                 }
-                
+
                 // Handle the conversion from CharacterOrString to Character or String:
                 if (arg instanceof CharacterOrString) {
                     if (paramType == Character.class || paramType == char.class
                             || (!paramType.isAssignableFrom(String.class)
-                                    && paramType.isAssignableFrom(Character.class))) {
+                            && paramType.isAssignableFrom(Character.class))) {
                         args[i] = ((CharacterOrString) arg).getAsChar();
                     } else {
                         args[i] = ((CharacterOrString) arg).getAsString();
@@ -730,5 +733,5 @@ final class ArgumentTypes {
         }
 
     }
-    
+
 }

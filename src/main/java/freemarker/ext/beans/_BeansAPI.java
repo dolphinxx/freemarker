@@ -38,22 +38,23 @@ import java.util.Map;
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
  * This class is to work around the lack of module system in Java, i.e., so that other FreeMarker packages can
- * access things inside this package that users shouldn't. 
- */ 
+ * access things inside this package that users shouldn't.
+ */
 public class _BeansAPI {
 
-    private _BeansAPI() { }
-    
+    private _BeansAPI() {
+    }
+
     public static String getAsClassicCompatibleString(BeanModel bm) {
         return bm.getAsClassicCompatibleString();
     }
-    
+
     public static Object newInstance(Class<?> pClass, Object[] args, BeansWrapper bw)
             throws NoSuchMethodException, IllegalArgumentException, InstantiationException,
             IllegalAccessException, InvocationTargetException, TemplateModelException {
         return newInstance(getConstructorDescriptor(pClass, args), args, bw);
     }
-    
+
     /**
      * Gets the constructor that matches the types of the arguments the best. So this is more
      * than what the Java reflection API provides in that it can handle overloaded constructors. This re-uses the
@@ -62,7 +63,7 @@ public class _BeansAPI {
     private static CallableMemberDescriptor getConstructorDescriptor(Class<?> pClass, Object[] args)
             throws NoSuchMethodException {
         if (args == null) args = CollectionUtils.EMPTY_OBJECT_ARRAY;
-        
+
         final ArgumentTypes argTypes = new ArgumentTypes(args, true);
         final List<ReflectionCallableMemberDescriptor> fixedArgMemberDescs
                 = new ArrayList<ReflectionCallableMemberDescriptor>();
@@ -78,21 +79,21 @@ public class _BeansAPI {
                 varArgsMemberDescs.add(memberDesc);
             }
         }
-        
+
         MaybeEmptyCallableMemberDescriptor contrDesc = argTypes.getMostSpecific(fixedArgMemberDescs, false);
         if (contrDesc == EmptyCallableMemberDescriptor.NO_SUCH_METHOD) {
             contrDesc = argTypes.getMostSpecific(varArgsMemberDescs, true);
         }
-        
+
         if (contrDesc instanceof EmptyCallableMemberDescriptor) {
             if (contrDesc == EmptyCallableMemberDescriptor.NO_SUCH_METHOD) {
                 throw new NoSuchMethodException(
                         "There's no public " + pClass.getName()
-                        + " constructor with compatible parameter list.");
+                                + " constructor with compatible parameter list.");
             } else if (contrDesc == EmptyCallableMemberDescriptor.AMBIGUOUS_METHOD) {
                 throw new NoSuchMethodException(
                         "There are multiple public " + pClass.getName()
-                        + " constructors that match the compatible parameter list with the same preferability.");
+                                + " constructors that match the compatible parameter list with the same preferability.");
             } else {
                 throw new NoSuchMethodException();
             }
@@ -100,24 +101,24 @@ public class _BeansAPI {
             return (CallableMemberDescriptor) contrDesc;
         }
     }
-    
+
     private static Object newInstance(CallableMemberDescriptor constrDesc, Object[] args, BeansWrapper bw)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, IllegalArgumentException,
             TemplateModelException {
         if (args == null) args = CollectionUtils.EMPTY_OBJECT_ARRAY;
-        
+
         final Object[] packedArgs;
         if (constrDesc.isVarargs()) {
             // We have to put all the varargs arguments into a single array argument.
 
             final Class<?>[] paramTypes = constrDesc.getParamTypes();
             final int fixedArgCnt = paramTypes.length - 1;
-            
-            packedArgs = new Object[fixedArgCnt + 1]; 
+
+            packedArgs = new Object[fixedArgCnt + 1];
             for (int i = 0; i < fixedArgCnt; i++) {
                 packedArgs[i] = args[i];
             }
-            
+
             final Class<?> compType = paramTypes[fixedArgCnt].getComponentType();
             final int varArgCnt = args.length - fixedArgCnt;
             final Object varArgsArray = Array.newInstance(compType, varArgCnt);
@@ -128,15 +129,15 @@ public class _BeansAPI {
         } else {
             packedArgs = args;
         }
-        
+
         return constrDesc.invokeConstructor(bw, packedArgs);
     }
-    
+
     /**
      * Contains the common parts of the singleton management for {link BeansWrapper} and {link DefaultObjectWrapper}.
-     *  
+     *
      * @param beansWrapperSubclassFactory Creates a <em>new</em> read-only object wrapper of the desired
-     *     {link BeansWrapper} subclass.
+     *                                    {link BeansWrapper} subclass.
      */
     public static <BW extends BeansWrapper, BWC extends BeansWrapperConfiguration> BW getBeansWrapperSubclassSingleton(
             BWC settings,
@@ -148,7 +149,7 @@ public class _BeansAPI {
         // (The ClassIntrospector doesn't have to consider the TCCL, as it only works with Class-es, not class
         // names.)
         ClassLoader tccl = Thread.currentThread().getContextClassLoader();
-        
+
         Reference<BW> instanceRef;
         Map<BWC, WeakReference<BW>> tcclScopedCache;
         synchronized (instanceCache) {
@@ -167,13 +168,13 @@ public class _BeansAPI {
             return instance;
         }
         // cache miss
-        
+
         settings = clone(settings);  // prevent any aliasing issues 
         instance = beansWrapperSubclassFactory.create(settings);
         if (!instance.isWriteProtected()) {
             throw new BugException();
         }
-        
+
         synchronized (instanceCache) {
             instanceRef = tcclScopedCache.get(settings);
             BW concurrentInstance = instanceRef != null ? instanceRef.get() : null;
@@ -183,9 +184,9 @@ public class _BeansAPI {
                 instance = concurrentInstance;
             }
         }
-        
+
         removeClearedReferencesFromCache(instanceCache, instanceCacheRefQue);
-        
+
         return instance;
     }
 
@@ -193,15 +194,16 @@ public class _BeansAPI {
     private static <BWC extends BeansWrapperConfiguration> BWC clone(BWC settings) {
         return (BWC) settings.clone(true);
     }
-    
+
     private static <BW extends BeansWrapper, BWC extends BeansWrapperConfiguration>
-            void removeClearedReferencesFromCache(
-                    Map<ClassLoader, Map<BWC, WeakReference<BW>>> instanceCache,
-                    ReferenceQueue<BW> instanceCacheRefQue) {
+    void removeClearedReferencesFromCache(
+            Map<ClassLoader, Map<BWC, WeakReference<BW>>> instanceCache,
+            ReferenceQueue<BW> instanceCacheRefQue) {
         Reference<? extends BW> clearedRef;
         while ((clearedRef = instanceCacheRefQue.poll()) != null) {
             synchronized (instanceCache) {
-                findClearedRef: for (Map<BWC, WeakReference<BW>> tcclScopedCache : instanceCache.values()) {
+                findClearedRef:
+                for (Map<BWC, WeakReference<BW>> tcclScopedCache : instanceCache.values()) {
                     for (Iterator<WeakReference<BW>> it2 = tcclScopedCache.values().iterator(); it2.hasNext(); ) {
                         if (it2.next() == clearedRef) {
                             it2.remove();
@@ -212,18 +214,20 @@ public class _BeansAPI {
             } // sync
         } // while poll
     }
-    
+
     /**
      * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
      */
     public interface _BeansWrapperSubclassFactory<BW extends BeansWrapper, BWC extends BeansWrapperConfiguration> {
-        
-        /** Creates a new read-only {link BeansWrapper}; used for {link BeansWrapperBuilder} and such. */
+
+        /**
+         * Creates a new read-only {link BeansWrapper}; used for {link BeansWrapperBuilder} and such.
+         */
         BW create(BWC sa);
     }
-    
+
     public static ClassIntrospectorBuilder getClassIntrospectorBuilder(BeansWrapperConfiguration bwc) {
         return bwc.getClassIntrospectorBuilder();
     }
-    
+
 }

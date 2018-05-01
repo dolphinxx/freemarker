@@ -40,9 +40,9 @@ import java.util.TimeZone;
  * A holder for built-ins that operate exclusively on date left-hand values.
  */
 class BuiltInsForDates {
-    
+
     static class dateType_if_unknownBI extends BuiltIn {
-        
+
         private final int dateType;
 
         dateType_if_unknownBI(int dateType) {
@@ -69,19 +69,19 @@ class BuiltInsForDates {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
     }
-    
+
     /**
      * Implements {@code ?iso(timeZone)}.
      */
     static class iso_BI extends AbstractISOBI {
-        
+
         class Result implements TemplateMethodModelEx {
             private final Date date;
             private final int dateType;
             private final Environment env;
-            
+
             Result(Date date, int dateType, Environment env) {
                 this.date = date;
                 this.dateType = dateType;
@@ -90,16 +90,16 @@ class BuiltInsForDates {
 
             public Object exec(List args) throws TemplateModelException {
                 checkMethodArgCount(args, 1);
-                
+
                 TemplateModel tzArgTM = (TemplateModel) args.get(0);
-                TimeZone tzArg; 
+                TimeZone tzArg;
                 Object adaptedObj;
                 if (tzArgTM instanceof AdapterTemplateModel
                         && (adaptedObj =
-                                ((AdapterTemplateModel) tzArgTM)
+                        ((AdapterTemplateModel) tzArgTM)
                                 .getAdaptedObject(TimeZone.class))
-                            instanceof TimeZone) {
-                    tzArg = (TimeZone) adaptedObj;                    
+                        instanceof TimeZone) {
+                    tzArg = (TimeZone) adaptedObj;
                 } else if (tzArgTM instanceof TemplateScalarModel) {
                     String tzName = EvalUtil.modelToString((TemplateScalarModel) tzArgTM, null, null);
                     try {
@@ -114,31 +114,31 @@ class BuiltInsForDates {
                     throw _MessageUtil.newMethodArgUnexpectedTypeException(
                             "?" + key, 0, "string or java.util.TimeZone", tzArgTM);
                 }
-                
+
                 return new SimpleScalar(DateUtil.dateToISO8601String(
                         date,
                         dateType != TemplateDateModel.TIME,
                         dateType != TemplateDateModel.DATE,
                         shouldShowOffset(date, dateType, env),
                         accuracy,
-                        tzArg, 
+                        tzArg,
                         env.getISOBuiltInCalendarFactory()));
             }
-            
+
         }
 
         iso_BI(Boolean showOffset, int accuracy) {
             super(showOffset, accuracy);
         }
-        
+
         @Override
         protected TemplateModel calculateResult(
                 Date date, int dateType, Environment env)
-        throws TemplateException {
+                throws TemplateException {
             checkDateTypeNotUnknown(dateType);
             return new Result(date, dateType, env);
         }
-        
+
     }
 
     /**
@@ -146,9 +146,9 @@ class BuiltInsForDates {
      * {@code ?iso(timeZone)}.
      */
     static class iso_utc_or_local_BI extends AbstractISOBI {
-        
+
         private final boolean useUTC;
-        
+
         iso_utc_or_local_BI(Boolean showOffset, int accuracy, boolean useUTC) {
             super(showOffset, accuracy);
             this.useUTC = useUTC;
@@ -157,7 +157,7 @@ class BuiltInsForDates {
         @Override
         protected TemplateModel calculateResult(
                 Date date, int dateType, Environment env)
-        throws TemplateException {
+                throws TemplateException {
             checkDateTypeNotUnknown(dateType);
             return new SimpleScalar(DateUtil.dateToISO8601String(
                     date,
@@ -168,35 +168,36 @@ class BuiltInsForDates {
                     useUTC
                             ? DateUtil.UTC
                             : env.shouldUseSQLDTTZ(date.getClass())
-                                    ? env.getSQLDateAndTimeTimeZone()
-                                    : env.getTimeZone(),
+                            ? env.getSQLDateAndTimeTimeZone()
+                            : env.getTimeZone(),
                     env.getISOBuiltInCalendarFactory()));
         }
 
     }
-    
+
     // Can't be instantiated
-    private BuiltInsForDates() { }
+    private BuiltInsForDates() {
+    }
 
     static abstract class AbstractISOBI extends BuiltInForDate {
         protected final Boolean showOffset;
         protected final int accuracy;
-    
+
         protected AbstractISOBI(Boolean showOffset, int accuracy) {
             this.showOffset = showOffset;
             this.accuracy = accuracy;
         }
-        
+
         protected void checkDateTypeNotUnknown(int dateType)
-        throws TemplateException {
+                throws TemplateException {
             if (dateType == TemplateDateModel.UNKNOWN) {
                 throw new _MiscTemplateException(new _ErrorDescriptionBuilder(
-                            "The value of the following has unknown date type, but ?", key,
-                            " needs a value where it's known if it's a date (no time part), time, or date-time value:"                        
-                        ).blame(target).tip(_MessageUtil.UNKNOWN_DATE_TYPE_ERROR_TIP));
+                        "The value of the following has unknown date type, but ?", key,
+                        " needs a value where it's known if it's a date (no time part), time, or date-time value:"
+                ).blame(target).tip(_MessageUtil.UNKNOWN_DATE_TYPE_ERROR_TIP));
             }
         }
-    
+
         protected boolean shouldShowOffset(Date date, int dateType, Environment env) {
             if (dateType == TemplateDateModel.DATE) {
                 return false;  // ISO 8061 doesn't allow zone for date-only values
@@ -208,7 +209,7 @@ class BuiltInsForDates {
                         && _TemplateAPI.getTemplateLanguageVersionAsInt(this) >= _TemplateAPI.VERSION_INT_2_3_21);
             }
         }
-        
+
     }
-    
+
 }

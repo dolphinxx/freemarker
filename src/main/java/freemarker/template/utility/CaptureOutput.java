@@ -43,7 +43,7 @@ import java.util.Map;
  * </pre>
  *
  * <p>And later in the template you can use the captured output:</p>
- *
+ * <p>
  * ${captured}
  *
  * <p>This transform requires one of three parameters: <code>var</code>, <code>local</code>, or <code>global</code>.

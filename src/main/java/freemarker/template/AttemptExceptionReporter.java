@@ -26,7 +26,7 @@ import freemarker.core.Environment;
  * configuration setting.
  */
 public interface AttemptExceptionReporter {
-    
+
     /**
      * Logs the exception into the "freemarker.runtime" log category with "error" log level. This is the default
      * {link AttemptExceptionReporter}. The error message will explain that the error was handled by an
@@ -38,10 +38,10 @@ public interface AttemptExceptionReporter {
      * Like {link #LOG_ERROR_REPORTER}, but it logs with "warn" log level.
      */
     AttemptExceptionReporter LOG_WARN_REPORTER = new LoggingAttemptExceptionReporter(true);
-    
+
     /**
-     * Called to log or otherwise report the error that has occurred inside an {@code #attempt} block.  
+     * Called to log or otherwise report the error that has occurred inside an {@code #attempt} block.
      */
     void report(TemplateException te, Environment env);
-    
+
 }

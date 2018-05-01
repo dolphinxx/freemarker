@@ -38,12 +38,12 @@ final class NotExpression extends BooleanExpression {
     public String getCanonicalForm() {
         return "!" + target.getCanonicalForm();
     }
- 
+
     @Override
     String getNodeTypeSymbol() {
         return "!";
     }
-    
+
     @Override
     boolean isLiteral() {
         return target.isLiteral();
@@ -52,8 +52,8 @@ final class NotExpression extends BooleanExpression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new NotExpression(
-    	        target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
+        return new NotExpression(
+                target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
     }
 
     @Override

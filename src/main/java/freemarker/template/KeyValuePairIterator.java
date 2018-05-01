@@ -19,7 +19,6 @@ public interface KeyValuePairIterator {
      * Similar to {link Iterator#next()}.
      *
      * @return Not {@code null}
-     *
      * @throws NoSuchElementException
      */
     KeyValuePair next() throws TemplateModelException;

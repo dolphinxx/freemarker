@@ -22,7 +22,7 @@ package freemarker.template;
 
 /**
  * "boolean" template language data type; same as in Java; either {@code true} or {@code false}.
- * 
+ * <p>
  * <p>
  * Objects of this type should be immutable, that is, calling {link #getAsBoolean()} should always return the same
  * value as for the first time.
@@ -33,7 +33,7 @@ public interface TemplateBooleanModel extends TemplateModel {
      * @return whether to interpret this object as true or false in a boolean context
      */
     boolean getAsBoolean() throws TemplateModelException;
-    
+
     /**
      * A singleton object to represent boolean false
      */
@@ -43,5 +43,5 @@ public interface TemplateBooleanModel extends TemplateModel {
      * A singleton object to represent boolean true
      */
     TemplateBooleanModel TRUE = new TrueTemplateBooleanModel();
-    
+
 }

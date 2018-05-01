@@ -78,46 +78,46 @@ final class BuiltinVariable extends Expression {
     static final String GET_OPTIONAL_TEMPLATE_CC = "getOptionalTemplate";
     static final String CALLER_TEMPLATE_NAME = "caller_template_name";
     static final String CALLER_TEMPLATE_NAME_CC = "callerTemplateName";
-    static final String[] SPEC_VAR_NAMES = new String[] {
-        // IMPORTANT! Keep this sorted alphabetically!
-        AUTO_ESC_CC,
-        AUTO_ESC,
-        CALLER_TEMPLATE_NAME_CC,
-        CALLER_TEMPLATE_NAME,
-        CURRENT_NODE_CC,
-        CURRENT_TEMPLATE_NAME_CC,
-        CURRENT_NODE,
-        CURRENT_TEMPLATE_NAME,
-        DATA_MODEL_CC,
-        DATA_MODEL,
-        ERROR,
-        GET_OPTIONAL_TEMPLATE_CC,
-        GET_OPTIONAL_TEMPLATE,
-        GLOBALS,
-        INCOMPATIBLE_IMPROVEMENTS_CC,
-        INCOMPATIBLE_IMPROVEMENTS,
-        LANG,
-        LOCALE,
-        LOCALE_OBJECT_CC,
-        LOCALE_OBJECT,
-        LOCALS,
-        MAIN,
-        MAIN_TEMPLATE_NAME_CC,
-        MAIN_TEMPLATE_NAME,
-        NAMESPACE,
-        NODE,
-        NOW,
-        OUTPUT_ENCODING_CC,
-        OUTPUT_FORMAT_CC,
-        OUTPUT_ENCODING,
-        OUTPUT_FORMAT,
-        PASS,
-        TEMPLATE_NAME_CC,
-        TEMPLATE_NAME,
-        URL_ESCAPING_CHARSET_CC,
-        URL_ESCAPING_CHARSET,
-        VARS,
-        VERSION
+    static final String[] SPEC_VAR_NAMES = new String[]{
+            // IMPORTANT! Keep this sorted alphabetically!
+            AUTO_ESC_CC,
+            AUTO_ESC,
+            CALLER_TEMPLATE_NAME_CC,
+            CALLER_TEMPLATE_NAME,
+            CURRENT_NODE_CC,
+            CURRENT_TEMPLATE_NAME_CC,
+            CURRENT_NODE,
+            CURRENT_TEMPLATE_NAME,
+            DATA_MODEL_CC,
+            DATA_MODEL,
+            ERROR,
+            GET_OPTIONAL_TEMPLATE_CC,
+            GET_OPTIONAL_TEMPLATE,
+            GLOBALS,
+            INCOMPATIBLE_IMPROVEMENTS_CC,
+            INCOMPATIBLE_IMPROVEMENTS,
+            LANG,
+            LOCALE,
+            LOCALE_OBJECT_CC,
+            LOCALE_OBJECT,
+            LOCALS,
+            MAIN,
+            MAIN_TEMPLATE_NAME_CC,
+            MAIN_TEMPLATE_NAME,
+            NAMESPACE,
+            NODE,
+            NOW,
+            OUTPUT_ENCODING_CC,
+            OUTPUT_FORMAT_CC,
+            OUTPUT_ENCODING,
+            OUTPUT_FORMAT,
+            PASS,
+            TEMPLATE_NAME_CC,
+            TEMPLATE_NAME,
+            URL_ESCAPING_CHARSET_CC,
+            URL_ESCAPING_CHARSET,
+            VARS,
+            VERSION
     };
 
     private final String name;
@@ -131,14 +131,14 @@ final class BuiltinVariable extends Expression {
             StringBuilder sb = new StringBuilder();
             sb.append("Unknown special variable name: ");
             sb.append(StringUtil.jQuote(name)).append(".");
-            
+
             int shownNamingConvention;
             {
                 int namingConvention = tokenManager.namingConvention;
                 shownNamingConvention = namingConvention != Configuration.AUTO_DETECT_NAMING_CONVENTION
-                        ? namingConvention : Configuration.LEGACY_NAMING_CONVENTION /* [2.4] CAMEL_CASE */; 
+                        ? namingConvention : Configuration.LEGACY_NAMING_CONVENTION /* [2.4] CAMEL_CASE */;
             }
-            
+
             {
                 String correctName;
                 if (name.equals("auto_escape") || name.equals("auto_escaping") || name.equals("autoesc")) {
@@ -153,13 +153,13 @@ final class BuiltinVariable extends Expression {
                     sb.append(StringUtil.jQuote(correctName)).append(".");
                 }
             }
-            
+
             sb.append("\nThe allowed special variable names are: ");
             boolean first = true;
             for (int i = 0; i < SPEC_VAR_NAMES.length; i++) {
                 final String correctName = SPEC_VAR_NAMES[i];
                 int correctNameNamingConvetion = _CoreStringUtils.getIdentifierNamingConvention(correctName);
-                if (shownNamingConvention == Configuration.CAMEL_CASE_NAMING_CONVENTION 
+                if (shownNamingConvention == Configuration.CAMEL_CASE_NAMING_CONVENTION
                         ? correctNameNamingConvetion != Configuration.LEGACY_NAMING_CONVENTION
                         : correctNameNamingConvetion != Configuration.CAMEL_CASE_NAMING_CONVENTION) {
                     if (first) {
@@ -172,7 +172,7 @@ final class BuiltinVariable extends Expression {
             }
             throw new ParseException(sb.toString(), null, nameTk);
         }
-        
+
         this.name = name;
     }
 
@@ -260,13 +260,13 @@ final class BuiltinVariable extends Expression {
             if (ctx == null) {
                 throw new TemplateException(
                         "Can't get ." + name + " here, as there's no macro or function (that's "
-                        + "implemented in the template) call in context.", env);
+                                + "implemented in the template) call in context.", env);
             }
             TemplateObject callPlace = ctx.callPlace;
             String name = callPlace != null ? callPlace.getTemplate().getName() : null;
             return name != null ? new SimpleScalar(name) : TemplateScalarModel.EMPTY_STRING;
         }
-        
+
         throw new _MiscTemplateException(this,
                 "Invalid special variable: ", name);
     }
@@ -280,7 +280,7 @@ final class BuiltinVariable extends Expression {
     public String getCanonicalForm() {
         return "." + name;
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return getCanonicalForm();
@@ -298,22 +298,22 @@ final class BuiltinVariable extends Expression {
     }
 
     static class VarsHash implements TemplateHashModel {
-        
+
         Environment env;
-        
+
         VarsHash(Environment env) {
             this.env = env;
         }
-        
+
         public TemplateModel get(String key) throws TemplateModelException {
             return env.getVariable(key);
         }
-        
+
         public boolean isEmpty() {
             return false;
         }
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -328,5 +328,5 @@ final class BuiltinVariable extends Expression {
     ParameterRole getParameterRole(int idx) {
         throw new IndexOutOfBoundsException();
     }
-    
+
 }

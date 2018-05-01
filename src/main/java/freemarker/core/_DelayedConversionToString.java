@@ -19,7 +19,9 @@
 
 package freemarker.core;
 
-/** Don't use this; used internally by FreeMarker, might changes without notice. */
+/**
+ * Don't use this; used internally by FreeMarker, might changes without notice.
+ */
 public abstract class _DelayedConversionToString {
 
     private static final String NOT_SET = "";
@@ -39,7 +41,7 @@ public abstract class _DelayedConversionToString {
                 stringValue = this.stringValue;
                 if (stringValue == NOT_SET) {
                     stringValue = doConversion(object);
-                    this.stringValue = stringValue; 
+                    this.stringValue = stringValue;
                     this.object = null;
                 }
             }

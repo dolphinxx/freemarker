@@ -23,7 +23,7 @@ package freemarker.core;
  * Thrown when a {link TemplateModel} can't be formatted because of the value/properties of it are outside of that the
  * {link TemplateValueFormat} supports. For example, a formatter may not support dates before year 1, or can't format
  * NaN. The most often used subclass is {link UnknownDateTypeFormattingUnsupportedException}.
- * 
+ *
  * @since 2.3.24
  */
 public class UnformattableValueException extends TemplateValueFormatException {

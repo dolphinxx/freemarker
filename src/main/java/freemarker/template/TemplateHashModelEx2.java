@@ -23,13 +23,13 @@ package freemarker.template;
  * with {link #keys()} and then {link #get(String)}, that has some problems. One is that {link #get(String)} only
  * accepts string keys, while {link #keys()} can return non-string keys too. The other is that calling {link #keys()}
  * and then {link #get(String)} for each key can be slower than listing the key-value pairs in one go.
- * 
+ *
  * @since 2.3.25
  */
 public interface TemplateHashModelEx2 extends TemplateHashModelEx {
 
     /**
-     * @return The iterator that walks through the key-value pairs in the hash. Not {@code null}. 
+     * @return The iterator that walks through the key-value pairs in the hash. Not {@code null}.
      */
     KeyValuePairIterator keyValuePairIterator() throws TemplateModelException;
 }

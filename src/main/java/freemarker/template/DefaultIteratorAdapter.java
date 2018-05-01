@@ -30,16 +30,16 @@ import java.util.Iterator;
  * {link TemplateCollectionModel}. The resulting {link TemplateCollectionModel} can only be listed (iterated) once.
  * If the user tries list the variable for a second time, an exception will be thrown instead of silently gettig an
  * empty (or partial) listing.
- * 
+ * <p>
  * <p>
  * Thread safety: A {link DefaultListAdapter} is as thread-safe as the array that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these sequences (though
  * of course, Java methods called from the template can violate this rule).
- * 
+ * <p>
  * <p>
  * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
- * 
+ *
  * @since 2.3.22
  */
 public class DefaultIteratorAdapter extends WrappingTemplateModel implements TemplateCollectionModel,
@@ -50,9 +50,8 @@ public class DefaultIteratorAdapter extends WrappingTemplateModel implements Tem
 
     /**
      * Factory method for creating new adapter instances.
-     * 
-     * @param iterator
-     *            The iterator to adapt; can't be {@code null}.
+     *
+     * @param iterator The iterator to adapt; can't be {@code null}.
      */
     public static DefaultIteratorAdapter adapt(Iterator iterator, ObjectWrapper wrapper) {
         return new DefaultIteratorAdapter(iterator, wrapper);
@@ -78,7 +77,7 @@ public class DefaultIteratorAdapter extends WrappingTemplateModel implements Tem
     public TemplateModel getAPI() throws TemplateModelException {
         return ((ObjectWrapperWithAPISupport) getObjectWrapper()).wrapAsAPI(iterator);
     }
-    
+
     /**
      * Not thread-safe.
      */

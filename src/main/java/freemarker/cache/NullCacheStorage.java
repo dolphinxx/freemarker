@@ -22,13 +22,13 @@ package freemarker.cache;
 /**
  * A cache storage that doesn't store anything. Use this if you
  * don't want caching.
- *
+ * <p>
  * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
- * 
+ *
  * @since 2.3.17
  */
 public class NullCacheStorage implements ConcurrentCacheStorage, CacheStorageWithGetSize {
-    
+
     /**
      * @since 2.3.22
      */
@@ -37,7 +37,7 @@ public class NullCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
     public boolean isConcurrent() {
         return true;
     }
-    
+
     public Object get(Object key) {
         return null;
     }
@@ -49,18 +49,18 @@ public class NullCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
     public void remove(Object key) {
         // do nothing
     }
-    
+
     public void clear() {
         // do nothing
     }
 
     /**
      * Always returns 0.
-     * 
+     *
      * @since 2.3.21
      */
     public int getSize() {
         return 0;
     }
-    
+
 }

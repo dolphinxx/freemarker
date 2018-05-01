@@ -40,7 +40,7 @@ class Sep extends TemplateElement {
             throw new _MiscTemplateException(env,
                     getNodeTypeSymbol(), " without iteration in context");
         }
-        
+
         if (iterCtx.hasNext()) {
             return getChildBuffer();
         }

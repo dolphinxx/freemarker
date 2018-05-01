@@ -29,17 +29,21 @@ import java.io.Writer;
 /**
  * An interpolation like <code>${exp}</code> or {@code [=exp]}. The class name is the remnant of old times, but as
  * some users are using the package-visible AST API, it wasn't renamed.
- * 
+ * <p>
  * see NumericalOutput
  */
 final class DollarVariable extends Interpolation {
 
     private final Expression expression;
-    
-    /** For {@code #escape x as ...} (legacy auto-escaping) */
+
+    /**
+     * For {@code #escape x as ...} (legacy auto-escaping)
+     */
     private final Expression escapedExpression;
-    
-    /** For OutputFormat-based auto-escaping */
+
+    /**
+     * For OutputFormat-based auto-escaping
+     */
     private final OutputFormat outputFormat;
     private final MarkupOutputFormat markupOutputFormat;
     private final boolean autoEscape;
@@ -109,11 +113,11 @@ final class DollarVariable extends Interpolation {
         sb.append(inStringLiteral ? StringUtil.FTLStringLiteralEnc(exprCF, '"') : exprCF);
         sb.append(syntax != Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX ? "}" : "]");
         if (!canonical && expression != escapedExpression) {
-            sb.append(" auto-escaped");            
+            sb.append(" auto-escaped");
         }
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "${...}";
@@ -150,5 +154,5 @@ final class DollarVariable extends Interpolation {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

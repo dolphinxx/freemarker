@@ -25,7 +25,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateNumberModel;
 
 final class UnaryPlusMinusExpression extends Expression {
-    
+
     private static final int TYPE_MINUS = 0;
     private static final int TYPE_PLUS = 1;
 
@@ -37,7 +37,7 @@ final class UnaryPlusMinusExpression extends Expression {
         this.target = target;
         this.isMinus = isMinus;
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         TemplateNumberModel targetModel = null;
@@ -55,7 +55,7 @@ final class UnaryPlusMinusExpression extends Expression {
         n = ArithmeticEngine.CONSERVATIVE_ENGINE.multiply(MINUS_ONE, n);
         return new SimpleNumber(n);
     }
-    
+
     @Override
     public String getCanonicalForm() {
         String op = isMinus ? "-" : "+";
@@ -66,7 +66,7 @@ final class UnaryPlusMinusExpression extends Expression {
     String getNodeTypeSymbol() {
         return isMinus ? "-..." : "+...";
     }
-    
+
     @Override
     boolean isLiteral() {
         return target.isLiteral();
@@ -75,9 +75,9 @@ final class UnaryPlusMinusExpression extends Expression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new UnaryPlusMinusExpression(
-    	        target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        isMinus);
+        return new UnaryPlusMinusExpression(
+                target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                isMinus);
     }
 
     @Override
@@ -88,19 +88,25 @@ final class UnaryPlusMinusExpression extends Expression {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return target;
-        case 1: return isMinus ? TYPE_MINUS : TYPE_PLUS;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return target;
+            case 1:
+                return isMinus ? TYPE_MINUS : TYPE_PLUS;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.RIGHT_HAND_OPERAND;
-        case 1: return ParameterRole.AST_NODE_SUBTYPE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.RIGHT_HAND_OPERAND;
+            case 1:
+                return ParameterRole.AST_NODE_SUBTYPE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
-    
+
 }

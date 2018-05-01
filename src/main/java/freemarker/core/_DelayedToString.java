@@ -28,10 +28,10 @@ public class _DelayedToString extends _DelayedConversionToString {
     public _DelayedToString(int object) {
         super(object);
     }
-    
+
     @Override
     protected String doConversion(Object obj) {
         return String.valueOf(obj);
     }
-    
+
 }

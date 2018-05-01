@@ -20,7 +20,7 @@ package freemarker.core;
 
 /**
  * Superclass of all value format objects; objects that convert values to strings, or parse strings.
- * 
+ *
  * @since 2.3.24
  */
 public abstract class TemplateValueFormat {
@@ -29,5 +29,5 @@ public abstract class TemplateValueFormat {
      * Meant to be used in error messages to tell what format the parsed string didn't fit.
      */
     public abstract String getDescription();
-    
+
 }

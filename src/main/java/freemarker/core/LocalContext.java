@@ -25,14 +25,15 @@ import freemarker.template.TemplateModelException;
 import java.util.Collection;
 
 /**
-  * An interface that represents a local context. This is used as the abstraction for  
-  * the context of a Macro invocation, a loop, or the nested block call from within 
-  * a macro.
-  * <a href="mailto:jon@revusky.com">Jonathan Revusky</a>
-  */
+ * An interface that represents a local context. This is used as the abstraction for
+ * the context of a Macro invocation, a loop, or the nested block call from within
+ * a macro.
+ * <a href="mailto:jon@revusky.com">Jonathan Revusky</a>
+ */
 
 public interface LocalContext {
     TemplateModel getLocalVariable(String name) throws TemplateModelException;
+
     Collection getLocalVariableNames() throws TemplateModelException;
-    
+
 }

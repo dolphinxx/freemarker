@@ -30,7 +30,7 @@ import java.util.Locale;
 /**
  * An interpolation like <code>#{numericalExp; format}</code>; it's deprecated, but still supported. The class name is
  * the remnant of old times, but as some users are using the package-visible AST API, it wasn't renamed.
- * 
+ * <p>
  * see DollarVariable
  */
 final class NumericalOutput extends Interpolation {
@@ -39,7 +39,9 @@ final class NumericalOutput extends Interpolation {
     private final boolean hasFormat;
     private final int minFracDigits;
     private final int maxFracDigits;
-    /** For OutputFormat-based auto-escaping */
+    /**
+     * For OutputFormat-based auto-escaping
+     */
     private final MarkupOutputFormat autoEscapeOutputFormat;
     private volatile FormatHolder formatCache; // creating new NumberFormat is slow operation
 
@@ -52,8 +54,8 @@ final class NumericalOutput extends Interpolation {
     }
 
     NumericalOutput(Expression expression,
-            int minFracDigits, int maxFracDigits,
-            MarkupOutputFormat autoEscapeOutputFormat) {
+                    int minFracDigits, int maxFracDigits,
+                    MarkupOutputFormat autoEscapeOutputFormat) {
         this.expression = expression;
         hasFormat = true;
         this.minFracDigits = minFracDigits;
@@ -76,7 +78,7 @@ final class NumericalOutput extends Interpolation {
     @Override
     protected String calculateInterpolatedStringOrMarkup(Environment env) throws TemplateException {
         Number num = expression.evalToNumber(env);
-        
+
         FormatHolder fmth = formatCache;  // atomic sampling
         if (fmth == null || !fmth.locale.equals(env.getLocale())) {
             synchronized (this) {
@@ -118,7 +120,7 @@ final class NumericalOutput extends Interpolation {
         buf.append("}");
         return buf.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#{...}";
@@ -133,11 +135,11 @@ final class NumericalOutput extends Interpolation {
     boolean heedsTrailingWhitespace() {
         return true;
     }
-    
+
     private static class FormatHolder {
         final NumberFormat format;
         final Locale locale;
-        
+
         FormatHolder(NumberFormat format, Locale locale) {
             this.format = format;
             this.locale = locale;
@@ -152,20 +154,28 @@ final class NumericalOutput extends Interpolation {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return expression;
-        case 1: return hasFormat ? minFracDigits : null;
-        case 2: return hasFormat ? maxFracDigits : null;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return expression;
+            case 1:
+                return hasFormat ? minFracDigits : null;
+            case 2:
+                return hasFormat ? maxFracDigits : null;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.CONTENT;
-        case 1: return ParameterRole.MINIMUM_DECIMALS;
-        case 2: return ParameterRole.MAXIMUM_DECIMALS;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.CONTENT;
+            case 1:
+                return ParameterRole.MINIMUM_DECIMALS;
+            case 2:
+                return ParameterRole.MAXIMUM_DECIMALS;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 

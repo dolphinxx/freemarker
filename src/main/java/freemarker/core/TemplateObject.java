@@ -24,26 +24,28 @@ import freemarker.template.Template;
 /**
  * <b>Internal API - subject to change:</b> Represent a node in the parsed template (either a {link Expression} or a
  * {link TemplateElement}).
- * 
+ * <p>
  * see TemplateElement
  * see Expression
- * 
+ *
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
- *             it.
+ * it.
  */
 @Deprecated
 public abstract class TemplateObject {
-    
+
     private Template template;
     int beginColumn;
     int beginLine;
     int endColumn;
     int endLine;
-    
-    /** This is needed for an ?eval hack; the expression AST nodes will be the descendants of the template, however,
-     *  we can't give their position in the template, only in the dynamic string that's evaluated. That's signaled
-     *  by a negative line numbers, starting from this constant as line 1. */
-    static final int RUNTIME_EVAL_LINE_DISPLACEMENT = -1000000000;  
+
+    /**
+     * This is needed for an ?eval hack; the expression AST nodes will be the descendants of the template, however,
+     * we can't give their position in the template, only in the dynamic string that's evaluated. That's signaled
+     * by a negative line numbers, starting from this constant as line 1.
+     */
+    static final int RUNTIME_EVAL_LINE_DISPLACEMENT = -1000000000;
 
     final void setLocation(Template template, Token begin, Token end) {
         setLocation(template, begin.beginColumn, begin.beginLine, end.endColumn, end.endLine);
@@ -59,11 +61,11 @@ public abstract class TemplateObject {
             setLocation(template, tagBegin, tagEnd);
         }
     }
-    
+
     final void setLocation(Template template, Token begin, TemplateObject end) {
         setLocation(template, begin.beginColumn, begin.beginLine, end.endColumn, end.endLine);
     }
-    
+
     final void setLocation(Template template, TemplateObject begin, Token end) {
         setLocation(template, begin.beginColumn, begin.beginLine, end.endColumn, end.endLine);
     }
@@ -79,7 +81,7 @@ public abstract class TemplateObject {
         this.endColumn = endColumn;
         this.endLine = endLine;
     }
-    
+
     public final int getBeginColumn() {
         return beginColumn;
     }
@@ -123,7 +125,7 @@ public abstract class TemplateObject {
     public String getEndLocationQuoted() {
         return getEndLocation();
     }
-    
+
     public final String getSource() {
         String s;
         if (template != null) {
@@ -139,16 +141,16 @@ public abstract class TemplateObject {
     @Override
     public String toString() {
         String s;
-    	try {
-    		s = getSource();
-    	} catch (Exception e) { // REVISIT: A bit of a hack? (JR)
-    	    s = null;
-    	}
-    	return s != null ? s : getCanonicalForm();
+        try {
+            s = getSource();
+        } catch (Exception e) { // REVISIT: A bit of a hack? (JR)
+            s = null;
+        }
+        return s != null ? s : getCanonicalForm();
     }
 
     /**
-     * @return whether the point in the template file specified by the 
+     * @return whether the point in the template file specified by the
      * column and line numbers is contained within this template object.
      */
     public boolean contains(int column, int line) {
@@ -169,7 +171,7 @@ public abstract class TemplateObject {
     public Template getTemplate() {
         return template;
     }
-    
+
     TemplateObject copyLocationFrom(TemplateObject from) {
         template = from.template;
         beginColumn = from.beginColumn;
@@ -177,29 +179,29 @@ public abstract class TemplateObject {
         endColumn = from.endColumn;
         endLine = from.endLine;
         return this;
-    }    
+    }
 
     /**
      * FTL generated from the AST of the node, which must be parseable to an AST that does the same as the original
      * source, assuming we turn off automatic white-space removal when parsing the canonical form.
-     * 
+     * <p>
      * see TemplateElement#getDescription()
      * see #getNodeTypeSymbol()
      */
     abstract public String getCanonicalForm();
-    
+
     /**
-     * A very sort single-line string that describes what kind of AST node this is, without describing any 
+     * A very sort single-line string that describes what kind of AST node this is, without describing any
      * embedded expression or child element. Examples: {@code "#if"}, {@code "+"}, <tt>"${...}</tt>. These values should
      * be suitable as tree node labels in a tree view. Yet, they should be consistent and complete enough so that an AST
      * that is equivalent with the original could be reconstructed from the tree view. Thus, for literal values that are
      * leaf nodes the symbols should be the canonical form of value.
-     * 
+     * <p>
      * see #getCanonicalForm()
      * see TemplateElement#getDescription()
      */
     abstract String getNodeTypeSymbol();
-    
+
     /**
      * Returns highest valid parameter index + 1. So one should scan indexes with {link #getParameterValue(int)}
      * starting from 0 up until but excluding this. For example, for the binary "+" operator this will give 2, so the
@@ -208,34 +210,33 @@ public abstract class TemplateObject {
      * {@code null}.
      */
     abstract int getParameterCount();
-    
+
     /**
      * Returns the value of the parameter identified by the index. For example, the binary "+" operator will have an
      * LHO {link Expression} at index 0, and and RHO {link Expression} at index 1. Or, the binary "." operator will
      * have an LHO {link Expression} at index 0, and an RHO {link String}(!) at index 1. Or, the {@code #include}
      * directive will have a path {link Expression} at index 0, a "parse" {link Expression} at index 1, etc.
-     * 
+     *
      * <p>The index value doesn't correspond to the source-code location in general. It's an arbitrary identifier
      * that corresponds to the role of the parameter instead. This also means that when a parameter is omitted, the
      * index of the other parameters won't shift.
      *
-     *  @return {@code null} or any kind of {link Object}, very often an {link Expression}. However, if there's
-     *      a {link TemplateObject} stored inside the returned value, it must itself be be a {link TemplateObject}
-     *      too, otherwise the AST couldn't be (easily) fully traversed. That is, non-{link TemplateObject} values
-     *      can only be used for leafs. 
-     *  
-     *  @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {link #getParameterCount()}.
+     * @return {@code null} or any kind of {link Object}, very often an {link Expression}. However, if there's
+     * a {link TemplateObject} stored inside the returned value, it must itself be be a {link TemplateObject}
+     * too, otherwise the AST couldn't be (easily) fully traversed. That is, non-{link TemplateObject} values
+     * can only be used for leafs.
+     * @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {link #getParameterCount()}.
      */
     abstract Object getParameterValue(int idx);
 
     /**
-     *  Returns the role of the parameter at the given index, like {link ParameterRole#LEFT_HAND_OPERAND}.
-     *  
-     *  As of this writing (2013-06-17), for directive parameters it will always give {link ParameterRole#UNKNOWN},
-     *  because there was no need to be more specific so far. This should be improved as need.
-     *  
-     *  @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {link #getParameterCount()}.
+     * Returns the role of the parameter at the given index, like {link ParameterRole#LEFT_HAND_OPERAND}.
+     * <p>
+     * As of this writing (2013-06-17), for directive parameters it will always give {link ParameterRole#UNKNOWN},
+     * because there was no need to be more specific so far. This should be improved as need.
+     *
+     * @throws IndexOutOfBoundsException if {@code idx} is less than 0 or not less than {link #getParameterCount()}.
      */
     abstract ParameterRole getParameterRole(int idx);
-    
+
 }

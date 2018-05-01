@@ -33,15 +33,15 @@ import java.util.Map;
  * to a single line break (if the sequence contains a line break) or a
  * single space. In addition, leading and trailing whitespace is
  * completely removed.</p>
- * 
+ *
  * <p>Specify the transform parameter <code>single_line = true</code>
  * to always compress to a single space instead of a line break.</p>
- * 
+ *
  * <p>The default buffer size can be overridden by specifying a
  * <code>buffer_size</code> transform parameter (in bytes).</p>
  *
  * <p><b>Note:</b> The compress tag is implemented using this filter</p>
- * 
+ *
  * <p>Usage:<br>
  * From java:</p>
  * <pre>
@@ -75,7 +75,7 @@ public class StandardCompress implements TemplateTransformModel {
     private int defaultBufferSize;
 
     public static final StandardCompress INSTANCE = new StandardCompress();
-    
+
     public StandardCompress() {
         this(2048);
     }
@@ -88,7 +88,7 @@ public class StandardCompress implements TemplateTransformModel {
     }
 
     public Writer getWriter(final Writer out, Map args)
-    throws TemplateModelException {
+            throws TemplateModelException {
         int bufferSize = defaultBufferSize;
         boolean singleLine = false;
         if (args != null) {
@@ -112,7 +112,7 @@ public class StandardCompress implements TemplateTransformModel {
 
     private static class StandardCompressWriter extends Writer {
         private static final int MAX_EOL_LENGTH = 2; // CRLF is two bytes
-        
+
         private static final int AT_BEGINNING = 0;
         private static final int SINGLE_LINE = 1;
         private static final int INIT = 2;
@@ -124,7 +124,7 @@ public class StandardCompress implements TemplateTransformModel {
         private final Writer out;
         private final char[] buf;
         private final boolean singleLine;
-    
+
         private int pos = 0;
         private boolean inWhitespace = true;
         private int lineBreakState = AT_BEGINNING;
@@ -139,7 +139,7 @@ public class StandardCompress implements TemplateTransformModel {
         public void write(char[] cbuf, int off, int len) throws IOException {
             for (; ; ) {
                 // Need to reserve space for the EOL potentially left in the state machine
-                int room = buf.length - pos - MAX_EOL_LENGTH; 
+                int room = buf.length - pos - MAX_EOL_LENGTH;
                 if (room >= len) {
                     writeHelper(cbuf, off, len);
                     break;
@@ -179,41 +179,41 @@ public class StandardCompress implements TemplateTransformModel {
         */
         private void updateLineBreakState(char c) {
             switch (lineBreakState) {
-            case INIT:
-                if (c == '\r') {
-                    lineBreakState = SAW_CR;
-                } else if (c == '\n') {
-                    lineBreakState = LINEBREAK_LF;
-                }
-                break;
-            case SAW_CR:
-                if (c == '\n') {
-                    lineBreakState = LINEBREAK_CRLF;
-                } else {
-                    lineBreakState = LINEBREAK_CR;
-                }
+                case INIT:
+                    if (c == '\r') {
+                        lineBreakState = SAW_CR;
+                    } else if (c == '\n') {
+                        lineBreakState = LINEBREAK_LF;
+                    }
+                    break;
+                case SAW_CR:
+                    if (c == '\n') {
+                        lineBreakState = LINEBREAK_CRLF;
+                    } else {
+                        lineBreakState = LINEBREAK_CR;
+                    }
             }
         }
 
         private void writeLineBreakOrSpace() {
             switch (lineBreakState) {
-            case SAW_CR:
-                // whitespace ended with CR, fall through
-            case LINEBREAK_CR:
-                buf[pos++] = '\r';
-                break;
-            case LINEBREAK_CRLF:
-                buf[pos++] = '\r';
-                // fall through
-            case LINEBREAK_LF:
-                buf[pos++] = '\n';
-                break;
-            case AT_BEGINNING:
-                // ignore leading whitespace
-                break;
-            case INIT:
-            case SINGLE_LINE:
-                buf[pos++] = ' ';
+                case SAW_CR:
+                    // whitespace ended with CR, fall through
+                case LINEBREAK_CR:
+                    buf[pos++] = '\r';
+                    break;
+                case LINEBREAK_CRLF:
+                    buf[pos++] = '\r';
+                    // fall through
+                case LINEBREAK_LF:
+                    buf[pos++] = '\n';
+                    break;
+                case AT_BEGINNING:
+                    // ignore leading whitespace
+                    break;
+                case INIT:
+                case SINGLE_LINE:
+                    buf[pos++] = ' ';
             }
             lineBreakState = (singleLine) ? SINGLE_LINE : INIT;
         }

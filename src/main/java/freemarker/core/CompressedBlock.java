@@ -31,7 +31,7 @@ import java.io.IOException;
  */
 final class CompressedBlock extends TemplateElement {
 
-    CompressedBlock(TemplateElements children) { 
+    CompressedBlock(TemplateElements children) {
         setChildren(children);
     }
 
@@ -52,12 +52,12 @@ final class CompressedBlock extends TemplateElement {
             return getNodeTypeSymbol();
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#compress";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -82,5 +82,5 @@ final class CompressedBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

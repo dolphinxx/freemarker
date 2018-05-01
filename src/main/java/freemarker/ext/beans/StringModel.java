@@ -30,23 +30,23 @@ import freemarker.template.TemplateScalarModel;
  * interface.
  */
 public class StringModel extends BeanModel
-implements TemplateScalarModel {
+        implements TemplateScalarModel {
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new StringModel(object, (BeansWrapper) wrapper);
-            }
-        };
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new StringModel(object, (BeansWrapper) wrapper);
+                }
+            };
 
     /**
      * Creates a new model that wraps the specified object with BeanModel + scalar
      * functionality.
-     * @param object the object to wrap into a model.
+     *
+     * @param object  the object to wrap into a model.
      * @param wrapper the {link BeansWrapper} associated with this model.
-     * Every model has to have an associated {link BeansWrapper} instance. The
-     * model gains many attributes from its wrapper, including the caching 
-     * behavior, method exposure level, method-over-item shadowing policy etc.
+     *                Every model has to have an associated {link BeansWrapper} instance. The
+     *                model gains many attributes from its wrapper, including the caching
+     *                behavior, method exposure level, method-over-item shadowing policy etc.
      */
     public StringModel(Object object, BeansWrapper wrapper) {
         super(object, wrapper);

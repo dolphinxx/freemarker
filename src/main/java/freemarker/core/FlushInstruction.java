@@ -36,12 +36,12 @@ final class FlushInstruction extends TemplateElement {
     protected String dump(boolean canonical) {
         return canonical ? "<" + getNodeTypeSymbol() + "/>" : getNodeTypeSymbol();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#flush";
     }
- 
+
     @Override
     int getParameterCount() {
         return 0;
@@ -61,5 +61,5 @@ final class FlushInstruction extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

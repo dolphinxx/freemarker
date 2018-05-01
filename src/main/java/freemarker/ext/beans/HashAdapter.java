@@ -39,16 +39,16 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
     private final BeansWrapper wrapper;
     private final TemplateHashModel model;
     private Set entrySet;
-    
+
     HashAdapter(TemplateHashModel model, BeansWrapper wrapper) {
         this.model = model;
         this.wrapper = wrapper;
     }
-    
+
     public TemplateModel getTemplateModel() {
         return model;
     }
-    
+
     @Override
     public boolean isEmpty() {
         try {
@@ -57,7 +57,7 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
             throw new UndeclaredThrowableException(e);
         }
     }
-    
+
     @Override
     public int size() {
         try {
@@ -66,7 +66,7 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
             throw new UndeclaredThrowableException(e);
         }
     }
-    
+
     @Override
     public Object get(Object key) {
         try {
@@ -84,7 +84,7 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
         }
         return super.containsKey(key);
     }
-    
+
     @Override
     public Set entrySet() {
         if (entrySet != null) {
@@ -95,7 +95,7 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
             public Iterator iterator() {
                 final TemplateModelIterator i;
                 try {
-                     i = getModelEx().keys().iterator();
+                    i = getModelEx().keys().iterator();
                 } catch (TemplateModelException e) {
                     throw new UndeclaredThrowableException(e);
                 }
@@ -107,7 +107,7 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
                             throw new UndeclaredThrowableException(e);
                         }
                     }
-                    
+
                     public Object next() {
                         final Object key;
                         try {
@@ -119,15 +119,15 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
                             public Object getKey() {
                                 return key;
                             }
-                            
+
                             public Object getValue() {
                                 return get(key);
                             }
-                            
+
                             public Object setValue(Object value) {
                                 throw new UnsupportedOperationException();
                             }
-                            
+
                             @Override
                             public boolean equals(Object o) {
                                 if (!(o instanceof Map.Entry))
@@ -142,22 +142,22 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
                                 }
                                 return false;
                             }
-                        
+
                             @Override
                             public int hashCode() {
                                 Object value = getValue();
                                 return (key == null ? 0 : key.hashCode()) ^
-                                       (value == null ? 0 : value.hashCode());
+                                        (value == null ? 0 : value.hashCode());
                             }
                         };
                     }
-                    
+
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
                 };
             }
-            
+
             @Override
             public int size() {
                 try {
@@ -168,14 +168,14 @@ public class HashAdapter extends AbstractMap implements TemplateModelAdapter {
             }
         };
     }
-    
+
     private TemplateHashModelEx getModelEx() {
         if (model instanceof TemplateHashModelEx) {
             return ((TemplateHashModelEx) model);
         }
         throw new UnsupportedOperationException(
-                "Operation supported only on TemplateHashModelEx. " + 
-                model.getClass().getName() + " does not implement it though.");
+                "Operation supported only on TemplateHashModelEx. " +
+                        model.getClass().getName() + " does not implement it though.");
     }
-    
+
 }

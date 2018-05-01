@@ -22,7 +22,7 @@ package freemarker.core;
 /**
  * Thrown when a string can't be parsed to {link TemplateDateModel}, because the provided target type is
  * {link TemplateDateModel#UNKNOWN}.
- * 
+ *
  * @since 2.3.24
  */
 public final class UnknownDateTypeParsingUnsupportedException extends UnformattableValueException {
@@ -30,5 +30,5 @@ public final class UnknownDateTypeParsingUnsupportedException extends Unformatta
     public UnknownDateTypeParsingUnsupportedException() {
         super(_MessageUtil.UNKNOWN_DATE_PARSING_ERROR_MESSAGE);
     }
-    
+
 }

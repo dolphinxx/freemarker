@@ -27,13 +27,13 @@ import java.util.List;
 /**
  * "date", "time" and "date-time" template language data types: corresponds to {link java.util.Date}. Contrary to Java,
  * FreeMarker distinguishes date (no time part), time and date-time values.
- * 
+ * <p>
  * <p>
  * Objects of this type should be immutable, that is, calling {link #getAsDate()} and {link #getDateType()} should
  * always return the same value as for the first time.
  */
 public interface TemplateDateModel extends TemplateModel {
-    
+
     /**
      * It is not known whether the date represents a date, a time, or a date-time value.
      * This often leads to exceptions in templates due to ambiguities it causes, so avoid it if possible.
@@ -54,11 +54,12 @@ public interface TemplateDateModel extends TemplateModel {
      * The date model represents a date-time value (also known as timestamp).
      */
     int DATETIME = 3;
-    
+
     List TYPE_NAMES =
-        Collections.unmodifiableList(
-            Arrays.asList(
-                    "UNKNOWN", "TIME", "DATE", "DATETIME"));
+            Collections.unmodifiableList(
+                    Arrays.asList(
+                            "UNKNOWN", "TIME", "DATE", "DATETIME"));
+
     /**
      * Returns the date value. The return value must not be {@code null}.
      */
@@ -69,5 +70,5 @@ public interface TemplateDateModel extends TemplateModel {
      * {link #DATE}, or {link #DATETIME}.
      */
     int getDateType();
-    
+
 }

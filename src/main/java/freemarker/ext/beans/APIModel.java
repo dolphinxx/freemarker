@@ -21,7 +21,7 @@ package freemarker.ext.beans;
 
 /**
  * Exposes the Java API (and properties) of an object.
- * 
+ * <p>
  * <p>
  * Notes:
  * <ul>
@@ -29,7 +29,7 @@ package freemarker.ext.beans;
  * <li>But methods will always shadow properties and fields with identical name, regardless of {link BeansWrapper}
  * settings</li>
  * </ul>
- * 
+ *
  * @since 2.3.22
  */
 final class APIModel extends BeanModel {
@@ -41,5 +41,5 @@ final class APIModel extends BeanModel {
     protected boolean isMethodsShadowItems() {
         return true;
     }
-    
+
 }

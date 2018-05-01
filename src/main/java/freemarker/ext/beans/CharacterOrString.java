@@ -31,7 +31,7 @@ final class CharacterOrString {
     CharacterOrString(String stringValue) {
         this.stringValue = stringValue;
     }
-    
+
     String getAsString() {
         return stringValue;
     }
@@ -39,5 +39,5 @@ final class CharacterOrString {
     char getAsChar() {
         return stringValue.charAt(0);
     }
-    
+
 }

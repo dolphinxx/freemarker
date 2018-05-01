@@ -35,16 +35,16 @@ import java.util.Iterator;
 class CollectionAdapter extends AbstractCollection implements TemplateModelAdapter {
     private final BeansWrapper wrapper;
     private final TemplateCollectionModel model;
-    
+
     CollectionAdapter(TemplateCollectionModel model, BeansWrapper wrapper) {
         this.model = model;
         this.wrapper = wrapper;
     }
-    
+
     public TemplateModel getTemplateModel() {
         return model;
     }
-    
+
     @Override
     public int size() {
         throw new UnsupportedOperationException();
@@ -55,7 +55,7 @@ class CollectionAdapter extends AbstractCollection implements TemplateModelAdapt
         try {
             return new Iterator() {
                 final TemplateModelIterator i = model.iterator();
-    
+
                 public boolean hasNext() {
                     try {
                         return i.hasNext();
@@ -63,7 +63,7 @@ class CollectionAdapter extends AbstractCollection implements TemplateModelAdapt
                         throw new UndeclaredThrowableException(e);
                     }
                 }
-                
+
                 public Object next() {
                     try {
                         return wrapper.unwrap(i.next());
@@ -71,7 +71,7 @@ class CollectionAdapter extends AbstractCollection implements TemplateModelAdapt
                         throw new UndeclaredThrowableException(e);
                     }
                 }
-                
+
                 public void remove() {
                     throw new UnsupportedOperationException();
                 }

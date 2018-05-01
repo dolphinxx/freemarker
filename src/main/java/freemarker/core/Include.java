@@ -44,16 +44,16 @@ final class Include extends TemplateElement {
     private final Boolean ignoreMissingExpPrecalcedValue;
 
     /**
-     * @param template the template that this <tt>#include</tt> is a part of.
+     * @param template                the template that this <tt>#include</tt> is a part of.
      * @param includedTemplatePathExp the path of the template to be included.
-     * @param encodingExp the encoding to be used or null, if it's the default.
-     * @param parseExp whether the template should be parsed (or is raw text)
+     * @param encodingExp             the encoding to be used or null, if it's the default.
+     * @param parseExp                whether the template should be parsed (or is raw text)
      */
     Include(Template template,
             Expression includedTemplatePathExp,
             Expression encodingExp, Expression parseExp, Expression ignoreMissingExp) throws ParseException {
         this.includedTemplateNameExp = includedTemplatePathExp;
-        
+
         this.encodingExp = encodingExp;
         if (encodingExp == null) {
             encoding = null;
@@ -74,7 +74,7 @@ final class Include extends TemplateElement {
                 encoding = null;
             }
         }
-        
+
         this.parseExp = parseExp;
         if (parseExp == null) {
             parse = Boolean.TRUE;
@@ -100,7 +100,7 @@ final class Include extends TemplateElement {
                 parse = null;
             }
         }
-        
+
         this.ignoreMissingExp = ignoreMissingExp;
         if (ignoreMissingExp != null && ignoreMissingExp.isLiteral()) {
             try {
@@ -118,7 +118,7 @@ final class Include extends TemplateElement {
             ignoreMissingExpPrecalcedValue = null;
         }
     }
-    
+
     @Override
     TemplateElement[] accept(Environment env) throws TemplateException, IOException {
         final String includedTemplateName = includedTemplateNameExp.evalAndCoerceToPlainText(env);
@@ -130,13 +130,13 @@ final class Include extends TemplateElement {
                     "Malformed template name ", new _DelayedJQuote(e.getTemplateName()), ":\n",
                     e.getMalformednessDescription());
         }
-        
+
         final String encoding = this.encoding != null
                 ? this.encoding
                 : (encodingExp != null
-                        ? encodingExp.evalAndCoerceToPlainText(env)
-                        : null);
-        
+                ? encodingExp.evalAndCoerceToPlainText(env)
+                : null);
+
         final boolean parse;
         if (this.parse != null) {
             parse = this.parse;
@@ -149,7 +149,7 @@ final class Include extends TemplateElement {
                 parse = parseExp.modelToBoolean(tm, env);
             }
         }
-        
+
         final boolean ignoreMissing;
         if (this.ignoreMissingExpPrecalcedValue != null) {
             ignoreMissing = this.ignoreMissingExpPrecalcedValue;
@@ -158,7 +158,7 @@ final class Include extends TemplateElement {
         } else {
             ignoreMissing = false;
         }
-        
+
         final Template includedTemplate;
         try {
             includedTemplate = env.getTemplateForInclusion(fullIncludedTemplateName, encoding, parse, ignoreMissing);
@@ -168,13 +168,13 @@ final class Include extends TemplateElement {
                     new _DelayedJQuote(includedTemplateName),
                     "):\n", new _DelayedGetMessage(e));
         }
-        
+
         if (includedTemplate != null) {
             env.include(includedTemplate);
         }
         return null;
     }
-    
+
     @Override
     protected String dump(boolean canonical) {
         StringBuilder buf = new StringBuilder();
@@ -199,7 +199,7 @@ final class Include extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#include";
     }
-    
+
     @Override
     int getParameterCount() {
         return 4;
@@ -208,22 +208,32 @@ final class Include extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return includedTemplateNameExp;
-        case 1: return parseExp;
-        case 2: return encodingExp;
-        case 3: return ignoreMissingExp;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return includedTemplateNameExp;
+            case 1:
+                return parseExp;
+            case 2:
+                return encodingExp;
+            case 3:
+                return ignoreMissingExp;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.TEMPLATE_NAME;
-        case 1: return ParameterRole.PARSE_PARAMETER;
-        case 2: return ParameterRole.ENCODING_PARAMETER;
-        case 3: return ParameterRole.IGNORE_MISSING_PARAMETER;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.TEMPLATE_NAME;
+            case 1:
+                return ParameterRole.PARSE_PARAMETER;
+            case 2:
+                return ParameterRole.ENCODING_PARAMETER;
+            case 3:
+                return ParameterRole.IGNORE_MISSING_PARAMETER;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -234,12 +244,12 @@ final class Include extends TemplateElement {
 
     private boolean getYesNo(Expression exp, String s) throws TemplateException {
         try {
-           return StringUtil.getYesNo(s);
+            return StringUtil.getYesNo(s);
         } catch (IllegalArgumentException iae) {
             throw new _MiscTemplateException(exp,
-                     "Value must be boolean (or one of these strings: "
-                     + "\"n\", \"no\", \"f\", \"false\", \"y\", \"yes\", \"t\", \"true\"), but it was ",
-                     new _DelayedJQuote(s), ".");
+                    "Value must be boolean (or one of these strings: "
+                            + "\"n\", \"no\", \"f\", \"false\", \"y\", \"yes\", \"t\", \"true\"), but it was ",
+                    new _DelayedJQuote(s), ".");
         }
     }
 
@@ -252,10 +262,10 @@ final class Include extends TemplateElement {
         return true;
     }
 */
-    
+
     @Override
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

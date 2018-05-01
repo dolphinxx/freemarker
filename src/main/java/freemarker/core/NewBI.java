@@ -35,8 +35,9 @@ import java.util.List;
  * Usage is something like: <tt>&lt;#assign foobar = "foo.bar.MyClass"?new()></tt>;
  */
 class NewBI extends BuiltIn {
-    
+
     static Class<?> JYTHON_MODEL_CLASS;
+
     static {
         try {
             JYTHON_MODEL_CLASS = Class.forName("freemarker.ext.jython.JythonModel");
@@ -44,7 +45,7 @@ class NewBI extends BuiltIn {
             JYTHON_MODEL_CLASS = null;
         }
     }
-    
+
     @Override
     TemplateModel _eval(Environment env)
             throws TemplateException {
@@ -55,7 +56,7 @@ class NewBI extends BuiltIn {
 
         private final Class<?> cl;
         private final Environment env;
-        
+
         public ConstructorFunction(String classname, Environment env, Template template) throws TemplateException {
             this.env = env;
             cl = env.getNewBuiltinClassResolver().resolve(classname, env, template);
@@ -75,10 +76,10 @@ class NewBI extends BuiltIn {
 
         public Object exec(List arguments) throws TemplateModelException {
             ObjectWrapper ow = env.getObjectWrapper();
-            BeansWrapper bw = 
-                ow instanceof BeansWrapper 
-                ? (BeansWrapper) ow
-                : BeansWrapper.getDefaultInstance();
+            BeansWrapper bw =
+                    ow instanceof BeansWrapper
+                            ? (BeansWrapper) ow
+                            : BeansWrapper.getDefaultInstance();
             return bw.newInstance(cl, arguments);
         }
     }

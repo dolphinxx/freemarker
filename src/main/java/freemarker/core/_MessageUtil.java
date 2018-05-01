@@ -37,19 +37,19 @@ public class _MessageUtil {
 
     static final String UNKNOWN_DATE_TO_STRING_ERROR_MESSAGE
             = "Can't convert the date-like value to string because it isn't "
-              + "known if it's a date (no time part), time or date-time value.";
-    
+            + "known if it's a date (no time part), time or date-time value.";
+
     static final String UNKNOWN_DATE_PARSING_ERROR_MESSAGE
             = "Can't parse the string to date-like value because it isn't "
-              + "known if it's desired result should be a date (no time part), a time, or a date-time value.";
+            + "known if it's desired result should be a date (no time part), a time, or a date-time value.";
 
-    static final String UNKNOWN_DATE_TYPE_ERROR_TIP = 
+    static final String UNKNOWN_DATE_TYPE_ERROR_TIP =
             "Use ?date, ?time, or ?datetime to tell FreeMarker the exact type.";
-    
+
     static final Object[] UNKNOWN_DATE_TO_STRING_TIPS = {
             UNKNOWN_DATE_TYPE_ERROR_TIP,
             "If you need a particular format only once, use ?string(pattern), like ?string('dd.MM.yyyy HH:mm:ss'), "
-            + "to specify which fields to display. "
+                    + "to specify which fields to display. "
     };
 
     static final String EMBEDDED_MESSAGE_BEGIN = "---begin-message---\n";
@@ -57,8 +57,9 @@ public class _MessageUtil {
     static final String EMBEDDED_MESSAGE_END = "\n---end-message---";
 
     // Can't be instantiated
-    private _MessageUtil() { }
-        
+    private _MessageUtil() {
+    }
+
     static String formatLocationForSimpleParsingError(Template template, int line, int column) {
         return formatLocation("in", template, line, column);
     }
@@ -83,7 +84,7 @@ public class _MessageUtil {
         Template t = macro.getTemplate();
         return formatLocation("at", t != null ? t.getSourceName() : null, macro.getName(), macro.isFunction(), line, column);
     }
-    
+
     static String formatLocationForEvaluationError(String templateSourceName, int line, int column) {
         return formatLocation("at", templateSourceName, line, column);
     }
@@ -91,7 +92,7 @@ public class _MessageUtil {
     private static String formatLocation(String preposition, Template template, int line, int column) {
         return formatLocation(preposition, template != null ? template.getSourceName() : null, line, column);
     }
-    
+
     private static String formatLocation(String preposition, String templateSourceName, int line, int column) {
         return formatLocation(
                 preposition, templateSourceName,
@@ -107,19 +108,19 @@ public class _MessageUtil {
         if (line < 0) {
             templateDesc = "?eval-ed string";
             macroOrFuncName = null;
-        } else { 
+        } else {
             templateDesc = templateSourceName != null
-                ? "template " + StringUtil.jQuoteNoXSS(templateSourceName)
-                : "nameless template";
+                    ? "template " + StringUtil.jQuoteNoXSS(templateSourceName)
+                    : "nameless template";
         }
         return "in " + templateDesc
-              + (macroOrFuncName != null
-                      ? " in " + (isFunction ? "function " : "macro ") + StringUtil.jQuote(macroOrFuncName)
-                      : "")
-              + " "
-              + preposition + " " + formatPosition(line, column);
+                + (macroOrFuncName != null
+                ? " in " + (isFunction ? "function " : "macro ") + StringUtil.jQuote(macroOrFuncName)
+                : "")
+                + " "
+                + preposition + " " + formatPosition(line, column);
     }
-    
+
     static String formatPosition(int line, int column) {
         return "line " + (line >= 0 ? line : line - (TemplateObject.RUNTIME_EVAL_LINE_DISPLACEMENT - 1))
                 + ", column " + column;
@@ -128,13 +129,13 @@ public class _MessageUtil {
     /**
      * Returns a single line string that is no longer than {@code maxLength}.
      * If will truncate the string at line-breaks too.
-     * The truncation is always signaled with a a {@code "..."} at the end of the result string.  
+     * The truncation is always signaled with a a {@code "..."} at the end of the result string.
      */
     public static String shorten(String s, int maxLength) {
         if (maxLength < 5) maxLength = 5;
-        
+
         boolean isTruncated = false;
-        
+
         int brIdx = s.indexOf('\n');
         if (brIdx != -1) {
             s = s.substring(0, brIdx);
@@ -145,12 +146,12 @@ public class _MessageUtil {
             s = s.substring(0, brIdx);
             isTruncated = true;
         }
-        
+
         if (s.length() > maxLength) {
             s = s.substring(0, maxLength - 3);
             isTruncated = true;
         }
-        
+
         if (!isTruncated) {
             return s;
         } else {
@@ -169,21 +170,21 @@ public class _MessageUtil {
             }
         }
     }
-    
+
     public static StringBuilder appendExpressionAsUntearable(StringBuilder sb, Expression argExp) {
         boolean needParen =
                 !(argExp instanceof NumberLiteral)
-                && !(argExp instanceof StringLiteral)
-                && !(argExp instanceof BooleanLiteral)
-                && !(argExp instanceof ListLiteral)
-                && !(argExp instanceof HashLiteral)
-                && !(argExp instanceof Identifier)
-                && !(argExp instanceof Dot)
-                && !(argExp instanceof DynamicKeyName)
-                && !(argExp instanceof MethodCall)
-                && !(argExp instanceof BuiltIn)
-                && !(argExp instanceof ExistsExpression)
-                && !(argExp instanceof ParentheticalExpression);
+                        && !(argExp instanceof StringLiteral)
+                        && !(argExp instanceof BooleanLiteral)
+                        && !(argExp instanceof ListLiteral)
+                        && !(argExp instanceof HashLiteral)
+                        && !(argExp instanceof Identifier)
+                        && !(argExp instanceof Dot)
+                        && !(argExp instanceof DynamicKeyName)
+                        && !(argExp instanceof MethodCall)
+                        && !(argExp instanceof BuiltIn)
+                        && !(argExp instanceof ExistsExpression)
+                        && !(argExp instanceof ParentheticalExpression);
         if (needParen) sb.append('(');
         sb.append(argExp.getCanonicalForm());
         if (needParen) sb.append(')');
@@ -193,16 +194,16 @@ public class _MessageUtil {
     public static TemplateModelException newArgCntError(String methodName, int argCnt, int expectedCnt) {
         return newArgCntError(methodName, argCnt, expectedCnt, expectedCnt);
     }
-    
+
     public static TemplateModelException newArgCntError(String methodName, int argCnt, int minCnt, int maxCnt) {
         ArrayList/*<Object>*/ desc = new ArrayList(20);
-        
+
         desc.add(methodName);
-        
+
         desc.add("(");
         if (maxCnt != 0) desc.add("...");
         desc.add(") expects ");
-        
+
         if (minCnt == maxCnt) {
             if (maxCnt == 0) {
                 desc.add("no");
@@ -224,7 +225,7 @@ public class _MessageUtil {
         }
         desc.add(" argument");
         if (maxCnt > 1) desc.add("s");
-        
+
         desc.add(" but has received ");
         if (argCnt == 0) {
             desc.add("none");
@@ -232,7 +233,7 @@ public class _MessageUtil {
             desc.add(argCnt);
         }
         desc.add(".");
-        
+
         return new _TemplateModelException(desc.toArray());
     }
 
@@ -243,33 +244,33 @@ public class _MessageUtil {
     public static TemplateModelException newMethodArgMustBeNumberException(String methodName, int argIdx, TemplateModel arg) {
         return newMethodArgUnexpectedTypeException(methodName, argIdx, "number", arg);
     }
-    
+
     public static TemplateModelException newMethodArgMustBeBooleanException(String methodName, int argIdx, TemplateModel arg) {
         return newMethodArgUnexpectedTypeException(methodName, argIdx, "boolean", arg);
     }
-    
+
     public static TemplateModelException newMethodArgMustBeExtendedHashException(
             String methodName, int argIdx, TemplateModel arg) {
         return newMethodArgUnexpectedTypeException(methodName, argIdx, "extended hash", arg);
     }
-    
+
     public static TemplateModelException newMethodArgMustBeSequenceException(
             String methodName, int argIdx, TemplateModel arg) {
         return newMethodArgUnexpectedTypeException(methodName, argIdx, "sequence", arg);
     }
-    
+
     public static TemplateModelException newMethodArgMustBeSequenceOrCollectionException(
             String methodName, int argIdx, TemplateModel arg) {
         return newMethodArgUnexpectedTypeException(methodName, argIdx, "sequence or collection", arg);
     }
-    
+
     public static TemplateModelException newMethodArgUnexpectedTypeException(
             String methodName, int argIdx, String expectedType, TemplateModel arg) {
         return new _TemplateModelException(
                 methodName, "(...) expects ", new _DelayedAOrAn(expectedType), " as argument #", argIdx + 1,
                 ", but received ", new _DelayedAOrAn(new _DelayedFTLTypeDescription(arg)), ".");
     }
-    
+
     /**
      * The type of the argument was good, but it's value wasn't.
      */
@@ -287,12 +288,12 @@ public class _MessageUtil {
             String methodName, Object... details) {
         return new _TemplateModelException(methodName, "(...) arguments have invalid value: ", details);
     }
-    
+
     public static TemplateException newInstantiatingClassNotAllowedException(String className, Environment env) {
         return new _MiscTemplateException(env,
                 "Instantiating ", className, " is not allowed in the template for security reasons.");
     }
-    
+
     public static _TemplateModelException newCantFormatUnknownTypeDateException(
             Expression dateSourceExpr, UnknownDateTypeFormattingUnsupportedException cause) {
         return new _TemplateModelException(cause, null, new _ErrorDescriptionBuilder(
@@ -302,22 +303,22 @@ public class _MessageUtil {
     }
 
     public static TemplateException newCantFormatDateException(TemplateDateFormat format, Expression dataSrcExp,
-            TemplateValueFormatException e, boolean useTempModelExc) {
+                                                               TemplateValueFormatException e, boolean useTempModelExc) {
         _ErrorDescriptionBuilder desc = new _ErrorDescriptionBuilder(
                 "Failed to format date/time/datetime with format ", new _DelayedJQuote(format.getDescription()), ": ",
                 e.getMessage())
-                .blame(dataSrcExp); 
+                .blame(dataSrcExp);
         return useTempModelExc
                 ? new _TemplateModelException(e, null, desc)
                 : new _MiscTemplateException(e, null, desc);
     }
-    
+
     public static TemplateException newCantFormatNumberException(TemplateNumberFormat format, Expression dataSrcExp,
-            TemplateValueFormatException e, boolean useTempModelExc) {
+                                                                 TemplateValueFormatException e, boolean useTempModelExc) {
         _ErrorDescriptionBuilder desc = new _ErrorDescriptionBuilder(
                 "Failed to format number with format ", new _DelayedJQuote(format.getDescription()), ": ",
                 e.getMessage())
-                .blame(dataSrcExp); 
+                .blame(dataSrcExp);
         return useTempModelExc
                 ? new _TemplateModelException(e, null, desc)
                 : new _MiscTemplateException(e, null, desc);
@@ -327,31 +328,31 @@ public class _MessageUtil {
             TemplateModel key, TemplateHashModelEx listedHashEx) {
         return new _TemplateModelException(new _ErrorDescriptionBuilder(
                 "When listing key-value pairs of traditional hash "
-                + "implementations, all keys must be strings, but one of them "
-                + "was ",
+                        + "implementations, all keys must be strings, but one of them "
+                        + "was ",
                 new _DelayedAOrAn(new _DelayedFTLTypeDescription(key)), "."
-                ).tip("The listed value's TemplateModel class was ",
-                        new _DelayedShortClassName(listedHashEx.getClass()),
-                        ", which doesn't implement ",
-                        new _DelayedShortClassName(TemplateHashModelEx2.class),
-                        ", which leads to this restriction."));
+        ).tip("The listed value's TemplateModel class was ",
+                new _DelayedShortClassName(listedHashEx.getClass()),
+                ", which doesn't implement ",
+                new _DelayedShortClassName(TemplateHashModelEx2.class),
+                ", which leads to this restriction."));
     }
-    
+
     /**
      * @return "a" or "an" or "a(n)" (or "" for empty string) for an FTL type name
      */
     static public String getAOrAn(String s) {
         if (s == null) return null;
         if (s.length() == 0) return "";
-        
+
         char fc = Character.toLowerCase(s.charAt(0));
         if (fc == 'a' || fc == 'e' || fc == 'i') {
             return "an";
-        } else if (fc == 'h') { 
+        } else if (fc == 'h') {
             String ls = s.toLowerCase();
-            if (ls.startsWith("has") || ls.startsWith("hi")) { 
+            if (ls.startsWith("has") || ls.startsWith("hi")) {
                 return "a";
-            } else if (ls.startsWith("ht")) { 
+            } else if (ls.startsWith("ht")) {
                 return "an";
             } else {
                 return "a(n)";
@@ -359,7 +360,7 @@ public class _MessageUtil {
         } else if (fc == 'u' || fc == 'o') {
             return "a(n)";
         } else {
-            char sc = (s.length() > 1) ? s.charAt(1) : '\0'; 
+            char sc = (s.length() > 1) ? s.charAt(1) : '\0';
             if (fc == 'x' && !(sc == 'a' || sc == 'e' || sc == 'i' || sc == 'a' || sc == 'o' || sc == 'u')) {
                 return "an";
             } else {
@@ -367,5 +368,5 @@ public class _MessageUtil {
             }
         }
     }
-    
+
 }

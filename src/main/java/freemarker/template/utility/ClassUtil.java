@@ -65,7 +65,7 @@ import java.util.Set;
 public class ClassUtil {
     private ClassUtil() {
     }
-    
+
     /**
      * Similar to {link Class#forName(java.lang.String)}, but attempts to load
      * through the thread context class loader. Only if thread context class
@@ -73,7 +73,7 @@ public class ClassUtil {
      * fall back to the class loader that loads the FreeMarker classes.
      */
     public static Class forName(String className)
-    throws ClassNotFoundException {
+            throws ClassNotFoundException {
         try {
             ClassLoader ctcl = Thread.currentThread().getContextClassLoader();
             if (ctcl != null) {  // not null: we don't want to fall back to the bootstrap class loader
@@ -87,25 +87,24 @@ public class ClassUtil {
         // Fall back to the defining class loader of the FreeMarker classes 
         return Class.forName(className);
     }
-    
+
     /**
      * Same as {link #getShortClassName(Class, boolean) getShortClassName(pClass, false)}.
-     * 
+     *
      * @since 2.3.20
      */
     public static String getShortClassName(Class pClass) {
         return getShortClassName(pClass, false);
     }
-    
+
     /**
      * Returns a class name without "java.lang." and "java.util." prefix, also shows array types in a format like
      * {@code int[]}; useful for printing class names in error messages.
-     * 
-     * @param pClass can be {@code null}, in which case the method returns {@code null}.
+     *
+     * @param pClass                   can be {@code null}, in which case the method returns {@code null}.
      * @param shortenFreeMarkerClasses if {@code true}, it will also shorten FreeMarker class names. The exact rules
-     *     aren't specified and might change over time, but right now, {@code freemarker.ext.beans.NumberModel} for
-     *     example becomes to {@code f.e.b.NumberModel}. 
-     * 
+     *                                 aren't specified and might change over time, but right now, {@code freemarker.ext.beans.NumberModel} for
+     *                                 example becomes to {@code f.e.b.NumberModel}.
      * @since 2.3.20
      */
     public static String getShortClassName(Class pClass, boolean shortenFreeMarkerClasses) {
@@ -139,17 +138,17 @@ public class ClassUtil {
 
     /**
      * Same as {link #getShortClassNameOfObject(Object, boolean) getShortClassNameOfObject(pClass, false)}.
-     * 
+     *
      * @since 2.3.20
      */
     public static String getShortClassNameOfObject(Object obj) {
         return getShortClassNameOfObject(obj, false);
     }
-    
+
     /**
      * {link #getShortClassName(Class, boolean)} called with {@code object.getClass()}, but returns the fictional
      * class name {@code Null} for a {@code null} value.
-     * 
+     *
      * @since 2.3.20
      */
     public static String getShortClassNameOfObject(Object obj, boolean shortenFreeMarkerClasses) {
@@ -194,19 +193,19 @@ public class ClassUtil {
 
     private static void appendTemplateModelTypeName(StringBuilder sb, Set typeNamesAppended, Class cl) {
         int initalLength = sb.length();
-        
+
         if (TemplateNodeModelEx.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "extended node");
         } else if (TemplateNodeModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "node");
         }
-        
+
         if (TemplateDirectiveModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "directive");
         } else if (TemplateTransformModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "transform");
         }
-        
+
         if (TemplateSequenceModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "sequence");
         } else if (TemplateCollectionModel.class.isAssignableFrom(cl)) {
@@ -215,11 +214,11 @@ public class ClassUtil {
         } else if (TemplateModelIterator.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "iterator");
         }
-        
+
         if (TemplateMethodModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "method");
         }
-        
+
         if (Environment.Namespace.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "namespace");
         } else if (TemplateHashModelEx.class.isAssignableFrom(cl)) {
@@ -227,32 +226,32 @@ public class ClassUtil {
         } else if (TemplateHashModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "hash");
         }
-        
+
         if (TemplateNumberModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "number");
         }
-        
+
         if (TemplateDateModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "date_or_time_or_datetime");
         }
-        
+
         if (TemplateBooleanModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "boolean");
         }
-        
+
         if (TemplateScalarModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "string");
         }
-        
+
         if (TemplateMarkupOutputModel.class.isAssignableFrom(cl)) {
             appendTypeName(sb, typeNamesAppended, "markup_output");
         }
-        
+
         if (sb.length() == initalLength) {
             appendTypeName(sb, typeNamesAppended, "misc_template_model");
         }
     }
-    
+
     private static Class getUnwrappedClass(TemplateModel tm) {
         Object unwrapped;
         try {
@@ -282,7 +281,7 @@ public class ClassUtil {
      * type-related error messages and for debugging purposes. The exact format is not specified and might change over
      * time, but currently it's something like {@code "string (wrapper: f.t.SimpleScalar)"} or
      * {@code "sequence+hash+string (ArrayList wrapped into f.e.b.CollectionModel)"}.
-     * 
+     *
      * @since 2.3.20
      */
     public static String getFTLTypeDescription(TemplateModel tm) {
@@ -290,20 +289,20 @@ public class ClassUtil {
             return "Null";
         } else {
             Set typeNamesAppended = new HashSet();
-            
+
             StringBuilder sb = new StringBuilder();
-    
+
             Class primaryInterface = getPrimaryTemplateModelInterface(tm);
             if (primaryInterface != null) {
                 appendTemplateModelTypeName(sb, typeNamesAppended, primaryInterface);
             }
-    
+
             if (tm instanceof Macro) {
                 appendTypeName(sb, typeNamesAppended, ((Macro) tm).isFunction() ? "function" : "macro");
             }
-            
+
             appendTemplateModelTypeName(sb, typeNamesAppended, tm.getClass());
-            
+
             String javaClassName;
             Class unwrappedClass = getUnwrappedClass(tm);
             if (unwrappedClass != null) {
@@ -311,7 +310,7 @@ public class ClassUtil {
             } else {
                 javaClassName = null;
             }
-            
+
             sb.append(" (");
             String modelClassName = getShortClassName(tm.getClass(), true);
             if (javaClassName == null) {
@@ -323,19 +322,18 @@ public class ClassUtil {
                 sb.append(modelClassName);
             }
             sb.append(")");
-    
+
             return sb.toString();
         }
     }
-    
+
     /**
      * Gets the wrapper class for a primitive class, like {link Integer} for {@code int}, also returns {link Void}
-     * for {@code void}. 
-     * 
+     * for {@code void}.
+     *
      * @param primitiveClass A {link Class} like {@code int.type}, {@code boolean.type}, etc. If it's not a primitive
-     *     class, or it's {@code null}, then the parameter value is returned as is. Note that performance-wise the
-     *     method assumes that it's a primitive class.
-     *     
+     *                       class, or it's {@code null}, then the parameter value is returned as is. Note that performance-wise the
+     *                       method assumes that it's a primitive class.
      * @since 2.3.21
      */
     public static Class primitiveClassToBoxingClass(Class primitiveClass) {
@@ -354,7 +352,7 @@ public class ClassUtil {
 
     /**
      * The exact reverse of {link #primitiveClassToBoxingClass}.
-     *     
+     *
      * @since 2.3.21
      */
     public static Class boxingClassToPrimitiveClass(Class boxingClass) {
@@ -370,19 +368,18 @@ public class ClassUtil {
         if (boxingClass == Void.class) return void.class;  // not really a primitive, but we normalize to it
         return boxingClass;
     }
-    
+
     /**
      * Tells if a type is numerical; works both for primitive types and classes.
-     * 
+     *
      * @param type can't be {@code null}
-     * 
      * @since 2.3.21
      */
     public static boolean isNumerical(Class type) {
         return Number.class.isAssignableFrom(type)
                 || type.isPrimitive() && type != Boolean.TYPE && type != Character.TYPE && type != Void.TYPE;
     }
-    
+
     /**
      * Very similar to {link Class#getResourceAsStream(String)}, but throws {link IOException} instead of returning
      * {@code null} if {@code optional} is {@code false}, and attempts to work around "IllegalStateException: zip file
@@ -390,12 +387,10 @@ public class ClassUtil {
      * outside of FreeMarker. Note that in cases where the JAR resource becomes broken concurrently, similar errors can
      * still occur later when the {link InputStream} is read ({link #loadProperties(Class, String)} works that
      * around as well).
-     * 
+     *
      * @return If {@code optional} is {@code false}, it's never {@code null}, otherwise {@code null} indicates that the
-     *         resource doesn't exist.
-     * @throws IOException
-     *             If the resource wasn't found, or other {link IOException} occurs.
-     * 
+     * resource doesn't exist.
+     * @throws IOException If the resource wasn't found, or other {link IOException} occurs.
      * @since 2.3.27
      */
     public static InputStream getReasourceAsStream(Class<?> baseClass, String resource, boolean optional)
@@ -419,7 +414,7 @@ public class ClassUtil {
     /**
      * Same as {link #getReasourceAsStream(Class, String, boolean)}, but uses a {link ClassLoader} directly
      * instead of a {link Class}.
-     * 
+     *
      * @since 2.3.27
      */
     public static InputStream getReasourceAsStream(ClassLoader classLoader, String resource, boolean optional)
@@ -442,13 +437,13 @@ public class ClassUtil {
     /**
      * Loads a class loader resource into a {link Properties}; tries to work around "zip file closed" and related
      * {@code sun.net.www.protocol.jar.JarURLConnection} glitches.
-     * 
+     *
      * @since 2.3.27
      */
     public static Properties loadProperties(Class<?> baseClass, String resource) throws IOException {
         Properties props = new Properties();
-        
-        InputStream ins  = null;
+
+        InputStream ins = null;
         try {
             try {
                 // This is how we did this earlier. May uses some JarURLConnection caches, which leads to the problems.
@@ -460,7 +455,7 @@ public class ClassUtil {
             try {
                 props.load(ins);
             } catch (Exception e) {
-                throw new MaybeZipFileClosedException();                
+                throw new MaybeZipFileClosedException();
             } finally {
                 try {
                     ins.close();
@@ -495,10 +490,12 @@ public class ClassUtil {
                     + StringUtil.jQuote(resource) + ". The base class was " + baseClass.getName() + ".");
         }
     }
-    
-    /** Used internally to work around some JarURLConnection glitches */
+
+    /**
+     * Used internally to work around some JarURLConnection glitches
+     */
     private static class MaybeZipFileClosedException extends Exception {
         //
     }
-    
+
 }

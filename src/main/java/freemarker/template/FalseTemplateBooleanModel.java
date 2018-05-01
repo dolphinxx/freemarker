@@ -23,7 +23,7 @@ package freemarker.template;
  * Used for the {link TemplateBooleanModel#TRUE} singleton.
  */
 final class FalseTemplateBooleanModel implements SerializableTemplateBooleanModel {
-    
+
     public boolean getAsBoolean() {
         return false;
     }
@@ -31,5 +31,5 @@ final class FalseTemplateBooleanModel implements SerializableTemplateBooleanMode
     private Object readResolve() {
         return FALSE;
     }
-    
+
 }

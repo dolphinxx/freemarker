@@ -19,12 +19,14 @@
 
 package freemarker.ext.beans;
 
-/** Hack to prevent creating the default ObjectWrapper before BeansWrapper is fully initialized. */
+/**
+ * Hack to prevent creating the default ObjectWrapper before BeansWrapper is fully initialized.
+ */
 class BeansWrapperSingletonHolder {
-    
+
     /**
      * Used in {link BeansWrapper#getDefaultInstance()}.
-     * 
+     *
      * @deprecated Use {link BeansWrapperBuilder#build()} to get or create singletons.
      */
     @Deprecated

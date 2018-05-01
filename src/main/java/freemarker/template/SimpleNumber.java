@@ -31,7 +31,7 @@ import java.io.Serializable;
 public final class SimpleNumber implements TemplateNumberModel, Serializable {
 
     /**
-     * @serial the value of this <tt>SimpleNumber</tt> 
+     * @serial the value of this <tt>SimpleNumber</tt>
      */
     private final Number value;
 
@@ -58,7 +58,7 @@ public final class SimpleNumber implements TemplateNumberModel, Serializable {
     public SimpleNumber(float val) {
         this.value = val;
     }
-    
+
     public SimpleNumber(double val) {
         this.value = val;
     }

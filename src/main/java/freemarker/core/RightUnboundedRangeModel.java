@@ -20,7 +20,7 @@
 package freemarker.core;
 
 abstract class RightUnboundedRangeModel extends RangeModel {
-    
+
     RightUnboundedRangeModel(int begin) {
         super(begin);
     }
@@ -34,7 +34,7 @@ abstract class RightUnboundedRangeModel extends RangeModel {
     final boolean isRightUnbounded() {
         return true;
     }
-    
+
     @Override
     final boolean isRightAdaptive() {
         return true;
@@ -44,5 +44,5 @@ abstract class RightUnboundedRangeModel extends RangeModel {
     final boolean isAffactedByStringSlicingBug() {
         return false;
     }
-    
+
 }

@@ -24,19 +24,21 @@ import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
-/** {@code exp??} and {@code (exp)??} */
+/**
+ * {@code exp??} and {@code (exp)??}
+ */
 class ExistsExpression extends Expression {
-	
-	protected final Expression exp;
-	
-	ExistsExpression(Expression exp) {
-		this.exp = exp;
-	}
 
-	@Override
+    protected final Expression exp;
+
+    ExistsExpression(Expression exp) {
+        this.exp = exp;
+    }
+
+    @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         TemplateModel tm;
-	    if (exp instanceof ParentheticalExpression) {
+        if (exp instanceof ParentheticalExpression) {
             boolean lastFIRE = env.setFastInvalidReferenceExceptions(true);
             try {
                 tm = exp.eval(env);
@@ -45,29 +47,29 @@ class ExistsExpression extends Expression {
             } finally {
                 env.setFastInvalidReferenceExceptions(lastFIRE);
             }
-	    } else {
+        } else {
             tm = exp.eval(env);
-	    }
-		return tm == null ? TemplateBooleanModel.FALSE : TemplateBooleanModel.TRUE;
-	}
+        }
+        return tm == null ? TemplateBooleanModel.FALSE : TemplateBooleanModel.TRUE;
+    }
 
-	@Override
+    @Override
     boolean isLiteral() {
-		return false;
-	}
+        return false;
+    }
 
-	@Override
+    @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-		return new ExistsExpression(
-		        exp.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
-	}
+        return new ExistsExpression(
+                exp.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
+    }
 
-	@Override
+    @Override
     public String getCanonicalForm() {
-		return exp.getCanonicalForm() + getNodeTypeSymbol();
-	}
-	
-	@Override
+        return exp.getCanonicalForm() + getNodeTypeSymbol();
+    }
+
+    @Override
     String getNodeTypeSymbol() {
         return "??";
     }
@@ -86,5 +88,5 @@ class ExistsExpression extends Expression {
     ParameterRole getParameterRole(int idx) {
         return ParameterRole.LEFT_HAND_OPERAND;
     }
-	
+
 }

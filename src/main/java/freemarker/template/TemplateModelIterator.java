@@ -27,8 +27,9 @@ public interface TemplateModelIterator {
 
     /**
      * Returns the next model.
+     *
      * @throws TemplateModelException if the next model can not be retrieved
-     *   (i.e. because the iterator is exhausted).
+     *                                (i.e. because the iterator is exhausted).
      */
     TemplateModel next() throws TemplateModelException;
 

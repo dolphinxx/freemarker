@@ -34,5 +34,5 @@ final class TemplateLoaderUtils {
                 ? tlClass.getSimpleName() : tlClass.getName();
     }
 
-    
+
 }

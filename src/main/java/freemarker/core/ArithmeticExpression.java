@@ -34,7 +34,7 @@ final class ArithmeticExpression extends Expression {
     static final int TYPE_DIVISION = 2;
     static final int TYPE_MODULO = 3;
 
-    private static final char[] OPERATOR_IMAGES = new char[] { '-', '*', '/', '%' };
+    private static final char[] OPERATOR_IMAGES = new char[]{'-', '*', '/', '%'};
 
     private final Expression lho;
     private final Expression rho;
@@ -53,16 +53,16 @@ final class ArithmeticExpression extends Expression {
 
     static TemplateModel _eval(Environment env, TemplateObject parent, Number lhoNumber, int operator, Number rhoNumber)
             throws TemplateException {
-        ArithmeticEngine ae = EvalUtil.getArithmeticEngine(env, parent); 
+        ArithmeticEngine ae = EvalUtil.getArithmeticEngine(env, parent);
         try {
             switch (operator) {
-                case TYPE_SUBSTRACTION : 
+                case TYPE_SUBSTRACTION:
                     return new SimpleNumber(ae.subtract(lhoNumber, rhoNumber));
-                case TYPE_MULTIPLICATION :
+                case TYPE_MULTIPLICATION:
                     return new SimpleNumber(ae.multiply(lhoNumber, rhoNumber));
-                case TYPE_DIVISION :
+                case TYPE_DIVISION:
                     return new SimpleNumber(ae.divide(lhoNumber, rhoNumber));
-                case TYPE_MODULO :
+                case TYPE_MODULO:
                     return new SimpleNumber(ae.modulus(lhoNumber, rhoNumber));
                 default:
                     if (parent instanceof Expression) {
@@ -75,7 +75,7 @@ final class ArithmeticExpression extends Expression {
         } catch (ArithmeticException e) {
             throw new _MiscTemplateException(e, env,
                     "Arithmetic operation failed",
-                    (e.getMessage() != null ? new String[] { ": ", e.getMessage() } : " (see cause exception)"));
+                    (e.getMessage() != null ? new String[]{": ", e.getMessage()} : " (see cause exception)"));
         }
     }
 
@@ -83,7 +83,7 @@ final class ArithmeticExpression extends Expression {
     public String getCanonicalForm() {
         return lho.getCanonicalForm() + ' ' + getOperatorSymbol(operator) + ' ' + rho.getCanonicalForm();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return String.valueOf(getOperatorSymbol(operator));
@@ -92,7 +92,7 @@ final class ArithmeticExpression extends Expression {
     static char getOperatorSymbol(int operator) {
         return OPERATOR_IMAGES[operator];
     }
-    
+
     @Override
     boolean isLiteral() {
         return constantValue != null || (lho.isLiteral() && rho.isLiteral());
@@ -101,12 +101,12 @@ final class ArithmeticExpression extends Expression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new ArithmeticExpression(
-    	        lho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        operator);
+        return new ArithmeticExpression(
+                lho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                operator);
     }
-    
+
     @Override
     int getParameterCount() {
         return 3;
@@ -115,21 +115,29 @@ final class ArithmeticExpression extends Expression {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return lho;
-        case 1: return rho;
-        case 2: return operator;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return lho;
+            case 1:
+                return rho;
+            case 2:
+                return operator;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.LEFT_HAND_OPERAND;
-        case 1: return ParameterRole.RIGHT_HAND_OPERAND;
-        case 2: return ParameterRole.AST_NODE_SUBTYPE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.LEFT_HAND_OPERAND;
+            case 1:
+                return ParameterRole.RIGHT_HAND_OPERAND;
+            case 2:
+                return ParameterRole.AST_NODE_SUBTYPE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
-    
+
 }

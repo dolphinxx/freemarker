@@ -24,15 +24,15 @@ package freemarker.core;
  * {link Configuration#setTemplateConfigurations(freemarker.cache.TemplateConfigurationFactory)}). This format doesn't
  * support auto-escaping ({link Configuration#setAutoEscapingPolicy(int)}). It will print
  * {link TemplateMarkupOutputModel}-s as is (doesn't try to convert them).
- * 
+ * <p>
  * see PlainTextOutputFormat
- * 
+ *
  * @since 2.3.24
  */
 public final class UndefinedOutputFormat extends OutputFormat {
 
     public static final UndefinedOutputFormat INSTANCE = new UndefinedOutputFormat();
-    
+
     private UndefinedOutputFormat() {
         // Only to decrease visibility
     }

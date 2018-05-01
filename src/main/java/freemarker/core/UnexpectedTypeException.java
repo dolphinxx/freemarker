@@ -29,11 +29,11 @@ import java.util.Arrays;
 
 /**
  * The type of a value differs from what was expected.
- * 
+ *
  * @since 2.3.20
  */
 public class UnexpectedTypeException extends TemplateException {
-    
+
     public UnexpectedTypeException(Environment env, String description) {
         super(description, env);
     }
@@ -72,11 +72,10 @@ public class UnexpectedTypeException extends TemplateException {
         super(null, env, null, newDesciptionBuilder(
                 null, blamedAssignmentTargetVarName, model, expectedTypesDesc, expectedTypes, env).tips(tips));
     }
-    
+
     /**
-     * @param blamedAssignmentTargetVarName
-     *            Used for assignments that use {@code +=} and such, in which case the {@code blamed} expression
-     *            parameter will be null {@code null} and this parameter will be non-{null}.
+     * @param blamedAssignmentTargetVarName Used for assignments that use {@code +=} and such, in which case the {@code blamed} expression
+     *                                      parameter will be null {@code null} and this parameter will be non-{null}.
      */
     private static _ErrorDescriptionBuilder newDesciptionBuilder(
             Expression blamed, String blamedAssignmentTargetVarName,
@@ -95,7 +94,7 @@ public class UnexpectedTypeException extends TemplateException {
         }
         if (model instanceof TemplateCollectionModel
                 && (Arrays.asList(expectedTypes).contains(TemplateSequenceModel.class)
-                        || Arrays.asList(expectedTypes).contains(TemplateCollectionModelEx.class))) {
+                || Arrays.asList(expectedTypes).contains(TemplateCollectionModelEx.class))) {
             errorDescBuilder.tip("As the problematic value contains a collection of items, you could convert it "
                     + "to a sequence like someValue?sequence. Be sure though that you won't have a large number of "
                     + "items, as all will be held in memory one the same time.");
@@ -107,16 +106,16 @@ public class UnexpectedTypeException extends TemplateException {
             String expectedTypesDesc,
             Expression blamed, String blamedAssignmentTargetVarName,
             TemplateModel model) {
-        return new Object[] {
+        return new Object[]{
                 "Expected ", new _DelayedAOrAn(expectedTypesDesc), ", but ",
                 (blamedAssignmentTargetVarName == null
                         ? blamed != null ? "this" : "the expression"
-                        : new Object[] {
-                                "assignment target variable ",
-                                new _DelayedJQuote(blamedAssignmentTargetVarName) }), 
+                        : new Object[]{
+                        "assignment target variable ",
+                        new _DelayedJQuote(blamedAssignmentTargetVarName)}),
                 " has evaluated to ",
                 new _DelayedAOrAn(new _DelayedFTLTypeDescription(model)),
                 (blamed != null ? ":" : ".")};
     }
-    
+
 }

@@ -30,7 +30,7 @@ import java.util.List;
  */
 
 final class GeneralPurposeNothing
-implements TemplateBooleanModel, TemplateScalarModel, TemplateSequenceModel, TemplateHashModelEx2, TemplateMethodModelEx {
+        implements TemplateBooleanModel, TemplateScalarModel, TemplateSequenceModel, TemplateHashModelEx2, TemplateMethodModelEx {
 
     private static final TemplateModel instance = new GeneralPurposeNothing();
 
@@ -68,7 +68,7 @@ implements TemplateBooleanModel, TemplateScalarModel, TemplateSequenceModel, Tem
     public Object exec(List args) {
         return null;
     }
-    
+
     public TemplateCollectionModel keys() {
         return Constants.EMPTY_COLLECTION;
     }

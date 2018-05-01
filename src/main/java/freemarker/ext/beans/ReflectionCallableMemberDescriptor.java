@@ -34,12 +34,12 @@ import java.lang.reflect.Modifier;
 final class ReflectionCallableMemberDescriptor extends CallableMemberDescriptor {
 
     private final Member/*Method|Constructor*/ member;
-    
+
     /**
      * Don't modify this array!
      */
     final Class[] paramTypes;
-    
+
     ReflectionCallableMemberDescriptor(Method member, Class[] paramTypes) {
         this.member = member;
         this.paramTypes = paramTypes;
@@ -66,12 +66,12 @@ final class ReflectionCallableMemberDescriptor extends CallableMemberDescriptor 
     String getDeclaration() {
         return _MethodUtil.toString(member);
     }
-    
+
     @Override
     boolean isConstructor() {
         return member instanceof Constructor;
     }
-    
+
     @Override
     boolean isStatic() {
         return (member.getModifiers() & Modifier.STATIC) != 0;
@@ -91,5 +91,5 @@ final class ReflectionCallableMemberDescriptor extends CallableMemberDescriptor 
     String getName() {
         return member.getName();
     }
-    
+
 }

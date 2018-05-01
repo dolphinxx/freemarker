@@ -23,9 +23,9 @@ import freemarker.template.utility.StringUtil;
 
 /**
  * <b>Internal API - subject to change:</b> A template element where the content is ignored, a Comment.
- * 
+ *
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
- *             it.
+ * it.
  */
 @Deprecated
 public final class Comment extends TemplateElement {
@@ -50,12 +50,12 @@ public final class Comment extends TemplateElement {
             return "comment " + StringUtil.jQuote(text.trim());
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#--...--";
     }
-    
+
 
     @Override
     int getParameterCount() {
@@ -87,5 +87,5 @@ public final class Comment extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

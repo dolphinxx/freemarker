@@ -19,7 +19,9 @@
 
 package freemarker.core;
 
-/** 1 to "1st", 2 to "2nd", etc. */
+/**
+ * 1 to "1st", 2 to "2nd", etc.
+ */
 public class _DelayedOrdinal extends _DelayedConversionToString {
 
     public _DelayedOrdinal(Object object) {
@@ -43,5 +45,5 @@ public class _DelayedOrdinal extends _DelayedConversionToString {
             return "" + obj;
         }
     }
-    
+
 }

@@ -32,9 +32,9 @@ import java.util.Enumeration;
  * <b>Internal API - subject to change:</b> Represent directive call, interpolation, text block, or other such
  * non-expression node in the parsed template. Some information that can be found here can be accessed through the
  * {link Environment#getCurrentDirectiveCallPlace()}, which a published API, and thus promises backward compatibility.
- * 
+ *
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
- *             it.
+ * it.
  */
 @Deprecated
 abstract public class TemplateElement extends TemplateObject {
@@ -57,7 +57,7 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * The index of the element in the parent's {link #childBuffer} array.
-     * 
+     *
      * @since 2.3.23
      */
     private int index;
@@ -66,13 +66,11 @@ abstract public class TemplateElement extends TemplateObject {
      * Executes this {link TemplateElement}. Usually should not be called directly, but through
      * {link Environment#visit(TemplateElement)} or a similar {link Environment} method.
      *
-     * @param env
-     *            The runtime environment
-     * 
+     * @param env The runtime environment
      * @return The template elements to execute (meant to be used for nested elements), or {@code null}. Can have
-     *         <em>trailing</em> {@code null}-s (unused buffer capacity). Returning the nested elements instead of
-     *         executing them inside this method is a trick used for decreasing stack usage when there's nothing to do
-     *         after the children was processed anyway.
+     * <em>trailing</em> {@code null}-s (unused buffer capacity). Returning the nested elements instead of
+     * executing them inside this method is a trick used for decreasing stack usage when there's nothing to do
+     * after the children was processed anyway.
      */
     abstract TemplateElement[] accept(Environment env) throws TemplateException, IOException;
 
@@ -83,9 +81,9 @@ abstract public class TemplateElement extends TemplateObject {
      * down to the expression-level. There are no backward-compatibility guarantees regarding the format used ATM, but
      * it must be regular enough to be machine-parseable, and it must contain all information necessary for restoring an
      * AST equivalent to the original.
-     * 
+     * <p>
      * This final implementation calls {link #dump(boolean) dump(false)}.
-     * 
+     * <p>
      * see #getCanonicalForm()
      * see #getNodeTypeSymbol()
      */
@@ -104,7 +102,7 @@ abstract public class TemplateElement extends TemplateObject {
     final String getChildrenCanonicalForm() {
         return getChildrenCanonicalForm(childBuffer);
     }
-    
+
     static String getChildrenCanonicalForm(TemplateElement[] children) {
         if (children == null) {
             return "";
@@ -138,10 +136,9 @@ abstract public class TemplateElement extends TemplateObject {
     /**
      * Brings the implementation of {link #getCanonicalForm()} and {link #getDescription()} to a single place. Don't
      * call those methods in method on {@code this}, because that will result in infinite recursion!
-     * 
-     * @param canonical
-     *            if {@code true}, it calculates the return value of {link #getCanonicalForm()}, otherwise of
-     *            {link #getDescription()}.
+     *
+     * @param canonical if {@code true}, it calculates the return value of {link #getCanonicalForm()}, otherwise of
+     *                  {link #getDescription()}.
      */
     abstract protected String dump(boolean canonical);
 
@@ -243,14 +240,14 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * The element whose child this element is, or {@code null} if this is the root node.
-     * 
+     *
      * @deprecated Don't use in internal code either; use {link #getParentElement()} there.
      */
     @Deprecated
     public TemplateElement getParent() {
         return parent;
     }
-    
+
     /**
      * The element whose child this element is, or {@code null} if this is the root node.
      */
@@ -307,7 +304,7 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * @return Array containing 1 or more nested elements with optional trailing {@code null}-s, or is {@code null}
-     *         exactly if there are no nested elements.
+     * exactly if there are no nested elements.
      */
     final TemplateElement[] getChildBuffer() {
         return childBuffer;
@@ -315,7 +312,6 @@ abstract public class TemplateElement extends TemplateObject {
 
     /**
      * @param buffWithCnt Maybe {@code null}
-     * 
      * @since 2.3.24
      */
     final void setChildren(TemplateElements buffWithCnt) {
@@ -346,13 +342,11 @@ abstract public class TemplateElement extends TemplateObject {
     /**
      * Walk the AST subtree rooted by this element, and do simplifications where possible, also removes superfluous
      * whitespace.
-     * 
-     * @param stripWhitespace
-     *            whether to remove superfluous whitespace
-     * 
+     *
+     * @param stripWhitespace whether to remove superfluous whitespace
      * @return The element this element should be replaced with in the parent. If it's the same as this element, no
-     *         actual replacement will happen. Note that adjusting the {link #parent} and {link #index} of the result
-     *         is the duty of the caller, not of this method.
+     * actual replacement will happen. Note that adjusting the {link #parent} and {link #index} of the result
+     * is the duty of the caller, not of this method.
      */
     TemplateElement postParseCleanup(boolean stripWhitespace) throws ParseException {
         int childCount = this.childCount;
@@ -371,7 +365,7 @@ abstract public class TemplateElement extends TemplateObject {
                             + this.dump(false) + ") for: " + te.dump(false));
                 }
                 */
-                
+
                 te = te.postParseCleanup(stripWhitespace);
                 childBuffer[i] = te;
                 te.parent = this;

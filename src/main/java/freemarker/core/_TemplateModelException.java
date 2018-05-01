@@ -27,10 +27,10 @@ public class _TemplateModelException extends TemplateModelException {
 
     // Note: On Java 5 we will use `String descPart1, Object... furtherDescParts` instead of `Object[] descriptionParts`
     //       and `String description`. That's why these are at the end of the parameter list.
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _TemplateModelException(String description) {
         super(description);
     }
@@ -45,7 +45,7 @@ public class _TemplateModelException extends TemplateModelException {
     public _TemplateModelException(Environment env, String description) {
         this((Throwable) null, env, description);
     }
-    
+
     public _TemplateModelException(Throwable cause, Environment env) {
         this(cause, env, (String) null);
     }
@@ -53,14 +53,14 @@ public class _TemplateModelException extends TemplateModelException {
     public _TemplateModelException(Throwable cause) {
         this(cause, null, (String) null);
     }
-    
+
     public _TemplateModelException(Throwable cause, Environment env, String description) {
         super(cause, env, description, true);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _TemplateModelException(_ErrorDescriptionBuilder description) {
         this(null, description);
     }
@@ -75,7 +75,7 @@ public class _TemplateModelException extends TemplateModelException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _TemplateModelException(Object... descriptionParts) {
         this((Environment) null, descriptionParts);
     }
@@ -94,7 +94,7 @@ public class _TemplateModelException extends TemplateModelException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _TemplateModelException(Expression blamed, Object... descriptionParts) {
         this(blamed, null, descriptionParts);
     }
@@ -109,7 +109,7 @@ public class _TemplateModelException extends TemplateModelException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _TemplateModelException(Expression blamed, String description) {
         this(blamed, null, description);
     }
@@ -123,11 +123,11 @@ public class _TemplateModelException extends TemplateModelException {
     }
 
     static Object[] modelHasStoredNullDescription(Class expected, TemplateModel model) {
-        return new Object[] {
+        return new Object[]{
                 "The FreeMarker value exists, but has nothing inside it; the TemplateModel object (class: ",
                 model.getClass().getName(), ") has returned a null",
-                (expected != null ? new Object[] { " instead of a ", ClassUtil.getShortClassName(expected) } : ""),
-                ". This is possibly a bug in the non-FreeMarker code that builds the data-model." };
+                (expected != null ? new Object[]{" instead of a ", ClassUtil.getShortClassName(expected)} : ""),
+                ". This is possibly a bug in the non-FreeMarker code that builds the data-model."};
     }
-    
+
 }

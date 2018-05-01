@@ -57,15 +57,13 @@ final class AddConcatExpression extends Expression {
     }
 
     /**
-     * @param leftExp
-     *            Used for error messages only; can be {@code null}
-     * @param rightExp
-     *            Used for error messages only; can be {@code null}
+     * @param leftExp  Used for error messages only; can be {@code null}
+     * @param rightExp Used for error messages only; can be {@code null}
      */
     static TemplateModel _eval(Environment env,
-            TemplateObject parent,
-            Expression leftExp, TemplateModel leftModel,
-            Expression rightExp, TemplateModel rightModel)
+                               TemplateObject parent,
+                               Expression leftExp, TemplateModel leftModel,
+                               Expression rightExp, TemplateModel rightModel)
             throws TemplateException {
         if (leftModel instanceof TemplateNumberModel && rightModel instanceof TemplateNumberModel) {
             Number first = EvalUtil.modelToNumber((TemplateNumberModel) leftModel, leftExp);
@@ -99,13 +97,13 @@ final class AddConcatExpression extends Expression {
                     if (rightOMOrStr instanceof String) {
                         return new SimpleScalar(((String) leftOMOrStr).concat((String) rightOMOrStr));
                     } else { // rightOMOrStr instanceof TemplateMarkupOutputModel
-                        TemplateMarkupOutputModel<?> rightMO = (TemplateMarkupOutputModel<?>) rightOMOrStr; 
+                        TemplateMarkupOutputModel<?> rightMO = (TemplateMarkupOutputModel<?>) rightOMOrStr;
                         return EvalUtil.concatMarkupOutputs(parent,
                                 rightMO.getOutputFormat().fromPlainTextByEscaping((String) leftOMOrStr),
                                 rightMO);
-                    }                    
+                    }
                 } else { // leftOMOrStr instanceof TemplateMarkupOutputModel 
-                    TemplateMarkupOutputModel<?> leftMO = (TemplateMarkupOutputModel<?>) leftOMOrStr; 
+                    TemplateMarkupOutputModel<?> leftMO = (TemplateMarkupOutputModel<?>) leftOMOrStr;
                     if (rightOMOrStr instanceof String) {  // markup output
                         return EvalUtil.concatMarkupOutputs(parent,
                                 leftMO,
@@ -142,7 +140,7 @@ final class AddConcatExpression extends Expression {
             }
         } else {
             return new ConcatenatedHash((TemplateHashModel) leftModel,
-                                        (TemplateHashModel) rightModel);
+                    (TemplateHashModel) rightModel);
         }
     }
 
@@ -160,21 +158,21 @@ final class AddConcatExpression extends Expression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new AddConcatExpression(
-    	left.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	right.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
+        return new AddConcatExpression(
+                left.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                right.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
     }
 
     @Override
     public String getCanonicalForm() {
         return left.getCanonicalForm() + " + " + right.getCanonicalForm();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "+";
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -191,8 +189,8 @@ final class AddConcatExpression extends Expression {
     }
 
     private static final class ConcatenatedSequence
-    implements
-        TemplateSequenceModel {
+            implements
+            TemplateSequenceModel {
         private final TemplateSequenceModel left;
         private final TemplateSequenceModel right;
 
@@ -202,19 +200,19 @@ final class AddConcatExpression extends Expression {
         }
 
         public int size()
-        throws TemplateModelException {
+                throws TemplateModelException {
             return left.size() + right.size();
         }
 
         public TemplateModel get(int i)
-        throws TemplateModelException {
+                throws TemplateModelException {
             int ls = left.size();
             return i < ls ? left.get(i) : right.get(i - ls);
         }
     }
 
     private static class ConcatenatedHash
-    implements TemplateHashModel {
+            implements TemplateHashModel {
         protected final TemplateHashModel left;
         protected final TemplateHashModel right;
 
@@ -222,22 +220,22 @@ final class AddConcatExpression extends Expression {
             this.left = left;
             this.right = right;
         }
-        
+
         public TemplateModel get(String key)
-        throws TemplateModelException {
+                throws TemplateModelException {
             TemplateModel model = right.get(key);
             return (model != null) ? model : left.get(key);
         }
 
         public boolean isEmpty()
-        throws TemplateModelException {
+                throws TemplateModelException {
             return left.isEmpty() && right.isEmpty();
         }
     }
 
     private static final class ConcatenatedHashEx
-    extends ConcatenatedHash
-    implements TemplateHashModelEx {
+            extends ConcatenatedHash
+            implements TemplateHashModelEx {
         private CollectionAndSequence keys;
         private CollectionAndSequence values;
         private int size;
@@ -245,26 +243,26 @@ final class AddConcatExpression extends Expression {
         ConcatenatedHashEx(TemplateHashModelEx left, TemplateHashModelEx right) {
             super(left, right);
         }
-        
+
         public int size() throws TemplateModelException {
             initKeys();
             return size;
         }
 
         public TemplateCollectionModel keys()
-        throws TemplateModelException {
+                throws TemplateModelException {
             initKeys();
             return keys;
         }
 
         public TemplateCollectionModel values()
-        throws TemplateModelException {
+                throws TemplateModelException {
             initValues();
             return values;
         }
 
         private void initKeys()
-        throws TemplateModelException {
+                throws TemplateModelException {
             if (keys == null) {
                 HashSet keySet = new HashSet();
                 SimpleSequence keySeq = new SimpleSequence(32);
@@ -276,7 +274,7 @@ final class AddConcatExpression extends Expression {
         }
 
         private static void addKeys(Set set, SimpleSequence keySeq, TemplateHashModelEx hash)
-        throws TemplateModelException {
+                throws TemplateModelException {
             TemplateModelIterator it = hash.keys().iterator();
             while (it.hasNext()) {
                 TemplateScalarModel tsm = (TemplateScalarModel) it.next();
@@ -286,21 +284,21 @@ final class AddConcatExpression extends Expression {
                     keySeq.add(tsm);
                 }
             }
-        }        
+        }
 
         private void initValues()
-        throws TemplateModelException {
+                throws TemplateModelException {
             if (values == null) {
                 SimpleSequence seq = new SimpleSequence(size());
                 // Note: size() invokes initKeys() if needed.
-            
+
                 int ln = keys.size();
-                for (int i  = 0; i < ln; i++) {
+                for (int i = 0; i < ln; i++) {
                     seq.add(get(((TemplateScalarModel) keys.get(i)).getAsString()));
                 }
                 values = new CollectionAndSequence(seq);
             }
         }
     }
-    
+
 }

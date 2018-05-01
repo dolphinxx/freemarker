@@ -23,16 +23,16 @@ import freemarker.template.TemplateModel;
 import freemarker.template.utility.NullArgumentException;
 
 abstract class OutputFormatBoundBuiltIn extends SpecialBuiltIn {
-    
+
     protected OutputFormat outputFormat;
     protected int autoEscapingPolicy;
-    
+
     void bindToOutputFormat(OutputFormat outputFormat, int autoEscapingPolicy) {
         NullArgumentException.check(outputFormat);
         this.outputFormat = outputFormat;
         this.autoEscapingPolicy = autoEscapingPolicy;
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         if (outputFormat == null) {
@@ -44,5 +44,5 @@ abstract class OutputFormatBoundBuiltIn extends SpecialBuiltIn {
 
     protected abstract TemplateModel calculateResult(Environment env)
             throws TemplateException;
-    
+
 }

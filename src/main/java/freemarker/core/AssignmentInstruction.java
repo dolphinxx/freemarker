@@ -19,10 +19,6 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
 /**
  * An instruction that does multiple assignments, like [#local x=1 x=2].
  * Each assignment is represented by a {link Assignment} child element.
@@ -41,7 +37,7 @@ final class AssignmentInstruction extends TemplateElement {
     void addAssignment(Assignment assignment) {
         addChild(assignment);
     }
-    
+
     void setNamespaceExp(Expression namespaceExp) {
         this.namespaceExp = namespaceExp;
         int ln = getChildCount();
@@ -80,7 +76,7 @@ final class AssignmentInstruction extends TemplateElement {
         if (canonical) buf.append(">");
         return buf.toString();
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -89,21 +85,27 @@ final class AssignmentInstruction extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return scope;
-        case 1: return namespaceExp;
-        default: return null;
+            case 0:
+                return scope;
+            case 1:
+                return namespaceExp;
+            default:
+                return null;
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.VARIABLE_SCOPE;
-        case 1: return ParameterRole.NAMESPACE;
-        default: return null;
+            case 0:
+                return ParameterRole.VARIABLE_SCOPE;
+            case 1:
+                return ParameterRole.NAMESPACE;
+            default:
+                return null;
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return Assignment.getDirectiveName(scope);
@@ -113,5 +115,5 @@ final class AssignmentInstruction extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

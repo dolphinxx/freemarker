@@ -26,15 +26,15 @@ import freemarker.core._DelayedOrdinal;
  * values.
  */
 final class EmptyMemberAndArguments extends MaybeEmptyMemberAndArguments {
-    
+
     static final EmptyMemberAndArguments WRONG_NUMBER_OF_ARGUMENTS
             = new EmptyMemberAndArguments(
-                    "No compatible overloaded variation was found; wrong number of arguments.", true, null);
-    
+            "No compatible overloaded variation was found; wrong number of arguments.", true, null);
+
     private final Object errorDescription;
     private final boolean numberOfArgumentsWrong;
     private final Object[] unwrappedArguments;
-    
+
     private EmptyMemberAndArguments(
             Object errorDescription, boolean numberOfArgumentsWrong, Object[] unwrappedArguments) {
         this.errorDescription = errorDescription;
@@ -44,12 +44,12 @@ final class EmptyMemberAndArguments extends MaybeEmptyMemberAndArguments {
 
     static EmptyMemberAndArguments noCompatibleOverload(int unwrappableIndex) {
         return new EmptyMemberAndArguments(
-                new Object[] { "No compatible overloaded variation was found; can't convert (unwrap) the ",
-                new _DelayedOrdinal(unwrappableIndex), " argument to the desired Java type." },
+                new Object[]{"No compatible overloaded variation was found; can't convert (unwrap) the ",
+                        new _DelayedOrdinal(unwrappableIndex), " argument to the desired Java type."},
                 false,
                 null);
     }
-    
+
     static EmptyMemberAndArguments noCompatibleOverload(Object[] unwrappedArgs) {
         return new EmptyMemberAndArguments(
                 "No compatible overloaded variation was found; declared parameter types and argument value types mismatch.",
@@ -89,5 +89,5 @@ final class EmptyMemberAndArguments extends MaybeEmptyMemberAndArguments {
     public boolean isNumberOfArgumentsWrong() {
         return numberOfArgumentsWrong;
     }
-    
+
 }

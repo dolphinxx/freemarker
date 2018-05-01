@@ -35,35 +35,35 @@ import java.util.concurrent.ConcurrentMap;
  * therefore allows the garbage collector to purge the cache when it determines that it wants to free up memory. This
  * class is thread-safe to the extent that its underlying map is. The parameterless constructor uses a thread-safe map
  * since 2.3.24 or Java 5.
- *
+ * <p>
  * see freemarker.template.Configuration#setCacheStorage(CacheStorage)
  */
 public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWithGetSize {
     private static final Method atomicRemove = getAtomicRemoveMethod();
-    
+
     private final ReferenceQueue queue = new ReferenceQueue();
     private final Map map;
     private final boolean concurrent;
-    
+
     /**
      * Creates an instance that uses a {link ConcurrentMap} internally.
      */
     public SoftCacheStorage() {
         this(new ConcurrentHashMap());
     }
-    
+
     /**
      * Returns true if the underlying Map is a {@code ConcurrentMap}.
      */
     public boolean isConcurrent() {
         return concurrent;
     }
-    
+
     public SoftCacheStorage(Map backingMap) {
         map = backingMap;
         this.concurrent = map instanceof ConcurrentMap;
     }
-    
+
     public Object get(Object key) {
         processQueue();
         Reference ref = (Reference) map.get(key);
@@ -84,10 +84,10 @@ public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
         map.clear();
         processQueue();
     }
-    
+
     /**
      * Returns a close approximation of the number of cache entries.
-     * 
+     *
      * @since 2.3.21
      */
     public int getSize() {
@@ -128,7 +128,7 @@ public class SoftCacheStorage implements ConcurrentCacheStorage, CacheStorageWit
             return key;
         }
     }
-    
+
     private static Method getAtomicRemoveMethod() {
         try {
             return Class.forName("java.util.concurrent.ConcurrentMap").getMethod("remove", Object.class, Object.class);

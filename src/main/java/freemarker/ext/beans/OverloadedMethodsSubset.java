@@ -37,48 +37,51 @@ import java.util.concurrent.ConcurrentHashMap;
  * and one for varargs methods.
  */
 abstract class OverloadedMethodsSubset {
-    
-    /** 
+
+    /**
      * Used for an optimization trick to substitute an array of whatever size that contains only 0-s. Since this array
      * is 0 long, this means that the code that reads the int[] always have to check if the int[] has this value, and
-     * then it has to act like if was all 0-s.  
+     * then it has to act like if was all 0-s.
      */
     static final int[] ALL_ZEROS_ARRAY = new int[0];
 
     private static final int[][] ZERO_PARAM_COUNT_TYPE_FLAGS_ARRAY = new int[1][];
+
     static {
         ZERO_PARAM_COUNT_TYPE_FLAGS_ARRAY[0] = ALL_ZEROS_ARRAY;
     }
 
     private Class[/*number of args*/][/*arg index*/] unwrappingHintsByParamCount;
-    
+
     /**
      * Tells what types occur at a given parameter position with a bit field. See {link TypeFlags}.
      */
     private int[/*number of args*/][/*arg index*/] typeFlagsByParamCount;
-    
+
     // TODO: This can cause memory-leak when classes are re-loaded. However, first the genericClassIntrospectionCache
     // and such need to be fixed in this regard. 
     private final Map/*<ArgumentTypes, MaybeEmptyCallableMemberDescriptor>*/ argTypesToMemberDescCache
             = new ConcurrentHashMap(6, 0.75f, 1);
-    
+
     private final List/*<ReflectionCallableMemberDescriptor>*/ memberDescs = new LinkedList();
-    
-    /** Enables 2.3.21 {link BeansWrapper} incompatibleImprovements */
+
+    /**
+     * Enables 2.3.21 {link BeansWrapper} incompatibleImprovements
+     */
     protected final boolean bugfixed;
-    
+
     OverloadedMethodsSubset(boolean bugfixed) {
         this.bugfixed = bugfixed;
     }
-    
+
     void addCallableMemberDescriptor(ReflectionCallableMemberDescriptor memberDesc) {
         memberDescs.add(memberDesc);
-        
+
         // Warning: Do not modify this array, or put it into unwrappingHintsByParamCount by reference, as the arrays
         // inside that are modified!
         final Class[] prepedParamTypes = preprocessParameterTypes(memberDesc);
         final int paramCount = prepedParamTypes.length;  // Must be the same as the length of the original param list
-        
+
         // Merge these unwrapping hints with the existing table of hints:
         if (unwrappingHintsByParamCount == null) {
             unwrappingHintsByParamCount = new Class[paramCount + 1][];
@@ -90,7 +93,7 @@ abstract class OverloadedMethodsSubset {
             unwrappingHintsByParamCount = newUnwrappingHintsByParamCount;
             unwrappingHintsByParamCount[paramCount] = prepedParamTypes.clone();
         } else {
-            Class[] unwrappingHints = unwrappingHintsByParamCount[paramCount]; 
+            Class[] unwrappingHints = unwrappingHintsByParamCount[paramCount];
             if (unwrappingHints == null) {
                 unwrappingHintsByParamCount[paramCount] = prepedParamTypes.clone();
             } else {
@@ -122,16 +125,16 @@ abstract class OverloadedMethodsSubset {
             }
             mergeInTypesFlags(paramCount, typeFlagsByParamIdx);
         }
-        
+
         afterWideningUnwrappingHints(
                 bugfixed ? prepedParamTypes : unwrappingHintsByParamCount[paramCount],
                 typeFlagsByParamIdx);
     }
-    
+
     Class[][] getUnwrappingHintsByParamCount() {
         return unwrappingHintsByParamCount;
     }
-    
+
     final MaybeEmptyCallableMemberDescriptor getMemberDescriptorForArgs(Object[] args, boolean varArg) {
         ArgumentTypes argTypes = new ArgumentTypes(args, bugfixed);
         MaybeEmptyCallableMemberDescriptor memberDesc
@@ -148,26 +151,27 @@ abstract class OverloadedMethodsSubset {
         }
         return memberDesc;
     }
-    
+
     Iterator/*<ReflectionCallableMemberDescriptor>*/ getMemberDescriptors() {
         return memberDescs.iterator();
     }
-    
+
     abstract Class[] preprocessParameterTypes(CallableMemberDescriptor memberDesc);
+
     abstract void afterWideningUnwrappingHints(Class[] paramTypes, int[] paramNumericalTypes);
-    
-    abstract MaybeEmptyMemberAndArguments getMemberAndArguments(List/*<TemplateModel>*/ tmArgs, 
-            BeansWrapper unwrapper) throws TemplateModelException;
+
+    abstract MaybeEmptyMemberAndArguments getMemberAndArguments(List/*<TemplateModel>*/ tmArgs,
+                                                                BeansWrapper unwrapper) throws TemplateModelException;
 
     /**
      * Returns the most specific common class (or interface) of two parameter types for the purpose of unwrapping.
      * This is trickier than finding the most specific overlapping superclass of two classes, because:
      * <ul>
-     *   <li>It considers primitive classes as the subclasses of the boxing classes.</li>
-     *   <li>If the only common class is {link Object}, it will try to find a common interface. If there are more
-     *       of them, it will start removing those that are known to be uninteresting as unwrapping hints.</li>
+     * <li>It considers primitive classes as the subclasses of the boxing classes.</li>
+     * <li>If the only common class is {link Object}, it will try to find a common interface. If there are more
+     * of them, it will start removing those that are known to be uninteresting as unwrapping hints.</li>
      * </ul>
-     * 
+     *
      * @param c1 Parameter type 1
      * @param c2 Parameter type 2
      */
@@ -175,26 +179,26 @@ abstract class OverloadedMethodsSubset {
         if (c1 == c2) return c1;
         // This also means that the hint for (Integer, Integer) will be Integer, not just Number. This is consistent
         // with how non-overloaded method hints work.
-        
+
         if (bugfixed) {
             // c1 primitive class to boxing class:
-            final boolean c1WasPrim; 
+            final boolean c1WasPrim;
             if (c1.isPrimitive()) {
                 c1 = ClassUtil.primitiveClassToBoxingClass(c1);
                 c1WasPrim = true;
             } else {
                 c1WasPrim = false;
             }
-            
+
             // c2 primitive class to boxing class:
-            final boolean c2WasPrim; 
+            final boolean c2WasPrim;
             if (c2.isPrimitive()) {
                 c2 = ClassUtil.primitiveClassToBoxingClass(c2);
                 c2WasPrim = true;
             } else {
                 c2WasPrim = false;
             }
-    
+
             if (c1 == c2) {
                 // If it was like int and Integer, boolean and Boolean, etc., we return the boxing type (as that's the
                 // less specific, because it allows null.)
@@ -225,11 +229,11 @@ abstract class OverloadedMethodsSubset {
                 else if (c2 == Double.TYPE) c2 = Double.class;
             }
         }
-        
+
         // We never get to this point if buxfixed is true and any of these stands:
         // - One of classes was a primitive type
         // - One of classes was a numerical type (either boxing type or primitive)
-        
+
         Set commonTypes = _MethodUtil.getAssignables(c1, c2);
         commonTypes.retainAll(_MethodUtil.getAssignables(c2, c1));
         if (commonTypes.isEmpty()) {
@@ -237,13 +241,14 @@ abstract class OverloadedMethodsSubset {
             // they don't have Object at the root of their hierarchy
             return Object.class;
         }
-        
+
         // Gather maximally specific elements. Yes, there can be more than one 
         // thank to interfaces. I.e., if you call this method for String.class 
         // and Number.class, you'll have Comparable, Serializable, and Object as 
         // maximal elements. 
         List max = new ArrayList();
-        listCommonTypes:  for (Iterator commonTypesIter = commonTypes.iterator(); commonTypesIter.hasNext(); ) {
+        listCommonTypes:
+        for (Iterator commonTypesIter = commonTypes.iterator(); commonTypesIter.hasNext(); ) {
             Class clazz = (Class) commonTypesIter.next();
             for (Iterator maxIter = max.iterator(); maxIter.hasNext(); ) {
                 Class maxClazz = (Class) maxIter.next();
@@ -264,7 +269,7 @@ abstract class OverloadedMethodsSubset {
             // current class, so clazz is a new maximal so far.
             max.add(clazz);
         }
-        
+
         if (max.size() > 1) {  // we have an ambiguity
             if (bugfixed) {
                 // Find the non-interface class
@@ -280,7 +285,7 @@ abstract class OverloadedMethodsSubset {
                         }
                     }
                 }
-                
+
                 // At this point we only have interfaces left.
                 // Try removing interfaces about which we know that they are useless as unwrapping hints:
                 max.remove(Cloneable.class);
@@ -297,10 +302,10 @@ abstract class OverloadedMethodsSubset {
                 return Object.class;
             }
         }
-        
+
         return (Class) max.get(0);
     }
-    
+
     /**
      * Gets the "type flags" of each parameter positions, or {@code null} if there's no method with this parameter
      * count or if we are in pre-2.3.21 mode, or {link #ALL_ZEROS_ARRAY} if there were no parameters that turned
@@ -315,15 +320,15 @@ abstract class OverloadedMethodsSubset {
     /**
      * Updates the content of the {link #typeFlagsByParamCount} field with the parameter type flags of a method.
      * Don't call this when {link #bugfixed} is {@code false}!
-     * 
-     * @param dstParamCount The parameter count for which we want to merge in the type flags 
+     *
+     * @param dstParamCount          The parameter count for which we want to merge in the type flags
      * @param srcTypeFlagsByParamIdx If shorter than {@code dstParamCount}, its last item will be repeated until
-     *        dstParamCount length is reached. If longer, the excessive items will be ignored.
-     *        Maybe {link #ALL_ZEROS_ARRAY}. Maybe a 0-length array. Can't be {@code null}.
+     *                               dstParamCount length is reached. If longer, the excessive items will be ignored.
+     *                               Maybe {link #ALL_ZEROS_ARRAY}. Maybe a 0-length array. Can't be {@code null}.
      */
     final protected void mergeInTypesFlags(int dstParamCount, int[] srcTypeFlagsByParamIdx) {
         NullArgumentException.check("srcTypesFlagsByParamIdx", srcTypeFlagsByParamIdx);
-        
+
         // Special case of 0 param count:
         if (dstParamCount == 0) {
             if (typeFlagsByParamCount == null) {
@@ -333,7 +338,7 @@ abstract class OverloadedMethodsSubset {
             }
             return;
         }
-        
+
         // Ensure that typesFlagsByParamCount[dstParamCount] exists:
         if (typeFlagsByParamCount == null) {
             typeFlagsByParamCount = new int[dstParamCount + 1][];
@@ -343,11 +348,11 @@ abstract class OverloadedMethodsSubset {
                     typeFlagsByParamCount.length);
             typeFlagsByParamCount = newTypeFlagsByParamCount;
         }
-        
+
         int[] dstTypeFlagsByParamIdx = typeFlagsByParamCount[dstParamCount];
         if (dstTypeFlagsByParamIdx == null) {
             // This is the first method added with this number of params => no merging
-            
+
             if (srcTypeFlagsByParamIdx != ALL_ZEROS_ARRAY) {
                 int srcParamCount = srcTypeFlagsByParamIdx.length;
                 dstTypeFlagsByParamIdx = new int[dstParamCount];
@@ -358,31 +363,31 @@ abstract class OverloadedMethodsSubset {
             } else {
                 dstTypeFlagsByParamIdx = ALL_ZEROS_ARRAY;
             }
-            
+
             typeFlagsByParamCount[dstParamCount] = dstTypeFlagsByParamIdx;
         } else {
             // dstTypeFlagsByParamIdx != null, so we need to merge into it.
-            
+
             if (srcTypeFlagsByParamIdx == dstTypeFlagsByParamIdx) {
                 // Used to occur when both are ALL_ZEROS_ARRAY
                 return;
             }
-            
+
             // As we will write dstTypeFlagsByParamIdx, it can't remain ALL_ZEROS_ARRAY anymore. 
             if (dstTypeFlagsByParamIdx == ALL_ZEROS_ARRAY && dstParamCount > 0) {
                 dstTypeFlagsByParamIdx = new int[dstParamCount];
                 typeFlagsByParamCount[dstParamCount] = dstTypeFlagsByParamIdx;
             }
-            
+
             for (int paramIdx = 0; paramIdx < dstParamCount; paramIdx++) {
                 final int srcParamTypeFlags;
                 if (srcTypeFlagsByParamIdx != ALL_ZEROS_ARRAY) {
                     int srcParamCount = srcTypeFlagsByParamIdx.length;
-                    srcParamTypeFlags = srcTypeFlagsByParamIdx[paramIdx < srcParamCount ? paramIdx : srcParamCount - 1]; 
+                    srcParamTypeFlags = srcTypeFlagsByParamIdx[paramIdx < srcParamCount ? paramIdx : srcParamCount - 1];
                 } else {
                     srcParamTypeFlags = 0;
                 }
-                
+
                 final int dstParamTypesFlags = dstTypeFlagsByParamIdx[paramIdx];
                 if (dstParamTypesFlags != srcParamTypeFlags) {
                     int mergedTypeFlags = dstParamTypesFlags | srcParamTypeFlags;
@@ -390,12 +395,12 @@ abstract class OverloadedMethodsSubset {
                         // Must not be set if we don't have numerical type at this index! 
                         mergedTypeFlags |= TypeFlags.WIDENED_NUMERICAL_UNWRAPPING_HINT;
                     }
-                    dstTypeFlagsByParamIdx[paramIdx] = mergedTypeFlags; 
+                    dstTypeFlagsByParamIdx[paramIdx] = mergedTypeFlags;
                 }
             }
         }
     }
-    
+
     protected void forceNumberArgumentsToParameterTypes(
             Object[] args, Class[] paramTypes, int[] typeFlagsByParamIndex) {
         final int paramTypesLen = paramTypes.length;
@@ -403,7 +408,7 @@ abstract class OverloadedMethodsSubset {
         for (int argIdx = 0; argIdx < argsLen; argIdx++) {
             final int paramTypeIdx = argIdx < paramTypesLen ? argIdx : paramTypesLen - 1;
             final int typeFlags = typeFlagsByParamIndex[paramTypeIdx];
-            
+
             // Forcing the number type can only be interesting if there are numerical parameter types on that index,
             // and the unwrapping was not to an exact numerical type.
             if ((typeFlags & TypeFlags.WIDENED_NUMERICAL_UNWRAPPING_HINT) != 0) {
@@ -420,5 +425,5 @@ abstract class OverloadedMethodsSubset {
             }
         }
     }
-    
+
 }

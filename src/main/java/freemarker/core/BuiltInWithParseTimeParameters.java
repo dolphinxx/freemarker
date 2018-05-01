@@ -29,9 +29,9 @@ abstract class BuiltInWithParseTimeParameters extends SpecialBuiltIn {
     @Override
     public String getCanonicalForm() {
         StringBuilder buf = new StringBuilder();
-        
+
         buf.append(super.getCanonicalForm());
-        
+
         buf.append("(");
         List/*<Expression>*/args = getArgumentsAsList();
         int size = args.size();
@@ -43,15 +43,15 @@ abstract class BuiltInWithParseTimeParameters extends SpecialBuiltIn {
             buf.append(arg.getCanonicalForm());
         }
         buf.append(")");
-        
+
         return buf.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return super.getNodeTypeSymbol() + "(...)";
-    }        
-    
+    }
+
     @Override
     int getParameterCount() {
         return super.getParameterCount() + getArgumentsCount();
@@ -61,20 +61,20 @@ abstract class BuiltInWithParseTimeParameters extends SpecialBuiltIn {
     Object getParameterValue(int idx) {
         final int superParamCnt = super.getParameterCount();
         if (idx < superParamCnt) {
-            return super.getParameterValue(idx); 
+            return super.getParameterValue(idx);
         }
-        
+
         final int argIdx = idx - superParamCnt;
         return getArgumentParameterValue(argIdx);
     }
-    
+
     @Override
     ParameterRole getParameterRole(int idx) {
         final int superParamCnt = super.getParameterCount();
         if (idx < superParamCnt) {
-            return super.getParameterRole(idx); 
+            return super.getParameterRole(idx);
         }
-        
+
         if (idx - superParamCnt < getArgumentsCount()) {
             return ParameterRole.ARGUMENT_VALUE;
         } else {
@@ -98,12 +98,12 @@ abstract class BuiltInWithParseTimeParameters extends SpecialBuiltIn {
     }
 
     protected abstract List getArgumentsAsList();
-    
+
     protected abstract int getArgumentsCount();
 
     protected abstract Expression getArgumentParameterValue(int argIdx);
-    
+
     protected abstract void cloneArguments(Expression clone, String replacedIdentifier,
-            Expression replacement, ReplacemenetState replacementState);
-    
+                                           Expression replacement, ReplacemenetState replacementState);
+
 }

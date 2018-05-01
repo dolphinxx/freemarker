@@ -27,7 +27,7 @@ import java.util.List;
  * {link TemplateModel}-s.
  */
 public class TemplateModelListSequence implements TemplateSequenceModel {
-    
+
     private List/*<TemplateModel>*/ list;
 
     public TemplateModelListSequence(List list) {
@@ -48,5 +48,5 @@ public class TemplateModelListSequence implements TemplateSequenceModel {
     public Object getWrappedObject() {
         return list;
     }
-    
+
 }

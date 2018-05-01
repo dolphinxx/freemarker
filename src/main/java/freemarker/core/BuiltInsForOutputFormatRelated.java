@@ -30,7 +30,7 @@ class BuiltInsForOutputFormatRelated {
                 throws TemplateException {
             return outputFormat.fromMarkup(lho);
         }
-        
+
     }
 
     static class escBI extends AbstractConverterBI {
@@ -40,9 +40,9 @@ class BuiltInsForOutputFormatRelated {
                 throws TemplateException {
             return outputFormat.fromPlainTextByEscaping(lho);
         }
-        
+
     }
-    
+
     static abstract class AbstractConverterBI extends MarkupOutputFormatBoundBuiltIn {
 
         @Override
@@ -74,10 +74,10 @@ class BuiltInsForOutputFormatRelated {
                 }
             }
         }
-        
+
         protected abstract TemplateModel calculateResult(String lho, MarkupOutputFormat outputFormat, Environment env)
                 throws TemplateException;
-        
+
     }
-    
+
 }

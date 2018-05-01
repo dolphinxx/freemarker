@@ -33,10 +33,11 @@ import java.util.List;
 class BuiltInsForExistenceHandling {
 
     // Can't be instantiated
-    private BuiltInsForExistenceHandling() { }
+    private BuiltInsForExistenceHandling() {
+    }
 
     private static abstract class ExistenceBuiltIn extends BuiltIn {
-    
+
         protected TemplateModel evalMaybeNonexistentTarget(Environment env) throws TemplateException {
             TemplateModel tm;
             if (target instanceof ParentheticalExpression) {
@@ -53,11 +54,11 @@ class BuiltInsForExistenceHandling {
             }
             return tm;
         }
-        
+
     }
-    
+
     static class defaultBI extends BuiltInsForExistenceHandling.ExistenceBuiltIn {
-        
+
         @Override
         TemplateModel _eval(final Environment env) throws TemplateException {
             TemplateModel model = evalMaybeNonexistentTarget(env);
@@ -81,25 +82,25 @@ class BuiltInsForExistenceHandling {
          * the first one that is non-null. If all args are null, returns null.
          */
         private static final TemplateMethodModelEx FIRST_NON_NULL_METHOD =
-            new TemplateMethodModelEx() {
-                public Object exec(List args) throws TemplateModelException {
-                    int argCnt = args.size();
-                    if (argCnt == 0) throw _MessageUtil.newArgCntError("?default", argCnt, 1, Integer.MAX_VALUE);
-                    for (int i = 0; i < argCnt; i++ ) {
-                        TemplateModel result = (TemplateModel) args.get(i);
-                        if (result != null) return result;
+                new TemplateMethodModelEx() {
+                    public Object exec(List args) throws TemplateModelException {
+                        int argCnt = args.size();
+                        if (argCnt == 0) throw _MessageUtil.newArgCntError("?default", argCnt, 1, Integer.MAX_VALUE);
+                        for (int i = 0; i < argCnt; i++) {
+                            TemplateModel result = (TemplateModel) args.get(i);
+                            if (result != null) return result;
+                        }
+                        return null;
                     }
-                    return null;
-                }
-            };
+                };
     }
-    
+
     static class existsBI extends BuiltInsForExistenceHandling.ExistenceBuiltIn {
         @Override
         TemplateModel _eval(Environment env) throws TemplateException {
             return evalMaybeNonexistentTarget(env) == null ? TemplateBooleanModel.FALSE : TemplateBooleanModel.TRUE;
         }
-    
+
         @Override
         boolean evalToBoolean(Environment env) throws TemplateException {
             return _eval(env) == TemplateBooleanModel.TRUE;
@@ -113,7 +114,7 @@ class BuiltInsForExistenceHandling {
                     ? TemplateBooleanModel.FALSE
                     : TemplateBooleanModel.TRUE;
         }
-    
+
         @Override
         boolean evalToBoolean(Environment env) throws TemplateException {
             return _eval(env) == TemplateBooleanModel.TRUE;
@@ -128,5 +129,5 @@ class BuiltInsForExistenceHandling {
             return model == null ? TemplateModel.NOTHING : model;
         }
     }
-    
+
 }

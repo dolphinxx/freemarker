@@ -35,28 +35,28 @@ import java.util.TreeMap;
  * A simple implementation of the {link TemplateHashModelEx} interface, using its own underlying {link Map} or
  * {link SortedMap} for storing the hash entries. If you are wrapping an already existing {link Map}, you should
  * certainly use {link DefaultMapAdapter} instead (see comparison below).
- *
+ * <p>
  * <p>
  * This class is thread-safe if you don't call modifying methods (like {link #put(String, Object)},
  * {link #remove(String)}, etc.) after you have made the object available for multiple threads (assuming you have
  * published it safely to the other threads; see JSR-133 Java Memory Model). These methods aren't called by FreeMarker,
  * so it's usually not a concern.
- * 
- * <p>
+ *
+ *
  * <b>{link SimpleHash} VS {link DefaultMapAdapter} - Which to use when?</b>
- * 
+ * <p>
  * <p>
  * For a {link Map} that exists regardless of FreeMarker, only you need to access it from templates,
  * {link DefaultMapAdapter} should be the default choice, as it reflects the exact behavior of the underlying
  * {link Map} (no surprises), can be unwrapped to the originally wrapped object (important when passing it to Java
  * methods from the template), and has more predictable performance (no spikes).
- * 
+ * <p>
  * <p>
  * For a hash that's made specifically to be used from templates, creating an empty {link SimpleHash} then filling it
  * with {link SimpleHash#put(String, Object)} is usually the way to go, as the resulting hash is significantly faster
  * to read from templates than a {link DefaultMapAdapter} (though it's somewhat slower to read from a plain Java method
  * to which it had to be passed adapted to a {link Map}).
- * 
+ * <p>
  * <p>
  * It also matters if for how many times will the <em>same</em> {link Map} entry be read from the template(s) later, on
  * average. If, on average, you read each entry for more than 4 times, {link SimpleHash} will be most certainly faster,
@@ -65,7 +65,7 @@ import java.util.TreeMap;
  * shallow-copy the original {link Map} at construction time, so key order will be lost in some cases, and it won't
  * reflect {link Map} content changes after the {link SimpleHash} construction, also {link SimpleHash} can't be
  * unwrapped to the original {link Map} instance.
- *
+ * <p>
  * see DefaultMapAdapter
  * see TemplateHashModelEx
  */
@@ -78,7 +78,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
     /**
      * Constructs an empty hash that uses the default wrapper set in
      * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
-     * 
+     *
      * @deprecated Use {link #SimpleHash(ObjectWrapper)}
      */
     @Deprecated
@@ -88,13 +88,13 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
 
     /**
      * Creates a new simple hash with the copy of the underlying map and the
-     * default wrapper set in 
+     * default wrapper set in
      * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)}.
-     * @param map The Map to use for the key/value pairs. It makes a copy for 
-     * internal use. If the map implements the {link SortedMap} interface, the
-     * internal copy will be a {link TreeMap}, otherwise it will be a
-     * {link HashMap}.
-     * 
+     *
+     * @param map The Map to use for the key/value pairs. It makes a copy for
+     *            internal use. If the map implements the {link SortedMap} interface, the
+     *            internal copy will be a {link TreeMap}, otherwise it will be a
+     *            {link HashMap}.
      * @deprecated Use {link #SimpleHash(Map, ObjectWrapper)}
      */
     @Deprecated
@@ -104,10 +104,11 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
 
     /**
      * Creates an empty simple hash using the specified object wrapper.
+     *
      * @param wrapper The object wrapper to use to wrap objects into
-     * {link TemplateModel} instances. If null, the default wrapper set in
-     * {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is
-     * used.
+     *                {link TemplateModel} instances. If null, the default wrapper set in
+     *                {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is
+     *                used.
      */
     public SimpleHash(ObjectWrapper wrapper) {
         super(wrapper);
@@ -118,13 +119,11 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
      * Creates a new hash by shallow-coping (possibly cloning) the underlying map; in many applications you should use
      * {link DefaultMapAdapter} instead.
      *
-     * @param map
-     *            The Map to use for the key/value pairs. It makes a copy for internal use. If the map implements the
-     *            {link SortedMap} interface, the internal copy will be a {link TreeMap}, otherwise it will be a
-     * @param wrapper
-     *            The object wrapper to use to wrap contained objects into {link TemplateModel} instances. Using
-     *            {@code null} is deprecated but allowed, in which case the deprecated default wrapper set in
-     *            {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is used.
+     * @param map     The Map to use for the key/value pairs. It makes a copy for internal use. If the map implements the
+     *                {link SortedMap} interface, the internal copy will be a {link TreeMap}, otherwise it will be a
+     * @param wrapper The object wrapper to use to wrap contained objects into {link TemplateModel} instances. Using
+     *                {@code null} is deprecated but allowed, in which case the deprecated default wrapper set in
+     *                {link WrappingTemplateModel#setDefaultObjectWrapper(ObjectWrapper)} is used.
      */
     public SimpleHash(Map map, ObjectWrapper wrapper) {
         super(wrapper);
@@ -158,18 +157,16 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
             } else {
                 return new TreeMap((SortedMap) map);
             }
-        } 
+        }
         return new HashMap(map);
     }
 
     /**
      * Adds a key-value entry to this hash.
      *
-     * @param key
-     *            The name by which the object is identified in the template.
-     * @param value
-     *            The value to which the name will be associated. This will only be wrapped to {link TemplateModel}
-     *            lazily when it's first read.
+     * @param key   The name by which the object is identified in the template.
+     * @param value The value to which the name will be associated. This will only be wrapped to {link TemplateModel}
+     *              lazily when it's first read.
      */
     public void put(String key, Object value) {
         map.put(key, value);
@@ -180,8 +177,8 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
      * Puts a boolean in the map
      *
      * @param key the name by which the resulting <tt>TemplateModel</tt>
-     * is identified in the template.
-     * @param b the boolean to store.
+     *            is identified in the template.
+     * @param b   the boolean to store.
      */
     public void put(String key, boolean b) {
         put(key, b ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE);
@@ -236,11 +233,11 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
         } else {
             putKey = key;
         }
-        
+
         if (result instanceof TemplateModel) {
             return (TemplateModel) result;
         }
-        
+
         TemplateModel tm = wrap(result);
         if (!putFailed) {
             try {
@@ -255,6 +252,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
 
     /**
      * Tells if the map contains a key or not, regardless if the associated value is {@code null} or not.
+     *
      * @since 2.3.20
      */
     public boolean containsKey(String key) {
@@ -272,6 +270,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
 
     /**
      * Adds all the key/value entries in the map
+     *
      * @param m the map with the entries to add, the keys are assumed to be strings.
      */
 
@@ -281,13 +280,13 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
             this.put((String) entry.getKey(), entry.getValue());
         }
     }
-    
+
     /**
      * Note that this method creates and returns a deep-copy of the underlying hash used
      * internally. This could be a gotcha for some people
      * at some point who want to alter something in the data model,
-     * but we should maintain our immutability semantics (at least using default SimpleXXX wrappers) 
-     * for the data model. It will recursively unwrap the stuff in the underlying container. 
+     * but we should maintain our immutability semantics (at least using default SimpleXXX wrappers)
+     * for the data model. It will recursively unwrap the stuff in the underlying container.
      */
     public Map toMap() throws TemplateModelException {
         if (unwrappedMap == null) {
@@ -346,7 +345,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
     public SimpleHash synchronizedWrapper() {
         return new SynchronizedHash();
     }
-    
+
     private class SynchronizedHash extends SimpleHash {
 
         @Override
@@ -355,7 +354,7 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
                 return SimpleHash.this.isEmpty();
             }
         }
-        
+
         @Override
         public void put(String key, Object obj) {
             synchronized (SimpleHash.this) {
@@ -404,13 +403,13 @@ public class SimpleHash extends WrappingTemplateModel implements TemplateHashMod
                 return SimpleHash.this.keyValuePairIterator();
             }
         }
-        
+
         @Override
         public Map toMap() throws TemplateModelException {
             synchronized (SimpleHash.this) {
                 return SimpleHash.this.toMap();
             }
         }
-    
+
     }
 }

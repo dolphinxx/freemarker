@@ -42,10 +42,10 @@ final class XSTemplateDateFormat extends ISOLikeTemplateDateFormat {
             throws UnknownDateTypeFormattingUnsupportedException, InvalidFormatParametersException {
         super(settingValue, parsingStart, dateType, zonelessInput, timeZone, factory, env);
     }
-    
+
     @Override
     protected String format(Date date, boolean datePart, boolean timePart, boolean offsetPart, int accuracy,
-            TimeZone timeZone, DateToISO8601CalendarFactory calendarFactory) {
+                            TimeZone timeZone, DateToISO8601CalendarFactory calendarFactory) {
         return DateUtil.dateToXSString(
                 date, datePart, timePart, offsetPart, accuracy, timeZone, calendarFactory);
     }
@@ -64,7 +64,7 @@ final class XSTemplateDateFormat extends ISOLikeTemplateDateFormat {
 
     @Override
     protected Date parseDateTime(String s, TimeZone tz,
-            CalendarFieldsToDateConverter calToDateConverter) throws DateParseException {
+                                 CalendarFieldsToDateConverter calToDateConverter) throws DateParseException {
         return DateUtil.parseXSDateTime(s, tz, calToDateConverter);
     }
 

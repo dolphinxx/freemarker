@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An element for the unified macro/transform syntax. 
+ * An element for the unified macro/transform syntax.
  */
 final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
 
@@ -49,9 +49,9 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
     private CustomDataHolder customDataHolder;
 
     UnifiedCall(Expression nameExp,
-         Map namedArgs,
-         TemplateElements children,
-         List bodyParameterNames) {
+                Map namedArgs,
+                TemplateElements children,
+                List bodyParameterNames) {
         this.nameExp = nameExp;
         this.namedArgs = namedArgs;
         setChildren(children);
@@ -59,9 +59,9 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
     }
 
     UnifiedCall(Expression nameExp,
-         List positionalArgs,
-         TemplateElements children,
-         List bodyParameterNames) {
+                List positionalArgs,
+                TemplateElements children,
+                List bodyParameterNames) {
         this.nameExp = nameExp;
         this.positionalArgs = positionalArgs;
         setChildren(children);
@@ -79,10 +79,10 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
                         "Routine ", new _DelayedJQuote(macro.getName()), " is a function, not a directive. "
                         + "Functions can only be called from expressions, like in ${f()}, ${x + f()} or ",
                         "<@someDirective someParam=f() />", ".");
-            }    
+            }
             env.invoke(macro, namedArgs, positionalArgs, bodyParameterNames, this);
         } else {
-            boolean isDirectiveModel = tm instanceof TemplateDirectiveModel; 
+            boolean isDirectiveModel = tm instanceof TemplateDirectiveModel;
             if (isDirectiveModel || tm instanceof TemplateTransformModel) {
                 Map args;
                 if (namedArgs != null && !namedArgs.isEmpty()) {
@@ -99,7 +99,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
                 }
                 if (isDirectiveModel) {
                     env.visit(getChildBuffer(), (TemplateDirectiveModel) tm, args, bodyParameterNames);
-                } else { 
+                } else {
                     env.visitAndTransform(getChildBuffer(), (TemplateTransformModel) tm, args);
                 }
             } else if (tm == null) {
@@ -156,7 +156,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
                 sb.append("</@");
                 if (!nameIsInParen
                         && (nameExp instanceof Identifier
-                            || (nameExp instanceof Dot && ((Dot) nameExp).onlyHasIdentifiers()))) {
+                        || (nameExp instanceof Dot && ((Dot) nameExp).onlyHasIdentifiers()))) {
                     sb.append(nameExp.getCanonicalForm());
                 }
                 sb.append('>');
@@ -184,7 +184,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
             return nameExp;
         } else {
             int base = 1;
-            final int positionalArgsSize = positionalArgs != null ? positionalArgs.size() : 0;  
+            final int positionalArgsSize = positionalArgs != null ? positionalArgs.size() : 0;
             if (idx - base < positionalArgsSize) {
                 return positionalArgs.get(idx - base);
             } else {
@@ -212,7 +212,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
             return ParameterRole.CALLEE;
         } else {
             int base = 1;
-            final int positionalArgsSize = positionalArgs != null ? positionalArgs.size() : 0;  
+            final int positionalArgsSize = positionalArgs != null ? positionalArgs.size() : 0;
             if (idx - base < positionalArgsSize) {
                 return ParameterRole.ARGUMENT_VALUE;
             } else {
@@ -232,7 +232,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
             }
         }
     }
-    
+
     /**
      * Returns the named args by source-code order; it's not meant to be used during template execution, too slow for
      * that!
@@ -243,7 +243,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
             List res = (List) ref.get();
             if (res != null) return res;
         }
-        
+
         List res = MiscUtil.sortMapOfExpressions(namedArgs);
         sortedNamedArgsCache = new SoftReference(res);
         return res;
@@ -253,18 +253,18 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
             throws CallPlaceCustomDataInitializationException {
         // We are using double-checked locking, utilizing Java memory model "final" trick.
         // Note that this.customDataHolder is NOT volatile.
-        
+
         CustomDataHolder customDataHolder = this.customDataHolder;  // Findbugs false alarm
         if (customDataHolder == null) {  // Findbugs false alarm
             synchronized (this) {
                 customDataHolder = this.customDataHolder;
                 if (customDataHolder == null || customDataHolder.providerIdentity != providerIdentity) {
                     customDataHolder = createNewCustomData(providerIdentity, objectFactory);
-                    this.customDataHolder = customDataHolder; 
+                    this.customDataHolder = customDataHolder;
                 }
             }
         }
-        
+
         if (customDataHolder.providerIdentity != providerIdentity) {
             synchronized (this) {
                 customDataHolder = this.customDataHolder;
@@ -274,7 +274,7 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
                 }
             }
         }
-        
+
         return customDataHolder.customData;
     }
 
@@ -287,8 +287,8 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
         } catch (Exception e) {
             throw new CallPlaceCustomDataInitializationException(
                     "Failed to initialize custom data for provider identity "
-                    + StringUtil.tryToString(provierIdentity) + " via factory "
-                    + StringUtil.tryToString(objectFactory), e);
+                            + StringUtil.tryToString(provierIdentity) + " via factory "
+                            + StringUtil.tryToString(objectFactory), e);
         }
         if (customData == null) {
             throw new NullPointerException("ObjectFactory.createObject() has returned null");
@@ -311,22 +311,23 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
     boolean heedsTrailingWhitespace() {
         return nestedBlock == null;
     }*/
-    
+
     /**
      * Used for implementing double check locking in implementing the
      * {link DirectiveCallPlace#getOrCreateCustomData(Object, ObjectFactory)}.
      */
     private static class CustomDataHolder {
-        
+
         private final Object providerIdentity;
         private final Object customData;
+
         public CustomDataHolder(Object providerIdentity, Object customData) {
             this.providerIdentity = providerIdentity;
             this.customData = customData;
         }
-        
+
     }
-    
+
     @Override
     boolean isNestedBlockRepeater() {
         return true;
@@ -336,5 +337,5 @@ final class UnifiedCall extends TemplateElement implements DirectiveCallPlace {
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

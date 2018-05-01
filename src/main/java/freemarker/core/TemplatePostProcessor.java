@@ -28,7 +28,7 @@ import freemarker.template.Template;
 abstract class TemplatePostProcessor {
 
     public abstract void postProcess(Template e) throws TemplatePostProcessorException;
-    
+
     // TODO: getPriority, getPhase, getMustBeBefore, getMustBeAfter
 
 }

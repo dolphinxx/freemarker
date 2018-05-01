@@ -55,25 +55,25 @@ class BuiltInsForStringsRegexp {
             } else {
                 throw new UnexpectedTypeException(target, targetModel,
                         "regular expression matcher",
-                        new Class[] { RegexMatchModel.class, RegexMatchModel.MatchWithGroups.class },
+                        new Class[]{RegexMatchModel.class, RegexMatchModel.MatchWithGroups.class},
                         env);
             }
         }
     }
-    
+
     static class matchesBI extends BuiltInForString {
         class MatcherBuilder implements TemplateMethodModel {
-            
+
             String matchString;
-            
+
             MatcherBuilder(String matchString) {
                 this.matchString = matchString;
             }
-            
+
             public Object exec(List args) throws TemplateModelException {
                 int argCnt = args.size();
                 checkMethodArgCount(argCnt, 1, 2);
-                
+
                 String patternString = (String) args.get(0);
                 long flags = argCnt > 1 ? RegexpHelper.parseFlagString((String) args.get(1)) : 0;
                 if ((flags & RegexpHelper.RE_FLAG_FIRST_ONLY) != 0) {
@@ -83,16 +83,16 @@ class BuiltInsForStringsRegexp {
                 return new RegexMatchModel(pattern, matchString);
             }
         }
-        
+
         @Override
         TemplateModel calculateResult(String s, Environment env) throws TemplateModelException {
             return new MatcherBuilder(s);
         }
-        
+
     }
-    
+
     static class replace_reBI extends BuiltInForString {
-        
+
         class ReplaceMethod implements TemplateMethodModel {
             private String s;
 
@@ -118,27 +118,27 @@ class BuiltInsForStringsRegexp {
                     result = (flags & RegexpHelper.RE_FLAG_FIRST_ONLY) != 0
                             ? matcher.replaceFirst(arg2)
                             : matcher.replaceAll(arg2);
-                } 
+                }
                 return new SimpleScalar(result);
             }
 
         }
-        
+
         @Override
         TemplateModel calculateResult(String s, Environment env) throws TemplateModelException {
             return new ReplaceMethod(s);
         }
-        
+
     }
-    
+
     // Represents the match
-  
-    static class RegexMatchModel 
-    implements TemplateBooleanModel, TemplateCollectionModel, TemplateSequenceModel {
+
+    static class RegexMatchModel
+            implements TemplateBooleanModel, TemplateCollectionModel, TemplateSequenceModel {
         static class MatchWithGroups implements TemplateScalarModel {
             final String matchedInputPart;
             final SimpleSequence groupsSeq;
-            
+
             MatchWithGroups(String input, Matcher matcher) {
                 matchedInputPart = input.substring(matcher.start(), matcher.end());
                 final int grpCount = matcher.groupCount() + 1;
@@ -147,26 +147,27 @@ class BuiltInsForStringsRegexp {
                     groupsSeq.add(matcher.group(i));
                 }
             }
-            
+
             public String getAsString() {
                 return matchedInputPart;
             }
         }
+
         final Pattern pattern;
-        
+
         final String input;
         private Matcher firedEntireInputMatcher;
         private Boolean entireInputMatched;
-        
+
         private TemplateSequenceModel entireInputMatchGroups;
-        
+
         private ArrayList matchingInputParts;
-        
+
         RegexMatchModel(Pattern pattern, String input) {
             this.pattern = pattern;
             this.input = input;
         }
-        
+
         public TemplateModel get(int i) throws TemplateModelException {
             ArrayList matchingInputParts = this.matchingInputParts;
             if (matchingInputParts == null) {
@@ -174,24 +175,24 @@ class BuiltInsForStringsRegexp {
             }
             return (TemplateModel) matchingInputParts.get(i);
         }
-        
+
         public boolean getAsBoolean() {
             Boolean result = entireInputMatched;
             return result != null ? result : isEntrieInputMatchesAndStoreResults();
         }
-        
+
         TemplateModel getGroups() {
-           TemplateSequenceModel entireInputMatchGroups = this.entireInputMatchGroups;
-           if (entireInputMatchGroups == null) {
-               Matcher t = this.firedEntireInputMatcher;
-               if (t == null) {
-                   isEntrieInputMatchesAndStoreResults();
-                   t = this.firedEntireInputMatcher;
-               }
-               final Matcher firedEntireInputMatcher = t;
-               
+            TemplateSequenceModel entireInputMatchGroups = this.entireInputMatchGroups;
+            if (entireInputMatchGroups == null) {
+                Matcher t = this.firedEntireInputMatcher;
+                if (t == null) {
+                    isEntrieInputMatchesAndStoreResults();
+                    t = this.firedEntireInputMatcher;
+                }
+                final Matcher firedEntireInputMatcher = t;
+
                 entireInputMatchGroups = new TemplateSequenceModel() {
-                    
+
                     public TemplateModel get(int i) throws TemplateModelException {
                         try {
                             return new SimpleScalar(firedEntireInputMatcher.group(i));
@@ -199,7 +200,7 @@ class BuiltInsForStringsRegexp {
                             throw new _TemplateModelException(e, "Failed to read regular expression match group");
                         }
                     }
-                    
+
                     public int size() throws TemplateModelException {
                         try {
                             return firedEntireInputMatcher.groupCount() + 1;
@@ -207,25 +208,25 @@ class BuiltInsForStringsRegexp {
                             throw new _TemplateModelException(e, "Failed to get regular expression match group count");
                         }
                     }
-                    
+
                 };
                 this.entireInputMatchGroups = entireInputMatchGroups;
             }
             return entireInputMatchGroups;
         }
-        
+
         private ArrayList getMatchingInputPartsAndStoreResults() {
             ArrayList matchingInputParts = new ArrayList();
-            
+
             Matcher matcher = pattern.matcher(input);
             while (matcher.find()) {
                 matchingInputParts.add(new MatchWithGroups(input, matcher));
             }
-    
+
             this.matchingInputParts = matchingInputParts;
             return matchingInputParts;
         }
-        
+
         private boolean isEntrieInputMatchesAndStoreResults() {
             Matcher matcher = pattern.matcher(input);
             boolean matches = matcher.matches();
@@ -233,16 +234,16 @@ class BuiltInsForStringsRegexp {
             entireInputMatched = matches;
             return matches;
         }
-        
+
         public TemplateModelIterator iterator() {
             final ArrayList matchingInputParts = this.matchingInputParts;
             if (matchingInputParts == null) {
                 final Matcher matcher = pattern.matcher(input);
                 return new TemplateModelIterator() {
-                    
+
                     private int nextIdx = 0;
                     boolean hasFindInfo = matcher.find();
-                    
+
                     public boolean hasNext() {
                         final ArrayList matchingInputParts = RegexMatchModel.this.matchingInputParts;
                         if (matchingInputParts == null) {
@@ -251,7 +252,7 @@ class BuiltInsForStringsRegexp {
                             return nextIdx < matchingInputParts.size();
                         }
                     }
-                    
+
                     public TemplateModel next() throws TemplateModelException {
                         final ArrayList matchingInputParts = RegexMatchModel.this.matchingInputParts;
                         if (matchingInputParts == null) {
@@ -270,17 +271,17 @@ class BuiltInsForStringsRegexp {
                             }
                         }
                     }
-                    
+
                 };
             } else {
                 return new TemplateModelIterator() {
-                    
+
                     private int nextIdx = 0;
-                    
+
                     public boolean hasNext() {
                         return nextIdx < matchingInputParts.size();
                     }
-                    
+
                     public TemplateModel next() throws TemplateModelException {
                         try {
                             return (TemplateModel) matchingInputParts.get(nextIdx++);
@@ -291,7 +292,7 @@ class BuiltInsForStringsRegexp {
                 };
             }
         }
-        
+
         public int size() throws TemplateModelException {
             ArrayList matchingInputParts = this.matchingInputParts;
             if (matchingInputParts == null) {
@@ -302,6 +303,7 @@ class BuiltInsForStringsRegexp {
     }
 
     // Can't be instantiated
-    private BuiltInsForStringsRegexp() { }
-    
+    private BuiltInsForStringsRegexp() {
+    }
+
 }

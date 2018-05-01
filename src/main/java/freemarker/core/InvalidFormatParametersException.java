@@ -21,11 +21,11 @@ package freemarker.core;
 /**
  * Used when creating {link TemplateDateFormat}-s and {link TemplateNumberFormat}-s to indicate that the parameters
  * part of the format string (like some kind of pattern) is malformed.
- * 
+ *
  * @since 2.3.24
  */
 public final class InvalidFormatParametersException extends InvalidFormatStringException {
-    
+
     public InvalidFormatParametersException(String message, Throwable cause) {
         super(message, cause);
     }

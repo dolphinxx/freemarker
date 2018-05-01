@@ -48,7 +48,7 @@ final class BlockAssignment extends TemplateElement {
     @Override
     TemplateElement[] accept(Environment env) throws TemplateException, IOException {
         TemplateElement[] children = getChildBuffer();
-        
+
         TemplateModel value;
         if (children != null) {
             StringWriter out = new StringWriter();
@@ -57,7 +57,7 @@ final class BlockAssignment extends TemplateElement {
         } else {
             value = capturedStringToModel("");
         }
-        
+
         if (namespaceExp != null) {
             ((Environment.Namespace) namespaceExp.eval(env)).put(varName, value);
         } else if (scope == Assignment.NAMESPACE) {
@@ -69,7 +69,7 @@ final class BlockAssignment extends TemplateElement {
         } else {
             throw new BugException("Unhandled scope");
         }
-        
+
         return null;
     }
 
@@ -99,12 +99,12 @@ final class BlockAssignment extends TemplateElement {
         }
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return Assignment.getDirectiveName(scope);
     }
-    
+
     @Override
     int getParameterCount() {
         return 3;
@@ -113,20 +113,28 @@ final class BlockAssignment extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return varName;
-        case 1: return scope;
-        case 2: return namespaceExp;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return varName;
+            case 1:
+                return scope;
+            case 2:
+                return namespaceExp;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.ASSIGNMENT_TARGET;
-        case 1: return ParameterRole.VARIABLE_SCOPE;
-        case 2: return ParameterRole.NAMESPACE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.ASSIGNMENT_TARGET;
+            case 1:
+                return ParameterRole.VARIABLE_SCOPE;
+            case 2:
+                return ParameterRole.NAMESPACE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 

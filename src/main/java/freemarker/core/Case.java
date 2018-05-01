@@ -26,7 +26,7 @@ final class Case extends TemplateElement {
 
     static final int TYPE_CASE = 0;
     static final int TYPE_DEFAULT = 1;
-    
+
     Expression condition;
 
     Case(Expression matchingValue, TemplateElements children) {
@@ -54,7 +54,7 @@ final class Case extends TemplateElement {
         }
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return condition != null ? "#case" : "#default";
@@ -68,18 +68,24 @@ final class Case extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return condition;
-        case 1: return condition != null ? TYPE_CASE : TYPE_DEFAULT;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return condition;
+            case 1:
+                return condition != null ? TYPE_CASE : TYPE_DEFAULT;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.CONDITION;
-        case 1: return ParameterRole.AST_NODE_SUBTYPE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.CONDITION;
+            case 1:
+                return ParameterRole.AST_NODE_SUBTYPE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -87,5 +93,5 @@ final class Case extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-        
+
 }

@@ -28,41 +28,41 @@ import freemarker.template.utility.ObjectConstructor;
 /**
  * Used by built-ins and other template language features that get a class
  * based on a string. This can be handy both for implementing security
- * restrictions and for working around local class-loader issues. 
- * 
+ * restrictions and for working around local class-loader issues.
+ * <p>
  * The implementation should be thread-safe, unless an
  * instance is always only used in a single {link Environment} object.
- * 
+ * <p>
  * see Configurable#setNewBuiltinClassResolver(TemplateClassResolver)
- * 
+ *
  * @since 2.3.17
  */
 public interface TemplateClassResolver {
-    
+
     /**
      * Simply calls {link ClassUtil#forName(String)}.
      */
     TemplateClassResolver UNRESTRICTED_RESOLVER = new TemplateClassResolver() {
 
         public Class resolve(String className, Environment env, Template template)
-        throws TemplateException {
+                throws TemplateException {
             try {
                 return ClassUtil.forName(className);
             } catch (ClassNotFoundException e) {
                 throw new _MiscTemplateException(e, env);
             }
         }
-        
+
     };
-    
+
     /**
      * Same as {link #UNRESTRICTED_RESOLVER}, except that it doesn't allow
      * resolving {link ObjectConstructor} and {link Execute} and {@code freemarker.template.utility.JythonRuntime}.
      */
-    TemplateClassResolver SAFER_RESOLVER =  new TemplateClassResolver() {
+    TemplateClassResolver SAFER_RESOLVER = new TemplateClassResolver() {
 
         public Class resolve(String className, Environment env, Template template)
-        throws TemplateException {
+                throws TemplateException {
             if (className.equals(ObjectConstructor.class.getName())
                     || className.equals(Execute.class.getName())
                     || className.equals("freemarker.template.utility.JythonRuntime")) {
@@ -74,33 +74,32 @@ public interface TemplateClassResolver {
                 throw new _MiscTemplateException(e, env);
             }
         }
-        
+
     };
-    
+
     /**
      * Doesn't allow resolving any classes.
      */
-    TemplateClassResolver ALLOWS_NOTHING_RESOLVER =  new TemplateClassResolver() {
+    TemplateClassResolver ALLOWS_NOTHING_RESOLVER = new TemplateClassResolver() {
 
         public Class resolve(String className, Environment env, Template template)
-        throws TemplateException {
+                throws TemplateException {
             throw _MessageUtil.newInstantiatingClassNotAllowedException(className, env);
         }
-        
+
     };
 
     /**
      * Gets a {link Class} based on the class name.
-     * 
+     *
      * @param className the full-qualified class name
-     * @param env the environment in which the template executes
-     * @param template the template where the operation that require the
-     *        class resolution resides in. This is <code>null</code> if the
-     *        call doesn't come from a template.
-     *        
+     * @param env       the environment in which the template executes
+     * @param template  the template where the operation that require the
+     *                  class resolution resides in. This is <code>null</code> if the
+     *                  call doesn't come from a template.
      * @throws TemplateException if the class can't be found or shouldn't be
-     *   accessed from a template for security reasons.
+     *                           accessed from a template for security reasons.
      */
     Class resolve(String className, Environment env, Template template) throws TemplateException;
-    
+
 }

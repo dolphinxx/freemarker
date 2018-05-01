@@ -22,7 +22,7 @@ import freemarker.template.Version;
 
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
- */ 
+ */
 public final class _ParserConfigurationWithInheritedFormat implements ParserConfiguration {
 
     private final OutputFormat outputFormat;
@@ -30,7 +30,7 @@ public final class _ParserConfigurationWithInheritedFormat implements ParserConf
     private final ParserConfiguration wrappedPCfg;
 
     public _ParserConfigurationWithInheritedFormat(ParserConfiguration wrappedPCfg, OutputFormat outputFormat,
-            Integer autoEscapingPolicy) {
+                                                   Integer autoEscapingPolicy) {
         this.outputFormat = outputFormat;
         this.autoEscapingPolicy = autoEscapingPolicy;
         this.wrappedPCfg = wrappedPCfg;
@@ -79,5 +79,5 @@ public final class _ParserConfigurationWithInheritedFormat implements ParserConf
     public int getTabSize() {
         return wrappedPCfg.getTabSize();
     }
-    
+
 }

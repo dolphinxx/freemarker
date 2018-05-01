@@ -28,33 +28,31 @@ import java.io.Serializable;
  * Adapts an {link Iterable} to the corresponding {link TemplateModel} interface(s), most importantly to
  * {link TemplateCollectionModel}. This should only be used if {link Collection} is not implemented by the adapted
  * object, because then {link DefaultListAdapter} and {link DefaultNonListCollectionAdapter} gives more functionality.
- * 
+ * <p>
  * <p>
  * Thread safety: A {link DefaultIterableAdapter} is as thread-safe as the {link Iterable} that it wraps is. Normally
  * you only have to consider read-only access, as the FreeMarker template language doesn't provide means to call
  * {link Iterator} modifier methods (though of course, Java methods called from the template can violate this rule).
- * 
+ * <p>
  * <p>
  * This adapter is used by {link DefaultObjectWrapper} if its {link DefaultObjectWrapper#setIterableSupport(boolean)
  * iterableSupport} property is {@code true}, which is not the default for backward compatibility (so you have to set it
  * explicitly).
- * 
+ *
  * @since 2.3.25
  */
 @SuppressWarnings("serial")
 public class DefaultIterableAdapter extends WrappingTemplateModel implements TemplateCollectionModel,
         AdapterTemplateModel, WrapperTemplateModel, TemplateModelWithAPISupport, Serializable {
-    
+
     private final Iterable<?> iterable;
 
     /**
      * Factory method for creating new adapter instances.
-     * 
-     * @param iterable
-     *            The collection to adapt; can't be {@code null}.
-     * @param wrapper
-     *            The {link ObjectWrapper} used to wrap the items in the array. Has to be
-     *            {link ObjectWrapperAndUnwrapper} because of planned future features.
+     *
+     * @param iterable The collection to adapt; can't be {@code null}.
+     * @param wrapper  The {link ObjectWrapper} used to wrap the items in the array. Has to be
+     *                 {link ObjectWrapperAndUnwrapper} because of planned future features.
      */
     public static DefaultIterableAdapter adapt(Iterable<?> iterable, ObjectWrapperWithAPISupport wrapper) {
         return new DefaultIterableAdapter(iterable, wrapper);

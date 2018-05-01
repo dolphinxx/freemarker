@@ -22,7 +22,7 @@ import freemarker.template.Version;
 
 /**
  * Used to work around that {link FMParser} has constructors that have separate parameters for individual settings.
- * 
+ *
  * @since 2.3.24
  */
 class LegacyConstructorParserConfiguration implements ParserConfiguration {
@@ -33,17 +33,17 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
     private final boolean whitespaceStripping;
     private final boolean strictSyntaxMode;
     private ArithmeticEngine arithmeticEngine;
-    private Integer autoEscapingPolicy; 
+    private Integer autoEscapingPolicy;
     private OutputFormat outputFormat;
     private Boolean recognizeStandardFileExtensions;
     private Integer tabSize;
     private final Version incompatibleImprovements;
 
     LegacyConstructorParserConfiguration(boolean strictSyntaxMode, boolean whitespaceStripping,
-            int tagSyntax, int interpolationSyntax,
-            int namingConvention, Integer autoEscaping, OutputFormat outputFormat,
-            Boolean recognizeStandardFileExtensions, Integer tabSize,
-            Version incompatibleImprovements, ArithmeticEngine arithmeticEngine) {
+                                         int tagSyntax, int interpolationSyntax,
+                                         int namingConvention, Integer autoEscaping, OutputFormat outputFormat,
+                                         Boolean recognizeStandardFileExtensions, Integer tabSize,
+                                         Version incompatibleImprovements, ArithmeticEngine arithmeticEngine) {
         this.tagSyntax = tagSyntax;
         this.interpolationSyntax = interpolationSyntax;
         this.namingConvention = namingConvention;
@@ -60,7 +60,7 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
     public int getTagSyntax() {
         return tagSyntax;
     }
-    
+
     public int getInterpolationSyntax() {
         return interpolationSyntax;
     }
@@ -100,7 +100,7 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
         }
         return autoEscapingPolicy;
     }
-    
+
     void setAutoEscapingPolicyIfNotSet(int autoEscapingPolicy) {
         if (this.autoEscapingPolicy == null) {
             this.autoEscapingPolicy = autoEscapingPolicy;
@@ -126,7 +126,7 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
         }
         return recognizeStandardFileExtensions;
     }
-    
+
     void setRecognizeStandardFileExtensionsIfNotSet(boolean recognizeStandardFileExtensions) {
         if (this.recognizeStandardFileExtensions == null) {
             this.recognizeStandardFileExtensions = recognizeStandardFileExtensions;
@@ -139,11 +139,11 @@ class LegacyConstructorParserConfiguration implements ParserConfiguration {
         }
         return tabSize;
     }
-    
+
     void setTabSizeIfNotSet(int tabSize) {
         if (this.tabSize == null) {
             this.tabSize = tabSize;
         }
     }
-    
+
 }

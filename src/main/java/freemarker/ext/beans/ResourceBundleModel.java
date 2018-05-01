@@ -53,17 +53,16 @@ import java.util.Set;
  * </ul>
  */
 public class ResourceBundleModel
-    extends
-    BeanModel
-    implements
-    TemplateMethodModelEx {
+        extends
+        BeanModel
+        implements
+        TemplateMethodModelEx {
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new ResourceBundleModel((ResourceBundle) object, (BeansWrapper) wrapper);
-            }
-        };
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new ResourceBundleModel((ResourceBundle) object, (BeansWrapper) wrapper);
+                }
+            };
 
     private Hashtable formats = null;
 
@@ -76,7 +75,7 @@ public class ResourceBundleModel
      */
     @Override
     protected TemplateModel invokeGenericGet(Map keyMap, Class clazz, String key)
-    throws TemplateModelException {
+            throws TemplateModelException {
         try {
             return wrap(((ResourceBundle) object).getObject(key));
         } catch (MissingResourceException e) {
@@ -93,7 +92,7 @@ public class ResourceBundleModel
     @Override
     public boolean isEmpty() {
         return !((ResourceBundle) object).getKeys().hasMoreElements() &&
-            super.isEmpty();
+                super.isEmpty();
     }
 
     @Override
@@ -117,7 +116,7 @@ public class ResourceBundleModel
      * rest of the arguments. The created MessageFormats are cached for later reuse.
      */
     public Object exec(List arguments)
-        throws TemplateModelException {
+            throws TemplateModelException {
         // Must have at least one argument - the key
         if (arguments.size() < 1)
             throw new TemplateModelException("No message key was specified");
@@ -128,13 +127,13 @@ public class ResourceBundleModel
             if (!it.hasNext()) {
                 return wrap(((ResourceBundle) object).getObject(key));
             }
-    
+
             // Copy remaining arguments into an Object[]
             int args = arguments.size() - 1;
             Object[] params = new Object[args];
             for (int i = 0; i < args; ++i)
                 params[i] = unwrap((TemplateModel) it.next());
-    
+
             // Invoke format
             return new StringModel(format(key, params), wrapper);
         } catch (MissingResourceException e) {
@@ -148,7 +147,7 @@ public class ResourceBundleModel
      * Provides direct access to caching format engine from code (instead of from script).
      */
     public String format(String key, Object[] params)
-        throws MissingResourceException {
+            throws MissingResourceException {
         // Check to see if we already have a cache for message formats
         // and construct it if we don't
         // NOTE: this block statement should be synchronized. However

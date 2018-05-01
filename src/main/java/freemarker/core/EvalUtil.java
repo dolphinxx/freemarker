@@ -46,16 +46,17 @@ class EvalUtil {
     static final int CMP_OP_LESS_THAN_EQUALS = 5;
     static final int CMP_OP_GREATER_THAN_EQUALS = 6;
     // If you add a new operator here, update the "compare" and "cmpOpToString" methods!
-    
+
     // Prevents instantination.
-    private EvalUtil() { }
-    
+    private EvalUtil() {
+    }
+
     /**
      * @param expr {@code null} is allowed, but may results in less helpful error messages
-     * @param env {@code null} is allowed, but may results in lower performance in classic-compatible mode
+     * @param env  {@code null} is allowed, but may results in lower performance in classic-compatible mode
      */
     static String modelToString(TemplateScalarModel model, Expression expr, Environment env)
-    throws TemplateModelException {
+            throws TemplateModelException {
         String value = model.getAsString();
         if (value == null) {
             if (env == null) env = Environment.getCurrentEnvironment();
@@ -67,12 +68,12 @@ class EvalUtil {
         }
         return value;
     }
-    
+
     /**
      * @param expr {@code null} is allowed, but may results in less helpful error messages
      */
     static Number modelToNumber(TemplateNumberModel model, Expression expr)
-        throws TemplateModelException {
+            throws TemplateModelException {
         Number value = model.getAsNumber();
         if (value == null) throw newModelHasStoredNullException(Number.class, model, expr);
         return value;
@@ -82,13 +83,15 @@ class EvalUtil {
      * @param expr {@code null} is allowed, but may results in less helpful error messages
      */
     static Date modelToDate(TemplateDateModel model, Expression expr)
-        throws TemplateModelException {
+            throws TemplateModelException {
         Date value = model.getAsDate();
         if (value == null) throw newModelHasStoredNullException(Date.class, model, expr);
         return value;
     }
-    
-    /** Signals the buggy case where we have a non-null model, but it wraps a null. */
+
+    /**
+     * Signals the buggy case where we have a non-null model, but it wraps a null.
+     */
     static TemplateModelException newModelHasStoredNullException(
             Class expected, TemplateModel model, Expression expr) {
         return new _TemplateModelException(expr,
@@ -97,16 +100,16 @@ class EvalUtil {
 
     /**
      * Compares two expressions according the rules of the FTL comparator operators.
-     * 
-     * @param leftExp not {@code null}
-     * @param operator one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
+     *
+     * @param leftExp        not {@code null}
+     * @param operator       one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
      * @param operatorString can be null {@code null}; the actual operator used, used for more accurate error message.
-     * @param rightExp not {@code null}
-     * @param env {@code null} is tolerated, but should be avoided
+     * @param rightExp       not {@code null}
+     * @param env            {@code null} is tolerated, but should be avoided
      */
     static boolean compare(
             Expression leftExp,
-            int operator, String  operatorString,
+            int operator, String operatorString,
             Expression rightExp,
             Expression defaultBlamed,
             Environment env) throws TemplateException {
@@ -120,16 +123,16 @@ class EvalUtil {
                 false, false, false,
                 env);
     }
-    
+
     /**
      * Compares values according the rules of the FTL comparator operators; if the {link Expression}-s are
      * accessible, use {link #compare(Expression, int, String, Expression, Expression, Environment)} instead, as
      * that gives better error messages.
-     * 
-     * @param leftValue maybe {@code null}, which will usually cause the appropriate {link TemplateException}.
-     * @param operator one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
+     *
+     * @param leftValue  maybe {@code null}, which will usually cause the appropriate {link TemplateException}.
+     * @param operator   one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
      * @param rightValue maybe {@code null}, which will usually cause the appropriate {link TemplateException}.
-     * @param env {@code null} is tolerated, but should be avoided
+     * @param env        {@code null} is tolerated, but should be avoided
      */
     static boolean compare(
             TemplateModel leftValue, int operator, TemplateModel rightValue,
@@ -145,8 +148,8 @@ class EvalUtil {
 
     /**
      * Same as {link #compare(TemplateModel, int, TemplateModel, Environment)}, but if the two types are incompatible,
-     *     they are treated as non-equal instead of throwing an exception. Comparing dates of different types will
-     *     still throw an exception, however.
+     * they are treated as non-equal instead of throwing an exception. Comparing dates of different types will
+     * still throw an exception, however.
      */
     static boolean compareLenient(
             TemplateModel leftValue, int operator, TemplateModel rightValue,
@@ -159,25 +162,25 @@ class EvalUtil {
                 true, false, false,
                 env);
     }
-    
+
     private static final String VALUE_OF_THE_COMPARISON_IS_UNKNOWN_DATE_LIKE
             = "value of the comparison is a date-like value where "
-              + "it's not known if it's a date (no time part), time, or date-time, "
-              + "and thus can't be used in a comparison.";
-    
+            + "it's not known if it's a date (no time part), time, or date-time, "
+            + "and thus can't be used in a comparison.";
+
     /**
-     * @param leftExp {@code null} is allowed, but may results in less helpful error messages
-     * @param operator one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
-     * @param operatorString can be null {@code null}; the actual operator used, used for more accurate error message.
-     * @param rightExp {@code null} is allowed, but may results in less helpful error messages
-     * @param defaultBlamed {@code null} allowed; the expression to which the error will point to if something goes
-     *        wrong that is not specific to the left or right side expression, or if that expression is {@code null}.
+     * @param leftExp                   {@code null} is allowed, but may results in less helpful error messages
+     * @param operator                  one of the {@code COMP_OP_...} constants, like {link #CMP_OP_EQUALS}.
+     * @param operatorString            can be null {@code null}; the actual operator used, used for more accurate error message.
+     * @param rightExp                  {@code null} is allowed, but may results in less helpful error messages
+     * @param defaultBlamed             {@code null} allowed; the expression to which the error will point to if something goes
+     *                                  wrong that is not specific to the left or right side expression, or if that expression is {@code null}.
      * @param typeMismatchMeansNotEqual If the two types are incompatible, they are treated as non-equal instead
-     *     of throwing an exception. Comparing dates of different types will still throw an exception, however. 
-     * @param leftNullReturnsFalse if {@code true}, a {@code null} left value will not cause exception, but make the
-     *     expression {@code false}.  
-     * @param rightNullReturnsFalse if {@code true}, a {@code null} right value will not cause exception, but make the
-     *     expression {@code false}.  
+     *                                  of throwing an exception. Comparing dates of different types will still throw an exception, however.
+     * @param leftNullReturnsFalse      if {@code true}, a {@code null} left value will not cause exception, but make the
+     *                                  expression {@code false}.
+     * @param rightNullReturnsFalse     if {@code true}, a {@code null} right value will not cause exception, but make the
+     *                                  expression {@code false}.
      */
     static boolean compare(
             TemplateModel leftValue, Expression leftExp,
@@ -191,14 +194,14 @@ class EvalUtil {
             if (env != null && env.isClassicCompatible()) {
                 leftValue = TemplateScalarModel.EMPTY_STRING;
             } else {
-                if (leftNullReturnsFalse) { 
+                if (leftNullReturnsFalse) {
                     return false;
                 } else {
                     if (leftExp != null) {
                         throw InvalidReferenceException.getInstance(leftExp, env);
                     } else {
-                        throw new _MiscTemplateException(defaultBlamed, env, 
-                                    "The left operand of the comparison was undefined or null.");
+                        throw new _MiscTemplateException(defaultBlamed, env,
+                                "The left operand of the comparison was undefined or null.");
                     }
                 }
             }
@@ -208,14 +211,14 @@ class EvalUtil {
             if (env != null && env.isClassicCompatible()) {
                 rightValue = TemplateScalarModel.EMPTY_STRING;
             } else {
-                if (rightNullReturnsFalse) { 
+                if (rightNullReturnsFalse) {
                     return false;
                 } else {
                     if (rightExp != null) {
                         throw InvalidReferenceException.getInstance(rightExp, env);
                     } else {
                         throw new _MiscTemplateException(defaultBlamed, env,
-                                    "The right operand of the comparison was undefined or null.");
+                                "The right operand of the comparison was undefined or null.");
                     }
                 }
             }
@@ -227,8 +230,8 @@ class EvalUtil {
             Number rightNum = EvalUtil.modelToNumber((TemplateNumberModel) rightValue, rightExp);
             ArithmeticEngine ae =
                     env != null
-                        ? env.getArithmeticEngine()
-                        : (leftExp != null
+                            ? env.getArithmeticEngine()
+                            : (leftExp != null
                             ? leftExp.getTemplate().getArithmeticEngine()
                             : ArithmeticEngine.BIGDECIMAL_ENGINE);
             try {
@@ -239,10 +242,10 @@ class EvalUtil {
         } else if (leftValue instanceof TemplateDateModel && rightValue instanceof TemplateDateModel) {
             TemplateDateModel leftDateModel = (TemplateDateModel) leftValue;
             TemplateDateModel rightDateModel = (TemplateDateModel) rightValue;
-            
+
             int leftDateType = leftDateModel.getDateType();
             int rightDateType = rightDateModel.getDateType();
-            
+
             if (leftDateType == TemplateDateModel.UNKNOWN || rightDateType == TemplateDateModel.UNKNOWN) {
                 String sideName;
                 Expression sideExp;
@@ -253,11 +256,11 @@ class EvalUtil {
                     sideName = "right";
                     sideExp = rightExp;
                 }
-                
+
                 throw new _MiscTemplateException(sideExp != null ? sideExp : defaultBlamed, env,
                         "The ", sideName, " ", VALUE_OF_THE_COMPARISON_IS_UNKNOWN_DATE_LIKE);
             }
-            
+
             if (leftDateType != rightDateType) {
                 throw new _MiscTemplateException(defaultBlamed, env,
                         "Can't compare dates of different types. Left date type is ",
@@ -303,25 +306,32 @@ class EvalUtil {
                     "Allowed comparisons are between two numbers, two strings, two dates, or two booleans.\n",
                     "Left hand operand ",
                     (quoteOperandsInErrors && leftExp != null
-                            ? new Object[] { "(", new _DelayedGetCanonicalForm(leftExp), ") value " }
+                            ? new Object[]{"(", new _DelayedGetCanonicalForm(leftExp), ") value "}
                             : ""),
                     "is ", new _DelayedAOrAn(new _DelayedFTLTypeDescription(leftValue)), ".\n",
                     "Right hand operand ",
                     (quoteOperandsInErrors && rightExp != null
-                            ? new Object[] { "(", new _DelayedGetCanonicalForm(rightExp), ") value " }
+                            ? new Object[]{"(", new _DelayedGetCanonicalForm(rightExp), ") value "}
                             : ""),
                     "is ", new _DelayedAOrAn(new _DelayedFTLTypeDescription(rightValue)),
                     ".");
         }
 
         switch (operator) {
-            case CMP_OP_EQUALS: return cmpResult == 0;
-            case CMP_OP_NOT_EQUALS: return cmpResult != 0;
-            case CMP_OP_LESS_THAN: return cmpResult < 0;
-            case CMP_OP_GREATER_THAN: return cmpResult > 0;
-            case CMP_OP_LESS_THAN_EQUALS: return cmpResult <= 0;
-            case CMP_OP_GREATER_THAN_EQUALS: return cmpResult >= 0;
-            default: throw new BugException("Unsupported comparator operator code: " + operator);
+            case CMP_OP_EQUALS:
+                return cmpResult == 0;
+            case CMP_OP_NOT_EQUALS:
+                return cmpResult != 0;
+            case CMP_OP_LESS_THAN:
+                return cmpResult < 0;
+            case CMP_OP_GREATER_THAN:
+                return cmpResult > 0;
+            case CMP_OP_LESS_THAN_EQUALS:
+                return cmpResult <= 0;
+            case CMP_OP_GREATER_THAN_EQUALS:
+                return cmpResult >= 0;
+            default:
+                throw new BugException("Unsupported comparator operator code: " + operator);
         }
     }
 
@@ -330,13 +340,20 @@ class EvalUtil {
             return operatorString;
         } else {
             switch (operator) {
-                case CMP_OP_EQUALS: return "equals";
-                case CMP_OP_NOT_EQUALS: return "not-equals";
-                case CMP_OP_LESS_THAN: return "less-than";
-                case CMP_OP_GREATER_THAN: return "greater-than";
-                case CMP_OP_LESS_THAN_EQUALS: return "less-than-equals";
-                case CMP_OP_GREATER_THAN_EQUALS: return "greater-than-equals";
-                default: return "???";
+                case CMP_OP_EQUALS:
+                    return "equals";
+                case CMP_OP_NOT_EQUALS:
+                    return "not-equals";
+                case CMP_OP_LESS_THAN:
+                    return "less-than";
+                case CMP_OP_GREATER_THAN:
+                    return "greater-than";
+                case CMP_OP_LESS_THAN_EQUALS:
+                    return "less-than-equals";
+                case CMP_OP_GREATER_THAN_EQUALS:
+                    return "greater-than-equals";
+                default:
+                    return "???";
             }
         }
     }
@@ -344,29 +361,27 @@ class EvalUtil {
     /**
      * Converts a value to plain text {link String}, or a {link TemplateMarkupOutputModel} if that's what the
      * {link TemplateValueFormat} involved produces.
-     * 
-     * @param seqTip
-     *            Tip to display if the value type is not coercable, but it's sequence or collection.
-     * 
+     *
+     * @param seqTip Tip to display if the value type is not coercable, but it's sequence or collection.
      * @return Never {@code null}
-     * @throws TemplateException 
+     * @throws TemplateException
      */
     static Object coerceModelToStringOrMarkup(TemplateModel tm, Expression exp, String seqTip, Environment env)
             throws TemplateException {
         return coerceModelToStringOrMarkup(tm, exp, false, seqTip, env);
     }
-    
+
     /**
      * @return {@code null} if the {@code returnNullOnNonCoercableType} parameter is {@code true}, and the coercion is
-     *         not possible, because of the type is not right for it.
-     * 
+     * not possible, because of the type is not right for it.
+     * <p>
      * see #coerceModelToStringOrMarkup(TemplateModel, Expression, String, Environment)
      */
     static Object coerceModelToStringOrMarkup(
             TemplateModel tm, Expression exp, boolean returnNullOnNonCoercableType, String seqTip, Environment env)
             throws TemplateException {
         if (tm instanceof TemplateNumberModel) {
-            TemplateNumberModel tnm = (TemplateNumberModel) tm; 
+            TemplateNumberModel tnm = (TemplateNumberModel) tm;
             TemplateNumberFormat format = env.getTemplateNumberFormat(exp, false);
             try {
                 return assertFormatResultNotNull(format.format(tnm));
@@ -383,7 +398,7 @@ class EvalUtil {
             }
         } else if (tm instanceof TemplateMarkupOutputModel) {
             return tm;
-        } else { 
+        } else {
             return coerceModelToTextualCommon(tm, exp, seqTip, true, returnNullOnNonCoercableType, env);
         }
     }
@@ -392,16 +407,14 @@ class EvalUtil {
      * Like {link #coerceModelToStringOrMarkup(TemplateModel, Expression, String, Environment)}, but gives error
      * if the result is markup. This is what you normally use where markup results can't be used.
      *
-     * @param seqTip
-     *            Tip to display if the value type is not coercable, but it's sequence or collection.
-     * 
+     * @param seqTip Tip to display if the value type is not coercable, but it's sequence or collection.
      * @return Never {@code null}
      */
     static String coerceModelToStringOrUnsupportedMarkup(
             TemplateModel tm, Expression exp, String seqTip, Environment env)
             throws TemplateException {
         if (tm instanceof TemplateNumberModel) {
-            TemplateNumberModel tnm = (TemplateNumberModel) tm; 
+            TemplateNumberModel tnm = (TemplateNumberModel) tm;
             TemplateNumberFormat format = env.getTemplateNumberFormat(exp, false);
             try {
                 return ensureFormatResultString(format.format(tnm), exp, env);
@@ -416,7 +429,7 @@ class EvalUtil {
             } catch (TemplateValueFormatException e) {
                 throw _MessageUtil.newCantFormatDateException(format, exp, e, false);
             }
-        } else { 
+        } else {
             return coerceModelToTextualCommon(tm, exp, seqTip, false, false, env);
         }
     }
@@ -424,14 +437,12 @@ class EvalUtil {
     /**
      * Converts a value to plain text {link String}, even if the {link TemplateValueFormat} involved normally produces
      * markup. This should be used rarely, where the user clearly intend to use the plain text variant of the format.
-     * 
-     * @param seqTip
-     *            Tip to display if the value type is not coercable, but it's sequence or collection.
-     * 
+     *
+     * @param seqTip Tip to display if the value type is not coercable, but it's sequence or collection.
      * @return Never {@code null}
      */
     static String coerceModelToPlainText(TemplateModel tm, Expression exp, String seqTip,
-            Environment env) throws TemplateException {
+                                         Environment env) throws TemplateException {
         if (tm instanceof TemplateNumberModel) {
             return assertFormatResultNotNull(env.formatNumberToPlainText((TemplateNumberModel) tm, exp, false));
         } else if (tm instanceof TemplateDateModel) {
@@ -442,12 +453,8 @@ class EvalUtil {
     }
 
     /**
-     * @param tm
-     *            If {@code null} that's an exception, unless we are in classic compatible mode.
-     * 
-     * @param supportsTOM
-     *            Whether the caller {@code coerceModelTo...} method could handle a {link TemplateMarkupOutputModel}.
-     *            
+     * @param tm          If {@code null} that's an exception, unless we are in classic compatible mode.
+     * @param supportsTOM Whether the caller {@code coerceModelTo...} method could handle a {link TemplateMarkupOutputModel}.
      * @return Never {@code null}
      */
     private static String coerceModelToTextualCommon(
@@ -515,12 +522,12 @@ class EvalUtil {
 
     private static String ensureFormatResultString(Object formatResult, Expression exp, Environment env)
             throws NonStringException {
-        if (formatResult instanceof String) { 
+        if (formatResult instanceof String) {
             return (String) formatResult;
         }
-        
+
         assertFormatResultNotNull(formatResult);
-        
+
         TemplateMarkupOutputModel mo = (TemplateMarkupOutputModel) formatResult;
         _ErrorDescriptionBuilder desc = new _ErrorDescriptionBuilder(
                 "Value was formatted to convert it to string, but the result was markup of ouput format ",
@@ -545,7 +552,7 @@ class EvalUtil {
     }
 
     static TemplateMarkupOutputModel concatMarkupOutputs(TemplateObject parent, TemplateMarkupOutputModel leftMO,
-            TemplateMarkupOutputModel rightMO) throws TemplateException {
+                                                         TemplateMarkupOutputModel rightMO) throws TemplateException {
         MarkupOutputFormat leftOF = leftMO.getOutputFormat();
         MarkupOutputFormat rightOF = rightMO.getOutputFormat();
         if (rightOF != leftOF) {
@@ -556,9 +563,9 @@ class EvalUtil {
             } else if ((leftPT = leftOF.getSourcePlainText(leftMO)) != null) {
                 return rightOF.concat(rightOF.fromPlainTextByEscaping(leftPT), rightMO);
             } else {
-                Object[] message = { "Concatenation left hand operand is in ", new _DelayedToString(leftOF),
+                Object[] message = {"Concatenation left hand operand is in ", new _DelayedToString(leftOF),
                         " format, while the right hand operand is in ", new _DelayedToString(rightOF),
-                        ". Conversion to common format wasn't possible." };
+                        ". Conversion to common format wasn't possible."};
                 if (parent instanceof Expression) {
                     throw new _MiscTemplateException((Expression) parent, message);
                 } else {
@@ -599,5 +606,5 @@ class EvalUtil {
             return false;
         }
     }
-    
+
 }

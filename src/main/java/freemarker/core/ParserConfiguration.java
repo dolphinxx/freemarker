@@ -24,7 +24,7 @@ import freemarker.template.Version;
  * <b>Don't implement this interface yourself</b>; use the existing implementation(s). This interface is implemented by
  * classes that hold settings that affect parsing. New parser settings can be added in new FreeMarker versions, which
  * will break your implementation.
- * 
+ *
  * @since 2.3.24
  */
 public interface ParserConfiguration {
@@ -40,7 +40,7 @@ public interface ParserConfiguration {
      * @since 2.3.28
      */
     int getInterpolationSyntax();
-    
+
     /**
      * See {link Configuration#getNamingConvention()}.
      */
@@ -55,35 +55,35 @@ public interface ParserConfiguration {
      * Overlaps with {link Configurable#getArithmeticEngine()}; the parser needs this for creating numerical literals.
      */
     ArithmeticEngine getArithmeticEngine();
-    
+
     /**
      * See {link Configuration#getStrictSyntaxMode()}.
      */
     boolean getStrictSyntaxMode();
-    
+
     /**
      * See {link Configuration#getAutoEscapingPolicy()}.
      */
     int getAutoEscapingPolicy();
-    
+
     /**
      * See {link Configuration#getOutputEncoding()}.
      */
     OutputFormat getOutputFormat();
-    
+
     /**
      * See {link Configuration#getRecognizeStandardFileExtensions()}.
      */
     boolean getRecognizeStandardFileExtensions();
-    
+
     /**
      * See {link Configuration#getIncompatibleImprovements()}.
      */
     Version getIncompatibleImprovements();
-    
+
     /**
      * See {link Configuration#getTabSize()}.
-     * 
+     *
      * @since 2.3.25
      */
     int getTabSize();

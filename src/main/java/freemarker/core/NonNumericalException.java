@@ -27,8 +27,8 @@ import freemarker.template.TemplateNumberModel;
  */
 public class NonNumericalException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateNumberModel.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateNumberModel.class};
+
     public NonNumericalException(Environment env) {
         super(env, "Expecting numerical value here");
     }
@@ -36,7 +36,7 @@ public class NonNumericalException extends UnexpectedTypeException {
     public NonNumericalException(String description, Environment env) {
         super(env, description);
     }
- 
+
     NonNumericalException(_ErrorDescriptionBuilder description, Environment env) {
         super(env, description);
     }
@@ -64,11 +64,12 @@ public class NonNumericalException extends UnexpectedTypeException {
             throws InvalidReferenceException {
         super(assignmentTargetVarName, model, "number", EXPECTED_TYPES, tips, env);
     }
+
     static NonNumericalException newMalformedNumberException(Expression blamed, String text, Environment env) {
         return new NonNumericalException(
                 new _ErrorDescriptionBuilder("Can't convert this string to number: ", new _DelayedJQuote(text))
-                .blame(blamed),
+                        .blame(blamed),
                 env);
     }
-    
+
 }

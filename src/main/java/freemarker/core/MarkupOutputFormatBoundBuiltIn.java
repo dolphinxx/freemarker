@@ -23,14 +23,14 @@ import freemarker.template.TemplateModel;
 import freemarker.template.utility.NullArgumentException;
 
 abstract class MarkupOutputFormatBoundBuiltIn extends SpecialBuiltIn {
-    
+
     protected MarkupOutputFormat outputFormat;
-    
+
     void bindToMarkupOutputFormat(MarkupOutputFormat outputFormat) {
         NullArgumentException.check(outputFormat);
         this.outputFormat = outputFormat;
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         if (outputFormat == null) {
@@ -42,5 +42,5 @@ abstract class MarkupOutputFormatBoundBuiltIn extends SpecialBuiltIn {
 
     protected abstract TemplateModel calculateResult(Environment env)
             throws TemplateException;
-    
+
 }

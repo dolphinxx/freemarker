@@ -30,19 +30,19 @@ import java.util.WeakHashMap;
  * Gets/creates a {link DefaultObjectWrapper} singleton instance that's already configured as specified in the
  * properties of this object; this is recommended over using the {link DefaultObjectWrapper} constructors. The returned
  * instance can't be further configured (it's write protected).
- * 
+ *
  * <p>See {link BeansWrapperBuilder} for more info, as that works identically.
- * 
+ *
  * @since 2.3.21
  */
 public class DefaultObjectWrapperBuilder extends DefaultObjectWrapperConfiguration {
 
     private final static Map<ClassLoader, Map<DefaultObjectWrapperConfiguration, WeakReference<DefaultObjectWrapper>>>
             INSTANCE_CACHE = new WeakHashMap<
-                    ClassLoader, Map<DefaultObjectWrapperConfiguration, WeakReference<DefaultObjectWrapper>>>();
+            ClassLoader, Map<DefaultObjectWrapperConfiguration, WeakReference<DefaultObjectWrapper>>>();
     private final static ReferenceQueue<DefaultObjectWrapper> INSTANCE_CACHE_REF_QUEUE
             = new ReferenceQueue<DefaultObjectWrapper>();
-    
+
     /**
      * Creates a builder that creates a {link DefaultObjectWrapper} with the given {@code incompatibleImprovements};
      * using at least 2.3.22 is highly recommended. See {link DefaultObjectWrapper#DefaultObjectWrapper(Version)} for
@@ -52,27 +52,29 @@ public class DefaultObjectWrapperBuilder extends DefaultObjectWrapperConfigurati
         super(incompatibleImprovements);
     }
 
-    /** For unit testing only */
+    /**
+     * For unit testing only
+     */
     static void clearInstanceCache() {
         synchronized (INSTANCE_CACHE) {
             INSTANCE_CACHE.clear();
         }
     }
-    
+
     /**
      * Returns a {link DefaultObjectWrapper} instance that matches the settings of this builder. This will be possibly
-     * a singleton that is also in use elsewhere. 
+     * a singleton that is also in use elsewhere.
      */
     public DefaultObjectWrapper build() {
         return _BeansAPI.getBeansWrapperSubclassSingleton(
                 this, INSTANCE_CACHE, INSTANCE_CACHE_REF_QUEUE, DefaultObjectWrapperFactory.INSTANCE);
     }
-    
+
     private static class DefaultObjectWrapperFactory
-        implements _BeansAPI._BeansWrapperSubclassFactory<DefaultObjectWrapper, DefaultObjectWrapperConfiguration> {
-    
-        private static final DefaultObjectWrapperFactory INSTANCE = new DefaultObjectWrapperFactory(); 
-        
+            implements _BeansAPI._BeansWrapperSubclassFactory<DefaultObjectWrapper, DefaultObjectWrapperConfiguration> {
+
+        private static final DefaultObjectWrapperFactory INSTANCE = new DefaultObjectWrapperFactory();
+
         public DefaultObjectWrapper create(DefaultObjectWrapperConfiguration bwConf) {
             return new DefaultObjectWrapper(bwConf, true);
         }

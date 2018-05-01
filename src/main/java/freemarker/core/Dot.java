@@ -52,12 +52,12 @@ final class Dot extends Expression {
     public String getCanonicalForm() {
         return target.getCanonicalForm() + getNodeTypeSymbol() + _CoreStringUtils.toFTLIdentifierReferenceAfterDot(key);
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return ".";
     }
-    
+
     @Override
     boolean isLiteral() {
         return target.isLiteral();
@@ -66,11 +66,11 @@ final class Dot extends Expression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new Dot(
-    	        target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        key);
+        return new Dot(
+                target.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                key);
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -85,7 +85,7 @@ final class Dot extends Expression {
     ParameterRole getParameterRole(int idx) {
         return ParameterRole.forBinaryOperatorOperand(idx);
     }
-    
+
     String getRHO() {
         return key;
     }

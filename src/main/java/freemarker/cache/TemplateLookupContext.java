@@ -25,11 +25,11 @@ import java.util.Locale;
 /**
  * Used as the parameter of {link TemplateLookupStrategy#lookup(TemplateLookupContext)}.
  * You can't create instances of this, only receive them from FreeMarker.
- * 
+ *
  * @since 2.3.22
  */
 public abstract class TemplateLookupContext {
-    
+
     private final String templateName;
     private final Locale templateLocale;
     private final Object customLookupCondition;
@@ -37,15 +37,13 @@ public abstract class TemplateLookupContext {
     /**
      * Finds the template source based on its <em>normalized</em> name; handles {@code *} steps (so called acquisition),
      * otherwise it just calls {link TemplateLoader#findTemplateSource(String)}.
-     * 
-     * @param templateName
-     *            Must be a normalized name, like {@code "foo/bar/baaz.ftl"}. A name is not normalized when, among
-     *            others, it starts with {@code /}, or contains {@code .} or {@code ..} path steps, or it uses
-     *            backslash ({@code \}) instead of {@code /}. A normalized name might contains "*" path steps
-     *            (acquisition).
-     * 
+     *
+     * @param templateName Must be a normalized name, like {@code "foo/bar/baaz.ftl"}. A name is not normalized when, among
+     *                     others, it starts with {@code /}, or contains {@code .} or {@code ..} path steps, or it uses
+     *                     backslash ({@code \}) instead of {@code /}. A normalized name might contains "*" path steps
+     *                     (acquisition).
      * @return The result of the lookup. Not {@code null}; check {link TemplateLookupResult#isPositive()} to see if the
-     *         lookup has found anything.
+     * lookup has found anything.
      */
     public abstract TemplateLookupResult lookupWithAcquisitionStrategy(String templateName) throws IOException;
 
@@ -58,9 +56,11 @@ public abstract class TemplateLookupContext {
      * {link TemplateLookupStrategy#DEFAULT_2_3_0}.
      */
     public abstract TemplateLookupResult lookupWithLocalizedThenAcquisitionStrategy(String templateName,
-            Locale templateLocale) throws IOException;
-    
-    /** Default visibility to prevent extending the class from outside this package. */
+                                                                                    Locale templateLocale) throws IOException;
+
+    /**
+     * Default visibility to prevent extending the class from outside this package.
+     */
     TemplateLookupContext(String templateName, Locale templateLocale, Object customLookupCondition) {
         this.templateName = templateName;
         this.templateLocale = templateLocale;
@@ -102,5 +102,5 @@ public abstract class TemplateLookupContext {
     public TemplateLookupResult createNegativeLookupResult() {
         return TemplateLookupResult.createNegativeResult();
     }
-    
+
 }

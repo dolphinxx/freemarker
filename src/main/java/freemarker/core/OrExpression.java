@@ -40,7 +40,7 @@ final class OrExpression extends BooleanExpression {
     public String getCanonicalForm() {
         return lho.getCanonicalForm() + " || " + rho.getCanonicalForm();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "||";
@@ -54,9 +54,9 @@ final class OrExpression extends BooleanExpression {
     @Override
     protected Expression deepCloneWithIdentifierReplaced_inner(
             String replacedIdentifier, Expression replacement, ReplacemenetState replacementState) {
-    	return new OrExpression(
-    	        lho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
-    	        rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
+        return new OrExpression(
+                lho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState),
+                rho.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
     }
 
     @Override
@@ -67,9 +67,12 @@ final class OrExpression extends BooleanExpression {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return lho;
-        case 1: return rho;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return lho;
+            case 1:
+                return rho;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -77,5 +80,5 @@ final class OrExpression extends BooleanExpression {
     ParameterRole getParameterRole(int idx) {
         return ParameterRole.forBinaryOperatorOperand(idx);
     }
-    
+
 }

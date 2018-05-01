@@ -18,7 +18,6 @@
  */
 package freemarker.core;
 
-import freemarker.template.TemplateModelException;
 import freemarker.template.utility.StringUtil;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ import java.io.Writer;
  * Represents the Rich Text Format output format (MIME type "application/rtf", name "RTF"). This format escapes by
  * default (via {link StringUtil#RTFEnc(String)}). The {@code ?rtf} built-in silently bypasses template output values
  * of the type produced by this output format ({link TemplateRTFOutputModel}).
- * 
+ *
  * @since 2.3.24
  */
 public final class RTFOutputFormat extends CommonMarkupOutputFormat<TemplateRTFOutputModel> {
@@ -37,11 +36,11 @@ public final class RTFOutputFormat extends CommonMarkupOutputFormat<TemplateRTFO
      * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final RTFOutputFormat INSTANCE = new RTFOutputFormat();
-    
+
     private RTFOutputFormat() {
         // Only to decrease visibility
     }
-    
+
     @Override
     public String getName() {
         return "RTF";

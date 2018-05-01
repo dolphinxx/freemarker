@@ -25,13 +25,13 @@ import freemarker.template.TemplateException;
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
  * {link TemplateException}-s that don't fit into any category that warrant its own class. In fact, this was added
  * because the API of {link TemplateException} is too simple for the purposes of the core, but it can't be
- * extended without breaking backward compatibility and exposing internals.  
+ * extended without breaking backward compatibility and exposing internals.
  */
 public class _MiscTemplateException extends TemplateException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _MiscTemplateException(String description) {
         super(description, null);
     }
@@ -39,7 +39,7 @@ public class _MiscTemplateException extends TemplateException {
     public _MiscTemplateException(Environment env, String description) {
         super(description, env);
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
 
@@ -54,14 +54,14 @@ public class _MiscTemplateException extends TemplateException {
     public _MiscTemplateException(Throwable cause) {
         this(cause, null, (String) null);
     }
-    
+
     public _MiscTemplateException(Throwable cause, Environment env, String description) {
         super(description, cause, env);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _MiscTemplateException(_ErrorDescriptionBuilder description) {
         this(null, description);
     }
@@ -76,7 +76,7 @@ public class _MiscTemplateException extends TemplateException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _MiscTemplateException(Object... descriptionParts) {
         this((Environment) null, descriptionParts);
     }
@@ -95,7 +95,7 @@ public class _MiscTemplateException extends TemplateException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _MiscTemplateException(Expression blamed, Object... descriptionParts) {
         this(blamed, null, descriptionParts);
     }
@@ -110,7 +110,7 @@ public class _MiscTemplateException extends TemplateException {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Permutation group:
-    
+
     public _MiscTemplateException(Expression blamed, String description) {
         this(blamed, null, description);
     }
@@ -122,5 +122,5 @@ public class _MiscTemplateException extends TemplateException {
     public _MiscTemplateException(Expression blamed, Throwable cause, Environment env, String description) {
         super(cause, env, blamed, new _ErrorDescriptionBuilder(description).blame(blamed));
     }
-    
+
 }

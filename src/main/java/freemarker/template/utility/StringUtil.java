@@ -32,34 +32,34 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 /**
- *  Some text related utilities.
+ * Some text related utilities.
  */
 public class StringUtil {
-    
+
     /**
-     *  Used to look up if the chars with low code needs to be escaped, but note that it gives bad result for '=', as
-     *  there the it matters if it's after '['.
+     * Used to look up if the chars with low code needs to be escaped, but note that it gives bad result for '=', as
+     * there the it matters if it's after '['.
      */
     private static final char[] ESCAPES = createEscapes();
-    
-    private static final char[] LT = new char[] { '&', 'l', 't', ';' };
-    private static final char[] GT = new char[] { '&', 'g', 't', ';' };
-    private static final char[] AMP = new char[] { '&', 'a', 'm', 'p', ';' };
-    private static final char[] QUOT = new char[] { '&', 'q', 'u', 'o', 't', ';' };
-    private static final char[] HTML_APOS = new char[] { '&', '#', '3', '9', ';' };
-    private static final char[] XML_APOS = new char[] { '&', 'a', 'p', 'o', 's', ';' };
+
+    private static final char[] LT = new char[]{'&', 'l', 't', ';'};
+    private static final char[] GT = new char[]{'&', 'g', 't', ';'};
+    private static final char[] AMP = new char[]{'&', 'a', 'm', 'p', ';'};
+    private static final char[] QUOT = new char[]{'&', 'q', 'u', 'o', 't', ';'};
+    private static final char[] HTML_APOS = new char[]{'&', '#', '3', '9', ';'};
+    private static final char[] XML_APOS = new char[]{'&', 'a', 'p', 'o', 's', ';'};
 
     /*
      *  For better performance most methods are folded down. Don't you scream... :)
      */
 
     /**
-     *  HTML encoding (does not convert line breaks and apostrophe-quote).
-     *  Replaces all '&gt;' '&lt;' '&amp;' and '"' with entity reference, but not "'" (apostrophe-quote).
-     *  The last is not escaped as back then when this was written some user agents didn't understood 
-     *  "&amp;apos;" nor "&amp;#39;".
-     *    
-     *  @deprecated Use {link #XHTMLEnc(String)} instead, because it escapes apostrophe-quote too.
+     * HTML encoding (does not convert line breaks and apostrophe-quote).
+     * Replaces all '&gt;' '&lt;' '&amp;' and '"' with entity reference, but not "'" (apostrophe-quote).
+     * The last is not escaped as back then when this was written some user agents didn't understood
+     * "&amp;apos;" nor "&amp;#39;".
+     *
+     * @deprecated Use {link #XHTMLEnc(String)} instead, because it escapes apostrophe-quote too.
      */
     @Deprecated
     public static String HTMLEnc(String s) {
@@ -67,8 +67,8 @@ public class StringUtil {
     }
 
     /**
-     *  XML Encoding.
-     *  Replaces all '&gt;' '&lt;' '&amp;', "'" and '"' with entity reference
+     * XML Encoding.
+     * Replaces all '&gt;' '&lt;' '&amp;', "'" and '"' with entity reference
      */
     public static String XMLEnc(String s) {
         return XMLOrHTMLEnc(s, true, true, XML_APOS);
@@ -76,19 +76,19 @@ public class StringUtil {
 
     /**
      * Like {link #XMLEnc(String)}, but writes the result into a {link Writer}.
-     * 
+     *
      * @since 2.3.24
      */
     public static void XMLEnc(String s, Writer out) throws IOException {
         XMLOrHTMLEnc(s, XML_APOS, out);
     }
-    
+
     /**
-     *  XHTML Encoding.
-     *  Replaces all '&gt;' '&lt;' '&amp;', "'" and '"' with entity reference
-     *  suitable for XHTML decoding in common user agents (including legacy
-     *  user agents, which do not decode "&amp;apos;" to "'", so "&amp;#39;" is used
-     *  instead [see http://www.w3.org/TR/xhtml1/#C_16])
+     * XHTML Encoding.
+     * Replaces all '&gt;' '&lt;' '&amp;', "'" and '"' with entity reference
+     * suitable for XHTML decoding in common user agents (including legacy
+     * user agents, which do not decode "&amp;apos;" to "'", so "&amp;#39;" is used
+     * instead [see http://www.w3.org/TR/xhtml1/#C_16])
      */
     public static String XHTMLEnc(String s) {
         return XMLOrHTMLEnc(s, true, true, HTML_APOS);
@@ -96,59 +96,60 @@ public class StringUtil {
 
     /**
      * Like {link #XHTMLEnc(String)}, but writes the result into a {link Writer}.
-     * 
+     *
      * @since 2.3.24
      */
     public static void XHTMLEnc(String s, Writer out) throws IOException {
         XMLOrHTMLEnc(s, HTML_APOS, out);
     }
-    
+
     private static String XMLOrHTMLEnc(String s, boolean escGT, boolean escQuot, char[] apos) {
         final int ln = s.length();
-        
+
         // First we find out if we need to escape, and if so, what the length of the output will be:
         int firstEscIdx = -1;
         int lastEscIdx = 0;
         int plusOutLn = 0;
         for (int i = 0; i < ln; i++) {
-            escape: do {
+            escape:
+            do {
                 final char c = s.charAt(i);
                 switch (c) {
-                case '<':
-                    plusOutLn += LT.length - 1;
-                    break;
-                case '>':
-                    if (!(escGT || maybeCDataEndGT(s, i))) {
+                    case '<':
+                        plusOutLn += LT.length - 1;
+                        break;
+                    case '>':
+                        if (!(escGT || maybeCDataEndGT(s, i))) {
+                            break escape;
+                        }
+                        plusOutLn += GT.length - 1;
+                        break;
+                    case '&':
+                        plusOutLn += AMP.length - 1;
+                        break;
+                    case '"':
+                        if (!escQuot) {
+                            break escape;
+                        }
+                        plusOutLn += QUOT.length - 1;
+                        break;
+                    case '\'': // apos
+                        if (apos == null) {
+                            break escape;
+                        }
+                        plusOutLn += apos.length - 1;
+                        break;
+                    default:
                         break escape;
-                    }
-                    plusOutLn += GT.length - 1;
-                    break;
-                case '&':
-                    plusOutLn += AMP.length - 1;
-                    break;
-                case '"':
-                    if (!escQuot) {
-                        break escape;
-                    }
-                    plusOutLn += QUOT.length - 1;
-                    break;
-                case '\'': // apos
-                    if (apos == null) {
-                        break escape;
-                    }
-                    plusOutLn += apos.length - 1;
-                    break;
-                default:
-                    break escape;
                 }
-                
+
                 if (firstEscIdx == -1) {
                     firstEscIdx = i;
                 }
                 lastEscIdx = i;
             } while (false);
         }
-        
+
         if (firstEscIdx == -1) {
             return s; // Nothing to escape
         } else {
@@ -157,44 +158,45 @@ public class StringUtil {
                 s.getChars(0, firstEscIdx, esced, 0);
             }
             int dst = firstEscIdx;
-            scan: for (int i = firstEscIdx; i <= lastEscIdx; i++) {
+            scan:
+            for (int i = firstEscIdx; i <= lastEscIdx; i++) {
                 final char c = s.charAt(i);
                 switch (c) {
-                case '<':
-                    dst = shortArrayCopy(LT, esced, dst);
-                    continue scan;
-                case '>':
-                    if (!(escGT || maybeCDataEndGT(s, i))) {
-                        break;
-                    }
-                    dst = shortArrayCopy(GT, esced, dst);
-                    continue scan;
-                case '&':
-                    dst = shortArrayCopy(AMP, esced, dst);
-                    continue scan;
-                case '"':
-                    if (!escQuot) {
-                        break;
-                    }
-                    dst = shortArrayCopy(QUOT, esced, dst);
-                    continue scan;
-                case '\'': // apos
-                    if (apos == null) {
-                        break;
-                    }
-                    dst = shortArrayCopy(apos, esced, dst);
-                    continue scan;
+                    case '<':
+                        dst = shortArrayCopy(LT, esced, dst);
+                        continue scan;
+                    case '>':
+                        if (!(escGT || maybeCDataEndGT(s, i))) {
+                            break;
+                        }
+                        dst = shortArrayCopy(GT, esced, dst);
+                        continue scan;
+                    case '&':
+                        dst = shortArrayCopy(AMP, esced, dst);
+                        continue scan;
+                    case '"':
+                        if (!escQuot) {
+                            break;
+                        }
+                        dst = shortArrayCopy(QUOT, esced, dst);
+                        continue scan;
+                    case '\'': // apos
+                        if (apos == null) {
+                            break;
+                        }
+                        dst = shortArrayCopy(apos, esced, dst);
+                        continue scan;
                 }
                 esced[dst++] = c;
             }
             if (lastEscIdx != ln - 1) {
                 s.getChars(lastEscIdx + 1, ln, esced, dst);
             }
-            
+
             return String.valueOf(esced);
         }
     }
-    
+
     private static boolean maybeCDataEndGT(String s, int i) {
         if (i == 0) return true;
         if (s.charAt(i - 1) != ']') return false;
@@ -212,13 +214,23 @@ public class StringUtil {
                     out.write(s, writtenEnd, flushLn);
                 }
                 writtenEnd = i + 1;
-                
+
                 switch (c) {
-                case '<': out.write(LT); break;
-                case '>': out.write(GT); break;
-                case '&': out.write(AMP); break;
-                case '"': out.write(QUOT); break;
-                default: out.write(apos); break;
+                    case '<':
+                        out.write(LT);
+                        break;
+                    case '>':
+                        out.write(GT);
+                        break;
+                    case '&':
+                        out.write(AMP);
+                        break;
+                    case '"':
+                        out.write(QUOT);
+                        break;
+                    default:
+                        out.write(apos);
+                        break;
                 }
             }
         }
@@ -226,7 +238,7 @@ public class StringUtil {
             out.write(s, writtenEnd, ln - writtenEnd);
         }
     }
-    
+
     /**
      * For efficiently copying very short char arrays.
      */
@@ -237,40 +249,43 @@ public class StringUtil {
         }
         return dstOffset;
     }
-    
+
     /**
-     *  XML encoding without replacing apostrophes.
-     *  @see #XMLEnc(String)
+     * XML encoding without replacing apostrophes.
+     *
+     * @see #XMLEnc(String)
      */
     public static String XMLEncNA(String s) {
         return XMLOrHTMLEnc(s, true, true, null);
     }
 
     /**
-     *  XML encoding for attribute values quoted with <tt>"</tt> (not with <tt>'</tt>!).
-     *  Also can be used for HTML attributes that are quoted with <tt>"</tt>.
-     *  @see #XMLEnc(String)
+     * XML encoding for attribute values quoted with <tt>"</tt> (not with <tt>'</tt>!).
+     * Also can be used for HTML attributes that are quoted with <tt>"</tt>.
+     *
+     * @see #XMLEnc(String)
      */
     public static String XMLEncQAttr(String s) {
         return XMLOrHTMLEnc(s, false, true, null);
     }
 
     /**
-     *  XML encoding without replacing apostrophes and quotation marks and
-     *  greater-thans (except in {@code ]]>}).
-     *  @see #XMLEnc(String)
+     * XML encoding without replacing apostrophes and quotation marks and
+     * greater-thans (except in {@code ]]>}).
+     *
+     * @see #XMLEnc(String)
      */
     public static String XMLEncNQG(String s) {
         return XMLOrHTMLEnc(s, false, false, null);
     }
-    
+
     /**
-     *  Rich Text Format encoding (does not replace line breaks).
-     *  Escapes all '\' '{' '}'.
+     * Rich Text Format encoding (does not replace line breaks).
+     * Escapes all '\' '{' '}'.
      */
     public static String RTFEnc(String s) {
         int ln = s.length();
-        
+
         // First we find out if we need to escape, and if so, what the length of the output will be:
         int firstEscIdx = -1;
         int lastEscIdx = 0;
@@ -285,7 +300,7 @@ public class StringUtil {
                 plusOutLn++;
             }
         }
-        
+
         if (firstEscIdx == -1) {
             return s; // Nothing to escape
         } else {
@@ -304,14 +319,14 @@ public class StringUtil {
             if (lastEscIdx != ln - 1) {
                 s.getChars(lastEscIdx + 1, ln, esced, dst);
             }
-            
+
             return String.valueOf(esced);
         }
     }
-    
+
     /**
      * Like {link #RTFEnc(String)}, but writes the result into a {link Writer}.
-     * 
+     *
      * @since 2.3.24
      */
     public static void RTFEnc(String s, Writer out) throws IOException {
@@ -332,7 +347,7 @@ public class StringUtil {
             out.write(s, writtenEnd, ln - writtenEnd);
         }
     }
-    
+
 
     /**
      * URL encoding (like%20this) for query parameter values, path <em>segments</em>, fragments; this encodes all
@@ -341,19 +356,19 @@ public class StringUtil {
     public static String URLEnc(String s, String charset) throws UnsupportedEncodingException {
         return URLEnc(s, charset, false);
     }
-    
+
     /**
      * Like {link #URLEnc(String, String)} but doesn't escape the slash character ({@code /}).
      * This can be used to encode a path only if you know that no folder or file name will contain {@code /}
      * character (not in the path, but in the name itself), which usually stands, as the commonly used OS-es don't
      * allow that.
-     * 
+     *
      * @since 2.3.21
      */
     public static String URLPathEnc(String s, String charset) throws UnsupportedEncodingException {
         return URLEnc(s, charset, true);
     }
-    
+
     private static String URLEnc(String s, String charset, boolean keepSlash)
             throws UnsupportedEncodingException {
         int ln = s.length();
@@ -406,7 +421,7 @@ public class StringUtil {
                 b.append((char) (c1 < 10 ? c1 + '0' : c1 - 10 + 'A'));
             }
         }
-        
+
         return b.toString();
     }
 
@@ -417,7 +432,7 @@ public class StringUtil {
                 || c >= '\'' && c <= '*'
                 || keepSlash && c == '/';
     }
-    
+
     private static char[] createEscapes() {
         char[] escapes = new char['\\' + 1];
         for (int i = 0; i < 32; ++i) {
@@ -441,23 +456,21 @@ public class StringUtil {
     /**
      * Escapes a string according the FTL string literal escaping rules, assuming the literal is quoted with
      * {@code quotation}; it doesn't add the quotation marks itself.
-     * 
-     * @param quotation
-     *            Either {@code '"'} or {@code '\''}. It's assumed that the string literal whose part we calculate is
-     *            enclosed within this kind of quotation mark. Thus, the other kind of quotation character will not be
-     *            escaped in the result.
      *
+     * @param quotation Either {@code '"'} or {@code '\''}. It's assumed that the string literal whose part we calculate is
+     *                  enclosed within this kind of quotation mark. Thus, the other kind of quotation character will not be
+     *                  escaped in the result.
      * @since 2.3.22
      */
     public static String FTLStringLiteralEnc(String s, char quotation) {
         return FTLStringLiteralEnc(s, quotation, false);
     }
-    
+
     /**
      * Escapes a string according the FTL string literal escaping rules; it doesn't add the quotation marks. As this
      * method doesn't know if the string literal is quoted with reuglar quotation marks or apostrophe quute, it will
      * escape both.
-     * 
+     * <p>
      * see #FTLStringLiteralEnc(String, char)
      */
     public static String FTLStringLiteralEnc(String s) {
@@ -466,7 +479,7 @@ public class StringUtil {
 
     private static String FTLStringLiteralEnc(String s, char quotation, boolean addQuotation) {
         final int ln = s.length();
-        
+
         final char otherQuotation;
         if (quotation == 0) {
             otherQuotation = 0;
@@ -477,7 +490,7 @@ public class StringUtil {
         } else {
             throw new IllegalArgumentException("Unsupported quotation character: " + quotation);
         }
-        
+
         final int escLn = ESCAPES.length;
         StringBuilder buf = null;
         for (int i = 0; i < ln; i++) {
@@ -518,7 +531,7 @@ public class StringUtil {
                 }
             }
         }
-        
+
         if (buf == null) {
             return addQuotation ? quotation + s + quotation : s;
         } else {
@@ -535,7 +548,7 @@ public class StringUtil {
 
     /**
      * FTL string literal decoding.
-     *
+     * <p>
      * \\, \", \', \n, \t, \r, \b and \f will be replaced according to
      * Java rules. In additional, it knows \g, \l, \a and \{ which are
      * replaced with &lt;, &gt;, &amp; and { respectively.
@@ -543,7 +556,7 @@ public class StringUtil {
      * codes are interpreted according to UCS basic plane (Unicode).
      * "f\x006Fo", "f\x06Fo" and "f\x6Fo" will be "foo".
      * "f\x006F123" will be "foo123" as the maximum number of digits is 4.
-     *
+     * <p>
      * All other \X (where X is any character not mentioned above or End-of-string)
      * will cause a ParseException.
      *
@@ -564,7 +577,7 @@ public class StringUtil {
         do {
             buf.append(s, bidx, idx);
             if (idx >= lidx) {
-                throw new ParseException("The last character of string literal is backslash", 0,0);
+                throw new ParseException("The last character of string literal is backslash", 0, 0);
             }
             char c = s.charAt(idx + 1);
             switch (c) {
@@ -641,13 +654,13 @@ public class StringUtil {
                     if (x < idx) {
                         buf.append((char) y);
                     } else {
-                        throw new ParseException("Invalid \\x escape in a string literal",0,0);
+                        throw new ParseException("Invalid \\x escape in a string literal", 0, 0);
                     }
                     bidx = idx;
                     break;
                 }
                 default:
-                    throw new ParseException("Invalid escape sequence (\\" + c + ") in a string literal",0,0);
+                    throw new ParseException("Invalid escape sequence (\\" + c + ") in a string literal", 0, 0);
             }
             idx = s.indexOf('\\', bidx);
         } while (idx != -1);
@@ -657,24 +670,24 @@ public class StringUtil {
     }
 
     public static Locale deduceLocale(String input) {
-       if (input == null) return null;
-       Locale locale = Locale.getDefault();
-       if (input.length() > 0 && input.charAt(0) == '"') input = input.substring(1, input.length() - 1);
-       StringTokenizer st = new StringTokenizer(input, ",_ ");
-       String lang = "";
+        if (input == null) return null;
+        Locale locale = Locale.getDefault();
+        if (input.length() > 0 && input.charAt(0) == '"') input = input.substring(1, input.length() - 1);
+        StringTokenizer st = new StringTokenizer(input, ",_ ");
+        String lang = "";
         String country = "";
         if (st.hasMoreTokens()) {
-          lang = st.nextToken();
-       }
-       if (st.hasMoreTokens()) {
-          country = st.nextToken();
-       }
-       if (!st.hasMoreTokens()) {
-          locale = new Locale(lang, country);
-       } else {
-          locale = new Locale(lang, country, st.nextToken());
-       }
-       return locale;
+            lang = st.nextToken();
+        }
+        if (st.hasMoreTokens()) {
+            country = st.nextToken();
+        }
+        if (!st.hasMoreTokens()) {
+            locale = new Locale(lang, country);
+        } else {
+            locale = new Locale(lang, country, st.nextToken());
+        }
+        return locale;
     }
 
     public static String capitalize(String s) {
@@ -739,9 +752,8 @@ public class StringUtil {
 
     /**
      * Splits a string at the specified string.
-     * 
-     * @param sep
-     *            The string that separates the items of the resulting array. Since 2.3.28, if this is 0 length, then
+     *
+     * @param sep The string that separates the items of the resulting array. Since 2.3.28, if this is 0 length, then
      *            each character will be a separate item in the array.
      */
     public static String[] split(String s, String sep, boolean caseInsensitive) {
@@ -749,7 +761,7 @@ public class StringUtil {
 
         String convertedS = caseInsensitive ? s.toLowerCase() : s;
         int sLn = s.length();
-        
+
         if (sepLn == 0) {
             String[] res = new String[sLn];
             for (int i = 0; i < sLn; i++) {
@@ -760,7 +772,7 @@ public class StringUtil {
 
         String splitString = caseInsensitive ? sep.toLowerCase() : sep;
         String res[];
-        
+
         {
             int next = 0;
             int count = 1;
@@ -784,27 +796,29 @@ public class StringUtil {
 
     /**
      * Same as {link #replace(String, String, String, boolean, boolean)} with two {@code false} parameters.
+     *
      * @since 2.3.20
      */
     public static String replace(String text, String oldSub, String newSub) {
         return replace(text, oldSub, newSub, false, false);
     }
-    
+
     /**
      * Replaces all occurrences of a sub-string in a string.
+     *
      * @param text The string where it will replace <code>oldsub</code> with
-     *     <code>newsub</code>.
+     *             <code>newsub</code>.
      * @return String The string after the replacements.
      */
-    public static String replace(String text, 
-                                  String oldsub, 
-                                  String newsub, 
-                                  boolean caseInsensitive,
-                                  boolean firstOnly) {
+    public static String replace(String text,
+                                 String oldsub,
+                                 String newsub,
+                                 boolean caseInsensitive,
+                                 boolean firstOnly) {
         StringBuilder buf;
         int tln;
         int oln = oldsub.length();
-        
+
         if (oln == 0) {
             int nln = newsub.length();
             if (nln == 0) {
@@ -851,19 +865,20 @@ public class StringUtil {
     public static String chomp(String s) {
         if (s.endsWith("\r\n")) return s.substring(0, s.length() - 2);
         if (s.endsWith("\r") || s.endsWith("\n"))
-                return s.substring(0, s.length() - 1);
+            return s.substring(0, s.length() - 1);
         return s;
     }
 
     /**
      * Converts a 0-length string to null, leaves the string as is otherwise.
+     *
      * @param s maybe {@code null}.
      */
     public static String emptyToNull(String s) {
-    	if (s == null) return null;
-    	return s.length() == 0 ? null : s;
+        if (s == null) return null;
+        return s.length() == 0 ? null : s;
     }
-    
+
     /**
      * Converts the parameter with <code>toString</code> (if it's not <code>null</code>) and passes it to
      * {link #jQuote(String)}.
@@ -871,7 +886,7 @@ public class StringUtil {
     public static String jQuote(Object obj) {
         return jQuote(obj != null ? obj.toString() : null);
     }
-    
+
     /**
      * Quotes string as Java Language string literal.
      * Returns string <code>"null"</code> if <code>s</code>
@@ -923,11 +938,11 @@ public class StringUtil {
     public static String jQuoteNoXSS(Object obj) {
         return jQuoteNoXSS(obj != null ? obj.toString() : null);
     }
-    
+
     /**
      * Same as {link #jQuoteNoXSS(String)} but also escapes <code>'&lt;'</code>
      * as <code>\</code><code>u003C</code>. This is used for log messages to prevent XSS
-     * on poorly written Web-based log viewers. 
+     * on poorly written Web-based log viewers.
      */
     public static String jQuoteNoXSS(String s) {
         if (s == null) {
@@ -969,16 +984,14 @@ public class StringUtil {
         b.append('"');
         return b.toString();
     }
-    
+
     /**
      * Creates a <em>quoted</em> FTL string literal from a string, using escaping where necessary. The result either
      * uses regular quotation marks (UCS 0x22) or apostrophe-quotes (UCS 0x27), depending on the string content.
      * (Currently, apostrophe-quotes will be chosen exactly when the string contains regular quotation character and
      * doesn't contain apostrophe-quote character.)
      *
-     * @param s
-     *            The value that should be converted to an FTL string literal whose evaluated value equals to {@code s}
-     *
+     * @param s The value that should be converted to an FTL string literal whose evaluated value equals to {@code s}
      * @since 2.3.22
      */
     public static String ftlQuote(String s) {
@@ -990,10 +1003,10 @@ public class StringUtil {
         }
         return FTLStringLiteralEnc(s, quotation, true);
     }
-    
+
     /**
-     * Tells if a character can occur on the beginning of an FTL identifier expression (without escaping). 
-     * 
+     * Tells if a character can occur on the beginning of an FTL identifier expression (without escaping).
+     *
      * @since 2.3.22
      */
     public static boolean isFTLIdentifierStart(final char c) {
@@ -1002,7 +1015,7 @@ public class StringUtil {
             if (c >= 'a' && c <= 'z' || c >= '@' && c <= 'Z') {
                 return true;
             } else {
-                return c == '$' || c == '_'; 
+                return c == '$' || c == '_';
             }
         } else { // c >= 0xAA
             if (c < 0xA7F8) {
@@ -1263,25 +1276,25 @@ public class StringUtil {
 
     /**
      * Tells if a character can occur in an FTL identifier expression (without escaping) as other than the first
-     * character. 
-     * 
+     * character.
+     *
      * @since 2.3.22
      */
     public static boolean isFTLIdentifierPart(final char c) {
-        return isFTLIdentifierStart(c) || (c >= '0' && c <= '9');  
+        return isFTLIdentifierStart(c) || (c >= '0' && c <= '9');
     }
-    
+
     /**
      * Escapes the <code>String</code> with the escaping rules of Java language
      * string literals, so it's safe to insert the value into a string literal.
      * The resulting string will not be quoted.
-     * 
+     *
      * <p>All characters under UCS code point 0x20 will be escaped.
      * Where they have no dedicated escape sequence in Java, they will
-     * be replaced with hexadecimal escape (<tt>\</tt><tt>u<i>XXXX</i></tt>). 
-     * 
+     * be replaced with hexadecimal escape (<tt>\</tt><tt>u<i>XXXX</i></tt>).
+     * <p>
      * see #jQuote(String)
-     */ 
+     */
     public static String javaStringEnc(String s) {
         int ln = s.length();
         for (int i = 0; i < ln; i++) {
@@ -1327,7 +1340,7 @@ public class StringUtil {
         } // for each characters
         return s;
     }
-    
+
     /**
      * Escapes a {link String} to be safely insertable into a JavaScript string literal; for more see
      * {link #jsStringEnc(String, boolean) jsStringEnc(s, false)}.
@@ -1347,62 +1360,62 @@ public class StringUtil {
     private static final int NO_ESC = 0;
     private static final int ESC_HEXA = 1;
     private static final int ESC_BACKSLASH = 3;
-    
+
     /**
      * Escapes a {link String} to be safely insertable into a JavaScript or a JSON string literal.
      * The resulting string will <em>not</em> be quoted; the caller must ensure that they are there in the final
      * output. Note that for JSON, the quotation marks must be {@code "}, not {@code '}, because JSON doesn't escape
      * {@code '}.
-     * 
+     *
      * <p>The escaping rules guarantee that if the inside of the JavaScript/JSON string literal is from one or more
      * touching pieces that were escaped with this, no character sequence can occur that closes the
      * JavaScript/JSON string literal, or has a meaning in HTML/XML that causes the HTML script section to be closed.
      * (If, however, the escaped section is preceded by or followed by strings from other sources, this can't be
      * guaranteed in some rare cases. Like <tt>x = "&lt;/${a?js_string}"</tt> might closes the "script"
      * element if {@code a} is {@code "script>"}.)
-     * 
+     * <p>
      * The escaped characters are:
-     * 
+     *
      * <table style="width: auto; border-collapse: collapse" border="1" summary="Characters escaped by jsStringEnc">
      * <tr>
-     *   <th>Input
-     *   <th>Output
+     * <th>Input
+     * <th>Output
      * <tr>
-     *   <td><tt>"</tt>
-     *   <td><tt>\"</tt>
+     * <td><tt>"</tt>
+     * <td><tt>\"</tt>
      * <tr>
-     *   <td><tt>'</tt> if not in JSON-mode
-     *   <td><tt>\'</tt>
+     * <td><tt>'</tt> if not in JSON-mode
+     * <td><tt>\'</tt>
      * <tr>
-     *   <td><tt>\</tt>
-     *   <td><tt>\\</tt>
+     * <td><tt>\</tt>
+     * <td><tt>\\</tt>
      * <tr>
-     *   <td><tt>/</tt> if the method can't know that it won't be directly after <tt>&lt;</tt>
-     *   <td><tt>\/</tt>
+     * <td><tt>/</tt> if the method can't know that it won't be directly after <tt>&lt;</tt>
+     * <td><tt>\/</tt>
      * <tr>
-     *   <td><tt>&gt;</tt> if the method can't know that it won't be directly after <tt>]]</tt> or <tt>--</tt>
-     *   <td>JavaScript: <tt>\&gt;</tt>; JSON: <tt>\</tt><tt>u003E</tt>
+     * <td><tt>&gt;</tt> if the method can't know that it won't be directly after <tt>]]</tt> or <tt>--</tt>
+     * <td>JavaScript: <tt>\&gt;</tt>; JSON: <tt>\</tt><tt>u003E</tt>
      * <tr>
-     *   <td><tt>&lt;</tt> if the method can't know that it won't be directly followed by <tt>!</tt> or <tt>?</tt> 
-     *   <td><tt><tt>\</tt>u003C</tt>
+     * <td><tt>&lt;</tt> if the method can't know that it won't be directly followed by <tt>!</tt> or <tt>?</tt>
+     * <td><tt><tt>\</tt>u003C</tt>
      * <tr>
-     *   <td>
-     *     u0000-u001f (UNICODE control characters - disallowed by JSON)<br>
-     *     u007f-u009f (UNICODE control characters - disallowed by JSON)
-     *   <td><tt>\n</tt>, <tt>\r</tt> and such, or if there's no such dedicated escape:
-     *       JavaScript: <tt>\x<i>XX</i></tt>, JSON: <tt>\<tt>u</tt><i>XXXX</i></tt>
+     * <td>
+     * u0000-u001f (UNICODE control characters - disallowed by JSON)<br>
+     * u007f-u009f (UNICODE control characters - disallowed by JSON)
+     * <td><tt>\n</tt>, <tt>\r</tt> and such, or if there's no such dedicated escape:
+     * JavaScript: <tt>\x<i>XX</i></tt>, JSON: <tt>\<tt>u</tt><i>XXXX</i></tt>
      * <tr>
-     *   <td>
-     *     u2028 (Line separator - source code line-break in ECMAScript)<br>
-     *     u2029 (Paragraph separator - source code line-break in ECMAScript)<br>
-     *   <td><tt>\<tt>u</tt><i>XXXX</i></tt>
+     * <td>
+     * u2028 (Line separator - source code line-break in ECMAScript)<br>
+     * u2029 (Paragraph separator - source code line-break in ECMAScript)<br>
+     * <td><tt>\<tt>u</tt><i>XXXX</i></tt>
      * </table>
-     * 
+     *
      * @since 2.3.20
      */
     public static String jsStringEnc(String s, boolean json) {
         NullArgumentException.check("s", s);
-        
+
         int ln = s.length();
         StringBuilder sb = null;
         for (int i = 0; i < ln; i++) {
@@ -1426,11 +1439,11 @@ public class StringUtil {
                 } else if (c == '"') {
                     escapeType = ESC_BACKSLASH;
                 } else if (c == '\'') {
-                    escapeType = json ? NO_ESC : ESC_BACKSLASH; 
+                    escapeType = json ? NO_ESC : ESC_BACKSLASH;
                 } else if (c == '\\') {
-                    escapeType = ESC_BACKSLASH; 
+                    escapeType = ESC_BACKSLASH;
                 } else if (c == '/' && (i == 0 || s.charAt(i - 1) == '<')) {  // against closing elements
-                    escapeType = ESC_BACKSLASH; 
+                    escapeType = ESC_BACKSLASH;
                 } else if (c == '>') {  // against "]]> and "-->"
                     final boolean dangerous;
                     if (i == 0) {
@@ -1459,19 +1472,19 @@ public class StringUtil {
                     }
                     escapeType = dangerous ? ESC_HEXA : NO_ESC;
                 } else if ((c >= 0x7F && c <= 0x9F)  // control chars range 2
-                            || (c == 0x2028 || c == 0x2029)  // UNICODE line terminators
-                            ) {
+                        || (c == 0x2028 || c == 0x2029)  // UNICODE line terminators
+                        ) {
                     escapeType = ESC_HEXA;
                 } else {
                     escapeType = NO_ESC;
                 }
-                
+
                 if (escapeType != NO_ESC) { // If needs escaping
                     if (sb == null) {
                         sb = new StringBuilder(ln + 6);
                         sb.append(s, 0, i);
                     }
-                    
+
                     sb.append('\\');
                     if (escapeType > 0x20) {
                         sb.append((char) escapeType);
@@ -1491,22 +1504,22 @@ public class StringUtil {
                     } else {  // escapeType == ESC_BACKSLASH
                         sb.append(c);
                     }
-                    continue; 
+                    continue;
                 }
                 // Falls through when escapeType == NO_ESC 
             }
             // Needs no escaping
-                
+
             if (sb != null) sb.append(c);
         } // for each characters
-        
+
         return sb == null ? s : sb.toString();
     }
 
     private static char toHexDigit(int d) {
         return (char) (d < 0xA ? d + '0' : d - 0xA + 'A');
     }
-    
+
     /**
      * Parses a name-value pair list, where the pairs are separated with comma,
      * and the name and value is separated with colon.
@@ -1515,21 +1528,19 @@ public class StringUtil {
      * value can be omitted if <code>defaultValue</code> is not null. When a
      * value is omitted, then the colon after the key must be omitted as well.
      * The same key can't be used for multiple times.
-     * 
-     * @param s the string to parse.
-     *     For example: <code>"strong:100, soft:900"</code>.
+     *
+     * @param s            the string to parse.
+     *                     For example: <code>"strong:100, soft:900"</code>.
      * @param defaultValue the value used when the value is omitted in a
-     *     key-value pair.
-     * 
+     *                     key-value pair.
      * @return the map that contains the name-value pairs.
-     * 
      * @throws java.text.ParseException if the string is not a valid name-value
-     *     pair list.
+     *                                  pair list.
      */
     public static Map parseNameValuePairList(String s, String defaultValue)
-    throws java.text.ParseException {
+            throws java.text.ParseException {
         Map map = new HashMap();
-        
+
         char c = ' ';
         int ln = s.length();
         int p = 0;
@@ -1537,8 +1548,9 @@ public class StringUtil {
         int valueStart;
         String key;
         String value;
-        
-        fetchLoop: while (true) {
+
+        fetchLoop:
+        while (true) {
             // skip ws
             while (p < ln) {
                 c = s.charAt(p);
@@ -1562,10 +1574,10 @@ public class StringUtil {
             }
             if (keyStart == p) {
                 throw new java.text.ParseException(
-                       "Expecting letter, digit or \"_\" "
-                        + "here, (the first character of the key) but found "
-                        + jQuote(String.valueOf(c))
-                        + " at position " + p + ".",
+                        "Expecting letter, digit or \"_\" "
+                                + "here, (the first character of the key) but found "
+                                + jQuote(String.valueOf(c))
+                                + " at position " + p + ".",
                         p);
             }
             key = s.substring(keyStart, p);
@@ -1582,8 +1594,8 @@ public class StringUtil {
                 if (defaultValue == null) {
                     throw new java.text.ParseException(
                             "Expecting \":\", but reached "
-                            + "the end of the string "
-                            + " at position " + p + ".",
+                                    + "the end of the string "
+                                    + " at position " + p + ".",
                             p);
                 }
                 value = defaultValue;
@@ -1591,19 +1603,19 @@ public class StringUtil {
                 if (defaultValue == null || c != ',') {
                     throw new java.text.ParseException(
                             "Expecting \":\" here, but found "
-                            + jQuote(String.valueOf(c))
-                            + " at position " + p + ".",
+                                    + jQuote(String.valueOf(c))
+                                    + " at position " + p + ".",
                             p);
                 }
 
                 // skip ","
                 p++;
-                
+
                 value = defaultValue;
             } else {
                 // skip ":"
                 p++;
-    
+
                 // skip ws
                 while (p < ln) {
                     c = s.charAt(p);
@@ -1615,12 +1627,12 @@ public class StringUtil {
                 if (p == ln) {
                     throw new java.text.ParseException(
                             "Expecting the value of the key "
-                            + "here, but reached the end of the string "
-                            + " at position " + p + ".",
+                                    + "here, but reached the end of the string "
+                                    + " at position " + p + ".",
                             p);
                 }
                 valueStart = p;
-    
+
                 // seek value end
                 while (p < ln) {
                     c = s.charAt(p);
@@ -1632,10 +1644,10 @@ public class StringUtil {
                 if (valueStart == p) {
                     throw new java.text.ParseException(
                             "Expecting letter, digit or \"_\" "
-                            + "here, (the first character of the value) "
-                            + "but found "
-                            + jQuote(String.valueOf(c))
-                            + " at position " + p + ".",
+                                    + "here, (the first character of the value) "
+                                    + "but found "
+                                    + jQuote(String.valueOf(c))
+                                    + " at position " + p + ".",
                             p);
                 }
                 value = s.substring(valueStart, p);
@@ -1648,33 +1660,33 @@ public class StringUtil {
                     }
                     p++;
                 }
-                
+
                 // skip ","
                 if (p < ln) {
                     if (c != ',') {
                         throw new java.text.ParseException(
                                 "Excpecting \",\" or the end "
-                                + "of the string here, but found "
-                                + jQuote(String.valueOf(c))
-                                + " at position " + p + ".",
+                                        + "of the string here, but found "
+                                        + jQuote(String.valueOf(c))
+                                        + " at position " + p + ".",
                                 p);
                     } else {
                         p++;
                     }
                 }
             }
-            
+
             // store the key-value pair
             if (map.put(key, value) != null) {
                 throw new java.text.ParseException(
                         "Dublicated key: "
-                        + jQuote(key), keyStart);
+                                + jQuote(key), keyStart);
             }
         }
-        
+
         return map;
     }
-    
+
 //    /**
 //     * Used internally by the XML DOM wrapper to check if the subvariable name is just an element name, or a more
 //     * complex XPath expression.
@@ -1687,50 +1699,50 @@ public class StringUtil {
 //    static public boolean isXMLID(String name) {
 //        return _ExtDomApi.isXMLNameLike(name);
 //    }
-    
+
 //    /**
 //     * @return whether the qname matches the combination of nodeName, nsURI, and environment prefix settings.
 //     */
 //    static public boolean matchesName(String qname, String nodeName, String nsURI, Environment env) {
 //        return _ExtDomApi.matchesName(qname, nodeName, nsURI, env);
 //    }
-    
+
     /**
      * Pads the string at the left with spaces until it reaches the desired
      * length. If the string is longer than this length, then it returns the
-     * unchanged string. 
-     * 
-     * @param s the string that will be padded.
+     * unchanged string.
+     *
+     * @param s         the string that will be padded.
      * @param minLength the length to reach.
      */
     public static String leftPad(String s, int minLength) {
         return leftPad(s, minLength, ' ');
     }
-    
+
     /**
      * Pads the string at the left with the specified character until it reaches
      * the desired length. If the string is longer than this length, then it
      * returns the unchanged string.
-     * 
-     * @param s the string that will be padded.
+     *
+     * @param s         the string that will be padded.
      * @param minLength the length to reach.
-     * @param filling the filling pattern.
+     * @param filling   the filling pattern.
      */
     public static String leftPad(String s, int minLength, char filling) {
         int ln = s.length();
         if (minLength <= ln) {
             return s;
         }
-        
+
         StringBuilder res = new StringBuilder(minLength);
-        
+
         int dif = minLength - ln;
         for (int i = 0; i < dif; i++) {
             res.append(filling);
         }
-        
+
         res.append(s);
-        
+
         return res.toString();
     }
 
@@ -1739,18 +1751,18 @@ public class StringUtil {
      * desired length. If the string is longer than this length, then it returns
      * the unchanged string. For example: <code>leftPad('ABC', 9, '1234')</code>
      * returns <code>"123412ABC"</code>.
-     * 
-     * @param s the string that will be padded.
+     *
+     * @param s         the string that will be padded.
      * @param minLength the length to reach.
-     * @param filling the filling pattern. Must be at least 1 characters long.
-     *     Can't be <code>null</code>.
+     * @param filling   the filling pattern. Must be at least 1 characters long.
+     *                  Can't be <code>null</code>.
      */
     public static String leftPad(String s, int minLength, String filling) {
         int ln = s.length();
         if (minLength <= ln) {
             return s;
         }
-        
+
         StringBuilder res = new StringBuilder(minLength);
 
         int dif = minLength - ln;
@@ -1767,48 +1779,48 @@ public class StringUtil {
         for (int i = 0; i < cnt; i++) {
             res.append(filling.charAt(i));
         }
-        
+
         res.append(s);
-        
+
         return res.toString();
     }
-    
+
     /**
      * Pads the string at the right with spaces until it reaches the desired
      * length. If the string is longer than this length, then it returns the
-     * unchanged string. 
-     * 
-     * @param s the string that will be padded.
+     * unchanged string.
+     *
+     * @param s         the string that will be padded.
      * @param minLength the length to reach.
      */
     public static String rightPad(String s, int minLength) {
         return rightPad(s, minLength, ' ');
     }
-    
+
     /**
      * Pads the string at the right with the specified character until it
      * reaches the desired length. If the string is longer than this length,
      * then it returns the unchanged string.
-     * 
-     * @param s the string that will be padded.
+     *
+     * @param s         the string that will be padded.
      * @param minLength the length to reach.
-     * @param filling the filling pattern.
+     * @param filling   the filling pattern.
      */
     public static String rightPad(String s, int minLength, char filling) {
         int ln = s.length();
         if (minLength <= ln) {
             return s;
         }
-        
+
         StringBuilder res = new StringBuilder(minLength);
 
         res.append(s);
-        
+
         int dif = minLength - ln;
         for (int i = 0; i < dif; i++) {
             res.append(filling);
         }
-        
+
         return res.toString();
     }
 
@@ -1819,18 +1831,18 @@ public class StringUtil {
      * returns <code>"ABC412341"</code>. Note that the filling pattern is
      * started as if you overlay <code>"123412341"</code> with the left-aligned
      * <code>"ABC"</code>, so it starts with <code>"4"</code>.
-     * 
-     * @param s the string that will be padded.
+     *
+     * @param s         the string that will be padded.
      * @param minLength the length to reach.
-     * @param filling the filling pattern. Must be at least 1 characters long.
-     *     Can't be <code>null</code>.
+     * @param filling   the filling pattern. Must be at least 1 characters long.
+     *                  Can't be <code>null</code>.
      */
     public static String rightPad(String s, int minLength, String filling) {
         int ln = s.length();
         if (minLength <= ln) {
             return s;
         }
-        
+
         StringBuilder res = new StringBuilder(minLength);
 
         res.append(s);
@@ -1857,19 +1869,19 @@ public class StringUtil {
         for (int i = 0; i < cnt; i++) {
             res.append(filling.charAt(i));
         }
-        
+
         return res.toString();
     }
-    
+
     /**
      * Converts a version number string to an integer for easy comparison.
      * The version number must start with numbers separated with
      * dots. There can be any number of such dot-separated numbers, but only
      * the first three will be considered. After the numbers arbitrary text can
      * follow, and will be ignored.
-     * 
+     * <p>
      * The string will be trimmed before interpretation.
-     * 
+     *
      * @return major * 1000000 + minor * 1000 + micro
      */
     public static int versionStringToInt(String version) {
@@ -1880,12 +1892,12 @@ public class StringUtil {
      * Tries to run {@code toString()}, but if that fails, returns a
      * {@code "[com.example.SomeClass.toString() failed: " + e + "]"} instead. Also, it returns {@code null} for
      * {@code null} parameter.
-     * 
+     *
      * @since 2.3.20
      */
     public static String tryToString(Object object) {
         if (object == null) return null;
-        
+
         try {
             return object.toString();
         } catch (Throwable e) {
@@ -1902,15 +1914,13 @@ public class StringUtil {
         }
         return "[" + ClassUtil.getShortClassNameOfObject(object) + ".toString() failed: " + eStr + "]";
     }
-    
+
     /**
      * Converts {@code 1}, {@code 2}, {@code 3} and so forth to {@code "A"}, {@code "B"}, {@code "C"} and so fort. When
      * reaching {@code "Z"}, it continues like {@code "AA"}, {@code "AB"}, etc. The lowest supported number is 1, but
      * there's no upper limit.
-     * 
-     * @throws IllegalArgumentException
-     *             If the argument is 0 or less.
-     * 
+     *
+     * @throws IllegalArgumentException If the argument is 0 or less.
      * @since 2.3.22
      */
     public static String toUpperABC(int n) {
@@ -1919,7 +1929,7 @@ public class StringUtil {
 
     /**
      * Same as {link #toUpperABC(int)}, but produces lower case result, like {@code "ab"}.
-     * 
+     *
      * @since 2.3.22
      */
     public static String toLowerABC(int n) {
@@ -1927,15 +1937,14 @@ public class StringUtil {
     }
 
     /**
-     * @param oneDigit
-     *            The character that stands for the value 1.
+     * @param oneDigit The character that stands for the value 1.
      */
     private static String toABC(final int n, char oneDigit) {
         if (n < 1) {
             throw new IllegalArgumentException("Can't convert 0 or negative "
                     + "numbers to latin-number: " + n);
         }
-        
+
         // First find out how many "digits" will we need. We start from A, then
         // try AA, then AAA, etc. (Note that the smallest digit is "A", which is
         // 1, not 0. Hence this isn't like a usual 26-based number-system):
@@ -1953,7 +1962,7 @@ public class StringUtil {
                 break;
             }
         }
-        
+
         // Increase the digits of the place values until we get as close
         // to n as possible (but don't step over it).
         StringBuilder sb = new StringBuilder();
@@ -1962,10 +1971,10 @@ public class StringUtil {
             final int digitIncrease = (n - reached) / weight;
             sb.append((char) (oneDigit + digitIncrease));
             reached += digitIncrease * weight;
-            
+
             weight /= 26;
         }
-        
+
         return sb.toString();
     }
 
@@ -1973,14 +1982,14 @@ public class StringUtil {
      * Behaves exactly like {link String#trim()}, but works on arrays. If the resulting array would have the same
      * content after trimming, it returns the original array instance. Otherwise it returns a new array instance (or
      * {link CollectionUtils#EMPTY_CHAR_ARRAY}).
-     * 
+     *
      * @since 2.3.22
      */
     public static char[] trim(final char[] cs) {
         if (cs.length == 0) {
             return cs;
         }
-        
+
         int start = 0;
         int end = cs.length;
         while (start < end && cs[start] <= ' ') {
@@ -1989,14 +1998,14 @@ public class StringUtil {
         while (start < end && cs[end - 1] <= ' ') {
             end--;
         }
-        
+
         if (start == 0 && end == cs.length) {
             return cs;
         }
         if (start == end) {
             return CollectionUtils.EMPTY_CHAR_ARRAY;
         }
-        
+
         char[] newCs = new char[end - start];
         System.arraycopy(cs, start, newCs, 0, end - start);
         return newCs;
@@ -2004,7 +2013,7 @@ public class StringUtil {
 
     /**
      * Tells if {link String#trim()} will return a 0-length string for the {link String} equivalent of the argument.
-     * 
+     *
      * @since 2.3.22
      */
     public static boolean isTrimmableToEmpty(char[] text) {
@@ -2013,17 +2022,17 @@ public class StringUtil {
 
     /**
      * Like {link #isTrimmableToEmpty(char[])}, but acts on a sub-array that starts at {@code start} (inclusive index).
-     * 
+     *
      * @since 2.3.23
      */
     public static boolean isTrimmableToEmpty(char[] text, int start) {
         return isTrimmableToEmpty(text, start, text.length);
     }
-    
+
     /**
      * Like {link #isTrimmableToEmpty(char[])}, but acts on a sub-array that starts at {@code start} (inclusive index)
      * and ends at {@code end} (exclusive index).
-     * 
+     *
      * @since 2.3.23
      */
     public static boolean isTrimmableToEmpty(char[] text, int start, int end) {
@@ -2038,38 +2047,38 @@ public class StringUtil {
 
     /**
      * Same as {link #globToRegularExpression(String, boolean)} with {@code caseInsensitive} argument {@code false}.
-     * 
+     *
      * @since 2.3.24
      */
     public static Pattern globToRegularExpression(String glob) {
         return globToRegularExpression(glob, false);
     }
-    
+
     /**
      * Creates a regular expression from a glob. The glob must use {@code /} for as file separator, not {@code \}
      * (backslash), and is always case sensitive.
      *
      * <p>This glob implementation recognizes these special characters:
      * <ul>
-     *   <li>{@code ?}: Wildcard that matches exactly one character, other than {@code /} 
-     *   <li>{@code *}: Wildcard that matches zero, one or multiple characters, other than {@code /}
-     *   <li>{@code **}: Wildcard that matches zero, one or multiple directories. For example, {@code **}{@code /head.ftl}
-     *       matches {@code foo/bar/head.ftl}, {@code foo/head.ftl} and {@code head.ftl} too. {@code **} must be either
-     *       preceded by {@code /} or be at the beginning of the glob. {@code **} must be either followed by {@code /} or be
-     *       at the end of the glob. When {@code **} is at the end of the glob, it also matches file names, like
-     *       {@code a/**} matches {@code a/b/c.ftl}. If the glob only consist of a {@code **}, it will be a match for
-     *       everything.
-     *   <li>{@code \} (backslash): Makes the next character non-special (a literal). For example {@code How\?.ftl} will
-     *       match {@code How?.ftl}, but not {@code HowX.ftl}. Naturally, two backslashes produce one literal backslash. 
-     *   <li>{@code [}: Reserved for future purposes; can't be used
-     *   <li><code>{</code>: Reserved for future purposes; can't be used
+     * <li>{@code ?}: Wildcard that matches exactly one character, other than {@code /}
+     * <li>{@code *}: Wildcard that matches zero, one or multiple characters, other than {@code /}
+     * <li>{@code **}: Wildcard that matches zero, one or multiple directories. For example, {@code **}{@code /head.ftl}
+     * matches {@code foo/bar/head.ftl}, {@code foo/head.ftl} and {@code head.ftl} too. {@code **} must be either
+     * preceded by {@code /} or be at the beginning of the glob. {@code **} must be either followed by {@code /} or be
+     * at the end of the glob. When {@code **} is at the end of the glob, it also matches file names, like
+     * {@code a/**} matches {@code a/b/c.ftl}. If the glob only consist of a {@code **}, it will be a match for
+     * everything.
+     * <li>{@code \} (backslash): Makes the next character non-special (a literal). For example {@code How\?.ftl} will
+     * match {@code How?.ftl}, but not {@code HowX.ftl}. Naturally, two backslashes produce one literal backslash.
+     * <li>{@code [}: Reserved for future purposes; can't be used
+     * <li><code>{</code>: Reserved for future purposes; can't be used
      * </ul>
-     * 
+     *
      * @since 2.3.24
      */
     public static Pattern globToRegularExpression(String glob, boolean caseInsensitive) {
         StringBuilder regex = new StringBuilder();
-        
+
         int nextStart = 0;
         boolean escaped = false;
         int ln = glob.length();
@@ -2086,9 +2095,9 @@ public class StringUtil {
                         if (!(idx == 0 || glob.charAt(idx - 1) == '/')) {
                             throw new IllegalArgumentException(
                                     "The \"**\" wildcard must be directly after a \"/\" or it must be at the "
-                                    + "beginning, in this glob: " + glob);
+                                            + "beginning, in this glob: " + glob);
                         }
-                        
+
                         if (idx + 2 == ln) { // trailing "**"
                             regex.append(".*");
                             idx++;
@@ -2096,7 +2105,7 @@ public class StringUtil {
                             if (!(idx + 2 < ln && glob.charAt(idx + 2) == '/')) {
                                 throw new IllegalArgumentException(
                                         "The \"**\" wildcard must be followed by \"/\", or must be at tehe end, "
-                                        + "in this glob: " + glob);
+                                                + "in this glob: " + glob);
                             }
                             regex.append("(.*?/)*");
                             idx += 2;  // "*/".length()
@@ -2110,15 +2119,15 @@ public class StringUtil {
                 } else if (c == '[' || c == '{') {
                     throw new IllegalArgumentException(
                             "The \"" + c + "\" glob operator is currently unsupported "
-                            + "(precede it with \\ for literal matching), "
-                            + "in this glob: " + glob);
+                                    + "(precede it with \\ for literal matching), "
+                                    + "in this glob: " + glob);
                 }
             } else {
                 escaped = false;
             }
         }
         appendLiteralGlobSection(regex, glob, nextStart, glob.length());
-        
+
         return Pattern.compile(regex.toString(), caseInsensitive ? Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE : 0);
     }
 
@@ -2135,7 +2144,7 @@ public class StringUtil {
         }
         int ln = s.length();
         StringBuilder sb = new StringBuilder(ln - 1);
-        int nextStart = 0; 
+        int nextStart = 0;
         do {
             sb.append(s, nextStart, backslashIdx);
             nextStart = backslashIdx + 1;
@@ -2145,5 +2154,5 @@ public class StringUtil {
         }
         return sb.toString();
     }
-    
+
 }

@@ -19,21 +19,23 @@
 
 package freemarker.template.utility;
 
-import java.io.IOException;
 import java.io.Writer;
 
 /**
  * A {link Writer} that simply drops what it gets.
- * 
+ *
  * @since 2.3.20
  */
 public final class NullWriter extends Writer {
-    
+
     public static final NullWriter INSTANCE = new NullWriter();
-    
-    /** Can't be instantiated; use {link #INSTANCE}. */
-    private NullWriter() { }
-    
+
+    /**
+     * Can't be instantiated; use {link #INSTANCE}.
+     */
+    private NullWriter() {
+    }
+
     @Override
     public void write(char[] cbuf, int off, int len) {
         // Do nothing

@@ -68,12 +68,12 @@ final class StaticModel implements TemplateHashModelEx {
                 return wrapper.getOuterIdentity().wrap(((Field) model).get(null));
             } catch (IllegalAccessException e) {
                 throw new TemplateModelException(
-                    "Illegal access for field " + key + " of class " + clazz.getName());
+                        "Illegal access for field " + key + " of class " + clazz.getName());
             }
         }
 
         throw new TemplateModelException(
-            "No such key: " + key + " in class " + clazz.getName());
+                "No such key: " + key + " in class " + clazz.getName());
     }
 
     /**
@@ -87,11 +87,11 @@ final class StaticModel implements TemplateHashModelEx {
     public int size() {
         return map.size();
     }
-    
+
     public TemplateCollectionModel keys() throws TemplateModelException {
         return (TemplateCollectionModel) wrapper.getOuterIdentity().wrap(map.keySet());
     }
-    
+
     public TemplateCollectionModel values() throws TemplateModelException {
         return (TemplateCollectionModel) wrapper.getOuterIdentity().wrap(map.values());
     }
@@ -99,9 +99,9 @@ final class StaticModel implements TemplateHashModelEx {
     private void populate() throws TemplateModelException {
         if (!Modifier.isPublic(clazz.getModifiers())) {
             throw new TemplateModelException(
-                "Can't wrap the non-public class " + clazz.getName());
+                    "Can't wrap the non-public class " + clazz.getName());
         }
-        
+
         if (wrapper.getExposureLevel() == BeansWrapper.EXPOSE_NOTHING) {
             return;
         }
@@ -118,7 +118,8 @@ final class StaticModel implements TemplateHashModelEx {
                         map.put(field.getName(), wrapper.getOuterIdentity().wrap(field.get(null)));
                     } catch (IllegalAccessException e) {
                         // Intentionally ignored
-                    } else
+                    }
+                else
                     // This is a special flagging value: Field in the map means
                     // that this is a non-final field, and it must be evaluated
                     // on each get() call.
@@ -146,7 +147,7 @@ final class StaticModel implements TemplateHashModelEx {
                         if (obj != null) {
                             if (LOG.isInfoEnabled()) {
                                 LOG.info("Overwriting value [" + obj + "] for " +
-                                        " key '" + name + "' with [" + method + 
+                                        " key '" + name + "' with [" + method +
                                         "] in static model for " + clazz.getName());
                             }
                         }
@@ -159,7 +160,7 @@ final class StaticModel implements TemplateHashModelEx {
                 Object value = entry.getValue();
                 if (value instanceof Method) {
                     Method method = (Method) value;
-                    entry.setValue(new SimpleMethodModel(null, method, 
+                    entry.setValue(new SimpleMethodModel(null, method,
                             method.getParameterTypes(), wrapper));
                 } else if (value instanceof OverloadedMethods) {
                     entry.setValue(new OverloadedMethodsModel(null, (OverloadedMethods) value, wrapper));

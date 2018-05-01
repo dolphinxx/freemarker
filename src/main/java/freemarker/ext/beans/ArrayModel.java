@@ -35,29 +35,29 @@ import java.lang.reflect.Array;
  * syntax and can be iterated as a list.
  */
 public class ArrayModel
-extends
-    BeanModel
-implements
-    TemplateCollectionModel,
-    TemplateSequenceModel {
+        extends
+        BeanModel
+        implements
+        TemplateCollectionModel,
+        TemplateSequenceModel {
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new ArrayModel(object, (BeansWrapper) wrapper);
-            }
-        };
-        
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new ArrayModel(object, (BeansWrapper) wrapper);
+                }
+            };
+
     // Cached length of the array
     private final int length;
 
     /**
      * Creates a new model that wraps the specified array object.
-     * @param array the array object to wrap into a model.
+     *
+     * @param array   the array object to wrap into a model.
      * @param wrapper the {link BeansWrapper} associated with this model.
-     * Every model has to have an associated {link BeansWrapper} instance. The
-     * model gains many attributes from its wrapper, including the caching 
-     * behavior, method exposure level, method-over-item shadowing policy etc.
+     *                Every model has to have an associated {link BeansWrapper} instance. The
+     *                model gains many attributes from its wrapper, including the caching
+     *                behavior, method exposure level, method-over-item shadowing policy etc.
      * @throws IllegalArgumentException if the passed object is not a Java array.
      */
     public ArrayModel(Object array, BeansWrapper wrapper) {
@@ -74,19 +74,19 @@ implements
     }
 
     public TemplateModel get(int index)
-    throws TemplateModelException {
+            throws TemplateModelException {
         try {
             return wrap(Array.get(object, index));
         } catch (IndexOutOfBoundsException e) {
-            return null; 
+            return null;
 //            throw new TemplateModelException("Index out of bounds: " + index);
         }
     }
 
     private class Iterator
-    implements 
-        TemplateSequenceModel,
-        TemplateModelIterator {
+            implements
+            TemplateSequenceModel,
+            TemplateModelIterator {
         private int position = 0;
 
         public boolean hasNext() {
@@ -94,12 +94,12 @@ implements
         }
 
         public TemplateModel get(int index)
-        throws TemplateModelException {
+                throws TemplateModelException {
             return ArrayModel.this.get(index);
         }
 
         public TemplateModel next()
-        throws TemplateModelException {
+                throws TemplateModelException {
             return position < length ? get(position++) : null;
         }
 

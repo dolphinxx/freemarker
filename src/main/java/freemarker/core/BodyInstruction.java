@@ -32,23 +32,23 @@ import java.util.List;
  * An instruction that processes the nested block within a macro instruction.
  */
 final class BodyInstruction extends TemplateElement {
-    
-    
+
+
     private List bodyParameters;
-    
-    
+
+
     BodyInstruction(List bodyParameters) {
         this.bodyParameters = bodyParameters;
     }
-    
+
     List getBodyParameters() {
         return bodyParameters;
     }
 
     /**
      * There is actually a subtle but essential point in the code below.
-     * A macro operates in the context in which it's defined. However, 
-     * a nested block within a macro instruction is defined in the 
+     * A macro operates in the context in which it's defined. However,
+     * a nested block within a macro instruction is defined in the
      * context in which the macro was invoked. So, we actually need to
      * temporarily switch the namespace and macro context back to
      * what it was before macro invocation to implement this properly.
@@ -75,12 +75,12 @@ final class BodyInstruction extends TemplateElement {
         if (canonical) sb.append('>');
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#nested";
     }
-    
+
     @Override
     int getParameterCount() {
         return bodyParameters != null ? bodyParameters.size() : 0;
@@ -113,7 +113,7 @@ final class BodyInstruction extends TemplateElement {
         return true;
     }
     */
-    
+
     @Override
     boolean isShownInStackTrace() {
         return true;
@@ -122,7 +122,7 @@ final class BodyInstruction extends TemplateElement {
     class Context implements LocalContext {
         Macro.Context invokingMacroContext;
         Environment.Namespace bodyVars;
-        
+
         Context(Environment env) throws TemplateException {
             invokingMacroContext = env.getCurrentMacroContext();
             List bodyParameterNames = invokingMacroContext.nestedContentParameterNames;
@@ -140,11 +140,11 @@ final class BodyInstruction extends TemplateElement {
                 }
             }
         }
-        
+
         public TemplateModel getLocalVariable(String name) throws TemplateModelException {
             return bodyVars == null ? null : bodyVars.get(name);
         }
-        
+
         public Collection getLocalVariableNames() {
             List bodyParameterNames = invokingMacroContext.nestedContentParameterNames;
             return bodyParameterNames == null ? Collections.EMPTY_LIST : bodyParameterNames;

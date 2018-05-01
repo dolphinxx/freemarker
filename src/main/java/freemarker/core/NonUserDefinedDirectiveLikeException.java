@@ -26,14 +26,14 @@ import freemarker.template.TemplateTransformModel;
 /**
  * Indicates that a {link TemplateDirectiveModel} or {link TemplateTransformModel} or {link Macro} value was
  * expected, but the value had a different type.
- * 
+ *
  * @since 2.3.21
  */
 class NonUserDefinedDirectiveLikeException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] {
-        TemplateDirectiveModel.class, TemplateTransformModel.class, Macro.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{
+            TemplateDirectiveModel.class, TemplateTransformModel.class, Macro.class};
+
     public NonUserDefinedDirectiveLikeException(Environment env) {
         super(env, "Expecting user-defined directive, transform or macro value here");
     }
@@ -62,6 +62,6 @@ class NonUserDefinedDirectiveLikeException extends UnexpectedTypeException {
     NonUserDefinedDirectiveLikeException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "user-defined directive, transform or macro", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

@@ -46,7 +46,7 @@ final class TransformBlock extends TemplateElement {
     /**
      * Creates new TransformBlock, with a given transformation
      */
-    TransformBlock(Expression transformExpression, 
+    TransformBlock(Expression transformExpression,
                    Map namedArgs,
                    TemplateElements children) {
         this.transformExpression = transformExpression;
@@ -56,7 +56,7 @@ final class TransformBlock extends TemplateElement {
 
     @Override
     TemplateElement[] accept(Environment env)
-    throws TemplateException, IOException {
+            throws TemplateException, IOException {
         TemplateTransformModel ttm = env.getTransform(transformExpression);
         if (ttm != null) {
             Map args;
@@ -77,7 +77,7 @@ final class TransformBlock extends TemplateElement {
             TemplateModel tm = transformExpression.eval(env);
             throw new UnexpectedTypeException(
                     transformExpression, tm,
-                    "transform", new Class[] { TemplateTransformModel.class }, env);
+                    "transform", new Class[]{TemplateTransformModel.class}, env);
         }
         return null;
     }
@@ -105,12 +105,12 @@ final class TransformBlock extends TemplateElement {
         }
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#transform";
     }
-    
+
     @Override
     int getParameterCount() {
         return 1/*nameExp*/ + (namedArgs != null ? namedArgs.size() * 2 : 0);
@@ -133,7 +133,7 @@ final class TransformBlock extends TemplateElement {
         if (idx == 0) {
             return ParameterRole.CALLEE;
         } else if (idx - 1 < namedArgs.size() * 2) {
-                return (idx - 1) % 2 == 0 ? ParameterRole.ARGUMENT_NAME : ParameterRole.ARGUMENT_VALUE;
+            return (idx - 1) % 2 == 0 ? ParameterRole.ARGUMENT_NAME : ParameterRole.ARGUMENT_VALUE;
         } else {
             throw new IndexOutOfBoundsException();
         }
@@ -149,7 +149,7 @@ final class TransformBlock extends TemplateElement {
             List res = (List) ref.get();
             if (res != null) return res;
         }
-        
+
         List res = MiscUtil.sortMapOfExpressions(namedArgs);
         sortedNamedArgsCache = new SoftReference(res);
         return res;
@@ -164,5 +164,5 @@ final class TransformBlock extends TemplateElement {
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

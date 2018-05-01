@@ -26,7 +26,7 @@ import java.io.Writer;
 /**
  * Common superclass for implementing {link MarkupOutputFormat}-s that use a {link CommonTemplateMarkupOutputModel}
  * subclass.
- * 
+ *
  * @since 2.3.24
  */
 public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOutputModel>
@@ -35,7 +35,7 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
     protected CommonMarkupOutputFormat() {
         // Only to decrease visibility
     }
-    
+
     @Override
     public final MO fromPlainTextByEscaping(String textToEsc) throws TemplateModelException {
         return newTemplateMarkupOutputModel(textToEsc, null);
@@ -58,7 +58,7 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
 
     @Override
     public abstract void output(String textToEsc, Writer out) throws IOException, TemplateModelException;
-    
+
     @Override
     public final String getSourcePlainText(MO mo) {
         return mo.getPlainTextContent();
@@ -70,32 +70,32 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
         if (mc != null) {
             return mc;
         }
-        
+
         mc = escapePlainText(mo.getPlainTextContent());
         mo.setMarkupContet(mc);
         return mc;
     }
-    
+
     @Override
     public final MO concat(MO mo1, MO mo2) throws TemplateModelException {
         String pc1 = mo1.getPlainTextContent();
         String mc1 = mo1.getMarkupContent();
         String pc2 = mo2.getPlainTextContent();
         String mc2 = mo2.getMarkupContent();
-        
+
         String pc3 = pc1 != null && pc2 != null ? pc1 + pc2 : null;
         String mc3 = mc1 != null && mc2 != null ? mc1 + mc2 : null;
         if (pc3 != null || mc3 != null) {
             return newTemplateMarkupOutputModel(pc3, mc3);
         }
-        
+
         if (pc1 != null) {
             return newTemplateMarkupOutputModel(null, getMarkupString(mo1) + mc2);
         } else {
             return newTemplateMarkupOutputModel(null, mc1 + getMarkupString(mo2));
         }
     }
-    
+
     @Override
     public boolean isEmpty(MO mo) {
         String s = mo.getPlainTextContent();
@@ -104,12 +104,12 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
         }
         return mo.getMarkupContent().length() == 0;
     }
-    
+
     @Override
     public boolean isOutputFormatMixingAllowed() {
         return false;
     }
-    
+
     @Override
     public boolean isAutoEscapedByDefault() {
         return true;
@@ -120,5 +120,5 @@ public abstract class CommonMarkupOutputFormat<MO extends CommonTemplateMarkupOu
      */
     protected abstract MO newTemplateMarkupOutputModel(String plainTextContent, String markupContent)
             throws TemplateModelException;
-    
+
 }

@@ -23,14 +23,14 @@ package freemarker.template.utility;
  * Indicates that the time zone name is not recognized.
  */
 public class UnrecognizedTimeZoneException extends Exception {
-    
+
     private final String timeZoneName;
 
     public UnrecognizedTimeZoneException(String timeZoneName) {
         super("Unrecognized time zone: " + StringUtil.jQuote(timeZoneName));
         this.timeZoneName = timeZoneName;
     }
-    
+
     public String getTimeZoneName() {
         return timeZoneName;
     }

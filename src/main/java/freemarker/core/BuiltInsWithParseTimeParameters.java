@@ -26,12 +26,12 @@ import java.util.List;
 
 
 final class BuiltInsWithParseTimeParameters {
-    
+
     /**
      * Behaves similarly to the ternary operator of Java.
      */
     static class then_BI extends BuiltInWithParseTimeParameters {
-        
+
         private Expression whenTrueExp;
         private Expression whenFalseExp;
 
@@ -49,13 +49,16 @@ final class BuiltInsWithParseTimeParameters {
             whenTrueExp = (Expression) parameters.get(0);
             whenFalseExp = (Expression) parameters.get(1);
         }
-        
+
         @Override
         protected Expression getArgumentParameterValue(final int argIdx) {
             switch (argIdx) {
-            case 0: return whenTrueExp;
-            case 1: return whenFalseExp;
-            default: throw new IndexOutOfBoundsException();
+                case 0:
+                    return whenTrueExp;
+                case 1:
+                    return whenFalseExp;
+                default:
+                    throw new IndexOutOfBoundsException();
             }
         }
 
@@ -63,7 +66,7 @@ final class BuiltInsWithParseTimeParameters {
         protected int getArgumentsCount() {
             return 2;
         }
-        
+
         @Override
         protected List getArgumentsAsList() {
             ArrayList args = new ArrayList(2);
@@ -71,23 +74,23 @@ final class BuiltInsWithParseTimeParameters {
             args.add(whenFalseExp);
             return args;
         }
-        
+
         @Override
         protected void cloneArguments(Expression cloneExp, String replacedIdentifier,
-                Expression replacement, ReplacemenetState replacementState) {
+                                      Expression replacement, ReplacemenetState replacementState) {
             then_BI clone = (then_BI) cloneExp;
             clone.whenTrueExp = whenTrueExp.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState);
             clone.whenFalseExp = whenFalseExp.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState);
         }
-        
+
     }
-    
+
     private BuiltInsWithParseTimeParameters() {
         // Not to be instantiated
     }
 
     static class switch_BI extends BuiltInWithParseTimeParameters {
-        
+
         private List/*<Expression>*/ parameters;
 
         @Override
@@ -115,7 +118,7 @@ final class BuiltInsWithParseTimeParameters {
 
         @Override
         protected void cloneArguments(Expression clone, String replacedIdentifier, Expression replacement,
-                ReplacemenetState replacementState) {
+                                      ReplacemenetState replacementState) {
             ArrayList parametersClone = new ArrayList(parameters.size());
             for (int i = 0; i < parameters.size(); i++) {
                 parametersClone.add(((Expression) parameters.get(i))
@@ -127,7 +130,7 @@ final class BuiltInsWithParseTimeParameters {
         @Override
         TemplateModel _eval(Environment env) throws TemplateException {
             TemplateModel targetValue = target.evalToNonMissing(env);
-            
+
             List parameters = this.parameters;
             int paramCnt = parameters.size();
             for (int i = 0; i + 1 < paramCnt; i += 2) {
@@ -143,7 +146,7 @@ final class BuiltInsWithParseTimeParameters {
                     return ((Expression) parameters.get(i + 1)).evalToNonMissing(env);
                 }
             }
-            
+
             if (paramCnt % 2 == 0) {
                 throw new _MiscTemplateException(target,
                         "The value before ?", key, "(case1, value1, case2, value2, ...) didn't match any of the "
@@ -152,7 +155,7 @@ final class BuiltInsWithParseTimeParameters {
             }
             return ((Expression) parameters.get(paramCnt - 1)).evalToNonMissing(env);
         }
-        
+
     }
-    
+
 }

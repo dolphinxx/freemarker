@@ -19,8 +19,8 @@
 package freemarker.core;
 
 /**
- * Class that's a little bit more efficient than using an {@code ArrayList<LocalContext>}. 
- * 
+ * Class that's a little bit more efficient than using an {@code ArrayList<LocalContext>}.
+ *
  * @since 2.3.24
  */
 final class LocalContextStack {
@@ -49,7 +49,7 @@ final class LocalContextStack {
     public LocalContext get(int index) {
         return buffer[index];
     }
-    
+
     public int size() {
         return size;
     }

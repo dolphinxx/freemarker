@@ -20,7 +20,7 @@ package freemarker.core;
 
 /**
  * Superclass of all format factories.
- * 
+ *
  * @since 2.3.24
  */
 public abstract class TemplateValueFormatFactory {

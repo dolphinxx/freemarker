@@ -24,13 +24,13 @@ import freemarker.template.TemplateNodeModelEx;
 
 /**
  * Indicates that a {link TemplateNodeModelEx} value was expected, but the value had a different type.
- * 
+ *
  * @since 2.3.26
  */
 public class NonExtendedNodeException extends UnexpectedTypeException {
 
-    private static final Class<?>[] EXPECTED_TYPES = new Class[] { TemplateNodeModelEx.class };
-    
+    private static final Class<?>[] EXPECTED_TYPES = new Class[]{TemplateNodeModelEx.class};
+
     public NonExtendedNodeException(Environment env) {
         super(env, "Expecting extended node value here");
     }
@@ -59,6 +59,6 @@ public class NonExtendedNodeException extends UnexpectedTypeException {
     NonExtendedNodeException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "extended node", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

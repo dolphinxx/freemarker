@@ -27,9 +27,9 @@ import java.io.IOException;
 
 /**
  * <b>Internal API - subject to change:</b> Represents an import via {@code #import}.
- * 
+ *
  * @deprecated This is an internal FreeMarker API with no backward compatibility guarantees, so you shouldn't depend on
- *             it.
+ * it.
  */
 @Deprecated
 public final class LibraryLoad extends TemplateElement {
@@ -38,13 +38,13 @@ public final class LibraryLoad extends TemplateElement {
     private String targetNsVarName;
 
     /**
-     * @param template the template that this <tt>Include</tt> is a part of.
-     * @param templateName the name of the template to be included.
+     * @param template        the template that this <tt>Include</tt> is a part of.
+     * @param templateName    the name of the template to be included.
      * @param targetNsVarName the name of the  variable to assign this library's namespace to
      */
     LibraryLoad(Template template,
-            Expression templateName,
-            String targetNsVarName) {
+                Expression templateName,
+                String targetNsVarName) {
         this.targetNsVarName = targetNsVarName;
         this.importedTemplateNameExp = templateName;
     }
@@ -60,7 +60,7 @@ public final class LibraryLoad extends TemplateElement {
                     "Malformed template name ", new _DelayedJQuote(e.getTemplateName()), ":\n",
                     e.getMalformednessDescription());
         }
-        
+
         try {
             env.importLib(fullImportedTemplateName, targetNsVarName);
         } catch (IOException e) {
@@ -89,7 +89,7 @@ public final class LibraryLoad extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#import";
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -98,21 +98,27 @@ public final class LibraryLoad extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return importedTemplateNameExp;
-        case 1: return targetNsVarName;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return importedTemplateNameExp;
+            case 1:
+                return targetNsVarName;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.TEMPLATE_NAME;
-        case 1: return ParameterRole.NAMESPACE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.TEMPLATE_NAME;
+            case 1:
+                return ParameterRole.NAMESPACE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
-    }    
-    
+    }
+
     public String getTemplateName() {
         return importedTemplateNameExp.toString();
     }
@@ -121,10 +127,10 @@ public final class LibraryLoad extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
     @Override
     boolean isShownInStackTrace() {
         return true;
     }
-    
+
 }

@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
 /**
  * <p>A class that adds {link TemplateModelIterator} functionality to the
  * {link Enumeration} interface implementers.
- * </p> <p>Using the model as a collection model is NOT thread-safe, as 
+ * </p> <p>Using the model as a collection model is NOT thread-safe, as
  * enumerations are inherently not thread-safe.
  * Further, you can iterate over it only once. Attempts to call the
  * {link #iterator()} method after it was already driven to the end once will
@@ -38,20 +38,21 @@ import java.util.NoSuchElementException;
  */
 
 public class EnumerationModel
-extends
-    BeanModel
-implements
-    TemplateModelIterator,
-    TemplateCollectionModel {
+        extends
+        BeanModel
+        implements
+        TemplateModelIterator,
+        TemplateCollectionModel {
     private boolean accessed = false;
-    
+
     /**
      * Creates a new model that wraps the specified enumeration object.
+     *
      * @param enumeration the enumeration object to wrap into a model.
-     * @param wrapper the {link BeansWrapper} associated with this model.
-     * Every model has to have an associated {link BeansWrapper} instance. The
-     * model gains many attributes from its wrapper, including the caching 
-     * behavior, method exposure level, method-over-item shadowing policy etc.
+     * @param wrapper     the {link BeansWrapper} associated with this model.
+     *                    Every model has to have an associated {link BeansWrapper} instance. The
+     *                    model gains many attributes from its wrapper, including the caching
+     *                    behavior, method exposure level, method-over-item shadowing policy etc.
      */
     public EnumerationModel(Enumeration enumeration, BeansWrapper wrapper) {
         super(enumeration, wrapper);
@@ -59,20 +60,21 @@ implements
 
     /**
      * This allows the enumeration to be used in a <tt>&lt;#list&gt;</tt> block.
+     *
      * @return "this"
      */
     public TemplateModelIterator iterator() throws TemplateModelException {
         synchronized (this) {
             if (accessed) {
                 throw new TemplateModelException(
-                    "This collection is stateful and can not be iterated over the" +
-                    " second time.");
+                        "This collection is stateful and can not be iterated over the" +
+                                " second time.");
             }
             accessed = true;
         }
         return this;
     }
-    
+
     /**
      * Calls underlying {link Enumeration#nextElement()}.
      */
@@ -85,18 +87,18 @@ implements
      * Calls underlying {link Enumeration#nextElement()} and wraps the result.
      */
     public TemplateModel next()
-    throws TemplateModelException {
+            throws TemplateModelException {
         try {
             return wrap(((Enumeration) object).nextElement());
         } catch (NoSuchElementException e) {
             throw new TemplateModelException(
-                "No more elements in the enumeration.");
+                    "No more elements in the enumeration.");
         }
     }
 
     /**
      * Returns {link Enumeration#hasMoreElements()}. Therefore, an
-     * enumeration that has no more element evaluates to false, and an 
+     * enumeration that has no more element evaluates to false, and an
      * enumeration that has further elements evaluates to true.
      */
     public boolean getAsBoolean() {

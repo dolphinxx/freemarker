@@ -20,10 +20,10 @@
 package freemarker.ext.beans;
 
 /**
- * Reports when the non-private interface of a class was changed to the subscribers.   
+ * Reports when the non-private interface of a class was changed to the subscribers.
  */
 interface ClassChangeNotifier {
-    
+
     /**
      * @param classIntrospector Should only be weak-referenced from the monitor object.
      */

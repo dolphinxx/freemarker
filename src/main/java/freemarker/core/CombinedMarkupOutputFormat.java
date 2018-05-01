@@ -25,13 +25,13 @@ import java.io.Writer;
 
 /**
  * Represents two markup formats nested into each other. For example, markdown nested into HTML.
- * 
+ *
  * @since 2.3.24
  */
 public final class CombinedMarkupOutputFormat extends CommonMarkupOutputFormat<TemplateCombinedMarkupOutputModel> {
 
     private final String name;
-    
+
     private final MarkupOutputFormat outer;
     private final MarkupOutputFormat inner;
 
@@ -42,18 +42,17 @@ public final class CombinedMarkupOutputFormat extends CommonMarkupOutputFormat<T
     public CombinedMarkupOutputFormat(MarkupOutputFormat outer, MarkupOutputFormat inner) {
         this(null, outer, inner);
     }
-    
+
     /**
-     * @param name
-     *            Maybe {@code null}, in which case it defaults to
-     *            <code>outer.getName() + "{" + inner.getName() + "}"</code>.
+     * @param name Maybe {@code null}, in which case it defaults to
+     *             <code>outer.getName() + "{" + inner.getName() + "}"</code>.
      */
     public CombinedMarkupOutputFormat(String name, MarkupOutputFormat outer, MarkupOutputFormat inner) {
         this.name = name != null ? null : outer.getName() + "{" + inner.getName() + "}";
         this.outer = outer;
         this.inner = inner;
     }
-    
+
     @Override
     public String getName() {
         return name;
@@ -83,7 +82,7 @@ public final class CombinedMarkupOutputFormat extends CommonMarkupOutputFormat<T
     public boolean isAutoEscapedByDefault() {
         return outer.isAutoEscapedByDefault();
     }
-    
+
     @Override
     public boolean isOutputFormatMixingAllowed() {
         return outer.isOutputFormatMixingAllowed();
@@ -102,5 +101,5 @@ public final class CombinedMarkupOutputFormat extends CommonMarkupOutputFormat<T
             String plainTextContent, String markupContent) {
         return new TemplateCombinedMarkupOutputModel(plainTextContent, markupContent, this);
     }
-    
+
 }

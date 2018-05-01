@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * vice versa. Used by the ?keys and ?values built-ins.
  */
 final public class CollectionAndSequence
-implements TemplateCollectionModel, TemplateSequenceModel, Serializable {
+        implements TemplateCollectionModel, TemplateSequenceModel, Serializable {
     private TemplateCollectionModel collection;
     private TemplateSequenceModel sequence;
     private ArrayList<TemplateModel> data;
@@ -67,7 +67,8 @@ implements TemplateCollectionModel, TemplateSequenceModel, Serializable {
     public int size() throws TemplateModelException {
         if (sequence != null) {
             return sequence.size();
-        } if (collection instanceof TemplateCollectionModelEx) {
+        }
+        if (collection instanceof TemplateCollectionModelEx) {
             return ((TemplateCollectionModelEx) collection).size();
         } else {
             initSequence();
@@ -86,7 +87,7 @@ implements TemplateCollectionModel, TemplateSequenceModel, Serializable {
     }
 
     private static class SequenceIterator
-    implements TemplateModelIterator {
+            implements TemplateModelIterator {
         private final TemplateSequenceModel sequence;
         private final int size;
         private int index = 0;
@@ -94,8 +95,9 @@ implements TemplateCollectionModel, TemplateSequenceModel, Serializable {
         SequenceIterator(TemplateSequenceModel sequence) throws TemplateModelException {
             this.sequence = sequence;
             this.size = sequence.size();
-            
+
         }
+
         public TemplateModel next() throws TemplateModelException {
             return sequence.get(index++);
         }

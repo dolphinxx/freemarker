@@ -24,7 +24,6 @@ import freemarker.template.Version;
 import freemarker.template._TemplateAPI;
 import freemarker.template.utility.NullArgumentException;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,32 +34,32 @@ import java.util.Map;
  * relatively to the common setting values coming from the {link Configuration}. This was designed with the standard
  * template loading mechanism of FreeMarker in mind ({link Configuration#getTemplate(String)}
  * and {link TemplateCache}), though can also be reused for custom template loading and caching solutions.
- * 
+ * <p>
  * <p>
  * Note on the {@code locale} setting: When used with the standard template loading/caching mechanism (
  * {link Configuration#getTemplate(String)} and its overloads), localized lookup happens before the {@code locale}
  * specified here could have effect. The {@code locale} will be only set in the template that the localized lookup has
  * already found.
- * 
+ * <p>
  * <p>
  * Note on the encoding setting {@code encoding}: See {link #setEncoding(String)}.
- * 
+ * <p>
  * <p>
  * Note that the result value of the reader methods (getter and "is" methods) is usually not useful unless the value of
  * that setting was already set on this object. Otherwise you will get the value from the parent {link Configuration},
  * or an {link IllegalStateException} before this object is associated to a {link Configuration}.
- * 
+ * <p>
  * <p>
  * If you are using this class for your own template loading and caching solution, rather than with the standard one,
  * you should be aware of a few more details:
- * 
+ *
  * <ul>
  * <li>This class implements both {link Configurable} and {link ParserConfiguration}. This means that it can influence
  * both the template parsing phase and the runtime settings. For both aspects (i.e., {link ParserConfiguration} and
  * {link Configurable}) to take effect, you have first pass this object to the {link Template} constructor
  * (this is where the {link ParserConfiguration} interface is used), and then you have to call {link #apply(Template)}
  * on the resulting {link Template} object (this is where the {link Configurable} aspect is used).
- * 
+ *
  * <li>{link #apply(Template)} only change the settings that weren't yet set on the {link Template} (but are inherited
  * from the {link Configuration}). This is primarily because if the template configures itself via the {@code #ftl}
  * header, those values should have precedence. A consequence of this is that if you want to configure the same
@@ -68,9 +67,9 @@ import java.util.Map;
  * that (with {link #merge(TemplateConfiguration)}), or you have to apply them in reverse order of their intended
  * precedence.
  * </ul>
- * 
+ * <p>
  * see Template#Template(String, String, Reader, Configuration, ParserConfiguration, String)
- * 
+ *
  * @since 2.3.24
  */
 public final class TemplateConfiguration extends Configurable implements ParserConfiguration {
@@ -105,7 +104,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         if (!(cfg instanceof Configuration)) {
             throw new IllegalArgumentException("The parent of a TemplateConfiguration can only be a Configuration");
         }
-        
+
         if (parentConfigurationSet) {
             if (getParent() != cfg) {
                 throw new IllegalStateException(
@@ -113,14 +112,14 @@ public final class TemplateConfiguration extends Configurable implements ParserC
             }
             return;
         }
-        
+
         if (((Configuration) cfg).getIncompatibleImprovements().intValue() < _TemplateAPI.VERSION_INT_2_3_22
                 && hasAnyConfigurableSet()) {
             throw new IllegalStateException(
                     "This TemplateConfiguration can't be associated to a Configuration that has "
-                    + "incompatibleImprovements less than 2.3.22, because it changes non-parser settings.");
+                            + "incompatibleImprovements less than 2.3.22, because it changes non-parser settings.");
         }
-        
+
         super.setParent(cfg);
         parentConfigurationSet = true;
     }
@@ -129,13 +128,11 @@ public final class TemplateConfiguration extends Configurable implements ParserC
      * Associates this instance with a {link Configuration}; usually you don't call this, as it's called internally
      * when this instance is added to a {link Configuration}. This method can be called only once (except with the same
      * {link Configuration} parameter again, as that changes nothing anyway).
-     * 
-     * @throws IllegalArgumentException
-     *             if the argument is {@code null} or not a {link Configuration}
-     * @throws IllegalStateException
-     *             if this object is already associated to a different {link Configuration} object,
-     *             or if the {@code Configuration} has {@code #getIncompatibleImprovements()} less than 2.3.22 and
-     *             this object tries to change any non-parser settings  
+     *
+     * @throws IllegalArgumentException if the argument is {@code null} or not a {link Configuration}
+     * @throws IllegalStateException    if this object is already associated to a different {link Configuration} object,
+     *                                  or if the {@code Configuration} has {@code #getIncompatibleImprovements()} less than 2.3.22 and
+     *                                  this object tries to change any non-parser settings
      */
     public void setParentConfiguration(Configuration cfg) {
         setParent(cfg);
@@ -152,7 +149,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         checkParentConfigurationSet();
         return (Configuration) getParent();
     }
-    
+
     /**
      * Set all settings in this {link TemplateConfiguration} that were set in the parameter
      * {link TemplateConfiguration}, possibly overwriting the earlier value in this object. (A setting is said to be
@@ -270,7 +267,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         if (tc.isAutoIncludesSet()) {
             setAutoIncludes(mergeLists(getAutoIncludesWithoutFallback(), tc.getAutoIncludesWithoutFallback()));
         }
-        
+
         tc.copyDirectCustomAttributes(this, true);
     }
 
@@ -279,17 +276,16 @@ public final class TemplateConfiguration extends Configurable implements ParserC
      * {link TemplateConfiguration}, leaves the other settings as is. A setting is said to be set in a
      * {link TemplateConfiguration} or {link Template} if it was explicitly set via a setter method on that object, as
      * opposed to be inherited from the {link Configuration}.
-     * 
+     * <p>
      * <p>
      * Note that this method doesn't deal with settings that influence the parser, as those are already baked in at this
      * point via the {link ParserConfiguration}.
-     * 
+     * <p>
      * <p>
      * Note that the {@code encoding} setting of the {link Template} counts as unset if it's {@code null},
      * even if {@code null} was set via {link Template#setEncoding(String)}.
      *
-     * @throws IllegalStateException
-     *             If the parent configuration wasn't yet set.
+     * @throws IllegalStateException If the parent configuration wasn't yet set.
      */
     public void apply(Template template) {
         Configuration cfg = getNonNullParentConfiguration();
@@ -389,7 +385,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         if (isAutoIncludesSet()) {
             template.setAutoIncludes(mergeLists(getAutoIncludes(), template.getAutoIncludesWithoutFallback()));
         }
-        
+
         copyDirectCustomAttributes(template, false);
     }
 
@@ -422,7 +418,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         _TemplateAPI.valideInterpolationSyntaxValue(interpolationSyntax);
         this.interpolationSyntax = interpolationSyntax;
     }
-    
+
     /**
      * The getter pair of {link #setInterpolationSyntax(int)}.
      */
@@ -437,7 +433,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
     public boolean isInterpolationSyntaxSet() {
         return interpolationSyntax != null;
     }
-    
+
     /**
      * See {link Configuration#setNamingConvention(int)}.
      */
@@ -527,7 +523,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
     public boolean isOutputFormatSet() {
         return outputFormat != null;
     }
-    
+
     /**
      * See {link Configuration#setRecognizeStandardFileExtensions(boolean)}.
      */
@@ -542,14 +538,14 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         return recognizeStandardFileExtensions != null ? recognizeStandardFileExtensions
                 : getNonNullParentConfiguration().getRecognizeStandardFileExtensions();
     }
-    
+
     /**
      * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      */
     public boolean isRecognizeStandardFileExtensionsSet() {
         return recognizeStandardFileExtensions != null;
     }
-    
+
     /**
      * See {link Configuration#setStrictSyntaxMode(boolean)}.
      */
@@ -564,7 +560,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         return strictSyntaxMode != null ? strictSyntaxMode
                 : getNonNullParentConfiguration().getStrictSyntaxMode();
     }
-    
+
     /**
      * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
      */
@@ -589,7 +585,7 @@ public final class TemplateConfiguration extends Configurable implements ParserC
      * also overrides the {@code encoding} parameter of {link Configuration#getTemplate(String, String)} (and of its
      * overloads) and the {@code encoding} parameter of the {@code #include} directive. This works like that because
      * specifying the encoding where you are requesting the template is error prone and deprecated.
-     * 
+     * <p>
      * <p>
      * If you are developing your own template loading/caching mechanism instead of the standard one, note that the
      * above behavior is not guaranteed by this class alone; you have to ensure it. Also, read the note on
@@ -603,10 +599,10 @@ public final class TemplateConfiguration extends Configurable implements ParserC
     public boolean isEncodingSet() {
         return encoding != null;
     }
-    
+
     /**
      * See {link Configuration#setTabSize(int)}.
-     * 
+     *
      * @since 2.3.25
      */
     public void setTabSize(int tabSize) {
@@ -615,29 +611,28 @@ public final class TemplateConfiguration extends Configurable implements ParserC
 
     /**
      * Getter pair of {link #setTabSize(int)}.
-     * 
+     *
      * @since 2.3.25
      */
     public int getTabSize() {
         return tabSize != null ? tabSize
                 : getNonNullParentConfiguration().getTabSize();
     }
-    
+
     /**
      * Tells if this setting is set directly in this object or its value is coming from the {link #getParent() parent}.
-     * 
+     *
      * @since 2.3.25
      */
     public boolean isTabSizeSet() {
         return tabSize != null;
     }
-    
+
     /**
      * Returns {link Configuration#getIncompatibleImprovements()} from the parent {link Configuration}. This mostly
      * just exist to satisfy the {link ParserConfiguration} interface.
-     * 
-     * @throws IllegalStateException
-     *             If the parent configuration wasn't yet set.
+     *
+     * @throws IllegalStateException If the parent configuration wasn't yet set.
      */
     public Version getIncompatibleImprovements() {
         return getNonNullParentConfiguration().getIncompatibleImprovements();
@@ -652,40 +647,40 @@ public final class TemplateConfiguration extends Configurable implements ParserC
     private boolean hasAnyConfigurableSet() {
         return
                 isAPIBuiltinEnabledSet()
-                || isArithmeticEngineSet()
-                || isAutoFlushSet()
-                || isAutoImportsSet()
-                || isAutoIncludesSet()
-                || isBooleanFormatSet()
-                || isClassicCompatibleSet()
-                || isCustomDateFormatsSet()
-                || isCustomNumberFormatsSet()
-                || isDateFormatSet()
-                || isDateTimeFormatSet()
-                || isLazyImportsSet()
-                || isLazyAutoImportsSet()
-                || isLocaleSet()
-                || isLogTemplateExceptionsSet()
-                || isWrapUncheckedExceptionsSet()
-                || isNewBuiltinClassResolverSet()
-                || isNumberFormatSet()
-                || isObjectWrapperSet()
-                || isOutputEncodingSet()
-                || isShowErrorTipsSet()
-                || isSQLDateAndTimeTimeZoneSet()
-                || isTemplateExceptionHandlerSet()
-                || isAttemptExceptionReporterSet()
-                || isTimeFormatSet()
-                || isTimeZoneSet()
-                || isURLEscapingCharsetSet();
+                        || isArithmeticEngineSet()
+                        || isAutoFlushSet()
+                        || isAutoImportsSet()
+                        || isAutoIncludesSet()
+                        || isBooleanFormatSet()
+                        || isClassicCompatibleSet()
+                        || isCustomDateFormatsSet()
+                        || isCustomNumberFormatsSet()
+                        || isDateFormatSet()
+                        || isDateTimeFormatSet()
+                        || isLazyImportsSet()
+                        || isLazyAutoImportsSet()
+                        || isLocaleSet()
+                        || isLogTemplateExceptionsSet()
+                        || isWrapUncheckedExceptionsSet()
+                        || isNewBuiltinClassResolverSet()
+                        || isNumberFormatSet()
+                        || isObjectWrapperSet()
+                        || isOutputEncodingSet()
+                        || isShowErrorTipsSet()
+                        || isSQLDateAndTimeTimeZoneSet()
+                        || isTemplateExceptionHandlerSet()
+                        || isAttemptExceptionReporterSet()
+                        || isTimeFormatSet()
+                        || isTimeZoneSet()
+                        || isURLEscapingCharsetSet();
     }
-    
+
     private Map mergeMaps(Map m1, Map m2, boolean overwriteUpdatesOrder) {
         if (m1 == null) return m2;
         if (m2 == null) return m1;
         if (m1.isEmpty()) return m2;
         if (m2.isEmpty()) return m1;
-        
+
         LinkedHashMap mergedM = new LinkedHashMap((m1.size() + m2.size()) * 4 / 3 + 1, 0.75f);
         mergedM.putAll(m1);
         for (Object m2Key : m2.keySet()) {
@@ -700,11 +695,11 @@ public final class TemplateConfiguration extends Configurable implements ParserC
         if (list2 == null) return list1;
         if (list1.isEmpty()) return list2;
         if (list2.isEmpty()) return list1;
-        
+
         ArrayList<String> mergedList = new ArrayList<String>(list1.size() + list2.size());
         mergedList.addAll(list1);
         mergedList.addAll(list2);
         return mergedList;
     }
-    
+
 }

@@ -43,25 +43,25 @@ import java.util.Set;
  * various aspects of the map.</p>
  */
 public class MapModel
-extends
-    StringModel
-implements
-    TemplateMethodModelEx {
+        extends
+        StringModel
+        implements
+        TemplateMethodModelEx {
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new MapModel((Map) object, (BeansWrapper) wrapper);
-            }
-        };
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new MapModel((Map) object, (BeansWrapper) wrapper);
+                }
+            };
 
     /**
      * Creates a new model that wraps the specified map object.
-     * @param map the map object to wrap into a model.
+     *
+     * @param map     the map object to wrap into a model.
      * @param wrapper the {link BeansWrapper} associated with this model.
-     * Every model has to have an associated {link BeansWrapper} instance. The
-     * model gains many attributes from its wrapper, including the caching 
-     * behavior, method exposure level, method-over-item shadowing policy etc.
+     *                Every model has to have an associated {link BeansWrapper} instance. The
+     *                model gains many attributes from its wrapper, including the caching
+     *                behavior, method exposure level, method-over-item shadowing policy etc.
      */
     public MapModel(Map map, BeansWrapper wrapper) {
         super(map, wrapper);
@@ -71,18 +71,18 @@ implements
      * The first argument is used as a key to call the map's <tt>get</tt> method.
      */
     public Object exec(List arguments)
-    throws TemplateModelException {
+            throws TemplateModelException {
         Object key = unwrap((TemplateModel) arguments.get(0));
         return wrap(((Map) object).get(key));
     }
 
     /**
-     * Overridden to invoke the generic get method by casting to Map instead of 
+     * Overridden to invoke the generic get method by casting to Map instead of
      * through reflection - should yield better performance.
      */
     @Override
     protected TemplateModel invokeGenericGet(Map keyMap, Class clazz, String key)
-    throws TemplateModelException {
+            throws TemplateModelException {
         Map map = (Map) object;
         Object val = map.get(key);
         if (val == null) {

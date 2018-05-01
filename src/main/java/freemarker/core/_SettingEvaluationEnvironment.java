@@ -27,11 +27,11 @@ import freemarker.template.Configuration;
  * The runtime environment used during the evaluation of configuration {link Properties}.
  */
 public class _SettingEvaluationEnvironment {
-    
+
     private static final ThreadLocal CURRENT = new ThreadLocal();
 
     private BeansWrapper objectWrapper;
-    
+
     public static _SettingEvaluationEnvironment getCurrent() {
         Object r = CURRENT.get();
         if (r != null) {
@@ -39,13 +39,13 @@ public class _SettingEvaluationEnvironment {
         }
         return new _SettingEvaluationEnvironment();
     }
-    
+
     public static _SettingEvaluationEnvironment startScope() {
         Object previous = CURRENT.get();
         CURRENT.set(new _SettingEvaluationEnvironment());
         return (_SettingEvaluationEnvironment) previous;
     }
-    
+
     public static void endScope(_SettingEvaluationEnvironment previous) {
         CURRENT.set(previous);
     }
@@ -56,5 +56,5 @@ public class _SettingEvaluationEnvironment {
         }
         return objectWrapper;
     }
-    
+
 }

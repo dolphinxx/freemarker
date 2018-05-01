@@ -24,7 +24,7 @@ import freemarker.template.TemplateNumberModel;
 import java.text.NumberFormat;
 
 final class JavaTemplateNumberFormat extends BackwardCompatibleTemplateNumberFormat {
-    
+
     private final String formatString;
     private final NumberFormat javaNumberFormat;
 

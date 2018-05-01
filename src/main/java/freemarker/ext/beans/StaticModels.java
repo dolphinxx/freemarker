@@ -30,14 +30,14 @@ import freemarker.template.TemplateModelException;
  * <tt>StaticModels["java.lang.System"].currentTimeMillis()</tt>).
  */
 class StaticModels extends ClassBasedModelFactory {
-    
+
     StaticModels(BeansWrapper wrapper) {
         super(wrapper);
     }
 
     @Override
-    protected TemplateModel createModel(Class clazz) 
-    throws TemplateModelException {
+    protected TemplateModel createModel(Class clazz)
+            throws TemplateModelException {
         return new StaticModel(clazz, getWrapper());
     }
 }

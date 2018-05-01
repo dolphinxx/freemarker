@@ -19,7 +19,9 @@
 
 package freemarker.core;
 
-/** Don't use this; used internally by FreeMarker, might changes without notice. */
+/**
+ * Don't use this; used internally by FreeMarker, might changes without notice.
+ */
 public class _DelayedGetMessage extends _DelayedConversionToString {
 
     public _DelayedGetMessage(Throwable exception) {
@@ -31,5 +33,5 @@ public class _DelayedGetMessage extends _DelayedConversionToString {
         final String message = ((Throwable) obj).getMessage();
         return message == null || message.length() == 0 ? "[No exception message]" : message;
     }
-    
+
 }

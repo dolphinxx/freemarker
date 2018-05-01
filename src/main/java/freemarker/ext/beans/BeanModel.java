@@ -57,25 +57,24 @@ import java.util.Set;
  * <tt>object.foo</tt> to access properties and <tt>object.bar(arg1, arg2)</tt> to
  * invoke methods on it. You can also use the <tt>object.foo[index]</tt> syntax to
  * access indexed properties. It uses Beans {link java.beans.Introspector}
- * to dynamically discover the properties and methods. 
+ * to dynamically discover the properties and methods.
  */
 
 public class BeanModel
-implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, TemplateModelWithAPISupport {
+        implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, TemplateModelWithAPISupport {
     private static final Logger LOG = Logger.getLogger("freemarker.beans");
     protected final Object object;
     protected final BeansWrapper wrapper;
-    
+
     // We use this to represent an unknown value as opposed to known value of null (JR)
     static final TemplateModel UNKNOWN = new SimpleScalar("UNKNOWN");
-    
+
     static final ModelFactory FACTORY =
-        new ModelFactory()
-        {
-            public TemplateModel create(Object object, ObjectWrapper wrapper) {
-                return new BeanModel(object, (BeansWrapper) wrapper);
-            }
-        };
+            new ModelFactory() {
+                public TemplateModel create(Object object, ObjectWrapper wrapper) {
+                    return new BeanModel(object, (BeansWrapper) wrapper);
+                }
+            };
 
     // I've tried to use a volatile ConcurrentHashMap field instead of HashMap + synchronized(this), but oddly it was
     // a bit slower, at least on Java 8 u66. 
@@ -88,11 +87,12 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
      * used to wrap String objects if only scalar functionality is needed. You
      * can also choose to delegate the choice over which model class is used for
      * wrapping to {link BeansWrapper#wrap(Object)}.
-     * @param object the object to wrap into a model.
+     *
+     * @param object  the object to wrap into a model.
      * @param wrapper the {link BeansWrapper} associated with this model.
-     * Every model has to have an associated {link BeansWrapper} instance. The
-     * model gains many attributes from its wrapper, including the caching 
-     * behavior, method exposure level, method-over-item shadowing policy etc.
+     *                Every model has to have an associated {link BeansWrapper} instance. The
+     *                model gains many attributes from its wrapper, including the caching
+     *                behavior, method exposure level, method-over-item shadowing policy etc.
      */
     public BeanModel(Object object, BeansWrapper wrapper) {
         // [2.4]: All models were introspected here, then the results was discareded, and get() will just do the
@@ -101,7 +101,9 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
         this(object, wrapper, true);
     }
 
-    /** @since 2.3.21 */
+    /**
+     * @since 2.3.21
+     */
     BeanModel(Object object, BeansWrapper wrapper, boolean inrospectNow) {
         this.object = object;
         this.wrapper = wrapper;
@@ -110,7 +112,7 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
             wrapper.getClassIntrospector().get(object.getClass());
         }
     }
-    
+
     /**
      * Uses Beans introspection to locate a property or method with name
      * matching the key name. If a method or property is found, it's wrapped
@@ -131,18 +133,19 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
      * property matching the key is found, the framework will try to invoke
      * methods with signature
      * <tt>non-void-return-type get(java.lang.String)</tt>,
-     * then <tt>non-void-return-type get(java.lang.Object)</tt>, or 
-     * alternatively (if the wrapped object is a resource bundle) 
+     * then <tt>non-void-return-type get(java.lang.Object)</tt>, or
+     * alternatively (if the wrapped object is a resource bundle)
      * <tt>Object getObject(java.lang.String)</tt>.
+     *
      * @throws TemplateModelException if there was no property nor method nor
-     * a generic <tt>get</tt> method to invoke.
+     *                                a generic <tt>get</tt> method to invoke.
      */
     public TemplateModel get(String key)
-        throws TemplateModelException {
+            throws TemplateModelException {
         Class<?> clazz = object.getClass();
         Map<Object, Object> classInfo = wrapper.getClassIntrospector().get(clazz);
         TemplateModel retval = null;
-        
+
         try {
             if (wrapper.isMethodsShadowItems()) {
                 Object fd = classInfo.get(key);
@@ -189,19 +192,19 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
     }
 
     private void logNoSuchKey(String key, Map<?, ?> keyMap) {
-        LOG.debug("Key " + StringUtil.jQuoteNoXSS(key) + " was not found on instance of " + 
-            object.getClass().getName() + ". Introspection information for " +
-            "the class is: " + keyMap);
+        LOG.debug("Key " + StringUtil.jQuoteNoXSS(key) + " was not found on instance of " +
+                object.getClass().getName() + ". Introspection information for " +
+                "the class is: " + keyMap);
     }
-    
+
     /**
      * Whether the model has a plain get(String) or get(Object) method
      */
-    
+
     protected boolean hasPlainGetMethod() {
         return wrapper.getClassIntrospector().get(object.getClass()).get(ClassIntrospector.GENERIC_GET_KEY) != null;
     }
-    
+
     private TemplateModel invokeThroughDescriptor(Object desc, Map<Object, Object> classInfo)
             throws IllegalAccessException, InvocationTargetException, TemplateModelException {
         // See if this particular instance has a cached implementation for the requested feature descriptor
@@ -217,15 +220,15 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
         TemplateModel resultModel = UNKNOWN;
         if (desc instanceof FastPropertyDescriptor) {
             FastPropertyDescriptor pd = (FastPropertyDescriptor) desc;
-            Method indexedReadMethod = pd.getIndexedReadMethod(); 
+            Method indexedReadMethod = pd.getIndexedReadMethod();
             if (indexedReadMethod != null) {
                 if (!wrapper.getPreferIndexedReadMethod() && (pd.getReadMethod()) != null) {
                     resultModel = wrapper.invokeMethod(object, pd.getReadMethod(), null);
                     // cachedModel remains null, as we don't cache these
                 } else {
-                    resultModel = cachedModel = 
-                        new SimpleMethodModel(object, indexedReadMethod, 
-                                ClassIntrospector.getArgTypes(classInfo, indexedReadMethod), wrapper);
+                    resultModel = cachedModel =
+                            new SimpleMethodModel(object, indexedReadMethod,
+                                    ClassIntrospector.getArgTypes(classInfo, indexedReadMethod), wrapper);
                 }
             } else {
                 resultModel = wrapper.invokeMethod(object, pd.getReadMethod(), null);
@@ -242,7 +245,7 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
             resultModel = cachedModel = new OverloadedMethodsModel(
                     object, (OverloadedMethods) desc, wrapper);
         }
-        
+
         // If new cachedModel was created, cache it
         if (cachedModel != null) {
             synchronized (this) {
@@ -254,7 +257,7 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
         }
         return resultModel;
     }
-    
+
     void clearMemberCache() {
         synchronized (this) {
             memberCache = null;
@@ -263,27 +266,27 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
 
     protected TemplateModel invokeGenericGet(Map/*<Object, Object>*/ classInfo, Class<?> clazz, String key)
             throws IllegalAccessException, InvocationTargetException,
-        TemplateModelException {
+            TemplateModelException {
         Method genericGet = (Method) classInfo.get(ClassIntrospector.GENERIC_GET_KEY);
         if (genericGet == null) {
             return UNKNOWN;
         }
 
-        return wrapper.invokeMethod(object, genericGet, new Object[] { key });
+        return wrapper.invokeMethod(object, genericGet, new Object[]{key});
     }
 
     protected TemplateModel wrap(Object obj)
-    throws TemplateModelException {
+            throws TemplateModelException {
         return wrapper.getOuterIdentity().wrap(obj);
     }
-    
+
     protected Object unwrap(TemplateModel model)
-    throws TemplateModelException {
+            throws TemplateModelException {
         return wrapper.unwrap(model);
     }
 
     /**
-     * Tells whether the model is empty. It is empty if either the wrapped 
+     * Tells whether the model is empty. It is empty if either the wrapped
      * object is null, or it's a Boolean with false value.
      */
     public boolean isEmpty() {
@@ -297,11 +300,11 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
             return !((Iterator<?>) object).hasNext();
         }
         if (object instanceof Map) {
-            return ((Map<?,?>) object).isEmpty();
+            return ((Map<?, ?>) object).isEmpty();
         }
         return object == null || Boolean.FALSE.equals(object);
     }
-    
+
     /**
      * Returns the same as {link #getWrappedObject()}; to ensure that, this method will be final starting from 2.4.
      * This behavior of {link BeanModel} is assumed by some FreeMarker code.
@@ -313,7 +316,7 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
     public Object getWrappedObject() {
         return object;
     }
-    
+
     public int size() {
         return wrapper.getClassIntrospector().keyCount(object.getClass());
     }
@@ -331,13 +334,13 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
         }
         return new CollectionAndSequence(new SimpleSequence(values, wrapper));
     }
-    
+
     /**
      * Used for {@code classic_compatbile} mode; don't use it for anything else.
      * In FreeMarker 1.7 (and also at least in 2.1) {link BeanModel} was a {link TemplateScalarModel}. Some internal
      * FreeMarker code tries to emulate FreeMarker classic by calling this method when a {link TemplateScalarModel} is
      * expected.
-     * 
+     *
      * @return Never {@code null}
      */
     String getAsClassicCompatibleString() {
@@ -345,9 +348,9 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
             return "null";
         }
         String s = object.toString();
-        return s != null ? s : "null";        
+        return s != null ? s : "null";
     }
-    
+
     @Override
     public String toString() {
         return object.toString();
@@ -366,5 +369,5 @@ implements TemplateHashModelEx, AdapterTemplateModel, WrapperTemplateModel, Temp
     public TemplateModel getAPI() throws TemplateModelException {
         return wrapper.wrapAsAPI(object);
     }
-    
+
 }

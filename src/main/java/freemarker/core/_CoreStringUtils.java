@@ -25,8 +25,8 @@ import freemarker.template.utility.StringUtil;
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
  * This class is to work around the lack of module system in Java, i.e., so that other FreeMarker packages can
- * access things inside this package that users shouldn't. 
- */ 
+ * access things inside this package that users shouldn't.
+ */
 public final class _CoreStringUtils {
 
     private _CoreStringUtils() {
@@ -43,7 +43,8 @@ public final class _CoreStringUtils {
 
     public static String toFTLTopLevelTragetIdentifier(final String name) {
         char quotationType = 0;
-        scanForQuotationType: for (int i = 0; i < name.length(); i++) {
+        scanForQuotationType:
+        for (int i = 0; i < name.length(); i++) {
             final char c = name.charAt(i);
             if (!(i == 0 ? StringUtil.isFTLIdentifierStart(c) : StringUtil.isFTLIdentifierPart(c)) && c != '@') {
                 if ((quotationType == 0 || quotationType == '\\') && (c == '-' || c == '.' || c == ':')) {
@@ -55,14 +56,14 @@ public final class _CoreStringUtils {
             }
         }
         switch (quotationType) {
-        case 0:
-            return name;
-        case '"':
-            return StringUtil.ftlQuote(name);
-        case '\\':
-            return backslashEscapeIdentifier(name);
-        default:
-            throw new BugException();
+            case 0:
+                return name;
+            case '"':
+                return StringUtil.ftlQuote(name);
+            case '\\':
+                return backslashEscapeIdentifier(name);
+            default:
+                throw new BugException();
         }
     }
 
@@ -72,7 +73,7 @@ public final class _CoreStringUtils {
 
     /**
      * @return {link Configuration#CAMEL_CASE_NAMING_CONVENTION}, or {link Configuration#LEGACY_NAMING_CONVENTION}
-     *         or, {link Configuration#AUTO_DETECT_NAMING_CONVENTION} when undecidable.
+     * or, {link Configuration#AUTO_DETECT_NAMING_CONVENTION} when undecidable.
      */
     public static int getIdentifierNamingConvention(String name) {
         final int ln = name.length();
@@ -87,8 +88,9 @@ public final class _CoreStringUtils {
         }
         return Configuration.AUTO_DETECT_NAMING_CONVENTION;
     }
-    
+
     // [2.4] Won't be needed anymore
+
     /**
      * A deliberately very inflexible camel case to underscored converter; it must not convert improper camel case
      * names to a proper underscored name.
@@ -102,7 +104,7 @@ public final class _CoreStringUtils {
             // No conversion needed
             return camelCaseName;
         }
-        
+
         StringBuilder sb = new StringBuilder();
         sb.append(camelCaseName, 0, i);
         while (i < camelCaseName.length()) {
@@ -117,7 +119,7 @@ public final class _CoreStringUtils {
         }
         return sb.toString();
     }
-    
+
     public static boolean isUpperUSASCII(char c) {
         return c >= 'A' && c <= 'Z';
     }

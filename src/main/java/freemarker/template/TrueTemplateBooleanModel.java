@@ -31,5 +31,5 @@ final class TrueTemplateBooleanModel implements SerializableTemplateBooleanModel
     private Object readResolve() {
         return TRUE;
     }
-    
+
 }

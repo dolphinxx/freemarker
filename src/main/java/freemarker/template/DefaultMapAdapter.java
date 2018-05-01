@@ -32,16 +32,16 @@ import java.util.SortedMap;
  * Adapts a {link Map} to the corresponding {link TemplateModel} interface(s), most importantly to
  * {link TemplateHashModelEx}. If you aren't wrapping an already existing {link Map}, but build a hash specifically to
  * be used from a template, also consider using {link SimpleHash} (see comparison there).
- * 
+ * <p>
  * <p>
  * Thread safety: A {link DefaultMapAdapter} is as thread-safe as the {link Map} that it wraps is. Normally you only
  * have to consider read-only access, as the FreeMarker template language doesn't allow writing these hashes (though of
  * course, Java methods called from the template can violate this rule).
- * 
+ * <p>
  * <p>
  * This adapter is used by {link DefaultObjectWrapper} if its {@code useAdaptersForCollections} property is
  * {@code true}, which is the default when its {@code incompatibleImprovements} property is 2.3.22 or higher.
- * 
+ *
  * @since 2.3.22
  */
 public class DefaultMapAdapter extends WrappingTemplateModel
@@ -52,16 +52,14 @@ public class DefaultMapAdapter extends WrappingTemplateModel
 
     /**
      * Factory method for creating new adapter instances.
-     * 
-     * @param map
-     *            The map to adapt; can't be {@code null}.
-     * @param wrapper
-     *            The {link ObjectWrapper} used to wrap the items in the array.
+     *
+     * @param map     The map to adapt; can't be {@code null}.
+     * @param wrapper The {link ObjectWrapper} used to wrap the items in the array.
      */
     public static DefaultMapAdapter adapt(Map map, ObjectWrapperWithAPISupport wrapper) {
         return new DefaultMapAdapter(map, wrapper);
     }
-    
+
     private DefaultMapAdapter(Map map, ObjectWrapper wrapper) {
         super(wrapper);
         this.map = map;
@@ -80,7 +78,7 @@ public class DefaultMapAdapter extends WrappingTemplateModel
                     "NullPointerException while getting Map entry with String key ",
                     new _DelayedJQuote(key));
         }
-            
+
         if (val == null) {
             // Check for Character key if this is a single-character string.
             // In SortedMap-s, however, we can't do that safely, as it can cause ClassCastException.
@@ -95,15 +93,15 @@ public class DefaultMapAdapter extends WrappingTemplateModel
                         } else {
                             return wrappedNull;
                         }
-                    } 
+                    }
                 } catch (ClassCastException e) {
                     throw new _TemplateModelException(e,
-                                    "Class casting exception while getting Map entry with Character key ",
-                                    new _DelayedJQuote(charKey));
+                            "Class casting exception while getting Map entry with Character key ",
+                            new _DelayedJQuote(charKey));
                 } catch (NullPointerException e) {
                     throw new _TemplateModelException(e,
-                                    "NullPointerException while getting Map entry with Character key ",
-                                    new _DelayedJQuote(charKey));
+                            "NullPointerException while getting Map entry with Character key ",
+                            new _DelayedJQuote(charKey));
                 }
             } else {  // No char key fallback was possible
                 TemplateModel wrappedNull = wrap(null);
@@ -114,7 +112,7 @@ public class DefaultMapAdapter extends WrappingTemplateModel
                 }
             }
         }
-        
+
         return wrap(val);
     }
 

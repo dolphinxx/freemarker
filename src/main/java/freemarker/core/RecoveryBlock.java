@@ -19,12 +19,8 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
 final class RecoveryBlock extends TemplateElement {
-    
+
     RecoveryBlock(TemplateElements children) {
         setChildren(children);
     }
@@ -39,7 +35,7 @@ final class RecoveryBlock extends TemplateElement {
         if (canonical) {
             StringBuilder buf = new StringBuilder();
             buf.append('<').append(getNodeTypeSymbol()).append('>');
-            buf.append(getChildrenCanonicalForm());            
+            buf.append(getChildrenCanonicalForm());
             return buf.toString();
         } else {
             return getNodeTypeSymbol();
@@ -50,7 +46,7 @@ final class RecoveryBlock extends TemplateElement {
     String getNodeTypeSymbol() {
         return "#recover";
     }
-    
+
     @Override
     int getParameterCount() {
         return 0;
@@ -70,5 +66,5 @@ final class RecoveryBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

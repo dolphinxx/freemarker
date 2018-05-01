@@ -29,8 +29,9 @@ public class NonStringOrTemplateOutputException extends UnexpectedTypeException 
 
     static final String STRING_COERCABLE_TYPES_OR_TOM_DESC
             = NonStringException.STRING_COERCABLE_TYPES_DESC + ", or \"template output\" ";
-    
+
     static final Class[] STRING_COERCABLE_TYPES_AND_TOM;
+
     static {
         STRING_COERCABLE_TYPES_AND_TOM = new Class[NonStringException.STRING_COERCABLE_TYPES.length + 1];
         int i;
@@ -50,7 +51,7 @@ public class NonStringOrTemplateOutputException extends UnexpectedTypeException 
     public NonStringOrTemplateOutputException(String description, Environment env) {
         super(env, description);
     }
- 
+
     NonStringOrTemplateOutputException(Environment env, _ErrorDescriptionBuilder description) {
         super(env, description);
     }
@@ -72,5 +73,5 @@ public class NonStringOrTemplateOutputException extends UnexpectedTypeException 
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, NonStringOrTemplateOutputException.STRING_COERCABLE_TYPES_OR_TOM_DESC, STRING_COERCABLE_TYPES_AND_TOM, tips, env);
     }
-        
+
 }

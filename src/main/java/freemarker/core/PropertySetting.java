@@ -38,8 +38,8 @@ final class PropertySetting extends TemplateElement {
 
     private final String key;
     private final Expression value;
-    
-    static final String[] SETTING_NAMES = new String[] {
+
+    static final String[] SETTING_NAMES = new String[]{
             // Must be sorted alphabetically!
             Configurable.BOOLEAN_FORMAT_KEY_CAMEL_CASE,
             Configurable.BOOLEAN_FORMAT_KEY_SNAKE_CASE,
@@ -72,7 +72,7 @@ final class PropertySetting extends TemplateElement {
             if (_TemplateAPI.getConfigurationSettingNames(cfg, true).contains(key)
                     || _TemplateAPI.getConfigurationSettingNames(cfg, false).contains(key)) {
                 sb.append("The setting name is recognized, but changing this setting from inside a template isn't "
-                        + "supported.");                
+                        + "supported.");
             } else {
                 sb.append("Unknown setting name: ");
                 sb.append(StringUtil.jQuote(key)).append(".");
@@ -82,14 +82,14 @@ final class PropertySetting extends TemplateElement {
                 {
                     int namingConvention = tokenManager.namingConvention;
                     shownNamingConvention = namingConvention != Configuration.AUTO_DETECT_NAMING_CONVENTION
-                            ? namingConvention : Configuration.LEGACY_NAMING_CONVENTION /* [2.4] CAMEL_CASE */; 
+                            ? namingConvention : Configuration.LEGACY_NAMING_CONVENTION /* [2.4] CAMEL_CASE */;
                 }
-                
+
                 boolean first = true;
                 for (int i = 0; i < SETTING_NAMES.length; i++) {
                     String correctName = SETTING_NAMES[i];
                     int correctNameNamingConvetion = _CoreStringUtils.getIdentifierNamingConvention(correctName);
-                    if (shownNamingConvention == Configuration.CAMEL_CASE_NAMING_CONVENTION 
+                    if (shownNamingConvention == Configuration.CAMEL_CASE_NAMING_CONVENTION
                             ? correctNameNamingConvetion != Configuration.LEGACY_NAMING_CONVENTION
                             : correctNameNamingConvetion != Configuration.CAMEL_CASE_NAMING_CONVENTION) {
                         if (first) {
@@ -97,14 +97,14 @@ final class PropertySetting extends TemplateElement {
                         } else {
                             sb.append(", ");
                         }
-                    
+
                         sb.append(SETTING_NAMES[i]);
                     }
                 }
             }
             throw new ParseException(sb.toString(), null, keyTk);
         }
-        
+
         this.key = key;
         this.value = value;
     }
@@ -125,7 +125,7 @@ final class PropertySetting extends TemplateElement {
         env.setSetting(key, strval);
         return null;
     }
-    
+
     @Override
     protected String dump(boolean canonical) {
         StringBuilder sb = new StringBuilder();
@@ -138,7 +138,7 @@ final class PropertySetting extends TemplateElement {
         if (canonical) sb.append("/>");
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#setting";
@@ -152,18 +152,24 @@ final class PropertySetting extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return key;
-        case 1: return value;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return key;
+            case 1:
+                return value;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.ITEM_KEY;
-        case 1: return ParameterRole.ITEM_VALUE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.ITEM_KEY;
+            case 1:
+                return ParameterRole.ITEM_VALUE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -171,5 +177,5 @@ final class PropertySetting extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

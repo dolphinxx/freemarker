@@ -27,13 +27,13 @@ import java.util.Map;
 
 /**
  * Implementation of missing JDK 1.3 collection features for JDK 1.2
- * 
+ *
  * @deprecated Not needed anymore, as FreeMarker now requires higher than Java 1.3
  */
 @Deprecated
 public class Collections12 {
     public static final Map EMPTY_MAP = new EmptyMap();
-    
+
     private Collections12() {
     }
 
@@ -44,5 +44,5 @@ public class Collections12 {
     public static List singletonList(Object o) {
         return Collections.singletonList(o);
     }
-    
+
 }

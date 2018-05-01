@@ -34,10 +34,10 @@ abstract class BuiltInForHashEx extends BuiltIn {
         }
         throw new NonExtendedHashException(target, model, env);
     }
-    
+
     abstract TemplateModel calculateResult(TemplateHashModelEx hashExModel, Environment env)
             throws TemplateModelException, InvalidReferenceException;
-    
+
     protected InvalidReferenceException newNullPropertyException(
             String propertyName, TemplateModel tm, Environment env) {
         if (env.getFastInvalidReferenceExceptions()) {
@@ -45,12 +45,12 @@ abstract class BuiltInForHashEx extends BuiltIn {
         } else {
             return new InvalidReferenceException(
                     new _ErrorDescriptionBuilder(
-                        "The exteneded hash (of class ", tm.getClass().getName(), ") has returned null for its \"",
-                        propertyName,
-                        "\" property. This is maybe a bug. The extended hash was returned by this expression:")
-                    .blame(target),
+                            "The exteneded hash (of class ", tm.getClass().getName(), ") has returned null for its \"",
+                            propertyName,
+                            "\" property. This is maybe a bug. The extended hash was returned by this expression:")
+                            .blame(target),
                     env, this);
         }
     }
-    
+
 }

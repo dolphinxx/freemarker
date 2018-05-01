@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Used instead of {link java.lang.reflect.Method} or {link java.lang.reflect.Constructor} for overloaded methods and
  * constructors.
- * 
+ *
  * <p>After the initialization with the {link #addMethod(Method)} and {link #addConstructor(Constructor)} calls are
  * done, the instance must be thread-safe. Before that, it's the responsibility of the caller of those methods to
  * ensure that the object is properly publishing to other threads.
@@ -46,12 +46,12 @@ final class OverloadedMethods {
     private final OverloadedMethodsSubset fixArgMethods;
     private OverloadedMethodsSubset varargMethods;
     private final boolean bugfixed;
-    
+
     OverloadedMethods(boolean bugfixed) {
         this.bugfixed = bugfixed;
         fixArgMethods = new OverloadedFixArgsMethods(bugfixed);
     }
-    
+
     void addMethod(Method method) {
         final Class[] paramTypes = method.getParameterTypes();
         addCallableMemberDescriptor(new ReflectionCallableMemberDescriptor(method, paramTypes));
@@ -61,7 +61,7 @@ final class OverloadedMethods {
         final Class[] paramTypes = constr.getParameterTypes();
         addCallableMemberDescriptor(new ReflectionCallableMemberDescriptor(constr, paramTypes));
     }
-    
+
     private void addCallableMemberDescriptor(ReflectionCallableMemberDescriptor memberDesc) {
         // Note: "varargs" methods are always callable as fixed args, with a sequence (array) as the last parameter.
         fixArgMethods.addCallableMemberDescriptor(memberDesc);
@@ -72,9 +72,9 @@ final class OverloadedMethods {
             varargMethods.addCallableMemberDescriptor(memberDesc);
         }
     }
-    
-    MemberAndArguments getMemberAndArguments(List/*<TemplateModel>*/ tmArgs, BeansWrapper unwrapper) 
-    throws TemplateModelException {
+
+    MemberAndArguments getMemberAndArguments(List/*<TemplateModel>*/ tmArgs, BeansWrapper unwrapper)
+            throws TemplateModelException {
         // Try to find a fixed args match:
         MaybeEmptyMemberAndArguments fixArgsRes = fixArgMethods.getMemberAndArguments(tmArgs, unwrapper);
         if (fixArgsRes instanceof MemberAndArguments) {
@@ -91,7 +91,7 @@ final class OverloadedMethods {
         } else {
             varargsRes = null;
         }
-        
+
         _ErrorDescriptionBuilder edb = new _ErrorDescriptionBuilder(
                 toCompositeErrorMessage(
                         (EmptyMemberAndArguments) fixArgsRes,
@@ -115,7 +115,7 @@ final class OverloadedMethods {
             if (fixArgsEmptyRes == null || fixArgsEmptyRes.isNumberOfArgumentsWrong()) {
                 argsErrorMsg = toErrorMessage(varargsEmptyRes, tmArgs);
             } else {
-                argsErrorMsg = new Object[] {
+                argsErrorMsg = new Object[]{
                         "When trying to call the non-varargs overloads:\n",
                         toErrorMessage(fixArgsEmptyRes, tmArgs),
                         "\nWhen trying to call the varargs overloads:\n",
@@ -130,28 +130,28 @@ final class OverloadedMethods {
 
     private Object[] toErrorMessage(EmptyMemberAndArguments res, List/*<TemplateModel>*/ tmArgs) {
         final Object[] unwrappedArgs = res.getUnwrappedArguments();
-        return new Object[] {
+        return new Object[]{
                 res.getErrorDescription(),
                 tmArgs != null
-                        ? new Object[] {
-                                "\nThe FTL type of the argument values were: ", getTMActualParameterTypes(tmArgs), "." }
+                        ? new Object[]{
+                        "\nThe FTL type of the argument values were: ", getTMActualParameterTypes(tmArgs), "."}
                         : "",
                 unwrappedArgs != null
-                        ? new Object[] {
-                                "\nThe Java type of the argument values were: ",
-                                getUnwrappedActualParameterTypes(unwrappedArgs) + "." }
+                        ? new Object[]{
+                        "\nThe Java type of the argument values were: ",
+                        getUnwrappedActualParameterTypes(unwrappedArgs) + "."}
                         : ""};
     }
 
     private _DelayedConversionToString memberListToString() {
         return new _DelayedConversionToString(null) {
-            
+
             @Override
             protected String doConversion(Object obj) {
                 final Iterator fixArgMethodsIter = fixArgMethods.getMemberDescriptors();
                 final Iterator varargMethodsIter = varargMethods != null ? varargMethods.getMemberDescriptors() : null;
-                
-                boolean hasMethods = fixArgMethodsIter.hasNext() || (varargMethodsIter != null && varargMethodsIter.hasNext()); 
+
+                boolean hasMethods = fixArgMethodsIter.hasNext() || (varargMethodsIter != null && varargMethodsIter.hasNext());
                 if (hasMethods) {
                     StringBuilder sb = new StringBuilder();
                     HashSet fixArgMethods = new HashSet();
@@ -177,23 +177,23 @@ final class OverloadedMethods {
                     return "No members";
                 }
             }
-            
+
         };
     }
-    
+
     /**
      * Adds tip to the error message if converting a {link TemplateMarkupOutputModel} argument to {link String} might
-     * allows finding a matching overload. 
+     * allows finding a matching overload.
      */
     private void addMarkupBITipAfterNoNoMarchIfApplicable(_ErrorDescriptionBuilder edb,
-            List tmArgs) {
+                                                          List tmArgs) {
         for (int argIdx = 0; argIdx < tmArgs.size(); argIdx++) {
             Object tmArg = tmArgs.get(argIdx);
             if (tmArg instanceof TemplateMarkupOutputModel) {
-                for (Iterator membDescs = fixArgMethods.getMemberDescriptors(); membDescs.hasNext();) {
+                for (Iterator membDescs = fixArgMethods.getMemberDescriptors(); membDescs.hasNext(); ) {
                     CallableMemberDescriptor membDesc = (CallableMemberDescriptor) membDescs.next();
                     Class[] paramTypes = membDesc.getParamTypes();
-                    
+
                     Class paramType = null;
                     if (membDesc.isVarargs() && argIdx >= paramTypes.length - 1) {
                         paramType = paramTypes[paramTypes.length - 1];
@@ -220,24 +220,24 @@ final class OverloadedMethods {
         for (int i = 0; i < arguments.size(); i++) {
             argumentTypeDescs[i] = ClassUtil.getFTLTypeDescription((TemplateModel) arguments.get(i));
         }
-        
+
         return new DelayedCallSignatureToString(argumentTypeDescs) {
 
             @Override
             String argumentToString(Object argType) {
                 return (String) argType;
             }
-            
+
         };
     }
-    
+
     private Object getUnwrappedActualParameterTypes(Object[] unwrappedArgs) {
         final Class[] argumentTypes = new Class[unwrappedArgs.length];
         for (int i = 0; i < unwrappedArgs.length; i++) {
             Object unwrappedArg = unwrappedArgs[i];
             argumentTypes[i] = unwrappedArg != null ? unwrappedArg.getClass() : null;
         }
-        
+
         return new DelayedCallSignatureToString(argumentTypes) {
 
             @Override
@@ -246,10 +246,10 @@ final class OverloadedMethods {
                         ? ClassUtil.getShortClassName((Class) argType)
                         : ClassUtil.getShortClassNameOfObject(null);
             }
-            
+
         };
     }
-    
+
     private abstract class DelayedCallSignatureToString extends _DelayedConversionToString {
 
         public DelayedCallSignatureToString(Object[] argTypeArray) {
@@ -259,18 +259,18 @@ final class OverloadedMethods {
         @Override
         protected String doConversion(Object obj) {
             Object[] argTypes = (Object[]) obj;
-            
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < argTypes.length; i++) {
                 if (i != 0) sb.append(", ");
                 sb.append(argumentToString(argTypes[i]));
             }
-            
+
             return sb.toString();
         }
-        
+
         abstract String argumentToString(Object argType);
-        
+
     }
 
 }

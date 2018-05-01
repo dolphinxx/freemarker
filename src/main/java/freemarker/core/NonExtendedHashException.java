@@ -27,8 +27,8 @@ import freemarker.template.TemplateModel;
  */
 public class NonExtendedHashException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { TemplateHashModelEx.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{TemplateHashModelEx.class};
+
     public NonExtendedHashException(Environment env) {
         super(env, "Expecting extended hash value here");
     }
@@ -57,6 +57,6 @@ public class NonExtendedHashException extends UnexpectedTypeException {
     NonExtendedHashException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "extended hash", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

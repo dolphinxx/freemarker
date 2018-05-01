@@ -19,19 +19,15 @@
 
 package freemarker.core;
 
-import freemarker.template.TemplateException;
-
-import java.io.IOException;
-
 /**
  * An #outputFormat element
  */
 final class OutputFormatBlock extends TemplateElement {
-    
+
     private final Expression paramExp;
 
-    OutputFormatBlock(TemplateElements children, Expression paramExp) { 
-        this.paramExp = paramExp; 
+    OutputFormatBlock(TemplateElements children, Expression paramExp) {
+        this.paramExp = paramExp;
         setChildren(children);
     }
 
@@ -49,12 +45,12 @@ final class OutputFormatBlock extends TemplateElement {
             return getNodeTypeSymbol();
         }
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#outputformat";
     }
-    
+
     @Override
     int getParameterCount() {
         return 1;
@@ -83,5 +79,5 @@ final class OutputFormatBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

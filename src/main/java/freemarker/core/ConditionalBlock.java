@@ -21,8 +21,6 @@ package freemarker.core;
 
 import freemarker.template.TemplateException;
 
-import java.io.IOException;
-
 /**
  * An element that represents a conditionally executed block: #if, #elseif or #elseif. Note that when an #if has
  * related #elseif-s or #else, an {link IfBlock} parent must be used. For a lonely #if, no such parent is needed.
@@ -33,7 +31,7 @@ final class ConditionalBlock extends TemplateElement {
     static final int TYPE_IF = 0;
     static final int TYPE_ELSE = 1;
     static final int TYPE_ELSE_IF = 2;
-    
+
     final Expression condition;
     private final int type;
 
@@ -50,7 +48,7 @@ final class ConditionalBlock extends TemplateElement {
         }
         return null;
     }
-    
+
     @Override
     protected String dump(boolean canonical) {
         StringBuilder buf = new StringBuilder();
@@ -69,7 +67,7 @@ final class ConditionalBlock extends TemplateElement {
         }
         return buf.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         if (type == TYPE_ELSE) {
@@ -82,7 +80,7 @@ final class ConditionalBlock extends TemplateElement {
             throw new BugException("Unknown type");
         }
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -91,18 +89,24 @@ final class ConditionalBlock extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return condition;
-        case 1: return type;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return condition;
+            case 1:
+                return type;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.CONDITION;
-        case 1: return ParameterRole.AST_NODE_SUBTYPE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.CONDITION;
+            case 1:
+                return ParameterRole.AST_NODE_SUBTYPE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -110,5 +114,5 @@ final class ConditionalBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

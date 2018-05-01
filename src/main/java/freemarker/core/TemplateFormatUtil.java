@@ -26,17 +26,16 @@ import java.util.Date;
 
 /**
  * Utility classes for implementing {link TemplateValueFormat}-s.
- * 
- * @since 2.3.24 
+ *
+ * @since 2.3.24
  */
 public final class TemplateFormatUtil {
-    
+
     private TemplateFormatUtil() {
         // Not meant to be instantiated
     }
 
-    public static void checkHasNoParameters(String params) throws InvalidFormatParametersException
-             {
+    public static void checkHasNoParameters(String params) throws InvalidFormatParametersException {
         if (params.length() != 0) {
             throw new InvalidFormatParametersException(
                     "This number format doesn't support any parameters.");

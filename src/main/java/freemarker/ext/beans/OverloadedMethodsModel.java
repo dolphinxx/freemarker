@@ -34,13 +34,13 @@ import java.util.List;
  * like if it was a single method, chooses among them behind the scenes on call-time based on the argument values.
  */
 public class OverloadedMethodsModel
-implements
-	TemplateMethodModelEx,
-	TemplateSequenceModel {
+        implements
+        TemplateMethodModelEx,
+        TemplateSequenceModel {
     private final Object object;
     private final OverloadedMethods overloadedMethods;
     private final BeansWrapper wrapper;
-    
+
     OverloadedMethodsModel(Object object, OverloadedMethods overloadedMethods, BeansWrapper wrapper) {
         this.object = object;
         this.overloadedMethods = overloadedMethods;
@@ -51,17 +51,18 @@ implements
      * Invokes the method, passing it the arguments from the list. The actual
      * method to call from several overloaded methods will be chosen based
      * on the classes of the arguments.
+     *
      * @throws TemplateModelException if the method cannot be chosen
-     * unambiguously.
+     *                                unambiguously.
      */
     public Object exec(List arguments)
-    throws TemplateModelException {
+            throws TemplateModelException {
         MemberAndArguments maa = overloadedMethods.getMemberAndArguments(arguments, wrapper);
         try {
             return maa.invokeMethod(wrapper, object);
         } catch (Exception e) {
             if (e instanceof TemplateModelException) throw (TemplateModelException) e;
-            
+
             throw _MethodUtil.newInvocationTemplateModelException(
                     object,
                     maa.getCallableMemberDescriptor(),

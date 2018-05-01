@@ -28,7 +28,7 @@ import java.util.Set;
 
 /**
  * Flag values and masks for "type flags". "Type flags" is a set of bits that store information about the possible
- * destination types at a parameter position of overloaded methods. 
+ * destination types at a parameter position of overloaded methods.
  */
 class TypeFlags {
 
@@ -37,7 +37,7 @@ class TypeFlags {
      * numerical type at the given parameter index.
      */
     static final int WIDENED_NUMERICAL_UNWRAPPING_HINT = 1;
-    
+
     static final int BYTE = 4;
     static final int SHORT = 8;
     static final int INTEGER = 16;
@@ -56,20 +56,20 @@ class TypeFlags {
     static final int ACCEPTS_LIST = 0x10000;
     static final int ACCEPTS_SET = 0x20000;
     static final int ACCEPTS_ARRAY = 0x40000;
-    
+
     /**
      * Indicates the presence of the char or Character type
      */
     static final int CHARACTER = 0x80000;
-    
+
     static final int ACCEPTS_ANY_OBJECT = ACCEPTS_NUMBER | ACCEPTS_DATE | ACCEPTS_STRING | ACCEPTS_BOOLEAN
             | ACCEPTS_MAP | ACCEPTS_LIST | ACCEPTS_SET | ACCEPTS_ARRAY;
-    
+
     static final int MASK_KNOWN_INTEGERS = BYTE | SHORT | INTEGER | LONG | BIG_INTEGER;
     static final int MASK_KNOWN_NONINTEGERS = FLOAT | DOUBLE | BIG_DECIMAL;
     static final int MASK_ALL_KNOWN_NUMERICALS = MASK_KNOWN_INTEGERS | MASK_KNOWN_NONINTEGERS;
     static final int MASK_ALL_NUMERICALS = MASK_ALL_KNOWN_NUMERICALS | UNKNOWN_NUMERICAL_TYPE;
-    
+
     static int classToTypeFlags(Class pClass) {
         // We start with the most frequent cases  
         if (pClass == Object.class) {
@@ -118,13 +118,13 @@ class TypeFlags {
             if (pClass.isAssignableFrom(Set.class)) {
                 flags |= ACCEPTS_SET;
             }
-            
+
             if (pClass == Character.class) {
                 flags |= CHARACTER;
             }
-            
+
             return flags;
-        } 
+        }
     }
 
 }

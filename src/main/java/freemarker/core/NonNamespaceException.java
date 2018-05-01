@@ -23,13 +23,13 @@ import freemarker.template.TemplateModel;
 
 /**
  * Indicates that a {link Environment.Namespace} value was expected, but the value had a different type.
- * 
+ *
  * @since 2.3.21
  */
 class NonNamespaceException extends UnexpectedTypeException {
 
-    private static final Class[] EXPECTED_TYPES = new Class[] { Environment.Namespace.class };
-    
+    private static final Class[] EXPECTED_TYPES = new Class[]{Environment.Namespace.class};
+
     public NonNamespaceException(Environment env) {
         super(env, "Expecting namespace value here");
     }
@@ -58,6 +58,6 @@ class NonNamespaceException extends UnexpectedTypeException {
     NonNamespaceException(
             Expression blamed, TemplateModel model, String[] tips, Environment env) throws InvalidReferenceException {
         super(blamed, model, "namespace", EXPECTED_TYPES, tips, env);
-    }    
+    }
 
 }

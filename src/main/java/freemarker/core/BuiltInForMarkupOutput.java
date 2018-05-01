@@ -24,7 +24,7 @@ import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
 abstract class BuiltInForMarkupOutput extends BuiltIn {
-    
+
     @Override
     TemplateModel _eval(Environment env)
             throws TemplateException {
@@ -34,7 +34,7 @@ abstract class BuiltInForMarkupOutput extends BuiltIn {
         }
         return calculateResult((TemplateMarkupOutputModel) model);
     }
-    
+
     protected abstract TemplateModel calculateResult(TemplateMarkupOutputModel model) throws TemplateModelException;
-    
+
 }

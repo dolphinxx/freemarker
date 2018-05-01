@@ -20,11 +20,11 @@ package freemarker.core;
 
 /**
  * Stores RTF markup to be printed; used with {link RTFOutputFormat}.
- * 
+ *
  * @since 2.3.24
  */
 public final class TemplateRTFOutputModel extends CommonTemplateMarkupOutputModel<TemplateRTFOutputModel> {
-    
+
     /**
      * See {link CommonTemplateMarkupOutputModel#CommonTemplateMarkupOutputModel(String, String)}.
      */

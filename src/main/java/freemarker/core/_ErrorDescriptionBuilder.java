@@ -55,8 +55,8 @@ public class _ErrorDescriptionBuilder {
 
     /**
      * @param descriptionParts These will be concatenated to a single {link String} in {link #toString()}.
-     *      {link String} array items that look like FTL tag (must start with {@code "&lt;"} and end with {@code ">"})
-     *      will be converted to the actual template syntax if {link #blamed} or {link #template} was set.
+     *                         {link String} array items that look like FTL tag (must start with {@code "&lt;"} and end with {@code ">"})
+     *                         will be converted to the actual template syntax if {link #blamed} or {link #template} was set.
      */
     public _ErrorDescriptionBuilder(Object... descriptionParts) {
         this.descriptionParts = descriptionParts;
@@ -67,12 +67,12 @@ public class _ErrorDescriptionBuilder {
     public String toString() {
         return toString(null, true);
     }
-    
+
     public String toString(TemplateElement parentElement, boolean showTips) {
         if (blamed == null && tips == null && tip == null && descriptionParts == null) return description;
 
         StringBuilder sb = new StringBuilder(200);
-        
+
         if (parentElement != null && blamed != null && showBlamer) {
             try {
                 Blaming blaming = findBlaming(parentElement, blamed, 0);
@@ -89,7 +89,7 @@ public class _ErrorDescriptionBuilder {
                 LOG.error("Error when searching blamer for better error message.", e);
             }
         }
-        
+
         if (description != null) {
             sb.append(description);
         } else {
@@ -99,10 +99,10 @@ public class _ErrorDescriptionBuilder {
         String extraTip = null;
         if (blamed != null) {
             // Right-trim:
-            for (int idx = sb.length() - 1; idx >= 0 && Character.isWhitespace(sb.charAt(idx)); idx --) {
+            for (int idx = sb.length() - 1; idx >= 0 && Character.isWhitespace(sb.charAt(idx)); idx--) {
                 sb.deleteCharAt(idx);
             }
-            
+
             char lastChar = sb.length() > 0 ? (sb.charAt(sb.length() - 1)) : 0;
             if (lastChar != 0) {
                 sb.append('\n');
@@ -110,18 +110,18 @@ public class _ErrorDescriptionBuilder {
             if (lastChar != ':') {
                 sb.append("The blamed expression:\n");
             }
-            
+
             String[] lines = splitToLines(blamed.toString());
             for (int i = 0; i < lines.length; i++) {
                 sb.append(i == 0 ? "==> " : "\n    ");
                 sb.append(lines[i]);
             }
-            
+
             sb.append("  [");
             sb.append(blamed.getStartLocation());
             sb.append(']');
-            
-            
+
+
             if (containsSingleInterpolatoinLiteral(blamed, 0)) {
                 extraTip = "It has been noticed that you are using ${...} as the sole content of a quoted string. That "
                         + "does nothing but forcably converts the value inside ${...} to string (as it inserts it into "
@@ -130,7 +130,7 @@ public class _ErrorDescriptionBuilder {
                         + "them. If you indeed wanted to convert to string, use myExpression?string instead.";
             }
         }
-        
+
         if (showTips) {
             int allTipsLen = (tips != null ? tips.length : 0) + (tip != null ? 1 : 0) + (extraTip != null ? 1 : 0);
             Object[] allTips;
@@ -139,13 +139,13 @@ public class _ErrorDescriptionBuilder {
             } else {
                 allTips = new Object[allTipsLen];
                 int dst = 0;
-                if (tip != null) allTips[dst++] = tip; 
+                if (tip != null) allTips[dst++] = tip;
                 if (tips != null) {
                     for (int i = 0; i < tips.length; i++) {
-                        allTips[dst++] = tips[i]; 
+                        allTips[dst++] = tips[i];
                     }
                 }
-                if (extraTip != null) allTips[dst++] = extraTip; 
+                if (extraTip != null) allTips[dst++] = extraTip;
             }
             if (allTips != null && allTips.length > 0) {
                 sb.append("\n\n");
@@ -163,18 +163,18 @@ public class _ErrorDescriptionBuilder {
                 sb.append('\n').append(_CoreAPI.ERROR_MESSAGE_HR);
             }
         }
-        
+
         return sb.toString();
     }
 
     private boolean containsSingleInterpolatoinLiteral(Expression exp, int recursionDepth) {
         if (exp == null) return false;
-        
+
         // Just in case a loop ever gets into the AST somehow, try not fill the stack and such: 
         if (recursionDepth > 20) return false;
-        
+
         if (exp instanceof StringLiteral && ((StringLiteral) exp).isSingleInterpolationLiteral()) return true;
-        
+
         int paramCnt = exp.getParameterCount();
         for (int i = 0; i < paramCnt; i++) {
             Object paramValue = exp.getParameterValue(i);
@@ -183,14 +183,14 @@ public class _ErrorDescriptionBuilder {
                 if (result) return true;
             }
         }
-        
+
         return false;
     }
 
     private Blaming findBlaming(TemplateObject parent, Expression blamed, int recursionDepth) {
         // Just in case a loop ever gets into the AST somehow, try not fill the stack and such: 
         if (recursionDepth > 50) return null;
-        
+
         int paramCnt = parent.getParameterCount();
         for (int i = 0; i < paramCnt; i++) {
             Object paramValue = parent.getParameterValue(i);
@@ -208,7 +208,7 @@ public class _ErrorDescriptionBuilder {
     }
 
     private void appendParts(StringBuilder sb, Object[] parts) {
-        Template template = this.template != null ? this.template : (blamed != null ? blamed.getTemplate() : null); 
+        Template template = this.template != null ? this.template : (blamed != null ? blamed.getTemplate() : null);
         for (int i = 0; i < parts.length; i++) {
             Object partObj = parts[i];
             if (partObj instanceof Object[]) {
@@ -219,14 +219,14 @@ public class _ErrorDescriptionBuilder {
                 if (partStr == null) {
                     partStr = "null";
                 }
-                
+
                 if (template != null) {
                     if (partStr.length() > 4
                             && partStr.charAt(0) == '<'
                             && (
-                                    (partStr.charAt(1) == '#' || partStr.charAt(1) == '@')
+                            (partStr.charAt(1) == '#' || partStr.charAt(1) == '@')
                                     || (partStr.charAt(1) == '/') && (partStr.charAt(2) == '#' || partStr.charAt(2) == '@')
-                               )
+                    )
                             && partStr.charAt(partStr.length() - 1) == '>') {
                         if (template.getActualTagSyntax() == Configuration.SQUARE_BRACKET_TAG_SYNTAX) {
                             sb.append('[');
@@ -255,7 +255,7 @@ public class _ErrorDescriptionBuilder {
     public static String tryToString(Object partObj) {
         return toString(partObj, true);
     }
-    
+
     private static String toString(Object partObj, boolean suppressToStringException) {
         final String partStr;
         if (partObj == null) {
@@ -276,7 +276,7 @@ public class _ErrorDescriptionBuilder {
         String[] lines = StringUtil.split(s, '\n');
         return lines;
     }
-    
+
     /**
      * Needed for description <em>parts</em> that look like an FTL tag to be converted, if there's no {link #blamed}.
      */
@@ -289,35 +289,35 @@ public class _ErrorDescriptionBuilder {
         this.blamed = blamedExpr;
         return this;
     }
-    
+
     public _ErrorDescriptionBuilder showBlamer(boolean showBlamer) {
         this.showBlamer = showBlamer;
         return this;
     }
-    
+
     public _ErrorDescriptionBuilder tip(String tip) {
         tip((Object) tip);
         return this;
     }
-    
+
     public _ErrorDescriptionBuilder tip(Object... tip) {
         tip((Object) tip);
         return this;
     }
-    
+
     private _ErrorDescriptionBuilder tip(Object tip) {
         if (tip == null) {
             return this;
         }
-        
+
         if (this.tip == null) {
             this.tip = tip;
         } else {
             if (tips == null) {
-                tips = new Object[] { tip };
+                tips = new Object[]{tip};
             } else {
                 final int origTipsLen = tips.length;
-                
+
                 Object[] newTips = new Object[origTipsLen + 1];
                 for (int i = 0; i < origTipsLen; i++) {
                     newTips[i] = tips[i];
@@ -328,18 +328,18 @@ public class _ErrorDescriptionBuilder {
         }
         return this;
     }
-    
+
     public _ErrorDescriptionBuilder tips(Object... tips) {
         if (tips == null || tips.length == 0) {
             return this;
         }
-        
+
         if (this.tips == null) {
             this.tips = tips;
         } else {
             final int origTipsLen = this.tips.length;
             final int additionalTipsLen = tips.length;
-            
+
             Object[] newTips = new Object[origTipsLen + additionalTipsLen];
             for (int i = 0; i < origTipsLen; i++) {
                 newTips[i] = this.tips[i];
@@ -351,10 +351,10 @@ public class _ErrorDescriptionBuilder {
         }
         return this;
     }
-    
+
     private static class Blaming {
         TemplateObject blamer;
         ParameterRole roleOfblamed;
     }
-    
+
 }

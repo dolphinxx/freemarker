@@ -25,11 +25,12 @@ import freemarker.template.utility.DateUtil.TrivialCalendarFieldsToDateConverter
 import freemarker.template.utility.DateUtil.TrivialDateToISO8601CalendarFactory;
 
 abstract class ISOLikeTemplateDateFormatFactory extends TemplateDateFormatFactory {
-    
+
     private static final Object DATE_TO_CAL_CONVERTER_KEY = new Object();
     private static final Object CAL_TO_DATE_CONVERTER_KEY = new Object();
-    
-    protected ISOLikeTemplateDateFormatFactory() { }
+
+    protected ISOLikeTemplateDateFormatFactory() {
+    }
 
     public DateToISO8601CalendarFactory getISOBuiltInCalendar(Environment env) {
         DateToISO8601CalendarFactory r = (DateToISO8601CalendarFactory) env.getCustomState(DATE_TO_CAL_CONVERTER_KEY);
@@ -48,5 +49,5 @@ abstract class ISOLikeTemplateDateFormatFactory extends TemplateDateFormatFactor
         }
         return r;
     }
-    
+
 }

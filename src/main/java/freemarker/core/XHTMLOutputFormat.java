@@ -18,7 +18,6 @@
  */
 package freemarker.core;
 
-import freemarker.template.TemplateModelException;
 import freemarker.template.utility.StringUtil;
 
 import java.io.IOException;
@@ -28,7 +27,7 @@ import java.io.Writer;
  * Represents the XML output format (MIME type "application/xhtml+xml", name "XHTML"). This format escapes by default
  * (via {link StringUtil#XHTMLEnc(String)}). The {@code ?xml} built-in silently bypasses template output values of the
  * type produced by this output format ({link TemplateXHTMLOutputModel}).
- * 
+ *
  * @since 2.3.24
  */
 public final class XHTMLOutputFormat extends CommonMarkupOutputFormat<TemplateXHTMLOutputModel> {
@@ -37,11 +36,11 @@ public final class XHTMLOutputFormat extends CommonMarkupOutputFormat<TemplateXH
      * The only instance (singleton) of this {link OutputFormat}.
      */
     public static final XHTMLOutputFormat INSTANCE = new XHTMLOutputFormat();
-    
+
     private XHTMLOutputFormat() {
         // Only to decrease visibility
     }
-    
+
     @Override
     public String getName() {
         return "XHTML";

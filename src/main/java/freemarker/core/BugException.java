@@ -21,13 +21,13 @@ package freemarker.core;
 
 /**
  * An unexpected state was reached that is certainly caused by a bug in FreeMarker.
- * 
+ *
  * @since 2.3.21
  */
 public class BugException extends RuntimeException {
 
     private static final String COMMON_MESSAGE
-        = "A bug was detected in FreeMarker; please report it with stack-trace";
+            = "A bug was detected in FreeMarker; please report it with stack-trace";
 
     public BugException() {
         this((Throwable) null);
@@ -44,7 +44,7 @@ public class BugException extends RuntimeException {
     public BugException(String message, Throwable cause) {
         super(COMMON_MESSAGE + ": " + message, cause);
     }
-    
+
     public BugException(int value) {
         this(String.valueOf(value));
     }

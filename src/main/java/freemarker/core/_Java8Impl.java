@@ -27,12 +27,12 @@ import java.lang.reflect.Method;
 // Compile this against Java 8
 @SuppressWarnings("Since15") // For IntelliJ inspection
 public class _Java8Impl implements _Java8 {
-    
+
     public static final _Java8 INSTANCE = new _Java8Impl();
 
     private _Java8Impl() {
         // Not meant to be instantiated
-    }    
+    }
 
     public boolean isDefaultMethod(Method method) {
         return method.isDefault();

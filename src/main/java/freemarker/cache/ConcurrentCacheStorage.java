@@ -20,15 +20,16 @@
 package freemarker.cache;
 
 /**
- * An optional interface for cache storage that knows whether it can be 
+ * An optional interface for cache storage that knows whether it can be
  * concurrently accessible without synchronization.
  */
 public interface ConcurrentCacheStorage extends CacheStorage {
-    
+
     /**
-     * Returns true if this instance of cache storage is concurrently 
+     * Returns true if this instance of cache storage is concurrently
      * accessible from multiple threads without synchronization.
-     * @return true if this instance of cache storage is concurrently 
+     *
+     * @return true if this instance of cache storage is concurrently
      * accessible from multiple threads without synchronization.
      */
     boolean isConcurrent();

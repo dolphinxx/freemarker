@@ -28,17 +28,17 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 /**
- * Helper for language features (like built-ins) that use regular expressions. 
+ * Helper for language features (like built-ins) that use regular expressions.
  */
 final class RegexpHelper {
 
     private static final Logger LOG = Logger.getLogger("freemarker.runtime");
-    
+
     private static volatile boolean flagWarningsEnabled = LOG.isWarnEnabled();
     private static final int MAX_FLAG_WARNINGS_LOGGED = 25;
     private static final Object flagWarningsCntSync = new Object();
     private static int flagWarningsCnt;
-    
+
     private static final MruCacheStorage patternCache = new MruCacheStorage(50, 150);
 
     static private long intFlagToLong(int flag) {
@@ -58,23 +58,24 @@ final class RegexpHelper {
     static final long RE_FLAG_REGEXP = 0x100000000L;
 
     static final long RE_FLAG_FIRST_ONLY = 0x200000000L;
-    
+
     // Can't be instantiated
-    private RegexpHelper() { }
+    private RegexpHelper() {
+    }
 
     static Pattern getPattern(String patternString, int flags)
-    throws TemplateModelException {
+            throws TemplateModelException {
         PatternCacheKey patternKey = new PatternCacheKey(patternString, flags);
-        
+
         Pattern result;
-        
+
         synchronized (patternCache) {
             result = (Pattern) patternCache.get(patternKey);
         }
         if (result != null) {
             return result;
         }
-        
+
         try {
             result = Pattern.compile(patternString, flags);
         } catch (PatternSyntaxException e) {
@@ -91,17 +92,17 @@ final class RegexpHelper {
         private final String patternString;
         private final int flags;
         private final int hashCode;
-        
+
         public PatternCacheKey(String patternString, int flags) {
             this.patternString = patternString;
             this.flags = flags;
             hashCode = patternString.hashCode() + 31 * flags;
         }
-        
+
         @Override
         public boolean equals(Object that) {
             if (that instanceof PatternCacheKey) {
-                PatternCacheKey thatPCK = (PatternCacheKey) that; 
+                PatternCacheKey thatPCK = (PatternCacheKey) that;
                 return thatPCK.flags == flags
                         && thatPCK.patternString.equals(patternString);
             } else {
@@ -113,7 +114,7 @@ final class RegexpHelper {
         public int hashCode() {
             return hashCode;
         }
-        
+
     }
 
     static long parseFlagString(String flagString) {
@@ -143,7 +144,7 @@ final class RegexpHelper {
                     if (flagWarningsEnabled) {
                         RegexpHelper.logFlagWarning(
                                 "Unrecognized regular expression flag: "
-                                + StringUtil.jQuote(String.valueOf(c)) + ".");
+                                        + StringUtil.jQuote(String.valueOf(c)) + ".");
                     }
             }  // switch
         }
@@ -156,7 +157,7 @@ final class RegexpHelper {
      */
     static void logFlagWarning(String message) {
         if (!flagWarningsEnabled) return;
-        
+
         int cnt;
         synchronized (flagWarningsCntSync) {
             cnt = flagWarningsCnt;
@@ -177,12 +178,12 @@ final class RegexpHelper {
     static void checkNonRegexpFlags(String biName, long flags) throws _TemplateModelException {
         checkOnlyHasNonRegexpFlags(biName, flags, false);
     }
-    
+
     static void checkOnlyHasNonRegexpFlags(String biName, long flags, boolean strict)
             throws _TemplateModelException {
         if (!strict && !flagWarningsEnabled) return;
-        
-        String flag; 
+
+        String flag;
         if ((flags & RE_FLAG_MULTILINE) != 0) {
             flag = "m";
         } else if ((flags & RE_FLAG_DOTALL) != 0) {
@@ -193,8 +194,8 @@ final class RegexpHelper {
             return;
         }
 
-        final Object[] msg = { "?", biName ," doesn't support the \"", flag, "\" flag "
-                + "without the \"r\" flag." };
+        final Object[] msg = {"?", biName, " doesn't support the \"", flag, "\" flag "
+                + "without the \"r\" flag."};
         if (strict) {
             throw new _TemplateModelException(msg);
         } else {
@@ -202,5 +203,5 @@ final class RegexpHelper {
             logFlagWarning(new _ErrorDescriptionBuilder(msg).toString());
         }
     }
-    
+
 }

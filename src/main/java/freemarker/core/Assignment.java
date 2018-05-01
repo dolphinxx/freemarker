@@ -36,7 +36,7 @@ final class Assignment extends TemplateElement {
     private static final int OPERATOR_TYPE_PLUS_EQUALS = 0x10001;
     private static final int OPERATOR_TYPE_PLUS_PLUS = 0x10002;
     private static final int OPERATOR_TYPE_MINUS_MINUS = 0x10003;
-    
+
     private final int/*enum*/ scope;
     private final String variableName;
     private final int operatorType;
@@ -46,58 +46,58 @@ final class Assignment extends TemplateElement {
     static final int NAMESPACE = 1;
     static final int LOCAL = 2;
     static final int GLOBAL = 3;
-    
+
     private static final Number ONE = 1;
 
     /**
      * @param variableName the variable name to assign to.
-     * @param valueExp the expression to assign.
-     * @param scope the scope of the assignment, one of NAMESPACE, LOCAL, or GLOBAL
+     * @param valueExp     the expression to assign.
+     * @param scope        the scope of the assignment, one of NAMESPACE, LOCAL, or GLOBAL
      */
     Assignment(String variableName,
-            int operator,
-            Expression valueExp,
-            int scope) {
+               int operator,
+               Expression valueExp,
+               int scope) {
         this.scope = scope;
-        
+
         this.variableName = variableName;
-        
+
         if (operator == FMParserConstants.EQUALS) {
             operatorType = OPERATOR_TYPE_EQUALS;
         } else {
             switch (operator) {
-            case FMParserConstants.PLUS_PLUS:
-                operatorType = OPERATOR_TYPE_PLUS_PLUS;
-                break;
-            case FMParserConstants.MINUS_MINUS:
-                operatorType = OPERATOR_TYPE_MINUS_MINUS;
-                break;
-            case FMParserConstants.PLUS_EQUALS:
-                operatorType = OPERATOR_TYPE_PLUS_EQUALS;
-                break;
-            case FMParserConstants.MINUS_EQUALS:
-                operatorType = ArithmeticExpression.TYPE_SUBSTRACTION;
-                break;
-            case FMParserConstants.TIMES_EQUALS:
-                operatorType = ArithmeticExpression.TYPE_MULTIPLICATION;
-                break;
-            case FMParserConstants.DIV_EQUALS:
-                operatorType = ArithmeticExpression.TYPE_DIVISION;
-                break;
-            case FMParserConstants.MOD_EQUALS:
-                operatorType = ArithmeticExpression.TYPE_MODULO;
-                break;
-            default:
-                throw new BugException();
+                case FMParserConstants.PLUS_PLUS:
+                    operatorType = OPERATOR_TYPE_PLUS_PLUS;
+                    break;
+                case FMParserConstants.MINUS_MINUS:
+                    operatorType = OPERATOR_TYPE_MINUS_MINUS;
+                    break;
+                case FMParserConstants.PLUS_EQUALS:
+                    operatorType = OPERATOR_TYPE_PLUS_EQUALS;
+                    break;
+                case FMParserConstants.MINUS_EQUALS:
+                    operatorType = ArithmeticExpression.TYPE_SUBSTRACTION;
+                    break;
+                case FMParserConstants.TIMES_EQUALS:
+                    operatorType = ArithmeticExpression.TYPE_MULTIPLICATION;
+                    break;
+                case FMParserConstants.DIV_EQUALS:
+                    operatorType = ArithmeticExpression.TYPE_DIVISION;
+                    break;
+                case FMParserConstants.MOD_EQUALS:
+                    operatorType = ArithmeticExpression.TYPE_MODULO;
+                    break;
+                default:
+                    throw new BugException();
             }
         }
-        
+
         this.valueExp = valueExp;
     }
-    
+
     void setNamespaceExp(Expression namespaceExp) {
         if (scope != NAMESPACE && namespaceExp != null) throw new BugException();
-        this.namespaceExp =  namespaceExp;
+        this.namespaceExp = namespaceExp;
     }
 
     @Override
@@ -105,17 +105,17 @@ final class Assignment extends TemplateElement {
         final Environment.Namespace namespace;
         if (namespaceExp == null) {
             switch (scope) {
-            case LOCAL:
-                namespace = null;
-                break;
-            case GLOBAL:
-                namespace = env.getGlobalNamespace();
-                break;
-            case NAMESPACE:
-                namespace = env.getCurrentNamespace();
-                break;
-            default:
-                throw new BugException("Unexpected scope type: " + scope);
+                case LOCAL:
+                    namespace = null;
+                    break;
+                case GLOBAL:
+                    namespace = env.getGlobalNamespace();
+                    break;
+                case NAMESPACE:
+                    namespace = env.getCurrentNamespace();
+                    break;
+                default:
+                    throw new BugException("Unexpected scope type: " + scope);
             }
         } else {
             TemplateModel namespaceTM = namespaceExp.eval(env);
@@ -128,7 +128,7 @@ final class Assignment extends TemplateElement {
                 throw InvalidReferenceException.getInstance(namespaceExp, env);
             }
         }
-        
+
         TemplateModel value;
         if (operatorType == OPERATOR_TYPE_EQUALS) {
             value = valueExp.eval(env);
@@ -146,7 +146,7 @@ final class Assignment extends TemplateElement {
             } else {
                 lhoValue = namespace.get(variableName);
             }
-            
+
             if (operatorType == OPERATOR_TYPE_PLUS_EQUALS) {  // Add or concat operation
                 if (lhoValue == null) {
                     if (env.isClassicCompatible()) {
@@ -156,7 +156,7 @@ final class Assignment extends TemplateElement {
                                 variableName, getOperatorTypeAsString(), env);
                     }
                 }
-                
+
                 value = valueExp.eval(env);
                 if (value == null) {
                     if (env.isClassicCompatible()) {
@@ -177,7 +177,7 @@ final class Assignment extends TemplateElement {
                 }
 
                 if (operatorType == OPERATOR_TYPE_PLUS_PLUS) {
-                    value  = AddConcatExpression._evalOnNumbers(env, getParentElement(), lhoNumber, ONE);
+                    value = AddConcatExpression._evalOnNumbers(env, getParentElement(), lhoNumber, ONE);
                 } else if (operatorType == OPERATOR_TYPE_MINUS_MINUS) {
                     value = ArithmeticExpression._eval(
                             env, getParentElement(), lhoNumber, ArithmeticExpression.TYPE_SUBSTRACTION, ONE);
@@ -187,7 +187,7 @@ final class Assignment extends TemplateElement {
                 }
             }
         }
-        
+
         if (namespace == null) {
             env.setLocalVariable(variableName, value);
         } else {
@@ -205,9 +205,9 @@ final class Assignment extends TemplateElement {
             buf.append(dn);
             buf.append(' ');
         }
-        
+
         buf.append(_CoreStringUtils.toFTLTopLevelTragetIdentifier(variableName));
-        
+
         if (valueExp != null) {
             buf.append(' ');
         }
@@ -226,12 +226,12 @@ final class Assignment extends TemplateElement {
         String result = buf.toString();
         return result;
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return getDirectiveName(scope);
     }
-    
+
     static String getDirectiveName(int scope) {
         if (scope == Assignment.LOCAL) {
             return "#local";
@@ -243,7 +243,7 @@ final class Assignment extends TemplateElement {
             return "#{unknown_assignment_type}";
         }
     }
-    
+
     @Override
     int getParameterCount() {
         return 5;
@@ -252,24 +252,36 @@ final class Assignment extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return variableName;
-        case 1: return getOperatorTypeAsString();
-        case 2: return valueExp;
-        case 3: return scope;
-        case 4: return namespaceExp;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return variableName;
+            case 1:
+                return getOperatorTypeAsString();
+            case 2:
+                return valueExp;
+            case 3:
+                return scope;
+            case 4:
+                return namespaceExp;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.ASSIGNMENT_TARGET;
-        case 1: return ParameterRole.ASSIGNMENT_OPERATOR;
-        case 2: return ParameterRole.ASSIGNMENT_SOURCE;
-        case 3: return ParameterRole.VARIABLE_SCOPE;
-        case 4: return ParameterRole.NAMESPACE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.ASSIGNMENT_TARGET;
+            case 1:
+                return ParameterRole.ASSIGNMENT_OPERATOR;
+            case 2:
+                return ParameterRole.ASSIGNMENT_SOURCE;
+            case 3:
+                return ParameterRole.VARIABLE_SCOPE;
+            case 4:
+                return ParameterRole.NAMESPACE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
@@ -277,7 +289,7 @@ final class Assignment extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
     private String getOperatorTypeAsString() {
         if (operatorType == OPERATOR_TYPE_EQUALS) {
             return "=";
@@ -291,14 +303,18 @@ final class Assignment extends TemplateElement {
             return ArithmeticExpression.getOperatorSymbol(operatorType) + "=";
         }
     }
-    
+
     static String scopeAsString(int scope) {
         switch (scope) {
-        case NAMESPACE: return "template namespace";
-        case LOCAL: return "local scope";
-        case GLOBAL: return "global scope";
-        default: throw new AssertionError("Unsupported scope: " + scope);
+            case NAMESPACE:
+                return "template namespace";
+            case LOCAL:
+                return "local scope";
+            case GLOBAL:
+                return "global scope";
+            default:
+                throw new AssertionError("Unsupported scope: " + scope);
         }
     }
-    
+
 }

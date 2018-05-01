@@ -19,8 +19,8 @@
 package freemarker.core;
 
 /**
- * Only exists for emulating pre-2.3.24-IcI {@code ?string} behavior. 
- * 
+ * Only exists for emulating pre-2.3.24-IcI {@code ?string} behavior.
+ *
  * @since 2.3.24
  */
 abstract class BackwardCompatibleTemplateNumberFormat extends TemplateNumberFormat {

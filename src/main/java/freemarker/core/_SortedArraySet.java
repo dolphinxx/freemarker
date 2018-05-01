@@ -23,7 +23,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-/** Don't use this; used internally by FreeMarker, might changes without notice. */
+/**
+ * Don't use this; used internally by FreeMarker, might changes without notice.
+ */
 public class _SortedArraySet<E> extends _UnmodifiableSet<E> {
 
     private final E[] array;
@@ -76,5 +78,5 @@ public class _SortedArraySet<E> extends _UnmodifiableSet<E> {
     public void clear() {
         throw new UnsupportedOperationException();
     }
-    
+
 }

@@ -39,9 +39,9 @@ class BuiltInsForHashes {
             if (keys == null) throw newNullPropertyException("keys", hashExModel, env);
             return keys instanceof TemplateSequenceModel ? keys : new CollectionAndSequence(keys);
         }
-        
+
     }
-    
+
     static class valuesBI extends BuiltInForHashEx {
         @Override
         TemplateModel calculateResult(TemplateHashModelEx hashExModel, Environment env)
@@ -53,6 +53,7 @@ class BuiltInsForHashes {
     }
 
     // Can't be instantiated
-    private BuiltInsForHashes() { }
-    
+    private BuiltInsForHashes() {
+    }
+
 }

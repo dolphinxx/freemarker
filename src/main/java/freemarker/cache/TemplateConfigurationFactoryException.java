@@ -20,7 +20,7 @@ package freemarker.cache;
 
 /**
  * Non-I/O exception thrown by {link TemplateConfigurationFactory}-s.
- * 
+ *
  * @since 2.3.24
  */
 public class TemplateConfigurationFactoryException extends Exception {

@@ -35,10 +35,10 @@ import java.util.TimeZone;
 /**
  * For internal use only; don't depend on this, there's no backward compatibility guarantee at all!
  * This class is to work around the lack of module system in Java, i.e., so that other FreeMarker packages can
- * access things inside this package that users shouldn't. 
- */ 
+ * access things inside this package that users shouldn't.
+ */
 public class _TemplateAPI {
-    
+
     // Constants for faster access... probably unnecessary and should be removed.
     public static final int VERSION_INT_2_3_0 = Configuration.VERSION_2_3_0.intValue();
     public static final int VERSION_INT_2_3_19 = Configuration.VERSION_2_3_19.intValue();
@@ -53,7 +53,7 @@ public class _TemplateAPI {
     public static final int VERSION_INT_2_3_28 = Configuration.VERSION_2_3_28.intValue();
     public static final int VERSION_INT_2_3_29 = Configuration.VERSION_2_3_29.intValue();
     public static final int VERSION_INT_2_4_0 = Version.intValueFor(2, 4, 0);
-    
+
     public static void checkVersionNotNullAndSupported(Version incompatibleImprovements) {
         NullArgumentException.check("incompatibleImprovements", incompatibleImprovements);
         int iciV = incompatibleImprovements.intValue();
@@ -66,7 +66,7 @@ public class _TemplateAPI {
             throw new IllegalArgumentException("\"incompatibleImprovements\" must be at least 2.3.0.");
         }
     }
-    
+
     public static int getTemplateLanguageVersionAsInt(TemplateObject to) {
         return getTemplateLanguageVersionAsInt(to.getTemplate());
     }
@@ -74,22 +74,24 @@ public class _TemplateAPI {
     public static int getTemplateLanguageVersionAsInt(Template t) {
         return t.getTemplateLanguageVersion().intValue();
     }
-    
-    /** For unit testing only */
+
+    /**
+     * For unit testing only
+     */
     public static void DefaultObjectWrapperFactory_clearInstanceCache() {
         DefaultObjectWrapperBuilder.clearInstanceCache();
     }
-    
+
     public static TemplateExceptionHandler getDefaultTemplateExceptionHandler(
             Version incompatibleImprovements) {
         return Configuration.getDefaultTemplateExceptionHandler(incompatibleImprovements);
     }
-    
+
     public static AttemptExceptionReporter getDefaultAttemptExceptionReporter(
             Version incompatibleImprovements) {
         return Configuration.getDefaultAttemptExceptionReporter(incompatibleImprovements);
     }
-    
+
     public static boolean getDefaultLogTemplateExceptions(Version incompatibleImprovements) {
         return Configuration.getDefaultLogTemplateExceptions(incompatibleImprovements);
     }
@@ -97,7 +99,7 @@ public class _TemplateAPI {
     public static boolean getDefaultWrapUncheckedExceptions(Version incompatibleImprovements) {
         return Configuration.getDefaultWrapUncheckedExceptions(incompatibleImprovements);
     }
-    
+
     public static TemplateLoader createDefaultTemplateLoader(Version incompatibleImprovements) {
         return Configuration.createDefaultTemplateLoader(incompatibleImprovements);
     }
@@ -105,26 +107,26 @@ public class _TemplateAPI {
     public static CacheStorage createDefaultCacheStorage(Version incompatibleImprovements) {
         return Configuration.createDefaultCacheStorage(incompatibleImprovements);
     }
-    
+
     public static TemplateLookupStrategy getDefaultTemplateLookupStrategy(Version incompatibleImprovements) {
         return Configuration.getDefaultTemplateLookupStrategy(incompatibleImprovements);
     }
-    
+
     public static TemplateNameFormat getDefaultTemplateNameFormat(Version incompatibleImprovements) {
         return Configuration.getDefaultTemplateNameFormat(incompatibleImprovements);
     }
-    
+
     /**
      * [2.4] getSettingNames() becomes to public; remove this.
      */
     public static Set/*<String>*/ getConfigurationSettingNames(Configuration cfg, boolean camelCase) {
         return cfg.getSettingNames(camelCase);
     }
-    
+
     public static void setAutoEscaping(Template t, boolean autoEscaping) {
         t.setAutoEscaping(autoEscaping);
     }
-    
+
     public static void setOutputFormat(Template t, OutputFormat outputFormat) {
         t.setOutputFormat(outputFormat);
     }
@@ -142,8 +144,8 @@ public class _TemplateAPI {
 
     public static void validateNamingConventionValue(int namingConvention) {
         if (namingConvention != Configuration.AUTO_DETECT_NAMING_CONVENTION
-            && namingConvention != Configuration.LEGACY_NAMING_CONVENTION
-            && namingConvention != Configuration.CAMEL_CASE_NAMING_CONVENTION) {
+                && namingConvention != Configuration.LEGACY_NAMING_CONVENTION
+                && namingConvention != Configuration.CAMEL_CASE_NAMING_CONVENTION) {
             throw new IllegalArgumentException("\"naming_convention\" can only be set to one of these: "
                     + "Configuration.AUTO_DETECT_NAMING_CONVENTION, "
                     + "or Configuration.LEGACY_NAMING_CONVENTION"
@@ -153,8 +155,8 @@ public class _TemplateAPI {
 
     public static void valideTagSyntaxValue(int tagSyntax) {
         if (tagSyntax != Configuration.AUTO_DETECT_TAG_SYNTAX
-            && tagSyntax != Configuration.SQUARE_BRACKET_TAG_SYNTAX
-            && tagSyntax != Configuration.ANGLE_BRACKET_TAG_SYNTAX) {
+                && tagSyntax != Configuration.SQUARE_BRACKET_TAG_SYNTAX
+                && tagSyntax != Configuration.ANGLE_BRACKET_TAG_SYNTAX) {
             throw new IllegalArgumentException("\"tag_syntax\" can only be set to one of these: "
                     + "Configuration.AUTO_DETECT_TAG_SYNTAX, Configuration.ANGLE_BRACKET_TAG_SYNTAX, "
                     + "or Configuration.SQUARE_BRACKET_TAG_SYNTAX");
@@ -163,22 +165,22 @@ public class _TemplateAPI {
 
     public static void valideInterpolationSyntaxValue(int interpolationSyntax) {
         if (interpolationSyntax != Configuration.LEGACY_INTERPOLATION_SYNTAX
-            && interpolationSyntax != Configuration.DOLLAR_INTERPOLATION_SYNTAX
-            && interpolationSyntax != Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX) {
+                && interpolationSyntax != Configuration.DOLLAR_INTERPOLATION_SYNTAX
+                && interpolationSyntax != Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX) {
             throw new IllegalArgumentException("\"interpolation_syntax\" can only be set to one of these: "
                     + "Configuration.LEGACY_INTERPOLATION_SYNTAX, Configuration.DOLLAR_INTERPOLATION_SYNTAX, "
                     + "or Configuration.SQUARE_BRACKET_INTERPOLATION_SYNTAX");
         }
     }
-    
+
     public static Expression getBlamedExpression(TemplateException e) {
         return e.getBlamedExpression();
     }
-    
+
     public static Locale getDefaultLocale() {
         return Configuration.getDefaultLocale();
     }
-    
+
     public static TimeZone getDefaultTimeZone() {
         return Configuration.getDefaultTimeZone();
     }
@@ -186,5 +188,5 @@ public class _TemplateAPI {
     public static void setPreventStrippings(Configuration conf, boolean preventStrippings) {
         conf.setPreventStrippings(preventStrippings);
     }
-    
+
 }

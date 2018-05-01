@@ -22,12 +22,14 @@ package freemarker.core;
 import java.util.Iterator;
 import java.util.Set;
 
-/** Don't use this; used internally by FreeMarker, might changes without notice. */
+/**
+ * Don't use this; used internally by FreeMarker, might changes without notice.
+ */
 public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
-    
+
     private final Set<E> set1;
     private final Set<E> set2;
-    
+
     public _UnmodifiableCompositeSet(Set<E> set1, Set<E> set2) {
         this.set1 = set1;
         this.set2 = set2;
@@ -37,7 +39,7 @@ public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
     public Iterator<E> iterator() {
         return new CompositeIterator();
     }
-    
+
     @Override
     public boolean contains(Object o) {
         return set1.contains(o) || set2.contains(o);
@@ -47,13 +49,13 @@ public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
     public int size() {
         return set1.size() + set2.size();
     }
-    
+
     private class CompositeIterator implements Iterator<E> {
 
         private Iterator<E> it1;
         private Iterator<E> it2;
         private boolean it1Deplected;
-        
+
         public boolean hasNext() {
             if (!it1Deplected) {
                 if (it1 == null) {
@@ -62,7 +64,7 @@ public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
                 if (it1.hasNext()) {
                     return true;
                 }
-                
+
                 it2 = set2.iterator();
                 it1 = null;
                 it1Deplected = true;
@@ -79,7 +81,7 @@ public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
                 if (it1.hasNext()) {
                     return it1.next();
                 }
-                
+
                 it2 = set2.iterator();
                 it1 = null;
                 it1Deplected = true;
@@ -93,5 +95,5 @@ public class _UnmodifiableCompositeSet<E> extends _UnmodifiableSet<E> {
         }
 
     }
-    
+
 }

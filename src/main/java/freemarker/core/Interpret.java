@@ -39,24 +39,24 @@ import java.util.Map;
  * then treats that scalar as template source code and returns a
  * transform model that evaluates the template in place.
  * The template inherits the configuration and environment of the executing
- * template. By default, its name will be equal to 
+ * template. By default, its name will be equal to
  * <tt>executingTemplate.getName() + "$anonymous_interpreted"</tt>. You can
  * specify another parameter to the method call in which case the
  * template name suffix is the specified id instead of "anonymous_interpreted".
  */
 class Interpret extends OutputFormatBoundBuiltIn {
-    
+
     /**
      * Constructs a template on-the-fly and returns it embedded in a
      * {link TemplateTransformModel}.
-     * 
+     *
      * <p>The built-in has two arguments:
      * the arguments passed to the method. It can receive at
-     * least one and at most two arguments, both must evaluate to a scalar. 
+     * least one and at most two arguments, both must evaluate to a scalar.
      * The first scalar is interpreted as a template source code and a template
      * is built from it. The second (optional) is used to give the generated
      * template a name.
-     * 
+     *
      * @return a {link TemplateTransformModel} that when executed inside
      * a <tt>&lt;transform></tt> block will process the generated template
      * just as if it had been <tt>&lt;transform></tt>-ed at that point.
@@ -76,13 +76,13 @@ class Interpret extends OutputFormatBoundBuiltIn {
         } else {
             throw new UnexpectedTypeException(
                     target, model,
-                    "sequence or string", new Class[] { TemplateSequenceModel.class, TemplateScalarModel.class },
+                    "sequence or string", new Class[]{TemplateSequenceModel.class, TemplateScalarModel.class},
                     env);
         }
         String templateSource = sourceExpr.evalAndCoerceToPlainText(env);
         Template parentTemplate = env.getConfiguration().getIncompatibleImprovements().intValue()
                 >= _TemplateAPI.VERSION_INT_2_3_26 ? env.getCurrentTemplate() : env.getTemplate();
-        
+
         final Template interpretedTemplate;
         try {
             ParserConfiguration pCfg = parentTemplate.getParserConfiguration();
@@ -104,20 +104,20 @@ class Interpret extends OutputFormatBoundBuiltIn {
                     _MessageUtil.EMBEDDED_MESSAGE_END,
                     "\n\nThe failed expression:");
         }
-        
+
         interpretedTemplate.setLocale(env.getLocale());
         return new TemplateProcessorModel(interpretedTemplate);
     }
 
     private class TemplateProcessorModel
-    implements
-        TemplateTransformModel {
+            implements
+            TemplateTransformModel {
         private final Template template;
-        
+
         TemplateProcessorModel(Template template) {
             this.template = template;
         }
-        
+
         public Writer getWriter(final Writer out, Map args) throws TemplateModelException {
             try {
                 Environment env = Environment.getCurrentEnvironment();
@@ -134,18 +134,17 @@ class Interpret extends OutputFormatBoundBuiltIn {
                         new _DelayedGetMessage(e),
                         _MessageUtil.EMBEDDED_MESSAGE_END);
             }
-    
-            return new Writer(out)
-            {
+
+            return new Writer(out) {
                 @Override
                 public void close() {
                 }
-                
+
                 @Override
                 public void flush() throws IOException {
                     out.flush();
                 }
-                
+
                 @Override
                 public void write(char[] cbuf, int off, int len) throws IOException {
                     out.write(cbuf, off, len);

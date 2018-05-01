@@ -22,7 +22,7 @@ package freemarker.core;
 /**
  * Thrown when the content of the string that should be parsed by the {link TemplateValueFormat} doesn't match what the
  * format expects.
- * 
+ *
  * @since 2.3.24
  */
 public class UnparsableValueException extends TemplateValueFormatException {

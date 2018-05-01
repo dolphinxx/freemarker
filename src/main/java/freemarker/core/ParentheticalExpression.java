@@ -39,22 +39,22 @@ final class ParentheticalExpression extends Expression {
     public String getCanonicalForm() {
         return "(" + nested.getCanonicalForm() + ")";
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "(...)";
     }
-    
+
     @Override
     TemplateModel _eval(Environment env) throws TemplateException {
         return nested.eval(env);
     }
-    
+
     @Override
     public boolean isLiteral() {
         return nested.isLiteral();
     }
-    
+
     Expression getNestedExpression() {
         return nested;
     }
@@ -65,7 +65,7 @@ final class ParentheticalExpression extends Expression {
         return new ParentheticalExpression(
                 nested.deepCloneWithIdentifierReplaced(replacedIdentifier, replacement, replacementState));
     }
-    
+
     @Override
     int getParameterCount() {
         return 1;
@@ -82,5 +82,5 @@ final class ParentheticalExpression extends Expression {
         if (idx != 0) throw new IndexOutOfBoundsException();
         return ParameterRole.ENCLOSED_OPERAND;
     }
-    
+
 }

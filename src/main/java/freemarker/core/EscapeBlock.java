@@ -69,12 +69,12 @@ class EscapeBlock extends TemplateElement {
         }
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#escape";
     }
-    
+
     @Override
     int getParameterCount() {
         return 2;
@@ -83,20 +83,26 @@ class EscapeBlock extends TemplateElement {
     @Override
     Object getParameterValue(int idx) {
         switch (idx) {
-        case 0: return variable;
-        case 1: return expr;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return variable;
+            case 1:
+                return expr;
+            default:
+                throw new IndexOutOfBoundsException();
         }
     }
 
     @Override
     ParameterRole getParameterRole(int idx) {
         switch (idx) {
-        case 0: return ParameterRole.PLACEHOLDER_VARIABLE;
-        case 1: return ParameterRole.EXPRESSION_TEMPLATE;
-        default: throw new IndexOutOfBoundsException();
+            case 0:
+                return ParameterRole.PLACEHOLDER_VARIABLE;
+            case 1:
+                return ParameterRole.EXPRESSION_TEMPLATE;
+            default:
+                throw new IndexOutOfBoundsException();
         }
-    }    
+    }
 
     @Override
     boolean isOutputCacheable() {
@@ -107,5 +113,5 @@ class EscapeBlock extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

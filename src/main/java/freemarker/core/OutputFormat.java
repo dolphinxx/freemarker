@@ -18,17 +18,16 @@
  */
 package freemarker.core;
 
-import freemarker.template.Configuration;
 import freemarker.template.utility.ClassUtil;
 import freemarker.template.utility.StringUtil;
 
 /**
  * Represents an output format. If you need auto-escaping, see its subclass, {link MarkupOutputFormat}.
- * 
+ * <p>
  * see Configuration#setOutputFormat(OutputFormat)
  * see Configuration#setRegisteredCustomOutputFormats(java.util.Collection)
  * see MarkupOutputFormat
- * 
+ *
  * @since 2.3.24
  */
 public abstract class OutputFormat {
@@ -37,7 +36,7 @@ public abstract class OutputFormat {
      * The short name used to refer to this format (like in the {@code #ftl} header).
      */
     public abstract String getName();
-    
+
     /**
      * Returns the MIME type of the output format. This might comes handy when generating a HTTP response. {@code null}
      * {@code null} if this output format doesn't clearly corresponds to a specific MIME type.
@@ -53,7 +52,7 @@ public abstract class OutputFormat {
      * exception, unless the inserted value is made by escaping plain text and the target format is non-escaping, in
      * which case format conversion is trivially possible. (It's not impossible that conversions will be extended beyond
      * this, if there will be demand for that.)
-     * 
+     * <p>
      * <p>
      * {@code true} value is used by {link UndefinedOutputFormat}.
      */
@@ -72,7 +71,7 @@ public abstract class OutputFormat {
                 + (extras.length() != 0 ? ", " : "") + extras
                 + ")";
     }
-    
+
     /**
      * Should be like {@code "foo=\"something\", bar=123"}; this will be inserted inside the parentheses in
      * {link #toString()}. Shouldn't return {@code null}; should return {@code ""} if there are no extra properties.

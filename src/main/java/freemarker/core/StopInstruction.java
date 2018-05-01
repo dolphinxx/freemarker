@@ -52,12 +52,12 @@ final class StopInstruction extends TemplateElement {
         if (canonical) sb.append("/>");
         return sb.toString();
     }
-    
+
     @Override
     String getNodeTypeSymbol() {
         return "#stop";
     }
-    
+
     @Override
     int getParameterCount() {
         return 1;
@@ -79,5 +79,5 @@ final class StopInstruction extends TemplateElement {
     boolean isNestedBlockRepeater() {
         return false;
     }
-    
+
 }

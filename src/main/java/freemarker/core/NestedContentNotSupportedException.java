@@ -45,8 +45,8 @@ class NestedContentNotSupportedException extends TemplateException {
         }
         throw new NestedContentNotSupportedException(Environment.getCurrentEnvironment());
     }
-    
-    
+
+
     private NestedContentNotSupportedException(Environment env) {
         this(null, null, env);
     }
@@ -60,9 +60,9 @@ class NestedContentNotSupportedException extends TemplateException {
     }
 
     private NestedContentNotSupportedException(String description, Exception cause, Environment env) {
-        super( "Nested content (body) not supported."
-                + (description != null ? " " + StringUtil.jQuote(description) : ""),
+        super("Nested content (body) not supported."
+                        + (description != null ? " " + StringUtil.jQuote(description) : ""),
                 cause, env);
     }
-    
+
 }
