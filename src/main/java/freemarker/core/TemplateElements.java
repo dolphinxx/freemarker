@@ -26,7 +26,7 @@ import freemarker.template.utility.CollectionUtils;
  * 
  * @since 2.3.24
  */
-class TemplateElements {
+public class TemplateElements {
     
     static final TemplateElements EMPTY = new TemplateElements(null, 0);
 
